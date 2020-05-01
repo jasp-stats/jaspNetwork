@@ -270,10 +270,10 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     return()
 
   nGraphs <- max(1L, length(network[["network"]]))
-  table <- createJaspTable(gettext("Centrality measures per variable"), position = 2, 
+  table <- createJaspTable(gettext("Centrality measures per variable"), position = 2,
                            dependencies = c("tableCentrality", "normalizeCentrality", "maxEdgeStrength", "minEdgeStrength"))
   table$addColumnInfo(name = "Variable", title = gettext("Variable"), type = "string")
-  
+
   # shared titles
   overTitles <- names(network[["network"]])
   if (is.null(overTitles))
@@ -428,7 +428,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
   bootstrapType <- options[["BootstrapType"]]
   substr(bootstrapType, 1, 1) <- toupper(substr(bootstrapType, 1, 1)) # capitalize first letter
-  
+
   table <- createJaspTable(title = gettext("Bootstrap summary of Network"), position = position)
   table$addColumnInfo(name = "type",               title = gettext("Type"), type = "string")
   table$addColumnInfo(name = "numberOfBootstraps", title = gettext("Number of bootstraps"), type = "integer")
@@ -443,7 +443,8 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
   plotContainer <- mainContainer[["plotContainer"]]
   if (is.null(plotContainer)) {
-    plotContainer <- createJaspContainer(position = 5, dependencies = c("abbreviateLabels", "abbreviateNoChars"))
+    plotContainer <- createJaspContainer(position = 5, dependencies = c("abbreviateLabels", "abbreviateNoChars",
+                                                                        "showLegend", "showVariableNames"))
     mainContainer[["plotContainer"]] <- plotContainer
   }
 
@@ -463,43 +464,9 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     return()
 
   wide <- network[["centrality"]]
-  wideDf <- Reduce(rbind, wide)
-  if (length(wide) > 1) {
-    wideDf[["type"]] <- rep(names(network[["centrality"]]), each = nrow(wideDf) / length(wide))
-    Long <- reshape2::melt(wideDf, id.vars = c("node", "type"))
-    colnames(Long)[3] <- "measure"
-    Long[["graph"]] <- Long[["type"]]
-    Long[["type"]] <- TRUE # options[["separateCentrality"]]
-  } else {
-    Long <- reshape2::melt(wideDf, id.vars = "node")
-    colnames(Long)[2] <- "measure"
-    Long[["graph"]] <- NA
-  }
 
-  if (options[["abbreviateLabels"]])
-    Long[["node"]] <- base::abbreviate(Long[["node"]], options[["abbreviateNoChars"]])
-
-  # code modified from qgraph::centralityPlot(). Type and graph are switched so the legend title says graph
-
-  Long <- Long[gtools::mixedorder(Long$node), ]
-  Long$node <- factor(as.character(Long$node), levels = unique(gtools::mixedsort(as.character(Long$node))))
-  if (length(unique(Long$graph)) > 1) {
-    g <- ggplot2::ggplot(Long, ggplot2::aes(x = value, y = node, group = graph,
-                                            colour = graph)) +
-      ggplot2::guides(color = ggplot2::guide_legend(title = options[["groupingVariable"]])) # change the name graph into the variable name for splitting
-  } else {
-    g <- ggplot2::ggplot(Long, ggplot2::aes(x = value, y = node, group = graph))
-  }
-  g <- g + ggplot2::geom_path() + ggplot2::xlab("") + ggplot2::ylab("") + ggplot2::geom_point()
-  if (length(unique(Long$type)) > 1) {
-    g <- g + ggplot2::facet_grid(type ~ measure, scales = "free")
-
-  } else {
-    g <- g + ggplot2::facet_grid(~measure, scales = "free")
-  }
-  g <- g + ggplot2::theme_bw()
-
-  plot$plotObject <- g
+  Long <- .networkAnalysisReshapeWideToLong(wide, network, "centrality")
+  .networkAnalysisMakePlotFromLong(plot, Long, options)
 
 }
 
@@ -530,34 +497,68 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     }
   }
 
+  Long <- .networkAnalysisReshapeWideToLong(wide, network, "clustering")
+  .networkAnalysisMakePlotFromLong(plot, Long, options)
+
+}
+
+.networkAnalysisReshapeWideToLong <- function(wide, network, what = c("centrality", "clustering")) {
+
+  what <- match.arg(what)
   wideDf <- Reduce(rbind, wide)
-  if (length(wide) > 1) {
-    wideDf[["type"]] <- rep(names(network[["clustering"]]), each = nrow(wideDf) / length(wide))
+  if (length(wide) > 1L) {
+    wideDf[["type"]] <- rep(names(network[[what]]), each = nrow(wideDf) / length(wide))
     Long <- reshape2::melt(wideDf, id.vars = c("node", "type"))
-    colnames(Long)[3] <- "measure"
+    colnames(Long)[3L] <- "measure"
     Long[["graph"]] <- Long[["type"]]
     Long[["type"]] <- TRUE # options[["separateCentrality"]]
   } else {
     Long <- reshape2::melt(wideDf, id.vars = "node")
-    colnames(Long)[2] <- "measure"
+    colnames(Long)[2L] <- "measure"
     Long[["graph"]] <- NA
   }
+  return(Long)
 
+}
+
+.networkAnalysisMakePlotFromLong <- function(jaspPlot, Long, options) {
+
+  # "Long" is how qgraph refers to this object. This function transforms the
+  # long object for centrality or clustering into a ggplot.
+
+  # code modified from qgraph::centralityPlot(). Type and graph are switched so the legend title says graph
   if (options[["abbreviateLabels"]])
     Long[["node"]] <- base::abbreviate(Long[["node"]], options[["abbreviateNoChars"]])
 
   # code modified from qgraph::centralityPlot(). Type and graph are switched so the legend title says graph
   Long <- Long[gtools::mixedorder(Long$node), ]
   Long$node <- factor(as.character(Long$node), levels = unique(gtools::mixedsort(as.character(Long$node))))
-  # travis will complain otherwise
-  if (length(unique(Long$graph)) > 1) {
-    g <- ggplot2::ggplot(Long, ggplot2::aes(x = value, y = node, group = graph,
-                                            colour = graph)) +
-      ggplot2::guides(color = ggplot2::guide_legend(title = options[["groupingVariable"]])) # change the name graph into the variable name for splitting
-  } else {
-    g <- ggplot2::ggplot(Long, ggplot2::aes(x = value, y = node, group = graph))
+
+  Long$nodeLabel <- NA
+  if (options[["showVariableNames"]] == "In legend") {
+    Long$nodeLabel <- as.character(Long$node)
+    Long$node <- factor(match(as.character(Long$node), unique(as.character(Long$node))))
+    levels(Long$node) <- rev(levels(Long$node))
+    Long$nodeLabel <- paste(as.character(Long$node), "=", Long$nodeLabel)
   }
-  g <- g + ggplot2::geom_path() + ggplot2::xlab("") + ggplot2::ylab("") + ggplot2::geom_point()
+
+  if (length(unique(Long$graph)) > 1L) {
+    mapping <- ggplot2::aes(x = value, y = node, group = graph, colour = graph)
+    guide   <- ggplot2::guides(color = ggplot2::guide_legend(title = options[["groupingVariable"]])) # change the name graph into the variable name for splitting
+  } else {
+    mapping <- ggplot2::aes(x = value, y = node, group = graph)
+    guide   <- NULL
+  }
+
+  # add a fill element to the mapping -- this is only used to add a legend for the names of the nodes.
+  if (!is.na(Long$nodeLabel))
+    mapping$fill <- as.name("nodeLabel")
+
+  g <- ggplot2::ggplot(Long, mapping) + guide
+
+  g <- g + ggplot2::geom_path() + ggplot2::geom_point() +
+    ggplot2::labs(x = NULL, y = NULL, fill = NULL)
+
   if (length(unique(Long$type)) > 1) {
     g <- g + ggplot2::facet_grid(type ~ measure, scales = "free")
 
@@ -566,9 +567,19 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   }
   g <- g + ggplot2::theme_bw()
 
-  plot$plotObject <- g
+  if (options[["showLegend"]] == "No legend")
+    g <- g + ggplot2::theme(legend.position = "none")
+  else if (!is.na(Long$nodeLabel)) {
+    # the fill aestethic introduces a set of points left of `1 = contNormal`.
+    # the statement below sets the size of those points to 0, effectively removing them
+    g <- g + ggplot2::guides(fill = ggplot2::guide_legend(override.aes = list(size = 0, alpha = 0)))
+  }
+
+  jaspPlot$plotObject <- g
+
 
 }
+
 
 .networkAnalysisOneNetworkPlot <- function(network, options, minE, layout, groups, maxE, labels, legend, shape,
                                            nodeColor, edgeColor, nodeNames) {
@@ -624,7 +635,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   networkPlotContainer <- createJaspContainer(title = title, position = 51, dependencies = c(
     "layout", "edgeColors", "repulsion", "edgeSize", "nodeSize", "colorNodesBy",
     "maxEdgeStrength", "minEdgeStrength", "cut", "showDetails", "nodePalette",
-    "showLegend", "legendNumber", "showMgmVariableType", "showVariableNames",
+    "legendNumber", "showMgmVariableType",
     "scaleLabels", "labelSize", "abbreviateLabels", "abbreviateNoChars",
     "keepLayoutTheSame", "layoutX", "layoutY", "plotNetwork",
     "groupNames", "groupColors", "variablesForColor", "groupAssigned", "manualColors",
@@ -737,7 +748,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   for (v in names(allNetworks))
       networkPlotContainer[[v]] <- createJaspPlot(title = v, width = width[v], height = height[v])
 
-  .suppressGrDevice({
+  JASP:::.suppressGrDevice({
 
     for (v in names(allNetworks)) {
 
@@ -793,7 +804,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   for (v in names(bootstrapResults)) {
 
     bt <- bootstrapResults[[v]]
-    p <- try(.suppressGrDevice(plot(bt, statistic = statistic, order = "sample")))
+    p <- try(JASP:::.suppressGrDevice(plot(bt, statistic = statistic, order = "sample")))
 
     if (isTryError(p)) {
       plotContainer[[v]]$setError(gettextf("bootnet crashed with the following error message:\n%s", .extractErrorMessage(p)))
@@ -993,7 +1004,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   # for every dataset do the analysis
   for (nw in seq_along(dataset)) {
 
-    .suppressGrDevice(
+    JASP:::.suppressGrDevice(
       msg <- capture.output(
         network <- bootnet::estimateNetwork(
           data    = dataset[[nw]],
@@ -1158,7 +1169,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     if (layout == "data")
       layout <- "circle"
 
-    .suppressGrDevice(layout <- qgraph::averageLayout(networks, layout = layout, repulsion = options[["repulsion"]]))
+    JASP:::.suppressGrDevice(layout <- qgraph::averageLayout(networks, layout = layout, repulsion = options[["repulsion"]]))
     rownames(layout) <- .unv(colnames(networks[[1L]]))
 
   } else {
@@ -1251,7 +1262,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
   startProgressbar(noTicks * 2L, "Bootstrapping network")
   tryCatch({
-    .suppressGrDevice({
+    JASP:::.suppressGrDevice({
       for (nm in names(allNetworks)) {
 
         # .networkAnalysisBootnetBootnet replaces bootnet::bootnet so we can have a progress bar
@@ -1445,7 +1456,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     message <- defMsg
     if (unmatchedX != "")
       message <- sprintf(ngettext(length(checksX[["unmatched"]]), "%1$s X-Coordinates for variable %2$s was not understood.", "%1$s X-Coordinates for variables %2$s were not understood."), message, unmatchedX)
-    
+
     if (unmatchedY != "")
       message <- sprintf(ngettext(length(checksY[["unmatched"]]), "%1$s Y-Coordinates for variable %2$s was not understood.", "%1$s Y-Coordinates for variables %2$s were not understood."), message, unmatchedY)
   }

@@ -381,7 +381,7 @@ Form
 		{
 			name: "showVariableNames";
 			title: qsTr("Show Variable Names")
-			RadioButton { value: "In nodes";		label: qsTr("In nodes");	 checked: true	}
+			RadioButton { value: "In nodes";			label: qsTr("In plot");	 checked: true	}
 			RadioButton { value: "In legend";		label: qsTr("In legend")					}
 		}
 

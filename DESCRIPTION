@@ -2,7 +2,7 @@ Package: Network
 Type: Package
 Title: Network Module for JASP
 Version: 0.0.0
-Date: 2020-04-08
+Date: 2020-05-01
 Author: JASP Team
 Website: jasp-stats.org
 Maintainer: JASP Team <info@jasp-stats.org>
