@@ -345,6 +345,13 @@ Form
 			DoubleField { name: "minEdgeStrength";	label: qsTr("Min edge strength");	defaultValue: 0; max: 10 }
 			DoubleField { name: "cut";				label: qsTr("Cut");					defaultValue: 0; max: 10 }
 			CheckBox	{ name: "showDetails";		label: qsTr("Show details") }
+			CheckBox
+			{
+								name: "edgeLabels";			label: qsTr("Edge labels");				checked: false
+				DoubleField {	name: "edgeLabelCex";		label: qsTr("Edge label size");			min: 0;			max: 10;	defaultValue: 1		}
+				DoubleField {	name: "edgeLabelPosition";	label: qsTr("Edge label position");		min: 0;			max: 1;		defaultValue: 0.5	}
+			}
+
 			DropDown
 			{
 				name: "edgeColors"

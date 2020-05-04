@@ -281,9 +281,10 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
   nameCol3 <- if ("Degree" %in% colnames(network[["centrality"]][[1]])[3]) "Degree" else "Strength"
   for (i in seq_len(nGraphs)) { # three centrality columns per network
-    table$addColumnInfo(name = paste0("Betweenness", i), title = gettext("Betweenness"), type = "number", overtitle = overTitles[i])
-    table$addColumnInfo(name = paste0("Closeness", i),   title = gettext("Closeness"),   type = "number", overtitle = overTitles[i])
-    table$addColumnInfo(name = paste0(nameCol3, i),      title = gettext("Strength"),    type = "number", overtitle = overTitles[i])
+    table$addColumnInfo(name = paste0("Betweenness", i),        title = gettext("Betweenness"),        type = "number", overtitle = overTitles[i])
+    table$addColumnInfo(name = paste0("Closeness", i),          title = gettext("Closeness"),          type = "number", overtitle = overTitles[i])
+    table$addColumnInfo(name = paste0(nameCol3, i),             title = gettext("Strength"),           type = "number", overtitle = overTitles[i])
+    table$addColumnInfo(name = paste0("Expected influence", i), title = gettext("Expected influence"), type = "number", overtitle = overTitles[i])
   }
 
   mainContainer[["centralityTable"]] <- table
@@ -458,7 +459,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   if (!is.null(plotContainer[["centralityPlot"]]) || !options[["plotCentrality"]])
     return()
 
-  plot <- createJaspPlot(title = gettext("Centrality Plot"), position = 52, dependencies = "plotCentrality")
+  plot <- createJaspPlot(title = gettext("Centrality Plot"), position = 52, dependencies = "plotCentrality", width = 480)
   plotContainer[["centralityPlot"]] <- plot
   if (is.null(network[["centrality"]]) || plotContainer$getError())
     return()
@@ -475,7 +476,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   if (!is.null(plotContainer[["clusteringPlot"]]) || !options[["plotClustering"]])
     return()
 
-  plot <- createJaspPlot(title = gettext("Clustering Plot"), position = 53, dependencies = "plotClustering")
+  plot <- createJaspPlot(title = gettext("Clustering Plot"), position = 53, dependencies = "plotClustering", width = 480)
   plotContainer[["clusteringPlot"]] <- plot
   if (is.null(network[["clustering"]]) || plotContainer$getError())
     return()
@@ -571,8 +572,9 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     g <- g + ggplot2::theme(legend.position = "none")
   else if (!is.na(Long$nodeLabel)) {
     # the fill aestethic introduces a set of points left of `1 = contNormal`.
-    # the statement below sets the size of those points to 0, effectively removing them
-    g <- g + ggplot2::guides(fill = ggplot2::guide_legend(override.aes = list(size = 0, alpha = 0)))
+    # the statement below sets the size of those points to 0, effectively making them invisible
+    # keywidth removes the invisible space introduced so that the legends nicely line up (if there are multiple)
+    g <- g + ggplot2::guides(fill = ggplot2::guide_legend(keywidth = 0, override.aes = list(size = 0, alpha = 0)))
   }
 
   jaspPlot$plotObject <- g
@@ -596,27 +598,30 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
   return(
     qgraph::qgraph(
-      input       = wMat,
-      layout      = layout,
-      groups      = groups,
-      repulsion   = options[["repulsion"]],
-      cut         = options[["cut"]],
-      edge.width  = options[["edgeSize"]],
-      node.width  = options[["nodeSize"]],
-      maximum     = maxE,
-      minimum     = minE,
-      details     = options[["showDetails"]],
-      labels      = labels,
-      palette     = if (options[["manualColors"]]) NULL else options[["nodePalette"]],
-      theme       = options[["edgeColors"]],
-      legend      = legend,
-      shape       = shape,
-      color       = nodeColor,
-      edge.color  = edgeColor,
-      nodeNames   = nodeNames,
-      label.scale = options[["scaleLabels"]],
-      label.cex   = options[["labelSize"]],
-      GLratio     = 1 / options[["legendToPlotRatio"]]
+      input               = wMat,
+      layout              = layout,
+      groups              = groups,
+      repulsion           = options[["repulsion"]],
+      cut                 = options[["cut"]],
+      edge.width          = options[["edgeSize"]],
+      node.width          = options[["nodeSize"]],
+      maximum             = maxE,
+        minimum             = minE,
+      details             = options[["showDetails"]],
+      labels              = labels,
+      palette             = if (options[["manualColors"]]) NULL else options[["nodePalette"]],
+      theme               = options[["edgeColors"]],
+      legend              = legend,
+      shape               = shape,
+      color               = nodeColor,
+      edge.color          = edgeColor,
+      nodeNames           = nodeNames,
+      label.scale         = options[["scaleLabels"]],
+      label.cex           = options[["labelSize"]],
+      GLratio             = 1 / options[["legendToPlotRatio"]],
+      edge.labels         = options[["edgeLabels"]],
+      edge.label.cex      = options[["edgeLabelCex"]],
+      edge.label.position = options[["edgeLabelPosition"]]
     ))
 }
 
@@ -639,7 +644,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     "scaleLabels", "labelSize", "abbreviateLabels", "abbreviateNoChars",
     "keepLayoutTheSame", "layoutX", "layoutY", "plotNetwork",
     "groupNames", "groupColors", "variablesForColor", "groupAssigned", "manualColors",
-    "legendToPlotRatio"
+    "legendToPlotRatio", "edgeLabels", "edgeLabelCex", "edgeLabelPosition"
   ))
   plotContainer[["networkPlotContainer"]] <- networkPlotContainer
 
@@ -1030,7 +1035,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     cent <- qgraph::centrality(network[["graph"]], weighted = weightedNetwork, signed = signedNetwork, all.shortest.paths = FALSE)
 
     # note: centrality table is (partially) calculated here so that centralityTable and centralityPlot don't compute the same twice.
-    TBcent <- as.data.frame(cent[c("Betweenness", "Closeness", "InDegree", "OutDegree")])
+    TBcent <- as.data.frame(cent[c("Betweenness", "Closeness", "InDegree", "OutDegree", "InExpectedInfluence", "OutExpectedInfluence")])
 
     # adapted from qgraph::centrality_auto
     wmat <- qgraph::getWmat(network$graph)
@@ -1059,7 +1064,9 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
       # divide betweenness by 2
       TBcent[, 1] <- TBcent[, 1] / 2
-      TBcent <- TBcent[c(1:2, 4)]
+      # remove OutDegree and OutExpectedInfluence, since the network is undirected these are equal
+      TBcent <- TBcent[-c(3, 5)]
+      colnames(TBcent)[4L] <- "Expected Influence"
 
       if (weightedGraph) {
 
