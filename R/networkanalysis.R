@@ -459,7 +459,9 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   if (!is.null(plotContainer[["centralityPlot"]]) || !options[["plotCentrality"]])
     return()
 
-  plot <- createJaspPlot(title = gettext("Centrality Plot"), position = 52, dependencies = "plotCentrality", width = 480)
+  measuresToShow <- unlist(options[c("Betweenness", "Closeness", "Degree", "ExpectedInfluence")], use.names = FALSE)
+  plot <- createJaspPlot(title = gettext("Centrality Plot"), position = 52, width = 120 * sum(measuresToShow),
+                         dependencies = c("plotCentrality", "Betweenness", "Closeness", "Degree", "ExpectedInfluence"))
   plotContainer[["centralityPlot"]] <- plot
   if (is.null(network[["centrality"]]) || plotContainer$getError())
     return()
@@ -467,6 +469,12 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   wide <- network[["centrality"]]
 
   Long <- .networkAnalysisReshapeWideToLong(wide, network, "centrality")
+
+  if (!all(measuresToShow)) {
+    measuresToFilter <- c("Betweenness", "Closeness", "Degree", "Expected Influence")[measuresToShow]
+    Long <- subset(Long, measure %in% measuresToFilter)
+  }
+
   .networkAnalysisMakePlotFromLong(plot, Long, options)
 
 }

@@ -52,9 +52,9 @@ Form
 	Group
 	{
 		title: qsTr("Plots")
-		CheckBox { name: "plotNetwork";		label: qsTr("Network plot")		}
-		CheckBox { name: "plotCentrality";	label: qsTr("Centrality plot")	}
-		CheckBox { name: "plotClustering";	label: qsTr("Clustering plot")	}
+		CheckBox { name: "plotNetwork";		label: qsTr("Network plot")								}
+		CheckBox { name: "plotCentrality";	label: qsTr("Centrality plot");		id: plotCentrality	}
+		CheckBox { name: "plotClustering";	label: qsTr("Clustering plot")							}
 	}
 
 	Group
@@ -437,6 +437,16 @@ Form
 			}
 			RadioButton { value: "circle";	label: qsTr("Circle")							}
 			RadioButton { value: "data";	label: qsTr("Data");	id: dataRatioButton		}
+		}
+
+		Group
+		{
+			title: qsTr("Measures shown in centrality plot")
+			enabled: plotCentrality.checked
+			CheckBox	{	name: "Betweenness";		label: qsTr("Betweenness");			checked: true	}
+			CheckBox	{	name: "Closeness";			label: qsTr("Closeness");			checked: true	}
+			CheckBox	{	name: "Degree";				label: qsTr("Betweenness");			checked: true	}
+			CheckBox	{	name: "ExpectedInfluence";	label: qsTr("Expected Influence");	checked: true	}
 		}
 
 		VariablesForm
