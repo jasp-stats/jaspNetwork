@@ -691,8 +691,11 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
       for (i in seq_len(nGroups))
         groups[[i]] <- which(idx == i)
 
+      nonEmpty <- lengths(groups) > 0L
+      groups <- groups[nonEmpty]
+
       if (options[["manualColors"]])
-        nodeColor <- groupNames[idx, 2L]
+        nodeColor <- groupNames[nonEmpty, 2L]
     }
   }
 
