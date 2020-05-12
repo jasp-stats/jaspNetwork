@@ -560,7 +560,8 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   }
 
   # add a fill element to the mapping -- this is only used to add a legend for the names of the nodes.
-  if (!is.na(Long$nodeLabel))
+  hasNodeLabels <- !all(is.na(Long[["nodeLabel"]]))
+  if (hasNodeLabels)
     mapping$fill <- as.name("nodeLabel")
 
   g <- ggplot2::ggplot(Long, mapping) + guide
@@ -578,7 +579,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
   if (options[["showLegend"]] == "No legend")
     g <- g + ggplot2::theme(legend.position = "none")
-  else if (!is.na(Long$nodeLabel)) {
+  else if (hasNodeLabels) {
     # the fill aestethic introduces a set of points left of `1 = contNormal`.
     # the statement below sets the size of those points to 0, effectively making them invisible
     # keywidth removes the invisible space introduced so that the legends nicely line up (if there are multiple)
