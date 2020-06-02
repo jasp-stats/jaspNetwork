@@ -210,9 +210,9 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   if (!is.null(options[["colorNodesByData"]]) && length(options[["colorNodesByData"]]) != length(options[["variables"]])) {
     tb$addFootnote(
       gettextf("Only the first %d values of %s were used to color nodes (%d provided). ",
-              length(options[["variables"]]),
-              as.character(options[["colorNodesBy"]]),
-              length(options[["colorNodesByData"]]))
+               length(options[["variables"]]),
+               as.character(options[["colorNodesBy"]]),
+               length(options[["colorNodesByData"]]))
     )
   }
 
@@ -234,8 +234,8 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
         text <- gettext("Minimum edge strength ignored in the network plot because it was larger than the absolute value of the strongest edge.")
       } else {
         text <- gettextf("Minimum edge strength ignored in the network plot of group%1$s %2$s because it was larger than the absolute value of the strongest edge.",
-                        ifelse(sum(ignored) == 2L, "s", ""),
-                        paste0(names(network[["network"]])[ignored], collapse = ", ")
+                         ifelse(sum(ignored) == 2L, "s", ""),
+                         paste0(names(network[["network"]])[ignored], collapse = ", ")
         )
       }
       tb$addFootnote(text, symbol = gettext("<em>Warning: </em>"))
@@ -296,7 +296,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   for (i in seq_len(nGraphs)) {
 
     toAdd <- network[["centrality"]][[i]]
-    names(toAdd) <- c("Variable", paste0(c("Betweenness", "Closeness", "Strength"), i))
+    names(toAdd) <- c("Variable", paste0(c("Betweenness", "Closeness", "Strength", "Expected influence"), i))
     if (i == 1L) {# if more than 1 network drop the first column which indicates the variable
       TBcolumns <- toAdd
     } else {
@@ -460,10 +460,13 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     return()
 
   measuresToShow <- unlist(options[c("Betweenness", "Closeness", "Degree", "ExpectedInfluence")], use.names = FALSE)
-  plot <- createJaspPlot(title = gettext("Centrality Plot"), position = 52, width = 120 * sum(measuresToShow),
+  hasMeasures <- any(measuresToShow)
+
+  width <- if (hasMeasures) 120 * sum(measuresToShow) else 120
+  plot <- createJaspPlot(title = gettext("Centrality Plot"), position = 52, width = width,
                          dependencies = c("plotCentrality", "Betweenness", "Closeness", "Degree", "ExpectedInfluence"))
   plotContainer[["centralityPlot"]] <- plot
-  if (is.null(network[["centrality"]]) || plotContainer$getError())
+  if (is.null(network[["centrality"]]) || plotContainer$getError() || !hasMeasures)
     return()
 
   wide <- network[["centrality"]]
@@ -615,7 +618,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
       edge.width          = options[["edgeSize"]],
       node.width          = options[["nodeSize"]],
       maximum             = maxE,
-        minimum             = minE,
+      minimum             = minE,
       details             = options[["showDetails"]],
       labels              = labels,
       palette             = if (options[["manualColors"]]) NULL else options[["nodePalette"]],
@@ -763,7 +766,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   height <- setNames(rep(basePlotSize, nGraphs), names(allLegends))
   width  <- basePlotSize + allLegends * legendMultiplier
   for (v in names(allNetworks))
-      networkPlotContainer[[v]] <- createJaspPlot(title = v, width = width[v], height = height[v])
+    networkPlotContainer[[v]] <- createJaspPlot(title = v, width = width[v], height = height[v])
 
   JASP:::.suppressGrDevice({
 
@@ -1429,9 +1432,9 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
   if (checks[["errors"]][["fatal"]]) {
     message <- paste0(gettextf("Data supplied in %s cannot be used to determine variables types. Data should: ", options[["mgmVariableType"]]),
-                       gettext("<ul><li>start with the column name of the variable.</ul></li>"),
-                       gettext("<ul><li>contain an '=' to distinguish between column name and data type.</ul></li>"),
-                       gettext("<ul><li>end with either 'g' for Gaussian, 'c' for categorical, or 'p' for Poisson.</ul></li>")
+                      gettext("<ul><li>start with the column name of the variable.</ul></li>"),
+                      gettext("<ul><li>contain an '=' to distinguish between column name and data type.</ul></li>"),
+                      gettext("<ul><li>end with either 'g' for Gaussian, 'c' for categorical, or 'p' for Poisson.</ul></li>")
     )
     .quitAnalysis(message)
   }
@@ -1467,7 +1470,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     message <- gettextf("%1$s %2$s Data should only contain numeric:
                  -start with the column name of the variable.
                  -contain an '=' to distinguish between column name and coordinate.",
-                       defMsg, firstLine)
+                        defMsg, firstLine)
   } else if (length(checksX[["unmatched"]]) > 0 || length(checksY[["unmatched"]]) > 0) {
 
     unmatchedX <- paste(checksX[["unmatched"]], collapse = ", ")
@@ -1503,7 +1506,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   message <- NULL
   if (checks[["errors"]][["fatal"]]) {
     message <- gettextf("Data supplied in %s could not be used to determine variables types. Data should: \n- Start with the column name of the variable. \n- Contain an '=' to distinghuish betweem column name and group.",
-                       options[["colorNodesBy"]])
+                        options[["colorNodesBy"]])
     return(list(newData = NULL, message = message))
   }
 
@@ -1518,7 +1521,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
     newData <- rbind(newData, cbind(checks[["unmatched"]], undefGroup))
     message <- gettextf("Some entries of %1$s were not understood. These are now grouped under '%2$s'.",
-                       options[["colorNodesBy"]], undefGroup)
+                        options[["colorNodesBy"]], undefGroup)
   }
   newData <- newData[match(variables, newData[, 1]), ]
   return(list(newData = newData[, 2], message = message))
