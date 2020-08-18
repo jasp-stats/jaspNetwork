@@ -8,3 +8,20 @@ Website: jasp-stats.org
 Maintainer: JASP Team <info@jasp-stats.org>
 Description: Network module.
 License: GPL (>= 2)
+Encoding: UTF-8
+Imports:
+  bootnet,
+  corpcor,
+  dplyr,
+  foreach,
+  ggplot2,
+  gtools,
+  IsingSampler,
+  jaspBase,
+  mvtnorm,
+  qgraph,
+  reshape2,
+  snow,
+  stringr
+Remotes:
+  jasp-stats/jaspBase
