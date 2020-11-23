@@ -267,7 +267,7 @@ Form
 			placeHolder			: qsTr("New Group")
 			minRows				: 2
 			preferredWidth		: (2 * form.width) / 5
-			enableRowComponents	: manualColors.checked
+			enabled				: manualColors.checked
 			rowComponentsTitles	: [qsTr("Group color")]
 
 
