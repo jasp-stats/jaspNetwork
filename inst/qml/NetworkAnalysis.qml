@@ -268,27 +268,19 @@ Form
 			minRows				: 2
 			preferredWidth		: (2 * form.width) / 5
 			enabled				: manualColors.checked
-			rowComponentsTitles	: [qsTr("Group color")]
-
-
-			rowComponents:
-			[
-				Component
-				{
-					DropDown
-					{
-						name: "groupColors"
-						values: [
-							{ label: qsTr("red")	, value: "red"		},
-							{ label: qsTr("blue")	, value: "blue"		},
-							{ label: qsTr("yellow")	, value: "yellow"	},
-							{ label: qsTr("green")	, value: "green"	},
-							{ label: qsTr("purple")	, value: "purple"	},
-							{ label: qsTr("orange") , value: "orange"	}
-						]
-					}
-				}
-			]
+			rowComponentTitle	: qsTr("Group color")
+			rowComponent: DropDown
+			{
+				name: "groupColors"
+				values: [
+					{ label: qsTr("red")	, value: "red"		},
+					{ label: qsTr("blue")	, value: "blue"		},
+					{ label: qsTr("yellow")	, value: "yellow"	},
+					{ label: qsTr("green")	, value: "green"	},
+					{ label: qsTr("purple")	, value: "purple"	},
+					{ label: qsTr("orange") , value: "orange"	}
+				]
+			}
 		}
 
 		AssignedVariablesList
@@ -300,18 +292,12 @@ Form
 			source							: ["variables"]
 			addAvailableVariablesToAssigned	: true
 			draggable						: false
-			rowComponentsTitles				: [qsTr("Group")]
-			rowComponents:
-			[
-				Component
-				{
-					DropDown
-					{
-						name: "groupAssigned"
-						source: ["groupNames"]
-					}
-				}
-			]
+			rowComponentTitle				: qsTr("Group")
+			rowComponent: DropDown
+			{
+				name: "groupAssigned"
+				source: ["groupNames"]
+			}
 		}
 
 		Group
