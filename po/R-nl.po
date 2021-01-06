@@ -1,0 +1,315 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: R 3.6.1\n"
+"Report-Msgid-Bugs-To: github.com/jasp-stats/jasp-issues/issues\n"
+"POT-Creation-Date: 2021-01-05 09:38\n"
+"PO-Revision-Date: 2020-12-02 21:29+0000\n"
+"Last-Translator: JASP Stats <F.A.M.Meerhoff@uva.nl>\n"
+"Language-Team: Dutch <https://hosted.weblate.org/projects/jasp/jasp-engine/"
+"nl/>\n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n==0 ? 0 : n==1 ? 0 : 1;\n"
+"X-Generator: Weblate 4.4-dev\n"
+
+msgid ""
+"After binarizing the data too little variance remained in variable(s): %s."
+msgstr "Na binarisatie van de data te weinig variantie in variabele(n): %s."
+
+msgid "Summary of Network"
+msgstr "Samenvatting van Netwerk"
+
+msgid "Network"
+msgstr "Netwerk"
+
+msgid "Number of nodes"
+msgstr "Aantal knooppunten"
+
+msgid "Number of non-zero edges"
+msgstr "Aantal verbindingen ongelijk aan 0"
+
+msgid "Sparsity"
+msgstr "Spaarzaamheid"
+
+msgid "Data was binarized using %s."
+msgstr "Data was gebinariseerd met %s."
+
+msgid "Only the first %d values of %s were used to color nodes (%d provided)."
+msgstr ""
+"Alleen de eerste %d waarden van %s zijn gebruikt om nodes te kleuren (%d "
+"gegeven)."
+
+msgid "<em>Warning: </em>"
+msgstr "<em>Waarschuwing: </em>"
+
+msgid ""
+"Minimum edge strength ignored in the network plot because it was larger than "
+"the absolute value of the strongest edge."
+msgstr ""
+"Minimale randsterkte genegeerd in de netwerkgrafiek omdat deze hoger is dan "
+"de absolute waarde van de sterkste rand."
+
+msgid ""
+"Minimum edge strength ignored in the network plot of group%1$s %2$s because "
+"it was larger than the absolute value of the strongest edge."
+msgstr ""
+"Minimale randsterkte genegeerd in de netwerkgrafiek van groep %1$s%% %2$s "
+"omdat deze groter was dan de absolute waarde van de sterkste rand."
+
+msgid ""
+"Bootstrapping is only done when 'Bootstrap network' is ticked and 'Number of "
+"Bootstraps' is larger than 0."
+msgstr ""
+"Bootstrapping wordt alleen gedaan wanneer 'Bootstrap netwerk' is aangevinkt "
+"en wanneer 'Aantal Bootstraps' groter is dan 0."
+
+msgid "Centrality measures per variable"
+msgstr "Centraliteitsmaten per variabele"
+
+msgid "Variable"
+msgstr "Variabele"
+
+msgid "Betweenness"
+msgstr "Betweenness"
+
+msgid "Closeness"
+msgstr "Closeness"
+
+msgid "Strength"
+msgstr "Sterkte"
+
+msgid "Expected influence"
+msgstr "Verwachte invloed"
+
+msgid "Barrat"
+msgstr "Barrat"
+
+msgid "Onnela"
+msgstr "Onnela"
+
+msgid "WS"
+msgstr "WS"
+
+msgid "Zhang"
+msgstr "Zhang"
+
+msgid "Clustering measures per variable"
+msgstr "Maten per variabele geclusterd"
+
+msgid "Clustering measures could not be computed for network%1$s: %2$s"
+msgstr "Clusteringsmaten konden niet worden berekend voor netwerk%1$s: %2$s"
+
+msgid "Weights matrix"
+msgstr "Gewichten matrix"
+
+msgid "Bootstrap summary of Network"
+msgstr "Bootstrap samenvatting van Netwerk"
+
+msgid "Type"
+msgstr "Type"
+
+msgid "Number of bootstraps"
+msgstr "Aantal bootstraps"
+
+msgid "Centrality Plot"
+msgstr "Centraliteitsgrafiek"
+
+msgid "Clustering Plot"
+msgstr "Clusteringsgrafiek"
+
+msgid "Network Plots"
+msgstr "Netwerkgrafiek"
+
+msgid "Network Plot"
+msgstr "Netwerkgrafiek"
+
+msgid "Edge Stability"
+msgstr "Randstabiliteit"
+
+msgid "Centrality Stability"
+msgstr "Centraliteitstabiliteit"
+
+msgid ""
+"bootnet crashed with the following error message:\n"
+"%s"
+msgstr ""
+"bootnet gecrasht met de volgende foutmelding:\n"
+"%s"
+
+msgid ""
+"Please drag all variables to a particular type under \"Analysis options\"."
+msgstr ""
+"Sleep a.u.b. alle variabelen naar een specifiek type onder \"Analyse opties"
+"\"."
+
+msgid ""
+"Coefficient could not be standardized because the variance is too small."
+msgstr ""
+"Coëfficiënt kon niet worden gestandaardiseerd omdat de variantie te klein is."
+
+msgid "Please supply a name for both the x and y-coordinates of the layout."
+msgstr "Voeg a.u.b. een naam toe voor de x en y-coördinaten van de layout."
+
+msgid "Some variables did not contain char (%s)"
+msgstr "Sommige variabelen bevatten teken (%s) niet"
+
+msgid "Some variables were not matched in the column names of the dataset."
+msgstr ""
+"Sommige variabelen zijn niet gematcht in de kolomnamen van de gegevens."
+
+msgid ""
+"Data supplied in %s cannot be used to determine variables types. Data should:"
+msgstr ""
+"Gegeven data in %s kan niet worden gebruikt om de variabeletypes vast te "
+"stellen. Data moet:"
+
+msgid "<ul><li>start with the column name of the variable.</ul></li>"
+msgstr "<ul><li>beginnen met de kolomnaam van de variabele.</ul></li>"
+
+msgid ""
+"<ul><li>contain an '=' to distinguish between column name and data type.</"
+"ul></li>"
+msgstr ""
+"<ul><li>een '=' bevatten om kolomnaam en datatype te onderscheiden.</ul></li>"
+
+msgid ""
+"<ul><li>end with either 'g' for Gaussian, 'c' for categorical, or 'p' for "
+"Poisson.</ul></li>"
+msgstr ""
+"<ul><li>beëindig met een 'g' voor Gaussische, 'c' voor categorisch, of 'p' "
+"voor Poisson.</ul></li>"
+
+msgid ""
+"Supplied data for layout was not understood and instead a circle layout was "
+"used."
+msgstr ""
+"Gegeven data voor layout is niet begrepen en in plaats daarvan is een cirkel "
+"layout gebruikt."
+
+msgid ""
+"Data supplied in %1$s AND %2$s could not be used to determine node locations."
+msgstr ""
+"Data gegeven in %1$s EN %2$s konden niet worden gebruikt om de node plaatsen "
+"mee te bepalen."
+
+msgid "Data supplied in %s could not be used to determine node locations."
+msgstr ""
+"Gegeven data in %s kon niet worden gebruikt om node plaatsen mee te bepalen."
+
+msgid ""
+"%1$s %2$s Data should only contain numeric:\n"
+"                 -start with the column name of the variable.\n"
+"                 -contain an '=' to distinguish between column name and "
+"coordinate."
+msgstr ""
+"%1$s %2$s Data mogen alleen numerieke waarden bevatten:\n"
+"                 -begin met de kolomnaam van de variabele.\n"
+"                 -een '=' bevatten om kolomnaam en coördinaat te "
+"onderscheiden."
+
+msgid ""
+"Data supplied in %s could not be used to determine variables types. Data "
+"should: \n"
+"- Start with the column name of the variable. \n"
+"- Contain an '=' to distinghuish betweem column name and group."
+msgstr ""
+"Gegeven data in %s kon niet worden gebruikt om de variabelentypen te "
+"bepalen. Data moet: \n"
+"- Beginnen met de kolomnaam van de variabele.\n"
+"- Een '=' bevatten om kolomnaam en groep te onderscheiden."
+
+msgid ""
+"Some entries of %1$s were not understood. These are now grouped under '%2$s'."
+msgstr ""
+"Sommige waarnemingen van %1$s zijn niet begrepen. Deze zijn nu gegroepeerd "
+"onder '%2$s'."
+
+msgid ""
+"bootnet crashed with the following error message:\n"
+"%s. <ul><li>Please check if there are variables in the network with little "
+"variance or few distinct observations.</li></ul>"
+msgstr ""
+"bootnet gecrasht met de volgende foutmelding:\n"
+"%s <ul><li>Kijk a.u.b. na of er variabelen in het netwerk zitten die een "
+"kleine variantie of weinig observaties hebben.</li></ul>"
+
+msgid ""
+"'data' can only be missing if type = 'parametric'. Setting type = "
+"'parametric' and performing parametric bootstrap instead."
+msgstr ""
+"'data' kan alleen ontbreken wanneer type = 'parametrisch'. Stel type = "
+"'parametrisch' in en voer de parametrische bootstrap uit."
+
+msgid ""
+"'graph' may not be missing in parametric bootstrap when 'data' is missing."
+msgstr ""
+"'grafiek' mag niet ontbreken in de parametrische bootstrap wanneer 'data' "
+"ontbreekt."
+
+msgid ""
+"'sampleSize' may not be missing in parametric bootstrap when 'data' is "
+"missing."
+msgstr ""
+"'steekproefGrootte' mag niet ontbreken in de parametrische bootstrap wanneer "
+"'data' ontbreekt."
+
+msgid "'data' is ignored when using manual parametric bootstrap."
+msgstr "'data' wordt genegeerd bij de handmatige parametrische bootstrap."
+
+msgid "Removing non-numeric columns:"
+msgstr "Niet numerieke kolommen worden verwijderd:"
+
+msgid ";"
+msgstr ";"
+
+msgid "Jacknife overwrites nBoot to sample size"
+msgstr "Jacknife overschrijft nBoot naar steekproefgrootte"
+
+msgid "Node-wise bootstrapping requires at least three nodes."
+msgstr "Voor Node-gewijs bootstrappen zijn er minstens drie nodes nodig."
+
+msgid "'data' argument must be a data frame"
+msgstr "'data' argument moet een data frame zijn"
+
+msgid "'model' must be set in parametric bootstrap without 'data'."
+msgstr ""
+"'model' moet in een parametrische bootstrap worden gezet zonder 'data'."
+
+msgid "model set to '"
+msgstr "model omgezet naar '"
+
+msgid "'"
+msgstr "'"
+
+msgid "Estimating sample network..."
+msgstr "Steekproefnetwerk wordt geschat..."
+
+msgid "Bootstrapping..."
+msgstr "Bootstrappen..."
+
+msgid "Model '"
+msgstr "Model '"
+
+msgid "' not supported."
+msgstr "' wordt niet ondersteund."
+
+msgid "Maximum number of errors in bootstraps reached"
+msgstr "Maximale aantal fouten in bootstraps bereikt"
+
+msgid "progress function failed: Cancelled by callback"
+msgstr "voortgangsfunctie mislukt: Geannuleerd door callback"
+
+msgid "Computing statistics..."
+msgstr "Statistieken worden berekend..."
+
+msgid "%1$s X-Coordinates for variable %2$s was not understood."
+msgid_plural "%1$s X-Coordinates for variables %2$s were not understood."
+msgstr[0] "%1$s x-coördinaten voor variabele %2$s werd niet begrepen."
+msgstr[1] "%1$s x-coördinaten voor variabelen %2$s werden niet begrepen."
+
+msgid "%1$s Y-Coordinates for variable %2$s was not understood."
+msgid_plural "%1$s Y-Coordinates for variables %2$s were not understood."
+msgstr[0] "%1$s y-coördinaten voor variabele %2$s werd niet begrepen."
+msgstr[1] "%1$s y-coördinaten voor variabelen %2$s werden niet begrepen."

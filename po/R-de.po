@@ -1,0 +1,288 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: R 3.6.1\n"
+"Report-Msgid-Bugs-To: github.com/jasp-stats/jasp-issues/issues\n"
+"POT-Creation-Date: 2021-01-05 09:38\n"
+"PO-Revision-Date: 2020-12-03 09:42+0000\n"
+"Last-Translator: Thomas Langkamp <thomas.lassdiesonnerein@gmx.de>\n"
+"Language-Team: German <https://hosted.weblate.org/projects/jasp/jasp-engine/"
+"de/>\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n==0 ? 0 : n==1 ? 0 : 1;\n"
+"X-Generator: Weblate 4.4-dev\n"
+
+msgid ""
+"After binarizing the data too little variance remained in variable(s): %s."
+msgstr ""
+
+msgid "Summary of Network"
+msgstr "Zusammenfassung des Netwerks"
+
+msgid "Network"
+msgstr "Netzwerk"
+
+msgid "Number of nodes"
+msgstr "Anzahl Knoten"
+
+msgid "Number of non-zero edges"
+msgstr "Anzahl von Kanten ungleich 0"
+
+msgid "Sparsity"
+msgstr "Sparsamkeit"
+
+msgid "Data was binarized using %s."
+msgstr "Daten wurden mit %s dichotomisiert."
+
+msgid "Only the first %d values of %s were used to color nodes (%d provided)."
+msgstr ""
+"Nur die ersten %d Werte von %s wurden zum Färben von Knoten verwendet (%d "
+"bereitgestellt)."
+
+msgid "<em>Warning: </em>"
+msgstr "<em>Warnung: </em>"
+
+msgid ""
+"Minimum edge strength ignored in the network plot because it was larger than "
+"the absolute value of the strongest edge."
+msgstr ""
+"Die minimale Kantenstärke wird im Netzwerkdiagramm ignoriert, da sie größer "
+"als der absolute Wert der stärksten Kante war."
+
+msgid ""
+"Minimum edge strength ignored in the network plot of group%1$s %2$s because "
+"it was larger than the absolute value of the strongest edge."
+msgstr ""
+"Die minimale Kantenstärke wird im Netzwerkdiagramm der Gruppe%1$s %2$s "
+"ignoriert, da sie größer als der absolute Wert der stärksten Kante war."
+
+msgid ""
+"Bootstrapping is only done when 'Bootstrap network' is ticked and 'Number of "
+"Bootstraps' is larger than 0."
+msgstr ""
+"Das Bootstrapping wird nur durchgeführt, wenn \"Bootstrap-Netzwerk\" "
+"angekreuzt ist und \"Anzahl der Bootstraps\" größer als 0 ist."
+
+msgid "Centrality measures per variable"
+msgstr "Zentralitätsmaße pro Variable"
+
+msgid "Variable"
+msgstr "Variable"
+
+msgid "Betweenness"
+msgstr ""
+
+msgid "Closeness"
+msgstr "Nähe"
+
+msgid "Strength"
+msgstr "Stärke"
+
+msgid "Expected influence"
+msgstr "Erwarteter Einfluß"
+
+msgid "Barrat"
+msgstr "Barrat"
+
+msgid "Onnela"
+msgstr "Onnela"
+
+msgid "WS"
+msgstr "WS"
+
+msgid "Zhang"
+msgstr "Zhang"
+
+msgid "Clustering measures per variable"
+msgstr "Clustering-Maße pro Variable"
+
+msgid "Clustering measures could not be computed for network%1$s: %2$s"
+msgstr ""
+
+msgid "Weights matrix"
+msgstr "Gewichte-Matrix"
+
+msgid "Bootstrap summary of Network"
+msgstr ""
+
+msgid "Type"
+msgstr "Typ"
+
+msgid "Number of bootstraps"
+msgstr "Anzahl Bootstraps"
+
+msgid "Centrality Plot"
+msgstr "Zentralitäts-Abbildung"
+
+msgid "Clustering Plot"
+msgstr "Clustering-Abbildung"
+
+msgid "Network Plots"
+msgstr "Netzwerk-Abbildung"
+
+msgid "Network Plot"
+msgstr "Netzwerk-Abbildung"
+
+msgid "Edge Stability"
+msgstr "Randstabilität"
+
+msgid "Centrality Stability"
+msgstr "Zentrumsstabilität"
+
+msgid ""
+"bootnet crashed with the following error message:\n"
+"%s"
+msgstr ""
+
+msgid ""
+"Please drag all variables to a particular type under \"Analysis options\"."
+msgstr ""
+
+msgid ""
+"Coefficient could not be standardized because the variance is too small."
+msgstr ""
+"Der Koeffizient konnte nicht standardisiert werden, da die Varianz zu gering "
+"ist."
+
+msgid "Please supply a name for both the x and y-coordinates of the layout."
+msgstr ""
+"Bitte geben Sie einen Namen für die x- und y-Koordinaten des Layouts an."
+
+msgid "Some variables did not contain char (%s)"
+msgstr "Einige Variablen enthielten kein Zeichen (%s)"
+
+msgid "Some variables were not matched in the column names of the dataset."
+msgstr ""
+"Einige Variablen wurden in den Spaltennamen des Datensatzes nicht "
+"abgeglichen."
+
+msgid ""
+"Data supplied in %s cannot be used to determine variables types. Data should:"
+msgstr ""
+"Übergebene Daten in %s können nicht genutzt werden, um Variablentypen "
+"festzustellen. Daten müssen:"
+
+msgid "<ul><li>start with the column name of the variable.</ul></li>"
+msgstr "<ul><li>mit dem Spaltennamen der Variable beginnen.</ul></li>"
+
+msgid ""
+"<ul><li>contain an '=' to distinguish between column name and data type.</"
+"ul></li>"
+msgstr ""
+
+msgid ""
+"<ul><li>end with either 'g' for Gaussian, 'c' for categorical, or 'p' for "
+"Poisson.</ul></li>"
+msgstr ""
+
+msgid ""
+"Supplied data for layout was not understood and instead a circle layout was "
+"used."
+msgstr ""
+"Die mitgelieferten Daten für das Layout wurden nicht verstanden und "
+"stattdessen wurde ein Kreislayout verwendet."
+
+msgid ""
+"Data supplied in %1$s AND %2$s could not be used to determine node locations."
+msgstr ""
+
+msgid "Data supplied in %s could not be used to determine node locations."
+msgstr ""
+
+msgid ""
+"%1$s %2$s Data should only contain numeric:\n"
+"                 -start with the column name of the variable.\n"
+"                 -contain an '=' to distinguish between column name and "
+"coordinate."
+msgstr ""
+
+msgid ""
+"Data supplied in %s could not be used to determine variables types. Data "
+"should: \n"
+"- Start with the column name of the variable. \n"
+"- Contain an '=' to distinghuish betweem column name and group."
+msgstr ""
+
+msgid ""
+"Some entries of %1$s were not understood. These are now grouped under '%2$s'."
+msgstr ""
+
+msgid ""
+"bootnet crashed with the following error message:\n"
+"%s. <ul><li>Please check if there are variables in the network with little "
+"variance or few distinct observations.</li></ul>"
+msgstr ""
+
+msgid ""
+"'data' can only be missing if type = 'parametric'. Setting type = "
+"'parametric' and performing parametric bootstrap instead."
+msgstr ""
+
+msgid ""
+"'graph' may not be missing in parametric bootstrap when 'data' is missing."
+msgstr ""
+
+msgid ""
+"'sampleSize' may not be missing in parametric bootstrap when 'data' is "
+"missing."
+msgstr ""
+
+msgid "'data' is ignored when using manual parametric bootstrap."
+msgstr ""
+
+msgid "Removing non-numeric columns:"
+msgstr "Nicht numerische Spalten entfernen:"
+
+msgid ";"
+msgstr ";"
+
+msgid "Jacknife overwrites nBoot to sample size"
+msgstr ""
+
+msgid "Node-wise bootstrapping requires at least three nodes."
+msgstr "Das knotenweise Bootstrapping erfordert mindestens drei Knoten."
+
+msgid "'data' argument must be a data frame"
+msgstr "Argument 'data' muss ein Data Frame sein"
+
+msgid "'model' must be set in parametric bootstrap without 'data'."
+msgstr "'model' muss im parametrischen Bootstrap ohne 'data' gesetzt werden."
+
+msgid "model set to '"
+msgstr "Modell gesetzt auf '"
+
+msgid "'"
+msgstr "'"
+
+msgid "Estimating sample network..."
+msgstr "Schätzung des Beispielnetzwerks ..."
+
+msgid "Bootstrapping..."
+msgstr "Bootstrappe..."
+
+msgid "Model '"
+msgstr "Modell '"
+
+msgid "' not supported."
+msgstr "' nicht unterstützt."
+
+msgid "Maximum number of errors in bootstraps reached"
+msgstr "Maximale Fehleranzahl in bootstraps erreicht"
+
+msgid "progress function failed: Cancelled by callback"
+msgstr "voortgangsfunctie mislukt: Geannuleerd door callback"
+
+msgid "Computing statistics..."
+msgstr "Berechne Statistiken..."
+
+msgid "%1$s X-Coordinates for variable %2$s was not understood."
+msgid_plural "%1$s X-Coordinates for variables %2$s were not understood."
+msgstr[0] "%1$s X-Koordinaten für Variable %2$s wurde nicht verstanden."
+msgstr[1] "%1$s X-Koordinaten für Variablen %2$s wurden nicht verstanden."
+
+msgid "%1$s Y-Coordinates for variable %2$s was not understood."
+msgid_plural "%1$s Y-Coordinates for variables %2$s were not understood."
+msgstr[0] "%1$s Y-Koordinaten für Variable %2$s wurde nicht verstanden."
+msgstr[1] "%1$s Y-Koordinaten für Variablen %2$s wurden nicht verstanden."
