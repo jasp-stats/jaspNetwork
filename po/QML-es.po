@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2021-03-18 05:18+0000\n"
+"PO-Revision-Date: 2021-03-20 14:18+0000\n"
 "Last-Translator: Paulina Elizabeth Robalino <paulina.e.robalino@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/jasp/"
 "jaspnetwork-qml/es/>\n"
