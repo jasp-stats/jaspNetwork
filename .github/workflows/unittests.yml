@@ -32,7 +32,7 @@ jobs:
       - uses: vandenman/jasp-actions/setup-test-env@support_ubuntu2
 
       - name: Make sure igraph is installed from source
-        run: install.packages("igraph", type = "source")
+        run: install.packages("igraph", type = "source", repos = "https://cloud.r-project.org/")
         shell: Rscript {0}
 
       - name: Run unit tests
