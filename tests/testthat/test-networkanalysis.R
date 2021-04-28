@@ -94,7 +94,6 @@ for (estimator in estimators) {
 
   options$estimator <- estimator
   set.seed(1)
-  # debugonce(jaspNetwork:::.networkAnalysiscom)
   results <- jaspTools::runAnalysis("NetworkAnalysis", "BFI Network.csv", options)
 
   test_that(paste0(estimator, ": Centrality measures per variable table results match"), {

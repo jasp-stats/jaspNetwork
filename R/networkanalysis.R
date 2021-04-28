@@ -1300,17 +1300,19 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
   startProgressbar(noTicks * 2L, "Bootstrapping network")
 
-  original <- utils::setTxtProgressBar
-  on.exit(jaspBase:::assignFunctionInPackage(original, "setTxtProgressBar", "utils"))
-  jaspBase::assignFunctionInPackage(function(...) {
-    progressbarTick()
-  }, "setTxtProgressBar", "utils")
+  original <- bootnet::bootnet
+  expr0 <- as.expression(body(bootnet::bootnet))
+  # replace all instances of setTxtProgressBar with setTxtProgressBarReplacement
+  expr1 <- do.call(substitute, list(expr0[[1]], list(setTxtProgressBar = function(...) { progressbarTick() })))
+  replacement <- bootnet::bootnet
+  body(replacement) <- expr1
+
+  jaspBase:::assignFunctionInPackage(replacement,      "bootnet", "bootnet")
+  on.exit(jaspBase:::assignFunctionInPackage(original, "bootnet", "bootnet"))
+
   tryCatch({
     jaspBase::.suppressGrDevice({
       for (nm in names(allNetworks)) {
-
-        # .networkAnalysisBootnetBootnet replaces bootnet::bootnet so we can have a progress bar
-
         bootstrapResult[[nm]] <- bootnet::bootnet(
           data       = allNetworks[[nm]],
           nBoots     = options[["numberOfBootstraps"]],
