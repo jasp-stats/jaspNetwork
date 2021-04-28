@@ -28,8 +28,7 @@ jobs:
         with:
           r-version: ${{ matrix.config.r }}
 
-      #- uses: jasp-stats/jasp-actions/setup-test-env@master
-      - uses: vandenman/jasp-actions/setup-test-env@support_ubuntu2
+      - uses: jasp-stats/jasp-actions/setup-test-env@master
 
       - name: Make sure igraph is installed from source
         run: install.packages("igraph", type = "source", repos = "https://cloud.r-project.org/")
