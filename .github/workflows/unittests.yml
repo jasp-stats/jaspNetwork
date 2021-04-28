@@ -31,6 +31,10 @@ jobs:
       #- uses: jasp-stats/jasp-actions/setup-test-env@master
       - uses: vandenman/jasp-actions/setup-test-env@support_ubuntu2
 
+      - name: Make sure igraph is installed from source
+        run: install.packages("igraph", type = "source")
+        shell: Rscript {0}
+
       - name: Run unit tests
         run: source("tests/testthat.R")
         shell: Rscript {0}
