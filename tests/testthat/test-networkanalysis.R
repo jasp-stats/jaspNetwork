@@ -73,7 +73,7 @@ file <- "networkResults.rds"
 #     return(lapply(x, clearEverythingButData))
 #   }
 # }
-# 
+#
 # results <- vector("list", length(estimators))
 # names(results) <- names(estimators)
 # for (e in estimators) {
@@ -85,67 +85,82 @@ file <- "networkResults.rds"
 # saveRDS(results, file = file)
 storedResults <- readRDS(file)
 
+skip_if_adalasso <- function(estimator) {
+  skip_if(estimator == "adalasso", r"(dependency "parcor" was removed from CRAN so this test is skipped)")
+}
+
 for (estimator in estimators) {
-  
+
+
   options$estimator <- estimator
   set.seed(1)
+  # debugonce(jaspNetwork:::.networkAnalysiscom)
   results <- jaspTools::runAnalysis("NetworkAnalysis", "BFI Network.csv", options)
 
   test_that(paste0(estimator, ": Centrality measures per variable table results match"), {
+    skip_if_adalasso(estimator)
     table    <- results                   [["results"]][["mainContainer"]][["collection"]][["mainContainer_centralityTable"]][["data"]]
     oldTable <- storedResults[[estimator]][["results"]][["mainContainer"]][["collection"]][["mainContainer_centralityTable"]][["data"]]
     jaspTools::expect_equal_tables(table, jaspTools:::collapseTestTable(oldTable))
   })
-  
+
   test_that(paste0(estimator, ": Clustering measures per variable table results match"), {
+    skip_if_adalasso(estimator)
     table    <- results                   [["results"]][["mainContainer"]][["collection"]][["mainContainer_clusteringTable"]][["data"]]
     oldTable <- storedResults[[estimator]][["results"]][["mainContainer"]][["collection"]][["mainContainer_clusteringTable"]][["data"]]
     jaspTools::expect_equal_tables(table, jaspTools:::collapseTestTable(oldTable))
   })
-  
+
   test_that(paste0(estimator, ": Summary of Network table results match"), {
+    skip_if_adalasso(estimator)
     table    <- results                   [["results"]][["mainContainer"]][["collection"]][["mainContainer_generalTable"]][["data"]]
     oldTable <- storedResults[[estimator]][["results"]][["mainContainer"]][["collection"]][["mainContainer_generalTable"]][["data"]]
     jaspTools::expect_equal_tables(table, jaspTools:::collapseTestTable(oldTable))
   })
-  
+
   test_that(paste0(estimator, ": Weights matrix table results match"), {
+    skip_if_adalasso(estimator)
     table    <- results                   [["results"]][["mainContainer"]][["collection"]][["mainContainer_weightsTable"]][["data"]]
     oldTable <- storedResults[[estimator]][["results"]][["mainContainer"]][["collection"]][["mainContainer_weightsTable"]][["data"]]
     jaspTools::expect_equal_tables(table, jaspTools:::collapseTestTable(oldTable))
   })
-  
+
   test_that(paste0(estimator, ": Bootstrapped edge plot matches"), {
     if (estimator == "IsingSampler")
       skip("Cannot reliably test Bootstrapped edge plot for IsingSampler")
+    skip_if_adalasso(estimator)
     plotName <- results[["results"]][["mainContainer"]][["collection"]][["mainContainer_bootstrapContainer"]][["collection"]][["mainContainer_bootstrapContainer_EdgeStabilityPlots"]][["collection"]][["mainContainer_bootstrapContainer_EdgeStabilityPlots_Network"]][["data"]]
     testPlot <- results[["state"]][["figures"]][[plotName]][["obj"]]
     jaspTools::expect_equal_plots(testPlot, paste0(estimator, "-bootstrapped-edges"), dir="NetworkAnalysis")
   })
-  
+
   test_that(paste0(estimator, ": Bootstrapped centrality plot matches"), {
+    skip_if_adalasso(estimator)
     plotName <- results[["results"]][["mainContainer"]][["collection"]][["mainContainer_bootstrapContainer"]][["collection"]][["mainContainer_bootstrapContainer_StatisticsCentralityPlots"]][["collection"]][["mainContainer_bootstrapContainer_StatisticsCentralityPlots_Network"]][["data"]]
     testPlot <- results[["state"]][["figures"]][[plotName]][["obj"]]
     jaspTools::expect_equal_plots(testPlot, paste0(estimator, "-bootstrapped-centrality"), dir="NetworkAnalysis")
   })
-  
+
   test_that(paste0(estimator, ": Centrality Plot matches"), {
     skip("Cannot reliably test Centrality Plots")
+    skip_if_adalasso(estimator)
     plotName <- results[["results"]][["mainContainer"]][["collection"]][["mainContainer_plotContainer"]][["collection"]][["mainContainer_plotContainer_centralityPlot"]][["data"]]
     testPlot <- results[["state"]][["figures"]][[plotName]][["obj"]]
     jaspTools::expect_equal_plots(testPlot, paste0(estimator, "-centrality-plot"), dir="NetworkAnalysis")
   })
-  
+
   test_that(paste0(estimator, ": Clustering Plot matches"), {
     skip("Cannot reliably test Clustering Plots")
+    skip_if_adalasso(estimator)
     plotName <- results[["results"]][["mainContainer"]][["collection"]][["mainContainer_plotContainer"]][["collection"]][["mainContainer_plotContainer_clusteringPlot"]][["data"]]
     testPlot <- results[["state"]][["figures"]][[plotName]][["obj"]]
     jaspTools::expect_equal_plots(testPlot, paste0(estimator, "-clustering-plot"), dir="NetworkAnalysis")
   })
-  
+
   test_that(paste0(estimator, ": Network plot matches"), {
     if (estimator == "IsingSampler")
       skip("Cannot reliably test Network plot for IsingSampler")
+    skip_if_adalasso(estimator)
     plotName <- results[["results"]][["mainContainer"]][["collection"]][["mainContainer_plotContainer"]][["collection"]][["mainContainer_plotContainer_networkPlotContainer"]][["collection"]][["mainContainer_plotContainer_networkPlotContainer_Network"]][["data"]]
     testPlot <- results[["state"]][["figures"]][[plotName]][["obj"]]
     jaspTools::expect_equal_plots(testPlot, paste0(estimator, "-network-plot"), dir="NetworkAnalysis")

@@ -778,7 +778,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   for (v in names(allNetworks))
     networkPlotContainer[[v]] <- createJaspPlot(title = v, width = width[v], height = height[v])
 
-  jaspBase:::.suppressGrDevice({
+  jaspBase::.suppressGrDevice({
 
     for (v in names(allNetworks)) {
 
@@ -834,13 +834,13 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   for (v in names(bootstrapResults)) {
 
     bt <- bootstrapResults[[v]]
-    p <- try(jaspBase:::.suppressGrDevice(plot(bt, statistic = statistic, order = "sample")))
+    p <- try(jaspBase::.suppressGrDevice(plot(bt, statistic = statistic, order = "sample")))
 
     # sometimes bootnet catches an error and returns a faulty ggplot object.
     # here we ensure that if there was any error, e contains that error.
     e <- p
     if (!isTryError(p))
-      e <- try(jaspBase:::.suppressGrDevice(print(p)))
+      e <- try(jaspBase::.suppressGrDevice(print(p)))
 
     if (isTryError(e)) {
       plotContainer[[v]]$setError(gettextf("bootnet crashed with the following error message:\n%s", .extractErrorMessage(e)))
@@ -1040,7 +1040,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   # for every dataset do the analysis
   for (nw in seq_along(dataset)) {
 
-    jaspBase:::.suppressGrDevice(
+    jaspBase::.suppressGrDevice(
       msg <- capture.output(
         network <- bootnet::estimateNetwork(
           data    = dataset[[nw]],
@@ -1207,7 +1207,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     if (layout == "data")
       layout <- "circle"
 
-    jaspBase:::.suppressGrDevice(layout <- qgraph::averageLayout(networks, layout = layout, repulsion = options[["repulsion"]]))
+    jaspBase::.suppressGrDevice(layout <- qgraph::averageLayout(networks, layout = layout, repulsion = options[["repulsion"]]))
     rownames(layout) <- .unv(colnames(networks[[1L]]))
 
   } else {
@@ -1299,12 +1299,19 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   noTicks <- if (options[["BootstrapType"]] == "jacknife") network[["network"]][[1L]][["nPerson"]] * nGraphs else options[["numberOfBootstraps"]] * nGraphs
 
   startProgressbar(noTicks * 2L, "Bootstrapping network")
+
+  original <- utils::setTxtProgressBar
+  on.exit(jaspBase:::assignFunctionInPackage(original, "setTxtProgressBar", "utils"))
+  jaspBase::assignFunctionInPackage(function(...) {
+    progressbarTick()
+  }, "setTxtProgressBar", "utils")
   tryCatch({
-    jaspBase:::.suppressGrDevice({
+    jaspBase::.suppressGrDevice({
       for (nm in names(allNetworks)) {
 
         # .networkAnalysisBootnetBootnet replaces bootnet::bootnet so we can have a progress bar
-        bootstrapResult[[nm]] <- .networkAnalysisBootnetBootnet(
+
+        bootstrapResult[[nm]] <- bootnet::bootnet(
           data       = allNetworks[[nm]],
           nBoots     = options[["numberOfBootstraps"]],
           type       = options[["BootstrapType"]],
@@ -1565,417 +1572,6 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 }
 
 # functions modified from bootnet ----
-# exact duplicate of bootnet::bootnet but with progressbar
-.networkAnalysisBootnetBootnet <- function(data, nBoots = 1000,
-                                           default = c("none", "EBICglasso", "pcor", "IsingFit", "IsingSampler", "huge", "adalasso", "mgm", "relimp", "cor"),
-                                           type = c("nonparametric", "parametric", "node", "person", "jackknife", "case"),
-                                           nCores = 1, statistics = c("edge", "strength", "closeness", "betweenness"), model = c("detect", "GGM", "Ising"),
-                                           fun, prepFun, prepArgs, estFun, estArgs, graphFun, graphArgs, intFun, intArgs, verbose = TRUE,
-                                           construct = c("default", "function", "arguments"), labels, alpha = 1, caseMin = 0.05,
-                                           caseMax = 0.75, caseN = 10, subNodes = 2:(ncol(data) - 1),
-                                           subCases = round((1 - seq(caseMin, caseMax, length = caseN)) *
-                                                              nrow(data)), computeCentrality = TRUE, propBoot = 1,
-                                           replacement = TRUE, graph, sampleSize, intercepts, weighted,
-                                           signed, directed, ...
-                                           #progressbar = NULL, resultsForProgressbar = NULL, callback = NULL
-
-) {
-  if (default[[1]] == "glasso")
-    default <- "EBICglasso"
-  default <- match.arg(default)
-  type <- match.arg(type)
-  if (type == "case")
-    type <- "person"
-  model <- match.arg(model)
-  if (missing(data)) {
-    if (type != "parametric") {
-      warning("'data' can only be missing if type = 'parametric'. Setting type = 'parametric' and performing parametric bootstrap instead.")
-      type <- "parametric"
-    }
-    if (missing(graph)) {
-      stop("'graph' may not be missing in parametric bootstrap when 'data' is missing.")
-    }
-    if (missing(sampleSize)) {
-      stop("'sampleSize' may not be missing in parametric bootstrap when 'data' is missing.")
-    }
-    N <- ncol(graph)
-    Np <- sampleSize
-    if (missing(intercepts)) {
-      intercepts <- rep(0, Np)
-    }
-    if (!missing(data)) {
-      warning("'data' is ignored when using manual parametric bootstrap.")
-      data <- NULL
-    }
-    manual <- TRUE
-    dots <- list(...)
-  }
-  else {
-    manual <- FALSE
-    if (is(data, "bootnetResult")) {
-      default <- data$default
-      inputCheck <- data$.input
-      fun <- data$estimator
-      dots <- data$arguments
-      if (missing(weighted)) {
-        weighted <- data$weighted
-      }
-      if (missing(signed)) {
-        signed <- data$signed
-      }
-      if (missing(directed)) {
-        directed <- data$directed
-      }
-      data <- data$data
-      N <- ncol(data)
-      Np <- nrow(data)
-    }
-    else {
-      dots <- list(...)
-      N <- ncol(data)
-      Np <- nrow(data)
-      fun <- NULL
-      if (!manual) {
-        goodColumns <- sapply(data, function(x) is.numeric(x) |
-                                is.ordered(x) | is.integer(x))
-        if (!all(goodColumns)) {
-          if (verbose) {
-            warning(paste0("Removing non-numeric columns: ",
-                           paste(which(!goodColumns), collapse = "; ")))
-          }
-          data <- data[, goodColumns, drop = FALSE]
-        }
-      }
-    }
-  }
-  inputCheck <- bootnet:::checkInput(default = default, fun = fun, prepFun = prepFun,
-                                     prepArgs = prepArgs, estFun = estFun, estArgs = estArgs,
-                                     graphFun = graphFun, graphArgs = graphArgs, intFun = intFun,
-                                     intArgs = intArgs, sampleSize = Np, construct = construct,
-                                     .dots = dots)
-  if (missing(weighted)) {
-    weighted <- TRUE
-  }
-  if (missing(signed)) {
-    signed <- TRUE
-  }
-  if (missing(directed)) {
-    if (!default %in% c("graphicalVAR", "relimp", "DAG"))
-      directed <- FALSE
-  }
-  if (type == "jackknife") {
-    message("Jacknife overwrites nBoot to sample size")
-    nBoots <- Np
-  }
-  if (type == "node" & N < 3) {
-    stop("Node-wise bootstrapping requires at least three nodes.")
-  }
-  if (!manual && !(is.data.frame(data) || is.matrix(data))) {
-    stop("'data' argument must be a data frame")
-  }
-  if (!manual && is.matrix(data)) {
-    data <- as.data.frame(data)
-  }
-  if (missing(labels)) {
-    if (manual) {
-      labels <- colnames(graph)
-      if (is.null(labels)) {
-        labels <- seq_len(ncol(graph))
-      }
-    }
-    else {
-      labels <- colnames(data)
-      if (is.null(labels)) {
-        labels <- seq_len(ncol(data))
-      }
-    }
-  }
-  if (type == "parametric" & model == "detect") {
-    if (manual) {
-      stop("'model' must be set in parametric bootstrap without 'data'.")
-    }
-    if (default != "none") {
-      model <- ifelse(grepl("ising", default, ignore.case = TRUE),
-                      "Ising", "GGM")
-    }
-    else {
-      model <- ifelse(any(grepl("ising", deparse(estFun),
-                                ignore.case = TRUE)), "Ising", "GGM")
-    }
-    message(paste0("model set to '", model, "'"))
-  }
-  if (!manual) {
-    if (verbose) {
-      message("Estimating sample network...")
-    }
-    sampleResult <- bootnet::estimateNetwork(data, default = default,
-                                             fun = inputCheck$estimator, .dots = inputCheck$arguments,
-                                             labels = labels, verbose = verbose, weighted = weighted,
-                                             signed = signed, .input = inputCheck)
-  }
-  else {
-    sampleResult <- list(graph = graph, intercepts = intercepts,
-                         labels = labels, nNodes = N, nPerson = Np, estimator = inputCheck$estimator,
-                         arguments = inputCheck$arguments, default = default,
-                         weighted = weighted, signed = signed)
-    class(sampleResult) <- c("bootnetResult", "list")
-  }
-  if (nCores == 1) {
-    bootResults <- vector("list", nBoots)
-    if (verbose) {
-      message("Bootstrapping...")
-      pb <- txtProgressBar(0, nBoots, style = 3)
-    }
-    for (b in seq_len(nBoots)) {
-      tryLimit <- 10
-      tryCount <- 0
-      repeat {
-        if (!type %in% c("node", "person")) {
-          nNode <- N
-          inSample <- seq_len(N)
-          if (type == "jackknife") {
-            bootData <- data[-b, , drop = FALSE]
-            nPerson <- Np - 1
-          }
-          else if (type == "parametric") {
-            nPerson <- Np
-            if (model == "Ising") {
-              bootData <- IsingSampler::IsingSampler(round(propBoot *
-                                                             Np), noDiag(sampleResult$graph), sampleResult$intercepts)
-            }
-            else if (model == "GGM") {
-              g <- -sampleResult$graph
-              diag(g) <- 1
-              bootData <- mvtnorm::rmvnorm(round(propBoot *
-                                                   Np), sigma = corpcor::pseudoinverse(g))
-            }
-            else stop(paste0("Model '", model, "' not supported."))
-          }
-          else {
-            nPerson <- Np
-            bootData <- data[sample(seq_len(Np), round(propBoot *
-                                                         Np), replace = replacement), ]
-          }
-        }
-        else if (type == "node") {
-          nPerson <- Np
-          nNode <- sample(subNodes, 1)
-          inSample <- sort(sample(seq_len(N), nNode))
-          bootData <- data[, inSample, drop = FALSE]
-        }
-        else {
-          nNode <- ncol(data)
-          nPerson <- sample(subCases, 1)
-          inSample <- 1:N
-          persSample <- sort(sample(seq_len(Np), nPerson))
-          bootData <- data[persSample, , drop = FALSE]
-        }
-        if (!missing(prepFun)) {
-          if (!missing(prepArgs) & is.list(prepArgs) &
-              identical(prepFun, qgraph::cor_auto)) {
-            prepArgs$verbose <- FALSE
-          }
-        }
-        res <- suppressWarnings(try({
-          bootnet::estimateNetwork(bootData, default = default,
-                                   fun = inputCheck$estimator, .dots = inputCheck$arguments,
-                                   labels = labels[inSample], verbose = FALSE,
-                                   weighted = weighted, signed = signed, .input = inputCheck,
-                                   memorysaver = TRUE)
-        }))
-        if (is(res, "try-error")) {
-          if (tryCount == tryLimit) {
-            stop("Maximum number of errors in bootstraps reached")
-          }
-          tryCount <- tryCount + 1
-        }
-        else {
-          break
-        }
-
-      }
-      bootResults[[b]] <- res
-
-      progressbarTick()
-
-      if (verbose) {
-        setTxtProgressBar(pb, b)
-      }
-    }
-    if (verbose) {
-      close(pb)
-    }
-  }
-  else {
-    if (verbose) {
-      message("Bootstrapping...")
-    }
-
-    if (missing(graph)) {
-      graph <- matrix(0, N, N)
-    }
-    if (missing(data)) {
-      data <- matrix(0, Np, N)
-    }
-    if (missing(intercepts)) {
-      intercepts <- rep(0, N)
-    }
-    if (missing(sampleSize)) {
-      sampleSize <- Np
-    }
-    # excl <- c("prepFun", "prepArgs", "estFun", "estArgs",
-    #           "graphFun", "graphArgs", "intFun", "intArgs", "fun")
-    # objects to export
-    # objToExport <- ls(all.names = TRUE)[!ls(all.names = TRUE) %in% c(excl, "cl", "...")]
-
-    # TODO: this won't work with jaspResults!
-    objToExport <- c("type", "data", "N", "Np", "model", "propBoot",
-                     "sampleResult", "replacement", "subNodes", "subCases",
-                     "default", "inputCheck", "labels", "weighted", "signed")
-
-    setup <- .makeParallelSetup(pb = progressbar, objs = objToExport, env = environment())
-    on.exit(eval(setup$stopCluster))
-    `%dopar%` <- setup$dopar
-    cl <- setup[["cl"]]
-
-    # snow::clusterExport(cl = cl, list = objToExport, envir = environment())
-
-    # bootResults <- parallel::parLapply(cl, seq_len(nBoots), function(b) {
-    bootResults <- tryCatch(foreach::foreach(
-      b = seq_len(nBoots),
-      .options.snow=setup$progress,
-      .inorder = FALSE,
-      # .export = objToExport,
-      .packages = c("bootnet", "mvtnorm", "corpcor"),
-      .verbose = TRUE
-    ) %dopar% {
-      tryLimit <- 10
-      tryCount <- 0
-      repeat {
-        if (!type %in% c("node", "person")) {
-          nNode <- ncol(data)
-          inSample <- seq_len(N)
-          if (type == "jackknife") {
-            bootData <- data[-b, , drop = FALSE]
-            nPerson <- Np - 1
-          }
-          else if (type == "parametric") {
-            nPerson <- Np
-            if (model == "Ising") {
-              bootData <- IsingSampler::IsingSampler(round(propBoot *
-                                                             Np), noDiag(sampleResult$graph), sampleResult$intercepts)
-            }
-            else if (model == "GGM") {
-              g <- -sampleResult$graph
-              diag(g) <- 1
-              bootData <- mvtnorm::rmvnorm(round(propBoot *
-                                                   Np), sigma = corpcor::pseudoinverse(g))
-            }
-            else stop(paste0("Model '", model, "' not supported."))
-          }
-          else {
-            nPerson <- Np
-            bootData <- data[sample(seq_len(Np), round(propBoot *
-                                                         Np), replace = replacement), ]
-          }
-        }
-        else if (type == "node") {
-          nPerson <- Np
-          nNode <- sample(subNodes, 1)
-          inSample <- sort(sample(seq_len(N), nNode))
-          bootData <- data[, inSample, drop = FALSE]
-        }
-        else {
-          nNode <- ncol(data)
-          nPerson <- sample(subCases, 1)
-          inSample <- 1:N
-          persSample <- sort(sample(seq_len(Np), nPerson))
-          bootData <- data[persSample, , drop = FALSE]
-        }
-        res <- suppressWarnings(try({
-          bootnet::estimateNetwork(bootData, default = default,
-                                   fun = inputCheck$estimator, .dots = inputCheck$arguments,
-                                   labels = labels[inSample], verbose = FALSE,
-                                   weighted = weighted, signed = signed, memorysaver = TRUE)
-        }))
-        if (is(res, "try-error")) {
-          if (tryCount == tryLimit)
-            stop("Maximum number of errors in bootstraps reached")
-          tryCount <- tryCount + 1
-        }
-        else {
-          break
-        }
-      }
-      return(res)
-    }, warning=function(w) w)
-
-    # if aborted
-    if (inherits(bootResults, "warning")) {
-      if (bootResults$message == gettext("progress function failed: Cancelled by callback")) {
-        return()
-      }
-    }
-  }
-
-
-  if (verbose) {
-    message("Computing statistics...")
-  }
-  statTableOrig <- bootnet:::statTable(sampleResult, name = "sample",
-                                       alpha = alpha, computeCentrality = computeCentrality,
-                                       statistics = statistics, directed = directed)
-  if (nCores == 1) {
-    if (verbose) {
-      pb <- txtProgressBar(0, nBoots, style = 3)
-    }
-    statTableBoots <- vector("list", nBoots)
-    for (b in seq_len(nBoots)) {
-      statTableBoots[[b]] <- bootnet:::statTable(bootResults[[b]],
-                                                 name = paste("boot", b), alpha = alpha, computeCentrality = computeCentrality,
-                                                 statistics = statistics, directed = directed)
-      progressbarTick()
-      if (verbose) {
-        setTxtProgressBar(pb, b)
-      }
-    }
-    if (verbose) {
-      close(pb)
-    }
-  }
-  else {
-
-    objToExport <- c("bootResults", "alpha", "computeCentrality",
-                     "statistics", "directed")
-    snow::clusterExport(cl = cl, list = objToExport, envir = environment())
-    statTableBoots <- tryCatch(foreach::foreach(
-      b = seq_len(nBoots),
-      .options.snow=setup$progress,
-      .inorder = FALSE,
-      # .export = objToExport,
-      .packages = c("bootnet"),
-      .verbose = TRUE
-    ) %dopar% {
-      bootnet:::statTable(bootResults[[b]], name = paste("boot", b),
-                          alpha = alpha, computeCentrality = computeCentrality,
-                          statistics = statistics, directed = directed)
-    }, warning=function(w) w)
-
-    # if aborted
-    if (inherits(bootResults, "warning")) {
-      if (bootResults$message == "progress function failed: Cancelled by callback") {
-        return()
-      }
-    }
-    parallel::stopCluster(cl)
-  }
-  Result <- list(sampleTable = dplyr::ungroup(statTableOrig),
-                 bootTable = dplyr::ungroup(dplyr::bind_rows(statTableBoots)),
-                 sample = sampleResult, boots = bootResults, type = type,
-                 sampleSize = Np)
-  class(Result) <- "bootnet"
-  return(Result)
-}
 
 # TODO: there is no init anymore. Does the remark below still apply???
 # direct copy of bootnet:::getRefs. Otherwise, bootnet namespace gets loaded on init which takes pretty long.
