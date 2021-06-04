@@ -17,7 +17,7 @@ Additional assumptions are required for some networks:
 ### Input
 ---
 
-#### Assignment Box 
+#### Assignment Box
 - Variables: In this box the dependent variables are selected.  
 - Split: Split by a categorical variable, such as experimental condition.
 
@@ -28,20 +28,17 @@ This analysis allows you to estimate not one type of network, but multiple. Supp
 - EBICglasso Networks (Foygel & Drton, 2010; Friedman, Hastie, & Tibshirani, 2008; Friedman, Hastie, & Tibshirani, 2014)
 - Huge: High-dimensional undirected graph estimation (Zhao et a., 2015).
 - Ising Networks (using IsingFit, van Borkulo et al., 2014; or IsingSampler, Epskamp, 2014; Epskamp, Borsboom & Maris, in Press).
-- Adaptive Lasso (Schaeafer & Boulesteix, 2009)
-- Mixed Graphical Models (Haslbeck & Waldorp, 2015).
+- mgm: Mixed Graphical Models (Haslbeck & Waldorp, 2015).
 
 #### Plots
 - Network plot: a plot of the estimated network.
-- Centrality plot: a plot of centrality measures of the estimated network.
+- Centrality plot: a plot of the centrality measures of the estimated network.
+- Clustering plot: a plot of the clustering measures of the estimated network. 
 
 #### Tables
 - Centrality table: a table containing the values of the centrality measures.
+- Clustering table: a table ocntaining the values of the clustering measures. 
 - Weights matrix: the estimates parameters, in the form of a matrix.
-- Layout matrix: the layout for each node in the network plot. If shown, the options "show variable names" can also be clicked to prefix the layout with the names.
-
-
-
 
 
 ### Analysis options
@@ -51,7 +48,8 @@ For each network method, options can be adjusted to influence the result. Only o
 - `Auto`: Automatically detect variable type and uses the most suitable correlation type. This will detect continuous, binary and ordinal variables and will use Pearson, tetrachoric or polychoric correlations.
 - `Cor`: Pearson correlation.
 - `Cov`: Covariances.
-- `Nonparanormal`: This will first apply the nonparanormal transformation to make all data normally distributed and then use Pearson correlations.
+- `Npn`: This will first apply the nonparanormal transformation to make all data normally distributed and then use Pearson correlations.
+- `Spearman`: Spearman correlation.
 
 #### Rule
 What 'rule' should be used to determine if an edge is present between two nodes?
@@ -109,6 +107,11 @@ What criterion should be used to fit the network? Available options are:
 - `CV`: Cross-validation.
 
 #### Sample Size
+- `Maximum`: Sets the sample size to the total number of rows including rows with NA's.
+- `Minimum`: Sets the sample size to the total number of rows excluding rows with NA's.
+- `Pairwise average`: Sets the sample size to the average of sample sizes used for each individual correlation.
+- `Pairwise maximum`: Sets the sample size to the largest sample size used for each individual correlation.
+- `Pairwise minimum`: Sets the sample size to the smallest sample size used for each individual correlation. 
 
 #### Network
 If you untick `Weighted`, the estimated network will only consist of positive (1) negative (-1) and absent (0) edges. If you untick `Signed`, the estimated network will only consist of positive edges. Note that the absolute value is taken of negative edges, to make them positive. If you untick both `Weighted` and `Signed` the network will say if there is an edge (1) or not (0).
@@ -119,20 +122,32 @@ Centralilty measures of a network can be difficult to compare. To facilitate thi
 
 
 ### Bootstrap options
-To investigate the stability of estimated networks, check `Bootstrap Network` underneath `Estimator`. Doing so will automatically bootstrap the edges of estimated network and their centrality. Additional options can be specified, such as the number of bootstraps and the type of bootstrap.
+To investigate the stability of estimated networks, check `Bootstrap Network` underneath `Estimator`. Doing so will automatically bootstrap the edges of estimated network and their centrality. Additional options can be specified, such as the number of bootstraps and the type of bootstrap. 
 
+
+#### Statistics 
+- `Edges`: a plot of the bootstrapped edges of the estimated network. 
+- `Centrality`: a plot of the bootstrapped centrality measures of the estimated network. 
+
+#### Bootstrap Type
+- `Nonparameteric`: Resampling from the data with replacement. 
+- `Case`: Case-dropping bootstrap (which is resampling with different subsets of the data)
+- `Node`:
+- `Parametric`:
+- `Person`:
+- `Jackknife`:
 
 ### Graphical options
 All options below modify the output from Network plot. Other figures and tables are not affected. To make Networks plots aesthetically pleasing, many options exist.
 
 #### Layout
-The layout of a network determines where the nodes are placed. By default the layout is set to `spring`, which implies the layout will be generated via the force-driven Fruchterman-Reingold algorithm (TODO: ref). This algorithm can be tweaked using the `repulsion` parameter; a larger repulsion increases the distance between adjacent nodes. Alternatively all nodes can be displayed in a circle by selecting the `circle` layout. A third option is called `data`. Here, coordinates can be supplied for the networks. The data should of the format "`variableName` = `group`", similarly to `Variable Type` and the `color nodes by`. For example, if a variable is called "A1" and should be plotted at x-coordinate 1 this becomes: "A1 = 1".
+The layout of a network determines where the nodes are placed. By default the layout is set to `spring`, which implies the layout will be generated via the force-driven Fruchterman-Reingold algorithm. This algorithm can be tweaked using the `repulsion` parameter; a larger repulsion increases the distance between adjacent nodes. Alternatively all nodes can be displayed in a circle by selecting the `circle` layout. A third option is called `data`. Here, coordinates can be supplied for the networks. The data should of the format "`variableName` = `group`", similarly to `Variable Type` and the `color nodes by`. For example, if a variable is called "A1" and should be plotted at x-coordinate 1 this becomes: "A1 = 1".
 
 #### Edges
 - `Edge size`: A multiplier on edge size (i.e. 2 is twice as big).
 - `minimum`: The (absolute) minimum edge strength to be displayed.
 - `maximum`: The (absolute) minimum edge strength to be displayed.
-- `cut`:
+- `cut`: Scales the width and the saturation of the edges. 
 - `show details`: If checked, `minimum`, `maximum`, and `cut` will be displayed on the network plot (if they were modified).
 - `color scheme`: What colors should be used for positive and negative edges?
 
@@ -167,7 +182,40 @@ When estimating a Mixed Graphical Model, the assumed distribution of a variable 
 
 ### Output
 -------
-TBA.
+
+#### Summary of the network
+The summary table shows the number of nodes (equal to the number of variables selected), the number of non-zero edges, and the sparsity. Sparsity is a value between 0 and 1, where te higher the sparsity, the more weakly connected the network.
+
+#### Network 
+The network plot under the specified Graphical Options. The stronger the association between nodes, the thicker and more saturated the edge is represented in the network. The coloring of the edges refers to the direction of the association: The default colors are blue and red, where blue edges represent positive associations and red edges negative associations. 
+
+#### Centrality plot
+The centrality plot shows the indices of all nodes for the three centrality measures betweenness, closeness and Strength. The indices are shown as standardzed z-scores. 
+
+#### Clustering plot 
+The clustering plot shows the indices of all nodes for the four clustering measures Barrat, Onnela, WS and Zhang.
+
+#### Centrality measures per variable
+The values of the centrality measures betweenness, closeness and strength are shown in a table. 
+
+#### Clustering measure per variable 
+The values of the clustering measures Barrat, Onnela, WS and Zhang are shown in a table. 
+
+#### Weights matrix
+The values of all the edge weights (i.e., strength of the associations between nodes in the network) are shown in a table. 
+
+#### Bootstrap summary of Network 
+The summary table shows the bootstrap method used and the number of bootstraps. 
+
+#### Edge stability 
+When the non-parmateric bootstrap is selected: The grey area shows the bootstrapped confidence intervals of the estimated edge weights for the estimated network. The red values (connected by the red line) indicate the sample mean values for the bootstrapped edge weights. The black values indicate the estimated edge weights. 
+
+When other bootstrap types are selected: The plot shows the correlation between the edge weights for estimated network and the bootstrapped network. The line indicates the mean correlation and the area around the line indicates the 2.5th till the 97.5th quantile. 
+
+#### Centrality Stability 
+When the non-parmateric bootstrap is selected: The plot shows per centrality measures the difference test (with an alpha of 0.05) between the estimated and bootstrapped centrality measures. Black boxes indicate that centrality measures differ significantly, while grey boxes indicate no significant difference. The numbers in the white boxes refer to the value of the node strenght. 
+
+When other bootstrap types are selected: The plot shows the average correlation between the centrality measures for the estimated network and the bootstrapped network. The lines indicates the mean correlation between centrality measures and the area around the indicates the 2.5th till the 97.5th quantile. 
 
 ### References
 -------
@@ -188,7 +236,7 @@ Chicago
 - Zhao, T., Li, X., Liu, H., Roeder, K., Lafferty, J., & Wasserman, L. (2015). huge: High-dimensional undirected graph estimation. Retrieved from https://CRAN.R-project.org/package=huge
 
 
-### R Packages 
+### R Packages
 ---
 - bootnet
 - glasso
