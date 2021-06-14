@@ -258,7 +258,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
     nw <- network[["network"]][[i]]
     df[["nodes"]][i]    <- nrow(nw[["graph"]])
-    df[["nonZero"]][i]  <- paste(sum(nw[["graph"]][upper.tri(nw[["graph"]], diag = FALSE)] != 0), "/", nVar * (nVar-1L) %/% 2)
+    df[["nonZero"]][i]  <- paste(sum(nw[["graph"]][upper.tri(nw[["graph"]], diag = FALSE)] != 0), "/", (nVar * (nVar-1L)) %/% 2)
     df[["Sparsity"]][i] <- mean(nw[["graph"]][upper.tri(nw[["graph"]], diag = FALSE)] == 0)
 
   }
