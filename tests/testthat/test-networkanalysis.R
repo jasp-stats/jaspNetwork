@@ -130,14 +130,14 @@ for (estimator in estimators) {
     skip_if_adalasso(estimator)
     plotName <- results[["results"]][["mainContainer"]][["collection"]][["mainContainer_bootstrapContainer"]][["collection"]][["mainContainer_bootstrapContainer_EdgeStabilityPlots"]][["collection"]][["mainContainer_bootstrapContainer_EdgeStabilityPlots_Network"]][["data"]]
     testPlot <- results[["state"]][["figures"]][[plotName]][["obj"]]
-    jaspTools::expect_equal_plots(testPlot, paste0(estimator, "-bootstrapped-edges"), dir="NetworkAnalysis")
+    jaspTools::expect_equal_plots(testPlot, paste0(estimator, "-bootstrapped-edges"))
   })
 
   test_that(paste0(estimator, ": Bootstrapped centrality plot matches"), {
     skip_if_adalasso(estimator)
     plotName <- results[["results"]][["mainContainer"]][["collection"]][["mainContainer_bootstrapContainer"]][["collection"]][["mainContainer_bootstrapContainer_StatisticsCentralityPlots"]][["collection"]][["mainContainer_bootstrapContainer_StatisticsCentralityPlots_Network"]][["data"]]
     testPlot <- results[["state"]][["figures"]][[plotName]][["obj"]]
-    jaspTools::expect_equal_plots(testPlot, paste0(estimator, "-bootstrapped-centrality"), dir="NetworkAnalysis")
+    jaspTools::expect_equal_plots(testPlot, paste0(estimator, "-bootstrapped-centrality"))
   })
 
   test_that(paste0(estimator, ": Centrality Plot matches"), {
@@ -145,7 +145,7 @@ for (estimator in estimators) {
     skip_if_adalasso(estimator)
     plotName <- results[["results"]][["mainContainer"]][["collection"]][["mainContainer_plotContainer"]][["collection"]][["mainContainer_plotContainer_centralityPlot"]][["data"]]
     testPlot <- results[["state"]][["figures"]][[plotName]][["obj"]]
-    jaspTools::expect_equal_plots(testPlot, paste0(estimator, "-centrality-plot"), dir="NetworkAnalysis")
+    jaspTools::expect_equal_plots(testPlot, paste0(estimator, "-centrality-plot"))
   })
 
   test_that(paste0(estimator, ": Clustering Plot matches"), {
@@ -153,7 +153,7 @@ for (estimator in estimators) {
     skip_if_adalasso(estimator)
     plotName <- results[["results"]][["mainContainer"]][["collection"]][["mainContainer_plotContainer"]][["collection"]][["mainContainer_plotContainer_clusteringPlot"]][["data"]]
     testPlot <- results[["state"]][["figures"]][[plotName]][["obj"]]
-    jaspTools::expect_equal_plots(testPlot, paste0(estimator, "-clustering-plot"), dir="NetworkAnalysis")
+    jaspTools::expect_equal_plots(testPlot, paste0(estimator, "-clustering-plot"))
   })
 
   test_that(paste0(estimator, ": Network plot matches"), {
@@ -162,7 +162,7 @@ for (estimator in estimators) {
     skip_if_adalasso(estimator)
     plotName <- results[["results"]][["mainContainer"]][["collection"]][["mainContainer_plotContainer"]][["collection"]][["mainContainer_plotContainer_networkPlotContainer"]][["collection"]][["mainContainer_plotContainer_networkPlotContainer_Network"]][["data"]]
     testPlot <- results[["state"]][["figures"]][[plotName]][["obj"]]
-    jaspTools::expect_equal_plots(testPlot, paste0(estimator, "-network-plot"), dir="NetworkAnalysis")
+    jaspTools::expect_equal_plots(testPlot, paste0(estimator, "-network-plot"))
   })
 }
 
