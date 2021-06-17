@@ -122,6 +122,6 @@
 <circle cx='412.72' cy='36.90' r='1.95' style='stroke-width: 0.71; stroke: #8B0000; fill: #8B0000;' />
 <text x='336.47' y='39.93' style='font-size: 8.80px; font-family: sans;' textLength='62.14px' lengthAdjust='spacingAndGlyphs'>Bootstrap mean</text>
 <text x='426.84' y='39.93' style='font-size: 8.80px; font-family: sans;' textLength='29.84px' lengthAdjust='spacingAndGlyphs'>Sample</text>
-<text x='50.40' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='253.19px' lengthAdjust='spacingAndGlyphs'>NetworkAnalysis-huge-bootstrapped-edges</text>
+<text x='50.40' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='151.20px' lengthAdjust='spacingAndGlyphs'>huge-bootstrapped-edges</text>
 </g>
 </svg>
