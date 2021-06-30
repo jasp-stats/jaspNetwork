@@ -1,0 +1,604 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Language: gl_ES\n"
+"X-Source-Language: C\n"
+"X-Qt-Contexts: true\n"
+
+msgctxt "NetworkAnalysis|"
+msgid "R"
+msgstr "R"
+
+msgctxt "NetworkAnalysis|"
+msgid "x"
+msgstr "x"
+
+msgctxt "NetworkAnalysis|"
+msgid "y"
+msgstr "y"
+
+msgctxt "NetworkAnalysis|"
+msgid "CV"
+msgstr "CV"
+
+msgctxt "NetworkAnalysis|"
+msgid "OR"
+msgstr "OU"
+
+msgctxt "NetworkAnalysis|"
+msgid "AND"
+msgstr "E"
+
+msgctxt "NetworkAnalysis|"
+msgid "Cor"
+msgstr "Cor"
+
+msgctxt "NetworkAnalysis|"
+msgid "Cov"
+msgstr "Cov"
+
+msgctxt "NetworkAnalysis|"
+msgid "Cut"
+msgstr "Cortar"
+
+msgctxt "NetworkAnalysis|"
+msgid "Npn"
+msgstr "Transformación Npn para datos Non Normais"
+
+msgctxt "NetworkAnalysis|"
+msgid "RIC"
+msgstr "CIR"
+
+msgctxt "NetworkAnalysis|"
+msgid "red"
+msgstr "vermello"
+
+msgctxt "NetworkAnalysis|"
+msgid "EBIC"
+msgstr "EBIC"
+
+msgctxt "NetworkAnalysis|"
+msgid "Case"
+msgstr "Caso"
+
+msgctxt "NetworkAnalysis|"
+msgid "Node"
+msgstr "Nodo"
+
+msgctxt "NetworkAnalysis|"
+msgid "Rule"
+msgstr "Regra"
+
+msgctxt "NetworkAnalysis|"
+msgid "blue"
+msgstr "azul"
+
+msgctxt "NetworkAnalysis|"
+msgid "huge"
+msgstr "enorme"
+
+msgctxt "NetworkAnalysis|"
+msgid "In plot"
+msgstr "Na gráfica"
+
+msgctxt "NetworkAnalysis|"
+msgid "Variables in network"
+msgstr "Variables na rede"
+
+msgctxt "NetworkAnalysis|"
+msgid "Edges"
+msgstr "Bordos"
+
+msgctxt "NetworkAnalysis|"
+msgid "Fried"
+msgstr "Fritido"
+
+msgctxt "NetworkAnalysis|"
+msgid "Group"
+msgstr "Grupo"
+
+msgctxt "NetworkAnalysis|"
+msgid "STARS"
+msgstr "STARS"
+
+msgctxt "NetworkAnalysis|"
+msgid "green"
+msgstr "verde"
+
+msgctxt "NetworkAnalysis|"
+msgid "Min edge strength"
+msgstr "Min. forza de marxe"
+
+msgctxt "NetworkAnalysis|"
+msgid "Max edge strength"
+msgstr "Max. forza de marxe"
+
+msgctxt "NetworkAnalysis|"
+msgid "Criterion"
+msgstr "Criterio"
+
+msgctxt "NetworkAnalysis|"
+msgid "Centrality table"
+msgstr "Táboa de centralidade"
+
+msgctxt "NetworkAnalysis|"
+msgid "Parallel Bootstrap"
+msgstr "Bootstrap paralelo"
+
+msgctxt "NetworkAnalysis|"
+msgid "Pseudo-likelihood"
+msgstr "Pseudo-verosimilitude"
+
+msgctxt "NetworkAnalysis|"
+msgid "Number of bootstraps"
+msgstr "Número de bootstraps"
+
+msgctxt "NetworkAnalysis|"
+msgid "Group color"
+msgstr "Cor do grupo"
+
+msgctxt "NetworkAnalysis|"
+msgid "Edge palette"
+msgstr "Paletas dos bordos"
+
+msgctxt "NetworkAnalysis|"
+msgid "Correlation Method"
+msgstr "Método de correlación"
+
+msgctxt "NetworkAnalysis|"
+msgid "Exclude listwise"
+msgstr "Excluír por liñas"
+
+msgctxt "NetworkAnalysis|"
+msgid "TeamFortress"
+msgstr "TeamFortress"
+
+msgctxt "NetworkAnalysis|"
+msgid "Node palette"
+msgstr "Paleta do nodo"
+
+msgctxt "NetworkAnalysis|"
+msgid "Hollywood"
+msgstr "Hollywood"
+
+msgctxt "NetworkAnalysis|"
+msgid "Expected Influence"
+msgstr "Influencia agardada"
+
+msgctxt "NetworkAnalysis|"
+msgid "Nonparametric"
+msgstr "Non paramétrico"
+
+msgctxt "NetworkAnalysis|"
+msgid "Clustering table"
+msgstr "Táboa dos conglomerados"
+
+msgctxt "NetworkAnalysis|"
+msgid "Using node shape"
+msgstr "Utilizar a forma de nodo"
+
+msgctxt "NetworkAnalysis|"
+msgid "Using node color"
+msgstr "Utilizar a cor do nodo"
+
+msgctxt "NetworkAnalysis|"
+msgid "Circle"
+msgstr "Círculo"
+
+msgctxt "NetworkAnalysis|"
+msgid "Count Variables"
+msgstr "Variables de reconto"
+
+msgctxt "NetworkAnalysis|"
+msgid "name for x-coordinates"
+msgstr "nome para as coordenadas x"
+
+msgctxt "NetworkAnalysis|"
+msgid "Legend to plot ratio"
+msgstr "Proporción da lenda coa gráfica"
+
+msgctxt "Description|"
+msgid "Network"
+msgstr "Rede"
+
+msgctxt "NetworkAnalysis|"
+msgid "Partial Correlation"
+msgstr "Correlación parcial"
+
+msgctxt "NetworkAnalysis|"
+msgid "Manual colors"
+msgstr "Cores manuais"
+
+msgctxt "NetworkAnalysis|"
+msgid "Layout"
+msgstr "Disposición"
+
+msgctxt "NetworkAnalysis|"
+msgid "Pastel"
+msgstr "Pastel"
+
+msgctxt "NetworkAnalysis|"
+msgid "Person"
+msgstr "Persoa"
+
+msgctxt "NetworkAnalysis|"
+msgid "Reddit"
+msgstr "Reddit"
+
+msgctxt "NetworkAnalysis|"
+msgid "Signed"
+msgstr "Asinado"
+
+msgctxt "NetworkAnalysis|"
+msgid "Spring"
+msgstr "Resorte"
+
+msgctxt "NetworkAnalysis|"
+msgid "Exclude pairwise"
+msgstr "Excluír por parellas"
+
+msgctxt "NetworkAnalysis|"
+msgid "Cross-validation"
+msgstr "Validación cruzada"
+
+msgctxt "NetworkAnalysis|"
+msgid "Show Variable Names"
+msgstr "Amosar os nomes das variables"
+
+msgctxt "NetworkAnalysis|"
+msgid "Edge label size"
+msgstr "Tamaño da etiqueta do bordo"
+
+msgctxt "NetworkAnalysis|"
+msgid "Closeness"
+msgstr "Proximidade"
+
+msgctxt "NetworkAnalysis|"
+msgid "In legend"
+msgstr "Na lenda"
+
+msgctxt "NetworkAnalysis|"
+msgid "No legend"
+msgstr "Sen lenda"
+
+msgctxt "NetworkAnalysis|"
+msgid "nFolds"
+msgstr "n-Pregos"
+
+msgctxt "NetworkAnalysis|"
+msgid "Centrality Measures"
+msgstr "Medidas de centralidade"
+
+msgctxt "NetworkAnalysis|"
+msgid "Bivariate regressions"
+msgstr "Regresións bivariantes"
+
+msgctxt "NetworkAnalysis|"
+msgid "Univariate regressions"
+msgstr "Regresións univariantes"
+
+msgctxt "NetworkAnalysis|"
+msgid "orange"
+msgstr "laranxa"
+
+msgctxt "NetworkAnalysis|"
+msgid "Edge labels"
+msgstr "Etiquetas dos bordos"
+
+msgctxt "NetworkAnalysis|"
+msgid "purple"
+msgstr "morado"
+
+msgctxt "NetworkAnalysis|"
+msgid "name for y-coordinates"
+msgstr "nome para as coordenadas y"
+
+msgctxt "NetworkAnalysis|"
+msgid "Repulsion"
+msgstr "Rexeitamento"
+
+msgctxt "NetworkAnalysis|"
+msgid "Measures shown in centrality plot"
+msgstr "Medidas amosadas na gráfica de centralidade"
+
+msgctxt "NetworkAnalysis|"
+msgid "yellow"
+msgstr "amarelo"
+
+msgctxt "NetworkAnalysis|"
+msgid "Parametric"
+msgstr "Paramétrico"
+
+msgctxt "NetworkAnalysis|"
+msgid "Clustering plot"
+msgstr "Gráfica dos conglomerados"
+
+msgctxt "NetworkAnalysis|"
+msgid "Tuning Parameter"
+msgstr "Parámetro de sintonización"
+
+msgctxt "NetworkAnalysis|"
+msgid "Analysis Options - "
+msgstr "Opcións de análise - "
+
+msgctxt "NetworkAnalysis|"
+msgid "Continuous Variables"
+msgstr "Variables continuas"
+
+msgctxt "NetworkAnalysis|"
+msgid "Rainbow"
+msgstr "Arco da vella"
+
+msgctxt "NetworkAnalysis|"
+msgid "Graphical Options"
+msgstr "Opcións gráficas"
+
+msgctxt "NetworkAnalysis|"
+msgid "New Group"
+msgstr "Novo grupo"
+
+msgctxt "NetworkAnalysis|"
+msgid "Borkulo"
+msgstr "Borkulo"
+
+msgctxt "NetworkAnalysis|"
+msgid "Scale label size"
+msgstr "Escalar o tamaño da etiqueta"
+
+msgctxt "NetworkAnalysis|"
+msgid "Abbreviate labels to "
+msgstr "Acurtar as etiquetas a "
+
+msgctxt "NetworkAnalysis|"
+msgid "Jackknife"
+msgstr "Jackknife"
+
+msgctxt "NetworkAnalysis|"
+msgid "Classic"
+msgstr "Clásico"
+
+msgctxt "NetworkAnalysis|"
+msgid "Node size"
+msgstr "Tamaño do nodo"
+
+msgctxt "NetworkAnalysis|"
+msgid "Edge label position"
+msgstr "Posición da etiqueta do bordo"
+
+msgctxt "NetworkAnalysis|"
+msgid "Ising Estimator"
+msgstr "Estimador Ising"
+
+msgctxt "NetworkAnalysis|"
+msgid "Categorical Variables"
+msgstr "Variables categóricas"
+
+msgctxt "NetworkAnalysis|"
+msgid "Show Variable Type"
+msgstr "Amosar o tipo de variable"
+
+msgctxt "NetworkAnalysis|"
+msgid "Centrality"
+msgstr "Centralidade"
+
+msgctxt "NetworkAnalysis|"
+msgid "Label size"
+msgstr "Tamaño da etiqueta"
+
+msgctxt "NetworkAnalysis|"
+msgid "Weighted"
+msgstr "Ponderado"
+
+msgctxt "NetworkAnalysis|"
+msgid "Betweenness"
+msgstr "Mediación"
+
+msgctxt "NetworkAnalysis|"
+msgid "Group name"
+msgstr "Nome do grupo"
+
+msgctxt "NetworkAnalysis|"
+msgid "Do not update layout"
+msgstr "Non actualizar a disposición"
+
+msgctxt "NetworkAnalysis|"
+msgid "Bootstrap Options"
+msgstr "Opcións de Bootstrap"
+
+msgctxt "NetworkAnalysis|"
+msgid "Settings"
+msgstr "Configuracións"
+
+msgctxt "NetworkAnalysis|"
+msgid "In plot number: "
+msgstr "Na gráfica número: "
+
+msgctxt "NetworkAnalysis|"
+msgid "Edge size"
+msgstr "Tamaño do bordo"
+
+msgctxt "NetworkAnalysis|"
+msgid "Network plot"
+msgstr "Gráfica en rede"
+
+msgctxt "NetworkAnalysis|"
+msgid "Centrality plot"
+msgstr "Gráfica de centralidade"
+
+msgctxt "NetworkAnalysis|"
+msgid "Loglinear"
+msgstr "Log-linear"
+
+msgctxt "NetworkAnalysis|"
+msgid "Save the layout in the data set"
+msgstr "Gardar o deseño do conxunto de datos"
+
+msgctxt "NetworkAnalysis|"
+msgid "Bootstrap network"
+msgstr "Rede Bootstrap"
+
+msgctxt "NetworkAnalysis|"
+msgid "Bootstrap Type"
+msgstr "Tipo de Bootstrap"
+
+msgctxt "NetworkAnalysis|"
+msgid "Don't show"
+msgstr "Non amosar"
+
+msgctxt "NetworkAnalysis|"
+msgid "All plots"
+msgstr "Todas as gráficas"
+
+msgctxt "NetworkAnalysis|"
+msgid "Weights matrix"
+msgstr "Matriz de ponderacións"
+
+msgctxt "NetworkAnalysis|"
+msgid "Show details"
+msgstr "Amosar os detalles"
+
+msgctxt "NetworkAnalysis|"
+msgid "Significant"
+msgstr "Significativo"
+
+msgctxt "Description|"
+msgid "Explore the connections between variables organized as a network"
+msgstr ""
+
+#, fuzzy
+msgctxt "NetworkAnalysis|"
+msgid "Dependent Variables"
+msgstr "Variables dependentes"
+
+#, fuzzy
+msgctxt "NetworkAnalysis|"
+msgid "Split"
+msgstr "Separador"
+
+#, fuzzy
+msgctxt "NetworkAnalysis|"
+msgid "Estimator"
+msgstr "Estimador"
+
+#, fuzzy
+msgctxt "NetworkAnalysis|"
+msgid "Correlation"
+msgstr "Correlación"
+
+#, fuzzy
+msgctxt "NetworkAnalysis|"
+msgid "Plots"
+msgstr "Gráficas"
+
+#, fuzzy
+msgctxt "NetworkAnalysis|"
+msgid "Tables"
+msgstr "Táboas"
+
+#, fuzzy
+msgctxt "NetworkAnalysis|"
+msgid "Auto"
+msgstr "Auto"
+
+#, fuzzy
+msgctxt "NetworkAnalysis|"
+msgid "Normalized"
+msgstr "Normalizado"
+
+#, fuzzy
+msgctxt "NetworkAnalysis|"
+msgid "Relative"
+msgstr "Relativo"
+
+#, fuzzy
+msgctxt "NetworkAnalysis|"
+msgid "Raw"
+msgstr "Bruto"
+
+#, fuzzy
+msgctxt "NetworkAnalysis|"
+msgid "Network"
+msgstr "Rede"
+
+#, fuzzy
+msgctxt "NetworkAnalysis|"
+msgid "Missing Values"
+msgstr "Valores ausentes"
+
+#, fuzzy
+msgctxt "NetworkAnalysis|"
+msgid "Sample Size"
+msgstr "Tamaño da mostra"
+
+#, fuzzy
+msgctxt "NetworkAnalysis|"
+msgid "Maximum"
+msgstr "Máximo"
+
+#, fuzzy
+msgctxt "NetworkAnalysis|"
+msgid "Minimum"
+msgstr "Mínimo"
+
+#, fuzzy
+msgctxt "NetworkAnalysis|"
+msgid "Median"
+msgstr "Mediana"
+
+#, fuzzy
+msgctxt "NetworkAnalysis|"
+msgid "Mean"
+msgstr "Media"
+
+#, fuzzy
+msgctxt "NetworkAnalysis|"
+msgid "Value"
+msgstr "Valor"
+
+#, fuzzy
+msgctxt "NetworkAnalysis|"
+msgid "Threshold"
+msgstr "Valor límite"
+
+#, fuzzy
+msgctxt "NetworkAnalysis|"
+msgid "Method"
+msgstr "Método"
+
+#, fuzzy
+msgctxt "NetworkAnalysis|"
+msgid "Statistics"
+msgstr "Estatísticos"
+
+#, fuzzy
+msgctxt "NetworkAnalysis|"
+msgid "Colorblind"
+msgstr "Daltonismo"
+
+#, fuzzy
+msgctxt "NetworkAnalysis|"
+msgid "Gray"
+msgstr "Gris"
+
+#, fuzzy
+msgctxt "NetworkAnalysis|"
+msgid "ggplot2"
+msgstr "ggplot2"
+
+#, fuzzy
+msgctxt "NetworkAnalysis|"
+msgid "Labels"
+msgstr "Etiquetas"
+
+#, fuzzy
+msgctxt "NetworkAnalysis|"
+msgid "Legend"
+msgstr "Lenda"
+
+#, fuzzy
+msgctxt "NetworkAnalysis|"
+msgid "Data"
+msgstr "Datos"
