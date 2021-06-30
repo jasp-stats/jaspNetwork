@@ -1,0 +1,231 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2021-05-07 11:21\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: gl_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Virgin-Header: remove this line if you change anything in the header.\n"
+"X-Language: gl_ES\n"
+"X-Source-Language: C\n"
+"X-Generator: Poedit 2.3\n"
+
+msgid ""
+"After binarizing the data too little variance remained in variable(s): %s."
+msgstr ""
+
+msgid "Summary of Network"
+msgstr ""
+
+msgid "Network"
+msgstr "Rede"
+
+#, fuzzy
+msgid "Number of nodes"
+msgstr "Número de árbores"
+
+#, fuzzy
+msgid "Number of non-zero edges"
+msgstr "Número de árbores"
+
+msgid "Sparsity"
+msgstr ""
+
+msgid "Data was binarized using %s."
+msgstr ""
+
+msgid "Only the first %d values of %s were used to color nodes (%d provided)."
+msgstr ""
+
+msgid "<em>Warning: </em>"
+msgstr ""
+
+msgid ""
+"Minimum edge strength ignored in the network plot because it was larger than "
+"the absolute value of the strongest edge."
+msgstr ""
+
+msgid ""
+"Minimum edge strength ignored in the network plot of group%1$s %2$s because "
+"it was larger than the absolute value of the strongest edge."
+msgstr ""
+
+msgid ""
+"Bootstrapping is only done when 'Bootstrap network' is ticked and 'Number of "
+"Bootstraps' is larger than 0."
+msgstr ""
+
+#, fuzzy
+msgid "Centrality measures per variable"
+msgstr "Medidas de centralidade"
+
+msgid "Variable"
+msgstr "Variable"
+
+msgid "Betweenness"
+msgstr "Mediación"
+
+msgid "Closeness"
+msgstr "Proximidade"
+
+msgid "Strength"
+msgstr ""
+
+#, fuzzy
+msgid "Expected influence"
+msgstr "Influencia agardada"
+
+msgid "Barrat"
+msgstr ""
+
+msgid "Onnela"
+msgstr ""
+
+#, fuzzy
+msgid "WS"
+msgstr "MCP (WLS)"
+
+msgid "Zhang"
+msgstr ""
+
+#, fuzzy
+msgid "Clustering measures per variable"
+msgstr "Táboa dos conglomerados"
+
+msgid "Clustering measures could not be computed for network%1$s: %2$s"
+msgstr ""
+
+msgid "Weights matrix"
+msgstr "Matriz de ponderacións"
+
+#, fuzzy
+msgid "Bootstrap summary of Network"
+msgstr "Rede Bootstrap"
+
+msgid "Type"
+msgstr "Tipo"
+
+msgid "Number of bootstraps"
+msgstr "Número de bootstraps"
+
+#, fuzzy
+msgid "Centrality Plot"
+msgstr "Gráfica de centralidade"
+
+#, fuzzy
+msgid "Clustering Plot"
+msgstr "Gráfica dos conglomerados"
+
+#, fuzzy
+msgid "Network Plots"
+msgstr "Gráfica en rede"
+
+#, fuzzy
+msgid "Network Plot"
+msgstr "Gráfica en rede"
+
+#, fuzzy
+msgid "Edge Stability"
+msgstr "Repetibilidade"
+
+#, fuzzy
+msgid "Centrality Stability"
+msgstr "Táboa de centralidade"
+
+#, fuzzy
+msgid ""
+"bootnet crashed with the following error message:\n"
+"%s"
+msgstr ""
+"Cargando os paquetes para o Módulo %1 houbo un fallo coa seguinte mensaxe:\n"
+" %2"
+
+msgid ""
+"Please drag all variables to a particular type under \"Analysis options\"."
+msgstr ""
+
+msgid ""
+"Coefficient could not be standardized because the variance is too small."
+msgstr ""
+
+msgid "Please supply a name for both the x and y-coordinates of the layout."
+msgstr ""
+
+msgid "Some variables did not contain char (%s)"
+msgstr ""
+
+msgid "Some variables were not matched in the column names of the dataset."
+msgstr ""
+
+msgid ""
+"Data supplied in %s cannot be used to determine variables types. Data should:"
+msgstr ""
+
+msgid "<ul><li>start with the column name of the variable.</ul></li>"
+msgstr ""
+
+msgid ""
+"<ul><li>contain an '=' to distinguish between column name and data type.</"
+"ul></li>"
+msgstr ""
+
+msgid ""
+"<ul><li>end with either 'g' for Gaussian, 'c' for categorical, or 'p' for "
+"Poisson.</ul></li>"
+msgstr ""
+
+msgid ""
+"Supplied data for layout was not understood and instead a circle layout was "
+"used."
+msgstr ""
+
+msgid ""
+"Data supplied in %1$s AND %2$s could not be used to determine node locations."
+msgstr ""
+
+msgid "Data supplied in %s could not be used to determine node locations."
+msgstr ""
+
+msgid ""
+"%1$s %2$s Data should only contain numeric:\n"
+"                 -start with the column name of the variable.\n"
+"                 -contain an '=' to distinguish between column name and "
+"coordinate."
+msgstr ""
+
+msgid ""
+"Data supplied in %s could not be used to determine variables types. Data "
+"should: \n"
+"- Start with the column name of the variable. \n"
+"- Contain an '=' to distinghuish betweem column name and group."
+msgstr ""
+
+msgid ""
+"Some entries of %1$s were not understood. These are now grouped under '%2$s'."
+msgstr ""
+
+msgid ""
+"bootnet crashed with the following error message:\n"
+"%s. <ul><li>Please check if there are variables in the network with little "
+"variance or few distinct observations.</li></ul>"
+msgstr ""
+
+msgid "%1$s X-Coordinates for variable %2$s was not understood."
+msgid_plural "%1$s X-Coordinates for variables %2$s were not understood."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "%1$s Y-Coordinates for variable %2$s was not understood."
+msgid_plural "%1$s Y-Coordinates for variables %2$s were not understood."
+msgstr[0] ""
+msgstr[1] ""
+
