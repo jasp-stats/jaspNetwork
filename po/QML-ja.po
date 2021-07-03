@@ -1,25 +1,15 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2021-01-26 01:32+0000\n"
-"Last-Translator: Koji Kosugi <kosugitti@gmail.com>\n"
-"Language-Team: Japanese <https://hosted.weblate.org/projects/jasp/"
-"jaspnetwork-qml/ja/>\n"
-"Language: ja\n"
-"X-Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.5-dev\n"
+"X-Language: ja\n"
 "X-Qt-Contexts: true\n"
 
 msgctxt "Description|"
 msgid "Network"
 msgstr "ネットワーク"
-
-msgctxt "Description|"
-msgid "Network module."
-msgstr ""
 
 msgctxt "NetworkAnalysis|"
 msgid "Dependent Variables"
@@ -117,9 +107,10 @@ msgctxt "NetworkAnalysis|"
 msgid "Raw"
 msgstr ""
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Network"
-msgstr ""
+msgstr "ネットワーク"
 
 msgctxt "NetworkAnalysis|"
 msgid "Weighted"
@@ -579,4 +570,8 @@ msgstr ""
 
 msgctxt "NetworkAnalysis|"
 msgid "name for y-coordinates"
+msgstr ""
+
+msgctxt "Description|"
+msgid "Explore the connections between variables organized as a network"
 msgstr ""
