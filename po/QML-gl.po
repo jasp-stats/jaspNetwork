@@ -1,9 +1,15 @@
 msgid ""
 msgstr ""
+"PO-Revision-Date: 2021-07-10 18:33+0000\n"
+"Last-Translator: ecadrian <ecadrian@hotmail.com>\n"
+"Language-Team: Galician <https://hosted.weblate.org/projects/jasp/"
+"jaspnetwork-qml/gl/>\n"
+"Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.8-dev\n"
 "X-Language: gl_ES\n"
 "X-Source-Language: C\n"
 "X-Qt-Contexts: true\n"
@@ -434,7 +440,7 @@ msgstr "Log-linear"
 
 msgctxt "NetworkAnalysis|"
 msgid "Save the layout in the data set"
-msgstr "Gardar o deseño do conxunto de datos"
+msgstr "Gardar a disposición do conxunto de datos"
 
 msgctxt "NetworkAnalysis|"
 msgid "Bootstrap network"
@@ -466,139 +472,112 @@ msgstr "Significativo"
 
 msgctxt "Description|"
 msgid "Explore the connections between variables organized as a network"
-msgstr ""
+msgstr "Explorar as conexións entre variables organizadas como unha rede"
 
-#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Dependent Variables"
-msgstr "Variables dependentes"
+msgstr "Variables Dependentes"
 
-#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Split"
 msgstr "Separador"
 
-#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Estimator"
 msgstr "Estimador"
 
-#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Correlation"
 msgstr "Correlación"
 
-#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Plots"
 msgstr "Gráficas"
 
-#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Tables"
 msgstr "Táboas"
 
-#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Auto"
 msgstr "Auto"
 
-#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Normalized"
 msgstr "Normalizado"
 
-#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Relative"
 msgstr "Relativo"
 
-#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Raw"
 msgstr "Bruto"
 
-#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Network"
 msgstr "Rede"
 
-#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Missing Values"
-msgstr "Valores ausentes"
+msgstr "Valores Ausentes"
 
-#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Sample Size"
-msgstr "Tamaño da mostra"
+msgstr "Tamaño da Mostra"
 
-#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Maximum"
 msgstr "Máximo"
 
-#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Minimum"
 msgstr "Mínimo"
 
-#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Median"
 msgstr "Mediana"
 
-#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Mean"
 msgstr "Media"
 
-#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Value"
 msgstr "Valor"
 
-#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Threshold"
-msgstr "Valor límite"
+msgstr "Limiar"
 
-#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Method"
 msgstr "Método"
 
-#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Statistics"
 msgstr "Estatísticos"
 
-#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Colorblind"
 msgstr "Daltonismo"
 
-#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Gray"
 msgstr "Gris"
 
-#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "ggplot2"
 msgstr "ggplot2"
 
-#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Labels"
 msgstr "Etiquetas"
 
-#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Legend"
 msgstr "Lenda"
 
-#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Data"
 msgstr "Datos"
