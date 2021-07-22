@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2021-05-07 11:21\n"
-"PO-Revision-Date: 2021-07-15 17:32+0000\n"
+"PO-Revision-Date: 2021-07-22 19:33+0000\n"
 "Last-Translator: ecadrian <ecadrian@hotmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/jasp/"
 "jaspnetwork-r/gl/>\n"
@@ -40,35 +40,42 @@ msgid "Number of non-zero edges"
 msgstr "Número de bordes non nulos"
 
 msgid "Sparsity"
-msgstr ""
+msgstr "Exigüidade"
 
 msgid "Data was binarized using %s."
-msgstr ""
+msgstr "Fixéronse binarios os datos utilizando %s."
 
 msgid "Only the first %d values of %s were used to color nodes (%d provided)."
 msgstr ""
+"Só se utilizaron os primeiros %d valores de %s para colorear os nodos (%d "
+"subministrados)."
 
 msgid "<em>Warning: </em>"
-msgstr ""
+msgstr "<em>Aviso: </em>"
 
 msgid ""
 "Minimum edge strength ignored in the network plot because it was larger than "
 "the absolute value of the strongest edge."
 msgstr ""
+"Ignorouse a resistencia mínima da beira na gráfica da rede porque era maior "
+"que o valor absoluto da beira máis resistente."
 
 msgid ""
 "Minimum edge strength ignored in the network plot of group%1$s %2$s because "
 "it was larger than the absolute value of the strongest edge."
 msgstr ""
+"Ignorouse a resistencia mínima da beira na gráfica da rede do grupo%1$s %2$s "
+"porque era maior que o valor absoluto da beira máis resistente."
 
 msgid ""
 "Bootstrapping is only done when 'Bootstrap network' is ticked and 'Number of "
 "Bootstraps' is larger than 0."
 msgstr ""
+"O Bootstrapping só se fai cando está marcada a 'rede de Bootstrap', e o "
+"'Número de Bootstraps' é maior que 0."
 
-#, fuzzy
 msgid "Centrality measures per variable"
-msgstr "Medidas de centralidade"
+msgstr "Medidas de centrado por variable"
 
 msgid "Variable"
 msgstr "Variable"
@@ -80,38 +87,35 @@ msgid "Closeness"
 msgstr "Proximidade"
 
 msgid "Strength"
-msgstr ""
+msgstr "Resistencia"
 
-#, fuzzy
 msgid "Expected influence"
 msgstr "Influencia agardada"
 
 msgid "Barrat"
-msgstr ""
+msgstr "Barrat"
 
 msgid "Onnela"
-msgstr ""
+msgstr "Onnela"
 
-#, fuzzy
 msgid "WS"
-msgstr "MCP (WLS)"
+msgstr "WS"
 
 msgid "Zhang"
-msgstr ""
+msgstr "Zhang"
 
-#, fuzzy
 msgid "Clustering measures per variable"
-msgstr "Táboa dos conglomerados"
+msgstr "Medidas dos conglomerados por variable"
 
 msgid "Clustering measures could not be computed for network%1$s: %2$s"
 msgstr ""
+"Non se poden calcular as medidas dos conglomerados para a rede%1$s: %2$s"
 
 msgid "Weights matrix"
 msgstr "Matriz de ponderacións"
 
-#, fuzzy
 msgid "Bootstrap summary of Network"
-msgstr "Rede Bootstrap"
+msgstr "Resumo do Bootstrap da Rede"
 
 msgid "Type"
 msgstr "Tipo"
@@ -119,45 +123,41 @@ msgstr "Tipo"
 msgid "Number of bootstraps"
 msgstr "Número de bootstraps"
 
-#, fuzzy
 msgid "Centrality Plot"
-msgstr "Gráfica de centralidade"
+msgstr "Gráfica de Centrado"
 
-#, fuzzy
 msgid "Clustering Plot"
-msgstr "Gráfica dos conglomerados"
+msgstr "Gráfica dos Conglomerados"
 
-#, fuzzy
 msgid "Network Plots"
-msgstr "Gráfica en rede"
+msgstr "Gráficas das Redes"
 
-#, fuzzy
 msgid "Network Plot"
-msgstr "Gráfica en rede"
+msgstr "Gráfica da Rede"
 
-#, fuzzy
 msgid "Edge Stability"
-msgstr "Repetibilidade"
+msgstr "Estabilidade da Beira"
 
-#, fuzzy
 msgid "Centrality Stability"
-msgstr "Táboa de centralidade"
+msgstr "Estabilidade do Centrado"
 
-#, fuzzy
 msgid ""
 "bootnet crashed with the following error message:\n"
 "%s"
 msgstr ""
-"Cargando os paquetes para o Módulo %1 houbo un fallo coa seguinte mensaxe:\n"
-" %2"
+"bootnet rachou coa seguinte mensaxe de fallo:\n"
+"%s"
 
 msgid ""
 "Please drag all variables to a particular type under \"Analysis options\"."
 msgstr ""
+"Por favor, arrastra todas as variables a un tipo concreto baixo as \"Opcións "
+"de análise\"."
 
 msgid ""
 "Coefficient could not be standardized because the variance is too small."
 msgstr ""
+"O coeficiente non se puido tipificar porque a varianza é pequena de máis."
 
 msgid "Please supply a name for both the x and y-coordinates of the layout."
 msgstr ""
@@ -165,7 +165,7 @@ msgstr ""
 "disposición."
 
 msgid "Some variables did not contain char (%s)"
-msgstr ""
+msgstr "Algunhas variables non contiñan char (%s)"
 
 msgid "Some variables were not matched in the column names of the dataset."
 msgstr ""
@@ -175,6 +175,8 @@ msgstr ""
 msgid ""
 "Data supplied in %s cannot be used to determine variables types. Data should:"
 msgstr ""
+"Os datos subministrados en %s non se poden utilizar para determinar os tipos "
+"da variables. Os datos deberían:"
 
 msgid "<ul><li>start with the column name of the variable.</ul></li>"
 msgstr "<ul><li>comeza co nome de columna da variable.</ul></li>"
@@ -190,6 +192,8 @@ msgid ""
 "<ul><li>end with either 'g' for Gaussian, 'c' for categorical, or 'p' for "
 "Poisson.</ul></li>"
 msgstr ""
+"<ul><li>rematar con 'g' para Normal, 'c' para Categórica ou 'p' para "
+"Poisson.</ul></li>"
 
 msgid ""
 "Supplied data for layout was not understood and instead a circle layout was "
@@ -201,9 +205,13 @@ msgstr ""
 msgid ""
 "Data supplied in %1$s AND %2$s could not be used to determine node locations."
 msgstr ""
+"Os datos subministrados en %1$s E %2$s non se poden utilizar para determinar "
+"as posicións dos nodos."
 
 msgid "Data supplied in %s could not be used to determine node locations."
 msgstr ""
+"Os datos subministrados en %s non se poden utilizar para determinar as "
+"posicións dos nodos."
 
 msgid ""
 "%1$s %2$s Data should only contain numeric:\n"
@@ -230,19 +238,24 @@ msgstr ""
 msgid ""
 "Some entries of %1$s were not understood. These are now grouped under '%2$s'."
 msgstr ""
+"Algunhas entradas de %1$s non se entenderon. Agora están agrupadas baixo "
+"'%2$s'."
 
 msgid ""
 "bootnet crashed with the following error message:\n"
 "%s. <ul><li>Please check if there are variables in the network with little "
 "variance or few distinct observations.</li></ul>"
 msgstr ""
+"bootnet rachou coa seguinte mensaxe de fallo:\n"
+"%s. <ul><li>Por favor, comproba se hai variables na rede con varianza "
+"pequena ou con poucas observacións distintas.</li></ul>"
 
 msgid "%1$s X-Coordinates for variable %2$s was not understood."
 msgid_plural "%1$s X-Coordinates for variables %2$s were not understood."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1$s A coordenada X para a variable %2$s non se entendeu."
+msgstr[1] "%1$s As coordenadas X para as variables %2$s non se entenderon."
 
 msgid "%1$s Y-Coordinates for variable %2$s was not understood."
 msgid_plural "%1$s Y-Coordinates for variables %2$s were not understood."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1$s A coordenada Y para a variable %2$s non se entendeu."
+msgstr[1] "%1$s As coordenadas X para as variables %2$s non se entenderon."
