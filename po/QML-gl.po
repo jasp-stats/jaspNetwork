@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2021-07-19 17:58+0000\n"
+"PO-Revision-Date: 2021-07-22 19:33+0000\n"
 "Last-Translator: ecadrian <ecadrian@hotmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/jasp/"
 "jaspnetwork-qml/gl/>\n"
@@ -128,7 +128,7 @@ msgstr "Criterio"
 
 msgctxt "NetworkAnalysis|"
 msgid "Centrality table"
-msgstr "Táboa de centralidade"
+msgstr "Táboa de Centrado"
 
 msgctxt "NetworkAnalysis|"
 msgid "Parallel Bootstrap"
@@ -276,7 +276,7 @@ msgstr "n-Pregos"
 
 msgctxt "NetworkAnalysis|"
 msgid "Centrality Measures"
-msgstr "Medidas de centralidade"
+msgstr "Medidas de centrado"
 
 msgctxt "NetworkAnalysis|"
 msgid "Bivariate regressions"
@@ -308,7 +308,7 @@ msgstr "Rexeitamento"
 
 msgctxt "NetworkAnalysis|"
 msgid "Measures shown in centrality plot"
-msgstr "Medidas amosadas na gráfica de centralidade"
+msgstr "Medidas amosadas na gráfica de centrado"
 
 msgctxt "NetworkAnalysis|"
 msgid "yellow"
@@ -388,7 +388,7 @@ msgstr "Amosar o tipo de variable"
 
 msgctxt "NetworkAnalysis|"
 msgid "Centrality"
-msgstr "Centralidade"
+msgstr "Centrado"
 
 msgctxt "NetworkAnalysis|"
 msgid "Label size"
@@ -432,7 +432,7 @@ msgstr "Gráfica en rede"
 
 msgctxt "NetworkAnalysis|"
 msgid "Centrality plot"
-msgstr "Gráfica de centralidade"
+msgstr "Gráfica de centrado"
 
 msgctxt "NetworkAnalysis|"
 msgid "Loglinear"
