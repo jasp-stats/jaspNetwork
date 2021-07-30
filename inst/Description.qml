@@ -17,6 +17,17 @@ Description
 	Analysis
 	{
 		title:	qsTr("Network")
+		qml:  "NetworkAnalysis.qml"
 		func:	"NetworkAnalysis"
 	}
+	
+	Separator {}
+	
+	Analysis
+	{
+		title:	qsTr("Bayesian Network")
+		qml: "BayesianNetworkAnalysis.qml"
+		func:	"BayesianNetworkAnalysis"
+	}
+	
 }
