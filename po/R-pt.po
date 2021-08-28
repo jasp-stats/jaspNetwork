@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: R 3.6.1\n"
 "Report-Msgid-Bugs-To: github.com/jasp-stats/jasp-issues/issues\n"
 "POT-Creation-Date: 2021-05-07 11:21\n"
-"PO-Revision-Date: 2021-05-23 12:34+0000\n"
-"Last-Translator: Alex França <alex.tonante@gmail.com>\n"
+"PO-Revision-Date: 2021-08-27 20:21+0000\n"
+"Last-Translator: Laura Durans <lauraadurans@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/jasp/"
 "jaspnetwork-r/pt/>\n"
 "Language: pt\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.7-dev\n"
+"X-Generator: Weblate 4.8.1-dev\n"
 "X-Language: en_US\n"
 "X-Source-Language: American English\n"
 "X-Qt-Contexts: true\n"
@@ -26,18 +26,15 @@ msgstr ""
 msgid "Summary of Network"
 msgstr ""
 
-#, fuzzy
 msgid "Network"
 msgstr "Rede"
 
-#, fuzzy
 msgid "Number of nodes"
 msgstr "Número de nós"
 
 msgid "Number of non-zero edges"
 msgstr ""
 
-#, fuzzy
 msgid "Sparsity"
 msgstr "Esparsidade"
 
@@ -47,7 +44,6 @@ msgstr ""
 msgid "Only the first %d values of %s were used to color nodes (%d provided)."
 msgstr ""
 
-#, fuzzy
 msgid "<em>Warning: </em>"
 msgstr "<em>Aviso:</em>"
 
@@ -72,27 +68,21 @@ msgstr ""
 msgid "Variable"
 msgstr "Variável"
 
-#, fuzzy
 msgid "Betweenness"
 msgstr "Intermediação"
 
-#, fuzzy
 msgid "Closeness"
 msgstr "Proximidade"
 
-#, fuzzy
 msgid "Strength"
 msgstr "Força"
 
-#, fuzzy
 msgid "Expected influence"
 msgstr "Influência esperada"
 
-#, fuzzy
 msgid "Barrat"
 msgstr "Barrat"
 
-#, fuzzy
 msgid "Onnela"
 msgstr "Onnela"
 
@@ -100,54 +90,44 @@ msgstr "Onnela"
 msgid "WS"
 msgstr "WLS"
 
-#, fuzzy
 msgid "Zhang"
 msgstr "Zhang"
 
-#, fuzzy
 msgid "Clustering measures per variable"
 msgstr "Medidas de agrupamento por variável"
 
-#, fuzzy
 msgid "Clustering measures could not be computed for network%1$s: %2$s"
-msgstr "As medidas de agrupamento não puderam ser computadas ...."
+msgstr ""
+"As medidas de agrupamento não puderam ser calculadas para a rede%1$s: %2$s"
 
-#, fuzzy
 msgid "Weights matrix"
 msgstr "Matriz de ponderação"
 
 msgid "Bootstrap summary of Network"
 msgstr ""
 
-#, fuzzy
 msgid "Type"
-msgstr "Type"
+msgstr "Tipo"
 
 #, fuzzy
 msgid "Number of bootstraps"
 msgstr "bootstraps"
 
-#, fuzzy
 msgid "Centrality Plot"
 msgstr "Gráfico de centralidade"
 
-#, fuzzy
 msgid "Clustering Plot"
 msgstr "Gráfico de agrupamento"
 
-#, fuzzy
 msgid "Network Plots"
 msgstr "Gráficos de rede"
 
-#, fuzzy
 msgid "Network Plot"
 msgstr "Gráfico de rede"
 
-#, fuzzy
 msgid "Edge Stability"
 msgstr "Estabilidade de borda"
 
-#, fuzzy
 msgid "Centrality Stability"
 msgstr "Estabilidade central"
 
@@ -156,7 +136,6 @@ msgid ""
 "%s"
 msgstr ""
 
-#, fuzzy
 msgid ""
 "Please drag all variables to a particular type under \"Analysis options\"."
 msgstr ""
@@ -168,40 +147,33 @@ msgid ""
 msgstr ""
 "O coeficiente não pôde ser padronizado pois a variância é muito pequena."
 
-#, fuzzy
 msgid "Please supply a name for both the x and y-coordinates of the layout."
 msgstr "Por favor, forneça nomes para as coordenadas x e y do layout."
 
-#, fuzzy
 msgid "Some variables did not contain char (%s)"
 msgstr "Algumas variáveis não continham char (%s)"
 
-#, fuzzy
 msgid "Some variables were not matched in the column names of the dataset."
 msgstr ""
 "Algumas variáveis não tiveram correspondência nos nomes das colunas do "
 "conjunto de dados."
 
-#, fuzzy
 msgid ""
 "Data supplied in %s cannot be used to determine variables types. Data should:"
 msgstr ""
 "Os dados fornecidos em %s não podem ser utilizados para determinar tipos de "
 "variáveis. Os dados devem:"
 
-#, fuzzy
 msgid "<ul><li>start with the column name of the variable.</ul></li>"
 msgstr "<ul><li>começar com o nome da coluna da variável.</ul></li>"
 
-#, fuzzy
 msgid ""
 "<ul><li>contain an '=' to distinguish between column name and data type.</"
 "ul></li>"
 msgstr ""
-"<ul><li>conter um '=' para distinguir entre nome da coluna e tipo de dados.</"
-"ul></li>"
+"<ul><li>conter um '=' para distinguir entre nome da coluna e tipo de "
+"dados.</ul></li>"
 
-#, fuzzy
 msgid ""
 "<ul><li>end with either 'g' for Gaussian, 'c' for categorical, or 'p' for "
 "Poisson.</ul></li>"
@@ -209,7 +181,6 @@ msgstr ""
 "<ul><li>terminar com 'g' para Gaussiano, 'c' para Categórico ou 'p' para "
 "Poisson.</ul></li>"
 
-#, fuzzy
 msgid ""
 "Supplied data for layout was not understood and instead a circle layout was "
 "used."
@@ -217,14 +188,12 @@ msgstr ""
 "Os dados fornecidos para o layout não foram compreendidos, então foi "
 "utilizado um layout circular."
 
-#, fuzzy
 msgid ""
 "Data supplied in %1$s AND %2$s could not be used to determine node locations."
 msgstr ""
 "Os dados fornecidos em %1$s e %2$s não podem ser utilizados para determinar "
 "a localização dos nós."
 
-#, fuzzy
 msgid "Data supplied in %s could not be used to determine node locations."
 msgstr ""
 "Os dados fornecidos em %s não podem ser utilizados para determinar a "
@@ -237,7 +206,6 @@ msgid ""
 "coordinate."
 msgstr ""
 
-#, fuzzy
 msgid ""
 "Data supplied in %s could not be used to determine variables types. Data "
 "should: \n"
@@ -249,14 +217,12 @@ msgstr ""
 "- Começar com o nome da coluna da variável.\n"
 "- Conter um '=' para distinguir entre o nome da coluna e grupo."
 
-#, fuzzy
 msgid ""
 "Some entries of %1$s were not understood. These are now grouped under '%2$s'."
 msgstr ""
 "Algumas entradas em %1$s não foram compreendidas. Estas foram agrupadas em "
 "'%2$s'."
 
-#, fuzzy
 msgid ""
 "bootnet crashed with the following error message:\n"
 "%s. <ul><li>Please check if there are variables in the network with little "
@@ -266,17 +232,15 @@ msgstr ""
 "%s. <ul><li>Por favor cheque se há variáveis na rede com pouca variância ou "
 "poucas observações distintas.</li></ul>"
 
-#, fuzzy
 msgid "%1$s X-Coordinates for variable %2$s was not understood."
 msgid_plural "%1$s X-Coordinates for variables %2$s were not understood."
-msgstr[0] "%1$s Coordenadas X para a variável %2$s não foi compreendida."
-msgstr[1] "%1$s Coordenadas X para as variáveis %2$s não foram compreendidas."
+msgstr[0] "Coordenadas X %1$s para a variável %2$s não foi compreendida."
+msgstr[1] "Coordenadas X %1$s para as variáveis %2$s não foram compreendidas."
 
-#, fuzzy
 msgid "%1$s Y-Coordinates for variable %2$s was not understood."
 msgid_plural "%1$s Y-Coordinates for variables %2$s were not understood."
-msgstr[0] "%1$s Coordenadas Y para a variável %2$s não foi compreendida."
-msgstr[1] "%1$s Coordenadas Y para as variáveis %2$s não foram compreendidas."
+msgstr[0] "Coordenadas Y %1$s para a variável %2$s não foi compreendida."
+msgstr[1] "Coordenadas Y %1$s para as variáveis %2$s não foram compreendidas."
 
 #, fuzzy
 #~ msgid ""
