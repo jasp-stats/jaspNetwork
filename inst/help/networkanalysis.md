@@ -37,7 +37,7 @@ This analysis allows you to estimate not one type of network, but multiple. Supp
 
 #### Tables
 - Centrality table: a table containing the values of the centrality measures.
-- Clustering table: a table ocntaining the values of the clustering measures. 
+- Clustering table: a table containing the values of the clustering measures. 
 - Weights matrix: the estimates parameters, in the form of a matrix.
 
 
