@@ -262,6 +262,10 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     df[["Sparsity"]][i] <- mean(nw[["graph"]][upper.tri(nw[["graph"]], diag = FALSE)] == 0)
 
   }
+
+  if (!is.null(network[["layout"]][["message"]]))
+    tb$addFootnote(network[["layout"]][["message"]], symbol = gettext("<em>Warning: </em>"))
+
   tb$setData(df)
 
 }
@@ -667,7 +671,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     return()
   }
 
-  layout <- network[["layout"]] # calculated in .networkAnalysisRun()
+  layout <- network[["layout"]][["layout"]] # calculated in .networkAnalysisRun()
 
   # ensure minimum/ maximum makes sense or ignore these parameters.
   # TODO: message in general table if they have been reset.
@@ -897,7 +901,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     mainContainer[["clusteringState"]] <- createJaspState(networkList[["clustering"]])
     mainContainer[["layoutState"]]     <- createJaspState(networkList[["layout"]], dependencies = c("layout", "repulsion", "layoutX", "layoutY"))
 
-    .networkAnalysisSaveLayout(mainContainer, options, networkList[["layout"]])
+    .networkAnalysisSaveLayout(mainContainer, options, networkList[["layout"]][["layout"]])
 
   }
 
@@ -1209,37 +1213,34 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
       layout <- "circle"
 
     jaspBase::.suppressGrDevice(layout <- qgraph::averageLayout(networks, layout = layout, repulsion = options[["repulsion"]]))
-    rownames(layout) <- .unv(colnames(networks[[1L]]))
+    rownames(layout) <- colnames(networks[[1L]])
+    layout <- list(layout = layout)
+    if (!is.null(userLayout[["message"]]))
+      layout[["message"]] <- userLayout[["message"]]
 
   } else {
-    layout <- userLayout[["layoutData"]]
-    nms <- .unv(networks[[1L]][["labels"]])
-    idx <- match(nms, rownames(layout))
-    layout <- layout[idx, ]
+    # TODO: this should be done inside .networkAnalysisComputeUserLayout...
+    layout <- userLayout
+    nms <- networks[[1L]][["labels"]]
+    idx <- match(nms, rownames(layout[["layoutData"]]))
+    layout[["layoutData"]] <- layout[["layoutData"]][idx, ]
   }
   return(layout)
 }
 
 .networkAnalysisComputeUserLayout <- function(dataset, options) {
 
-  layoutInfo <- list()
-  variables <- unlist(options[["variables"]])
   # it turns out that we must save the layout in the A1 = ... style.
   if (options[["layoutX"]] != "" && options[["layoutY"]] != "") {
 
     layoutXData <- .readDataSetToEnd(columns = options[["layoutX"]], exclude.na.listwise = options[["layoutX"]])[[1L]]
     layoutYData <- .readDataSetToEnd(columns = options[["layoutY"]], exclude.na.listwise = options[["layoutY"]])[[1L]]
-    xyCoords <- .networkAnalysisSanitizeLayoutData(variables, layoutXData, layoutYData,
-                                                   options[["layoutX"]], options[["layoutY"]])
-    layoutInfo[["layoutData"]] <- xyCoords[["layoutData"]]
-    layoutInfo[["layoutMessage"]] <- xyCoords[["message"]]
+    variables <- unlist(options[["variables"]])
+    layoutInfo <- .networkAnalysisSanitizeLayoutData(variables, layoutXData, layoutYData, options[["layoutX"]], options[["layoutY"]])
 
+  } else {
+    layoutInfo <- list(layoutInvalid = TRUE)
   }
-
-  layoutInfo[["layoutInvalid"]] <- FALSE
-  # some sanity checks on the layout
-  if (!is.null(options[["layoutXData"]]) && (length(options[["layoutXData"]]) < length(variables) || length(options[["layoutYData"]]) < length(variables)))
-    layoutInfo[["layoutInvalid"]] <- TRUE
 
   return(layoutInfo)
 }
@@ -1258,8 +1259,8 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   variables <- unlist(options[["variables"]])
   mainContainer[["layoutXColumn"]] <- createJaspColumn(options[["computedLayoutX"]], c("layout", "repulsion", "layoutX", "layoutY", "computedLayoutX"))
   mainContainer[["layoutYColumn"]] <- createJaspColumn(options[["computedLayoutY"]], c("layout", "repulsion", "layoutX", "layoutY", "computedLayoutY"))
-  mainContainer[["layoutXColumn"]]$setNominalText(paste(variables, "=", layout[, 1L]))
-  mainContainer[["layoutYColumn"]]$setNominalText(paste(variables, "=", layout[, 2L]))
+  mainContainer[["layoutXColumn"]]$setNominalText(paste(decodeColNames(variables), "=", layout[, 1L]))
+  mainContainer[["layoutYColumn"]]$setNominalText(paste(decodeColNames(variables), "=", layout[, 2L]))
 
 }
 
@@ -1372,7 +1373,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 }
 
 .networkAnalysisFindDataType <- function(variables, variableMatch, asNumeric = FALSE, char = "=",
-                                         inputCheck = NULL) {
+                                         inputCheck = NULL, encodeFirstColumn = FALSE) {
   ## Input:
   # variables: options[["variables"]].
   # asNumeric: check if data can be converted to numeric.
@@ -1402,6 +1403,11 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
   # bind list to matrix
   matches <- do.call(rbind, matches)
+
+  if (encodeFirstColumn) {
+    matches[, 1L] <- encodeColNames(trimws(matches[, 1L]))
+  }
+
   # check if matches appear in variables
   dontMatch <- !(matches[, 1] %in% variables)
   # check if matches appear in variables while being robust for whitespace issues
@@ -1451,36 +1457,14 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
 }
 
-.networkAnalysisSanitizeMgmVariableType <- function(variables, options) {
-
-  checks <- .networkAnalysisFindDataType(variables = variables, variableMatch = options[["mgmVariableTypeData"]], char = "=",
-                                         inputCheck = function(x) x %in% c("g", "p", "c"))
-
-  if (checks[["errors"]][["fatal"]]) {
-    message <- paste0(gettextf("Data supplied in %s cannot be used to determine variables types. Data should: ", options[["mgmVariableType"]]),
-                      gettext("<ul><li>start with the column name of the variable.</ul></li>"),
-                      gettext("<ul><li>contain an '=' to distinguish between column name and data type.</ul></li>"),
-                      gettext("<ul><li>end with either 'g' for Gaussian, 'c' for categorical, or 'p' for Poisson.</ul></li>")
-    )
-    .quitAnalysis(message)
-  }
-
-  newData <- checks[["matches"]]
-  newData[!checks[["validInput"]], 2] <- "g"
-  if (length(checks[["unmatched"]] > 0))
-    newData <- rbind(newData, cbind(checks[["unmatched"]], "g"))
-  newData <- newData[match(variables, newData[, 1]), ]
-  return(newData[, 2])
-
-}
-
 .networkAnalysisSanitizeLayoutData <- function(variables, layoutXData, layoutYData,
                                                nameX, nameY) {
 
   checksX <- .networkAnalysisFindDataType(variables = variables, variableMatch = layoutXData, char = "=",
-                                          inputCheck = Negate(is.na), asNumeric = TRUE)
+                                          inputCheck = Negate(is.na), asNumeric = TRUE, encodeFirstColumn = TRUE)
   checksY <- .networkAnalysisFindDataType(variables = variables, variableMatch = layoutYData, char = "=",
-                                          inputCheck = Negate(is.na), asNumeric = TRUE)
+                                          inputCheck = Negate(is.na), asNumeric = TRUE, encodeFirstColumn = TRUE)
+
 
   message <- NULL
   defMsg <- gettext("Supplied data for layout was not understood and instead a circle layout was used.")
@@ -1519,38 +1503,9 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
       layoutData <- matrix(layoutData, nrow = 1)
     rownames(layoutData) <- variables
   }
-  out <- list(layoutData = layoutData, message = message)
+  out <- list(layoutData = layoutData, message = message, layoutInvalid = !is.null(message))
 
   return(out)
-
-}
-
-.networkAnalysisSanitizeColorNodesByData <- function(variables, options) {
-
-  checks <- .networkAnalysisFindDataType(variables = variables, variableMatch = options[["colorNodesByData"]], char = "=",
-                                         inputCheck = Negate(is.na))
-  message <- NULL
-  if (checks[["errors"]][["fatal"]]) {
-    message <- gettextf("Data supplied in %s could not be used to determine variables types. Data should: \n- Start with the column name of the variable. \n- Contain an '=' to distinghuish betweem column name and group.",
-                        options[["colorNodesBy"]])
-    return(list(newData = NULL, message = message))
-  }
-
-  newData <- checks[["matches"]]
-  if (length(checks[["unmatched"]] > 0)) {
-    undefGroup <- undefGroup0 <- "Undefined Group"
-    add <- 1L
-    while (undefGroup %in% newData[, 2] && add < 10L) {
-      undefGroup <- paste0(undefGroup0, add)
-      add <- add + 1L
-    }
-
-    newData <- rbind(newData, cbind(checks[["unmatched"]], undefGroup))
-    message <- gettextf("Some entries of %1$s were not understood. These are now grouped under '%2$s'.",
-                        options[["colorNodesBy"]], undefGroup)
-  }
-  newData <- newData[match(variables, newData[, 1]), ]
-  return(list(newData = newData[, 2], message = message))
 
 }
 
