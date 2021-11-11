@@ -18,10 +18,12 @@ Imports:
   gtools,
   IsingSampler,
   jaspBase,
+  jaspGraphs,
   mvtnorm,
   qgraph,
   reshape2,
   snow,
   stringr
 Remotes:
-  jasp-stats/jaspBase
+  jasp-stats/jaspBase,
+  jasp-stats/jaspGraphs
