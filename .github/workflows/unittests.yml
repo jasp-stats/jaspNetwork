@@ -1,4 +1,10 @@
-on: [push, pull_request]
+on: 
+  push:
+    paths: ['**.R', '**.svg', '**.Rd', 'DESCRIPTION', 'NAMESPACE']
+  pull_request:
+    paths: ['**.R', '**.svg', '**.Rd', 'DESCRIPTION', 'NAMESPACE']
+  schedule:
+    - cron:  '13,33,53 9-21 * * 1-5'
 
 name: unit-tests
 
