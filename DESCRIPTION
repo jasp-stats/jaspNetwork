@@ -16,6 +16,7 @@ Imports:
   foreach,
   ggplot2,
   gtools,
+  huge,
   IsingSampler,
   jaspBase,
   jaspGraphs,
