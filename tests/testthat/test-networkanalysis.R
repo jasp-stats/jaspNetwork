@@ -184,3 +184,29 @@ test_that("Too many missing rows returns an error", {
   expect_identical(results[["status"]], "validationError")
   expect_true(any(grepl("rows", results[["results"]][["errorMessage"]], ignore.case = TRUE)), label = "Entirely missing rows check")
 })
+
+
+# test incorrect layout input does not crash ----
+
+set.seed(123)
+n <- 50
+p <- 3
+dataset <- as.data.frame(matrix(rnorm(n * (p-1)), n, p-1))
+dataset$V3 <- dataset$V1 + dataset$V2 + rnorm(n)
+dataset$layoutX <- c("V1 = 1", "V2 = 0")
+dataset$layoutY <- c("V1 = 1", "V2 = 0")
+options <- jaspTools::analysisOptions("NetworkAnalysis")
+options$estimator <- "EBICglasso"
+options$variables <- c("V1", "V2", "V3")
+options$layoutX <- "layoutX"
+options$layoutY <- "layoutY"
+options$plotNetwork <- TRUE
+results <- jaspTools::runAnalysis("NetworkAnalysis", dataset, options)
+
+test_that("Incorrect user layout shows a warning", {
+  footnote <- results[["results"]][["mainContainer"]][["collection"]][["mainContainer_generalTable"]][["footnotes"]][[1]]$text
+  expect_identical(footnote, "Supplied data for layout was not understood and instead a circle layout was used. X-Coordinates for variable V3 was not understood. Y-Coordinates for variable V3 was not understood.")
+
+  layout <- results[["state"]][["figures"]][[1L]][["obj"]][["layout"]]
+  expect_equal(layout, structure(c(-0.154179671844446, -1, 1, -1, 1, 0.354868971143063), .Dim = 3:2))
+})
