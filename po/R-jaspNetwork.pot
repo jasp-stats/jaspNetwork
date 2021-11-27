@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: jaspNetwork 0.15\n"
-"POT-Creation-Date: 2021-05-07 11:21\n"
+"POT-Creation-Date: 2021-11-27 02:30\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -130,18 +130,6 @@ msgstr ""
 msgid "Some variables were not matched in the column names of the dataset."
 msgstr ""
 
-msgid "Data supplied in %s cannot be used to determine variables types. Data should:"
-msgstr ""
-
-msgid "<ul><li>start with the column name of the variable.</ul></li>"
-msgstr ""
-
-msgid "<ul><li>contain an '=' to distinguish between column name and data type.</ul></li>"
-msgstr ""
-
-msgid "<ul><li>end with either 'g' for Gaussian, 'c' for categorical, or 'p' for Poisson.</ul></li>"
-msgstr ""
-
 msgid "Supplied data for layout was not understood and instead a circle layout was used."
 msgstr ""
 
@@ -152,12 +140,6 @@ msgid "Data supplied in %s could not be used to determine node locations."
 msgstr ""
 
 msgid "%1$s %2$s Data should only contain numeric:\n                 -start with the column name of the variable.\n                 -contain an '=' to distinguish between column name and coordinate."
-msgstr ""
-
-msgid "Data supplied in %s could not be used to determine variables types. Data should: \n- Start with the column name of the variable. \n- Contain an '=' to distinghuish betweem column name and group."
-msgstr ""
-
-msgid "Some entries of %1$s were not understood. These are now grouped under '%2$s'."
 msgstr ""
 
 msgid "bootnet crashed with the following error message:\n%s. <ul><li>Please check if there are variables in the network with little variance or few distinct observations.</li></ul>"
