@@ -4,7 +4,7 @@ on:
   pull_request:
     paths: ['**.R', '**.svg', '**.Rd', 'DESCRIPTION', 'NAMESPACE']
   schedule:
-    - cron:  '13 12 * * 2-4'
+    - cron:  '13 12 * * 1-5'
 
 name: unit-tests
 
