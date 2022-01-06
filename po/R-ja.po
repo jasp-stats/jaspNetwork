@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jaspNetwork 0.0.0\n"
 "POT-Creation-Date: 2021-11-27 02:30\n"
-"PO-Revision-Date: 2021-03-12 02:20+0000\n"
+"PO-Revision-Date: 2022-01-07 13:56+0000\n"
 "Last-Translator: Daiki Hojo <dhojo.bayes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/jasp/"
 "jaspnetwork-r/ja/>\n"
@@ -11,150 +11,155 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.5.2-dev\n"
+"X-Generator: Weblate 4.10.1\n"
 
 msgid ""
 "After binarizing the data too little variance remained in variable(s): %s."
-msgstr ""
+msgstr "データをバイナリ化した後、変数に残った分散が少なすぎます: %s."
 
 msgid "Summary of Network"
-msgstr ""
+msgstr "ネットワークの概要"
 
 msgid "Network"
-msgstr ""
+msgstr "ネットワーク"
 
 msgid "Number of nodes"
-msgstr ""
+msgstr "ノード数"
 
 msgid "Number of non-zero edges"
-msgstr ""
+msgstr "ゼロでないエッジ数"
 
 msgid "Sparsity"
-msgstr ""
+msgstr "スパース性"
 
 msgid "Data was binarized using %s."
-msgstr ""
+msgstr "データは %s を使ってバイナリ化されました。"
 
 msgid "Only the first %d values of %s were used to color nodes (%d provided)."
-msgstr ""
+msgstr "ノードのカラー設定に使用されたのは、%s の最初の %d 値のみです (%d が指定されています)."
 
 msgid "<em>Warning: </em>"
-msgstr ""
+msgstr "<em>警告:</em>"
 
 msgid ""
 "Minimum edge strength ignored in the network plot because it was larger than "
 "the absolute value of the strongest edge."
-msgstr ""
+msgstr "最小エッジ強度は、最強のエッジの絶対値よりも大きかったため、ネットワークプロットでは無視されました."
 
 msgid ""
 "Minimum edge strength ignored in the network plot of group%1$s %2$s because "
 "it was larger than the absolute value of the strongest edge."
 msgstr ""
+"グループ%1$s %2$s のネットワークプロットで無視された最小エッジ強度は、最も強いエッジの絶対値よりも大きかったため、このような結果になりました."
 
 msgid ""
 "Bootstrapping is only done when 'Bootstrap network' is ticked and 'Number of "
 "Bootstraps' is larger than 0."
 msgstr ""
+"ブートストラップは、 'Bootstrap network' がチェックされ、 'Number of Bootstraps' "
+"が0より大きい場合にのみ行われます."
 
 msgid "Centrality measures per variable"
-msgstr ""
+msgstr "変数ごとの中心性指標"
 
 msgid "Variable"
 msgstr "変数"
 
 msgid "Betweenness"
-msgstr ""
+msgstr "間隔"
 
 msgid "Closeness"
-msgstr ""
+msgstr "近さ"
 
 msgid "Strength"
-msgstr ""
+msgstr "強度"
 
 msgid "Expected influence"
-msgstr ""
+msgstr "期待される影響"
 
 msgid "Barrat"
-msgstr ""
+msgstr "バラット(Barrat)"
 
 msgid "Onnela"
-msgstr ""
+msgstr "オンネラ(Onnela)"
 
 msgid "WS"
-msgstr ""
+msgstr "WS"
 
 msgid "Zhang"
-msgstr ""
+msgstr "張(Zhang)"
 
 msgid "Clustering measures per variable"
-msgstr ""
+msgstr "変数ごとのクラスタリング指標"
 
 msgid "Clustering measures could not be computed for network%1$s: %2$s"
-msgstr ""
+msgstr "ネットワーク%1$s: %2$s に対してクラスタリング指標を計算できませんでした"
 
 msgid "Weights matrix"
-msgstr ""
+msgstr "重み行列"
 
 msgid "Bootstrap summary of Network"
-msgstr ""
+msgstr "ネットワークのブートストラップ要約"
 
 msgid "Type"
 msgstr "型"
 
 msgid "Number of bootstraps"
-msgstr ""
+msgstr "ブートストラップの数"
 
 msgid "Centrality Plot"
-msgstr ""
+msgstr "中心性プロット"
 
 msgid "Clustering Plot"
-msgstr ""
+msgstr "クラスタリングプロット"
 
 msgid "Network Plots"
-msgstr ""
+msgstr "ネットワークプロット"
 
 msgid "Network Plot"
-msgstr ""
+msgstr "ネットワークプロット"
 
 msgid "Edge Stability"
-msgstr ""
+msgstr "エッジ安定性"
 
 msgid "Centrality Stability"
-msgstr ""
+msgstr "中心性の安定性"
 
 msgid ""
 "bootnet crashed with the following error message:\n"
 "%s"
 msgstr ""
+"ブートネットは、次のエラー メッセージでクラッシュしました:\n"
+"%s"
 
 msgid ""
 "Please drag all variables to a particular type under \"Analysis options\"."
-msgstr ""
+msgstr "すべての変数を、\"Analysis options\"で特定の型にドラッグしてください."
 
 msgid ""
 "Coefficient could not be standardized because the variance is too small."
-msgstr ""
+msgstr "分散が小さすぎるため、係数を標準化できませんでした."
 
 msgid "Please supply a name for both the x and y-coordinates of the layout."
-msgstr ""
+msgstr "レイアウトのx座標とy座標の両方に名前をつけてください."
 
 msgid "Some variables did not contain char (%s)"
-msgstr ""
+msgstr "一部の変数にchar (%s) が含まれていませんでした"
 
 msgid "Some variables were not matched in the column names of the dataset."
-msgstr ""
+msgstr "データセットの列名に一致しない変数があります."
 
 msgid ""
 "Supplied data for layout was not understood and instead a circle layout was "
 "used."
-msgstr ""
+msgstr "レイアウト用に提供されたデータが理解されず、代わりに円のレイアウトが使用されました."
 
 msgid ""
 "Data supplied in %1$s AND %2$s could not be used to determine node locations."
-msgstr ""
+msgstr "1$s AND %2$s で提供されたデータは、ノードの位置を決定するために使用できませんでした."
 
 msgid "Data supplied in %s could not be used to determine node locations."
-msgstr ""
+msgstr "%s で指定されたデータを使用してノードの場所を特定できませんでした."
 
 msgid ""
 "%1$s %2$s Data should only contain numeric:\n"
@@ -162,17 +167,22 @@ msgid ""
 "                 -contain an '=' to distinguish between column name and "
 "coordinate."
 msgstr ""
+"%1$s %2$s データには数値のみを含める必要があります:\n"
+"                 -start は変数の列名で始まります。\n"
+"                 -列名と座標を区別するために '=' を含めます。"
 
 msgid ""
 "bootnet crashed with the following error message:\n"
 "%s. <ul><li>Please check if there are variables in the network with little "
 "variance or few distinct observations.</li></ul>"
 msgstr ""
+"ブートネットは、次のエラー メッセージでクラッシュしました:\n"
+"%s. <ul><li>ネットワーク内に分散が少ないか、またはいくつかの離散観測値を持つ変数があるかどうかを確認してください。</li></ul>"
 
 msgid "%1$s X-Coordinates for variable %2$s was not understood."
 msgid_plural "%1$s X-Coordinates for variables %2$s were not understood."
-msgstr[0] ""
+msgstr[0] "変数 %2$s のX座標 %1$sは理解できませんでした."
 
 msgid "%1$s Y-Coordinates for variable %2$s was not understood."
 msgid_plural "%1$s Y-Coordinates for variables %2$s were not understood."
-msgstr[0] ""
+msgstr[0] "変数 %2$ の Y 座標 %1$s は理解できませんでした."
