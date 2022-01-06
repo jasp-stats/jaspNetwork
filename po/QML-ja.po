@@ -1,9 +1,15 @@
 msgid ""
 msgstr ""
+"PO-Revision-Date: 2022-01-07 13:57+0000\n"
+"Last-Translator: Daiki Hojo <dhojo.bayes@gmail.com>\n"
+"Language-Team: Japanese <https://hosted.weblate.org/projects/jasp/"
+"jaspnetwork-qml/ja/>\n"
+"Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 4.10.1\n"
 "X-Language: ja\n"
 "X-Qt-Contexts: true\n"
 
@@ -13,565 +19,564 @@ msgstr "ネットワーク"
 
 msgctxt "NetworkAnalysis|"
 msgid "Dependent Variables"
-msgstr ""
+msgstr "従属変数"
 
 msgctxt "NetworkAnalysis|"
 msgid "Split"
-msgstr ""
+msgstr "分割"
 
 msgctxt "NetworkAnalysis|"
 msgid "Estimator"
-msgstr ""
+msgstr "推定"
 
 msgctxt "NetworkAnalysis|"
 msgid "Correlation"
-msgstr ""
+msgstr "相関"
 
 msgctxt "NetworkAnalysis|"
 msgid "Partial Correlation"
-msgstr ""
+msgstr "偏相関"
 
 msgctxt "NetworkAnalysis|"
 msgid "huge"
-msgstr ""
+msgstr "巨大"
 
 msgctxt "NetworkAnalysis|"
 msgid "Plots"
-msgstr ""
+msgstr "プロット"
 
 msgctxt "NetworkAnalysis|"
 msgid "Network plot"
-msgstr ""
+msgstr "ネットワークプロット"
 
 msgctxt "NetworkAnalysis|"
 msgid "Centrality plot"
-msgstr ""
+msgstr "中心性プロット"
 
 msgctxt "NetworkAnalysis|"
 msgid "Clustering plot"
-msgstr ""
+msgstr "クラスタリングプロット"
 
 msgctxt "NetworkAnalysis|"
 msgid "Tables"
-msgstr ""
+msgstr "表"
 
 msgctxt "NetworkAnalysis|"
 msgid "Centrality table"
-msgstr ""
+msgstr "中心性表"
 
 msgctxt "NetworkAnalysis|"
 msgid "Clustering table"
-msgstr ""
+msgstr "クラスタリング表"
 
 msgctxt "NetworkAnalysis|"
 msgid "Weights matrix"
-msgstr ""
+msgstr "重み行列"
 
 msgctxt "NetworkAnalysis|"
 msgid "Analysis Options - "
-msgstr ""
+msgstr "分析オプション - "
 
 msgctxt "NetworkAnalysis|"
 msgid "Correlation Method"
-msgstr ""
+msgstr "相関法"
 
 msgctxt "NetworkAnalysis|"
 msgid "Auto"
-msgstr ""
+msgstr "自動"
 
 msgctxt "NetworkAnalysis|"
 msgid "Cor"
-msgstr ""
+msgstr "相関"
 
 msgctxt "NetworkAnalysis|"
 msgid "Cov"
-msgstr ""
+msgstr "共分散"
 
 msgctxt "NetworkAnalysis|"
 msgid "Npn"
-msgstr ""
+msgstr "Npn"
 
 msgctxt "NetworkAnalysis|"
 msgid "Centrality Measures"
-msgstr ""
+msgstr "中心性測定"
 
 msgctxt "NetworkAnalysis|"
 msgid "Normalized"
-msgstr ""
+msgstr "正規化"
 
 msgctxt "NetworkAnalysis|"
 msgid "Relative"
-msgstr ""
+msgstr "相対的"
 
 msgctxt "NetworkAnalysis|"
 msgid "Raw"
-msgstr ""
+msgstr "生(Raw)"
 
-#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Network"
 msgstr "ネットワーク"
 
 msgctxt "NetworkAnalysis|"
 msgid "Weighted"
-msgstr ""
+msgstr "重み付け"
 
 msgctxt "NetworkAnalysis|"
 msgid "Signed"
-msgstr ""
+msgstr "符号化"
 
 msgctxt "NetworkAnalysis|"
 msgid "Missing Values"
-msgstr ""
+msgstr "欠損値"
 
 msgctxt "NetworkAnalysis|"
 msgid "Exclude pairwise"
-msgstr ""
+msgstr "ペアワイズ除去"
 
 msgctxt "NetworkAnalysis|"
 msgid "Exclude listwise"
-msgstr ""
+msgstr "リストワイズ除去"
 
 msgctxt "NetworkAnalysis|"
 msgid "Sample Size"
-msgstr ""
+msgstr "サンプルサイズ"
 
 msgctxt "NetworkAnalysis|"
 msgid "Maximum"
-msgstr ""
+msgstr "最大"
 
 msgctxt "NetworkAnalysis|"
 msgid "Minimum"
-msgstr ""
+msgstr "最小"
 
 msgctxt "NetworkAnalysis|"
 msgid "Ising Estimator"
-msgstr ""
+msgstr "イジング推定量"
 
 msgctxt "NetworkAnalysis|"
 msgid "Pseudo-likelihood"
-msgstr ""
+msgstr "疑似尤度(Pseudo-Likelihood)"
 
 msgctxt "NetworkAnalysis|"
 msgid "Univariate regressions"
-msgstr ""
+msgstr "単変量回帰"
 
 msgctxt "NetworkAnalysis|"
 msgid "Bivariate regressions"
-msgstr ""
+msgstr "二変量回帰"
 
 msgctxt "NetworkAnalysis|"
 msgid "Loglinear"
-msgstr ""
+msgstr "対数線形"
 
 msgctxt "NetworkAnalysis|"
 msgid "Criterion"
-msgstr ""
+msgstr "規準"
 
 msgctxt "NetworkAnalysis|"
 msgid "EBIC"
-msgstr ""
+msgstr "EBIC"
 
 msgctxt "NetworkAnalysis|"
 msgid "RIC"
-msgstr ""
+msgstr "RIC"
 
 msgctxt "NetworkAnalysis|"
 msgid "STARS"
-msgstr ""
+msgstr "STARS"
 
 msgctxt "NetworkAnalysis|"
 msgid "CV"
-msgstr ""
+msgstr "CV"
 
 msgctxt "NetworkAnalysis|"
 msgid "Rule"
-msgstr ""
+msgstr "ルール"
 
 msgctxt "NetworkAnalysis|"
 msgid "AND"
-msgstr ""
+msgstr "AND"
 
 msgctxt "NetworkAnalysis|"
 msgid "OR"
-msgstr ""
+msgstr "OR"
 
 msgctxt "NetworkAnalysis|"
 msgid "Median"
-msgstr ""
+msgstr "中央値"
 
 msgctxt "NetworkAnalysis|"
 msgid "Mean"
-msgstr ""
+msgstr "平均値"
 
 msgctxt "NetworkAnalysis|"
 msgid "Tuning Parameter"
-msgstr ""
+msgstr "チューニングパラメータ"
 
 msgctxt "NetworkAnalysis|"
 msgid "Value"
-msgstr ""
+msgstr "値"
 
 msgctxt "NetworkAnalysis|"
 msgid "Threshold"
-msgstr ""
+msgstr "閾値"
 
 msgctxt "NetworkAnalysis|"
 msgid "Method"
-msgstr ""
+msgstr "方法"
 
 msgctxt "NetworkAnalysis|"
 msgid "Significant"
-msgstr ""
+msgstr "有意"
 
 msgctxt "NetworkAnalysis|"
 msgid "Cross-validation"
-msgstr ""
+msgstr "クロスバリデーション"
 
 msgctxt "NetworkAnalysis|"
 msgid "nFolds"
-msgstr ""
+msgstr "n-fold"
 
 msgctxt "NetworkAnalysis|"
 msgid "Variables in network"
-msgstr ""
+msgstr "ネットワーク内の変数"
 
 msgctxt "NetworkAnalysis|"
 msgid "Continuous Variables"
-msgstr ""
+msgstr "連続変数"
 
 msgctxt "NetworkAnalysis|"
 msgid "Categorical Variables"
-msgstr ""
+msgstr "カテゴリ変数"
 
 msgctxt "NetworkAnalysis|"
 msgid "Count Variables"
-msgstr ""
+msgstr "カウント変数"
 
 msgctxt "NetworkAnalysis|"
 msgid "Bootstrap Options"
-msgstr ""
+msgstr "ブートストラップオプション"
 
 msgctxt "NetworkAnalysis|"
 msgid "Settings"
-msgstr ""
+msgstr "設定"
 
 msgctxt "NetworkAnalysis|"
 msgid "Bootstrap network"
-msgstr ""
+msgstr "ブートストラップネットワーク"
 
 msgctxt "NetworkAnalysis|"
 msgid "Number of bootstraps"
-msgstr ""
+msgstr "ブートストラップの数"
 
 msgctxt "NetworkAnalysis|"
 msgid "Parallel Bootstrap"
-msgstr ""
+msgstr "並列ブートストラップ"
 
 msgctxt "NetworkAnalysis|"
 msgid "Bootstrap Type"
-msgstr ""
+msgstr "ブートストラップタイプ"
 
 msgctxt "NetworkAnalysis|"
 msgid "Nonparametric"
-msgstr ""
+msgstr "ノンパラメトリック"
 
 msgctxt "NetworkAnalysis|"
 msgid "Case"
-msgstr ""
+msgstr "ケース"
 
 msgctxt "NetworkAnalysis|"
 msgid "Node"
-msgstr ""
+msgstr "ノード"
 
 msgctxt "NetworkAnalysis|"
 msgid "Parametric"
-msgstr ""
+msgstr "パラメトリック"
 
 msgctxt "NetworkAnalysis|"
 msgid "Person"
-msgstr ""
+msgstr "人"
 
 msgctxt "NetworkAnalysis|"
 msgid "Jackknife"
-msgstr ""
+msgstr "ジャックナイフ"
 
 msgctxt "NetworkAnalysis|"
 msgid "Statistics"
-msgstr ""
+msgstr "統計量"
 
 msgctxt "NetworkAnalysis|"
 msgid "Edges"
-msgstr ""
+msgstr "エッジ"
 
 msgctxt "NetworkAnalysis|"
 msgid "Centrality"
-msgstr ""
+msgstr "中心性"
 
 msgctxt "NetworkAnalysis|"
 msgid "Graphical Options"
-msgstr ""
+msgstr "グラフィカルオプション"
 
 msgctxt "NetworkAnalysis|"
 msgid "Group name"
-msgstr ""
+msgstr "グループ名"
 
 msgctxt "NetworkAnalysis|"
 msgid "New Group"
-msgstr ""
+msgstr "新しいグループ"
 
 msgctxt "NetworkAnalysis|"
 msgid "Group color"
-msgstr ""
+msgstr "グループカラー"
 
 msgctxt "NetworkAnalysis|"
 msgid "red"
-msgstr ""
+msgstr "赤"
 
 msgctxt "NetworkAnalysis|"
 msgid "blue"
-msgstr ""
+msgstr "青"
 
 msgctxt "NetworkAnalysis|"
 msgid "yellow"
-msgstr ""
+msgstr "黄"
 
 msgctxt "NetworkAnalysis|"
 msgid "green"
-msgstr ""
+msgstr "緑"
 
 msgctxt "NetworkAnalysis|"
 msgid "purple"
-msgstr ""
+msgstr "紫"
 
 msgctxt "NetworkAnalysis|"
 msgid "orange"
-msgstr ""
+msgstr "橙"
 
 msgctxt "NetworkAnalysis|"
 msgid "Group"
-msgstr ""
+msgstr "群"
 
 msgctxt "NetworkAnalysis|"
 msgid "Manual colors"
-msgstr ""
+msgstr "手動の色"
 
 msgctxt "NetworkAnalysis|"
 msgid "Node palette"
-msgstr ""
+msgstr "ノードパレット"
 
 msgctxt "NetworkAnalysis|"
 msgid "Rainbow"
-msgstr ""
+msgstr "虹"
 
 msgctxt "NetworkAnalysis|"
 msgid "Colorblind"
-msgstr ""
+msgstr "カラーブラインド"
 
 msgctxt "NetworkAnalysis|"
 msgid "Pastel"
-msgstr ""
+msgstr "パステル"
 
 msgctxt "NetworkAnalysis|"
 msgid "Gray"
-msgstr ""
+msgstr "灰色"
 
 msgctxt "NetworkAnalysis|"
 msgid "R"
-msgstr ""
+msgstr "R"
 
 msgctxt "NetworkAnalysis|"
 msgid "ggplot2"
-msgstr ""
+msgstr "ggplot2"
 
 msgctxt "NetworkAnalysis|"
 msgid "Node size"
-msgstr ""
+msgstr "ノードサイズ"
 
 msgctxt "NetworkAnalysis|"
 msgid "Edge size"
-msgstr ""
+msgstr "エッジサイズ"
 
 msgctxt "NetworkAnalysis|"
 msgid "Max edge strength"
-msgstr ""
+msgstr "最大エッジ強度"
 
 msgctxt "NetworkAnalysis|"
 msgid "Min edge strength"
-msgstr ""
+msgstr "最小エッジ強度"
 
 msgctxt "NetworkAnalysis|"
 msgid "Cut"
-msgstr ""
+msgstr "カット"
 
 msgctxt "NetworkAnalysis|"
 msgid "Show details"
-msgstr ""
+msgstr "詳細を表示"
 
 msgctxt "NetworkAnalysis|"
 msgid "Edge labels"
-msgstr ""
+msgstr "エッジラベル"
 
 msgctxt "NetworkAnalysis|"
 msgid "Edge label size"
-msgstr ""
+msgstr "エッジラベルサイズ"
 
 msgctxt "NetworkAnalysis|"
 msgid "Edge label position"
-msgstr ""
+msgstr "エッジラベル位置"
 
 msgctxt "NetworkAnalysis|"
 msgid "Edge palette"
-msgstr ""
+msgstr "エッジパレット"
 
 msgctxt "NetworkAnalysis|"
 msgid "Classic"
-msgstr ""
+msgstr "伝統的な"
 
 msgctxt "NetworkAnalysis|"
 msgid "Hollywood"
-msgstr ""
+msgstr "ハリウッド"
 
 msgctxt "NetworkAnalysis|"
 msgid "Borkulo"
-msgstr ""
+msgstr "ボルクロ"
 
 msgctxt "NetworkAnalysis|"
 msgid "TeamFortress"
-msgstr ""
+msgstr "チームフォートレス"
 
 msgctxt "NetworkAnalysis|"
 msgid "Reddit"
-msgstr ""
+msgstr "レディット"
 
 msgctxt "NetworkAnalysis|"
 msgid "Fried"
-msgstr ""
+msgstr "フライド"
 
 msgctxt "NetworkAnalysis|"
 msgid "Labels"
-msgstr ""
+msgstr "ラベル"
 
 msgctxt "NetworkAnalysis|"
 msgid "Label size"
-msgstr ""
+msgstr "ラベルサイズ"
 
 msgctxt "NetworkAnalysis|"
 msgid "Scale label size"
-msgstr ""
+msgstr "スケールラベルサイズ"
 
 msgctxt "NetworkAnalysis|"
 msgid "Abbreviate labels to "
-msgstr ""
+msgstr "ラベルを次のように省略します "
 
 msgctxt "NetworkAnalysis|"
 msgid "Show Variable Names"
-msgstr ""
+msgstr "変数名の表示"
 
 msgctxt "NetworkAnalysis|"
 msgid "In plot"
-msgstr ""
+msgstr "プロット内"
 
 msgctxt "NetworkAnalysis|"
 msgid "In legend"
-msgstr ""
+msgstr "凡例内"
 
 msgctxt "NetworkAnalysis|"
 msgid "Show Variable Type"
-msgstr ""
+msgstr "変数の型を表示"
 
 msgctxt "NetworkAnalysis|"
 msgid "Don't show"
-msgstr ""
+msgstr "表示しない"
 
 msgctxt "NetworkAnalysis|"
 msgid "Using node color"
-msgstr ""
+msgstr "ノードカラーの使用"
 
 msgctxt "NetworkAnalysis|"
 msgid "Using node shape"
-msgstr ""
+msgstr "ノード形状の使用"
 
 msgctxt "NetworkAnalysis|"
 msgid "Legend"
-msgstr ""
+msgstr "凡例"
 
 msgctxt "NetworkAnalysis|"
 msgid "No legend"
-msgstr ""
+msgstr "凡例なし"
 
 msgctxt "NetworkAnalysis|"
 msgid "All plots"
-msgstr ""
+msgstr "すべてのプロット"
 
 msgctxt "NetworkAnalysis|"
 msgid "In plot number: "
-msgstr ""
+msgstr "プロット番号: "
 
 msgctxt "NetworkAnalysis|"
 msgid "Legend to plot ratio"
-msgstr ""
+msgstr "凡例とプロットの比率"
 
 msgctxt "NetworkAnalysis|"
 msgid "Layout"
-msgstr ""
+msgstr "レイアウト"
 
 msgctxt "NetworkAnalysis|"
 msgid "Do not update layout"
-msgstr ""
+msgstr "レイアウトを更新しない"
 
 msgctxt "NetworkAnalysis|"
 msgid "Spring"
-msgstr ""
+msgstr "スプリング"
 
 msgctxt "NetworkAnalysis|"
 msgid "Repulsion"
-msgstr ""
+msgstr "反発(Repulsion)"
 
 msgctxt "NetworkAnalysis|"
 msgid "Circle"
-msgstr ""
+msgstr "円"
 
 msgctxt "NetworkAnalysis|"
 msgid "Data"
-msgstr ""
+msgstr "データ"
 
 msgctxt "NetworkAnalysis|"
 msgid "Measures shown in centrality plot"
-msgstr ""
+msgstr "中心性プロットに示す指標"
 
 msgctxt "NetworkAnalysis|"
 msgid "Betweenness"
-msgstr ""
+msgstr "間隔"
 
 msgctxt "NetworkAnalysis|"
 msgid "Closeness"
-msgstr ""
+msgstr "近さ"
 
 msgctxt "NetworkAnalysis|"
 msgid "Expected Influence"
-msgstr ""
+msgstr "期待される影響"
 
 msgctxt "NetworkAnalysis|"
 msgid "x"
-msgstr ""
+msgstr "x"
 
 msgctxt "NetworkAnalysis|"
 msgid "y"
-msgstr ""
+msgstr "y"
 
 msgctxt "NetworkAnalysis|"
 msgid "Save the layout in the data set"
-msgstr ""
+msgstr "レイアウトをデータセットに保存"
 
 msgctxt "NetworkAnalysis|"
 msgid "name for x-coordinates"
-msgstr ""
+msgstr "X座標の名前"
 
 msgctxt "NetworkAnalysis|"
 msgid "name for y-coordinates"
-msgstr ""
+msgstr "Y 座標の名前"
 
 msgctxt "Description|"
 msgid "Explore the connections between variables organized as a network"
-msgstr ""
+msgstr "ネットワークとして組織される変数間の接続を探索する"
