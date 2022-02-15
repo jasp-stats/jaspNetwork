@@ -985,7 +985,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   if (options[["thresholdBox"]] == "value") {
     threshold <- options[["thresholdValue"]]
   } else { # options[["thresholdBox"]] == "method"
-    threshold <- options[["thresholdString"]]
+    threshold <- options[["thresholdMethod"]]
   }
 
   # names of .dots must match argument names of bootnet_{estimator name}
