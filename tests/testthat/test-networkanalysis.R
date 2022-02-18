@@ -210,3 +210,56 @@ test_that("Incorrect user layout shows a warning", {
   layout <- results[["state"]][["figures"]][[1L]][["obj"]][["layout"]]
   expect_equal(layout, structure(c(-0.154179671844446, -1, 1, -1, 1, 0.354868971143063), .Dim = 3:2))
 })
+
+# test partial correlation networks work for all thresholds.
+options <- analysisOptions("NetworkAnalysis")
+options$estimator <- "pcor"
+options$variables <- c(paste0("A", 1:5), paste0("O", 1:5), paste0("E", 1:5))
+options$plotNetwork <- TRUE
+options$tableWeightsMatrix <- TRUE
+options$thresholdBox <- "method"
+
+table2df <- function(data, variables) {
+  # transform raw data to data.frame for comparison
+  df <- data.frame(Variable = sapply(data, `[[`, "Variable"))
+  for (i in seq_along(variables))
+    df[[variables[i]]] <- unlist(data[[i]][seq_along(variables)], use.names = FALSE)
+  df
+}
+
+parcorFile <- testthat::test_path("networkResultsParCorThresholds.rds")
+
+# to create the results object
+# tbls <- list()
+# set.seed(147)
+# for (thresholdMethod in c("sig", "bonferroni", "locfdr", "holm", "hochberg", "hommel", "BH", "BY", "fdr")) {
+#   options$thresholdMethod <- thresholdMethod
+#   rr <- runAnalysis(dataset = "BFI Network.csv", options = options, view = FALSE)
+#   df <- table2df(rr[["results"]][["mainContainer"]][["collection"]][["mainContainer_weightsTable"]][["data"]], options$variables)
+#   tbls[[thresholdMethod]] <- df
+# }
+# saveRDS(tbls, file = parcorFile)
+
+tbls <- readRDS(file = parcorFile)
+
+set.seed(147)
+thresholdMethods <- c("sig", "bonferroni", "locfdr", "holm", "hochberg", "hommel", "BH", "BY", "fdr")
+for (thresholdMethod in thresholdMethods) {
+
+  options$thresholdMethod <- thresholdMethod
+  results <- runAnalysis(dataset = "BFI Network.csv", options = options)
+
+  test_that(paste0("parcor-threshold-", thresholdMethod, ": Weights matrix matches"), {
+    df <- table2df(results[["results"]][["mainContainer"]][["collection"]][["mainContainer_weightsTable"]][["data"]], options$variables)
+    expected <- tbls[[thresholdMethod]]
+    testthat::expect_equal(df, expected, label = paste0("parcor-threshold-", thresholdMethod))
+  })
+
+  plotName <- results[["results"]][["mainContainer"]][["collection"]][["mainContainer_plotContainer"]][["collection"]][["mainContainer_plotContainer_networkPlotContainer"]][["collection"]][["mainContainer_plotContainer_networkPlotContainer_Network"]][["data"]]
+  testPlot <- results[["state"]][["figures"]][[plotName]][["obj"]]
+  test_that(paste0("parcor-threshold-", thresholdMethod, ": Network Plot matches"), {
+    expect_equal_plots(test = testPlot, paste0("parcor-threshold-", thresholdMethod))
+  })
+}
+
+
