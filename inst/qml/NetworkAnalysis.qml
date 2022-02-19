@@ -267,11 +267,12 @@ Form
 			placeHolder			: qsTr("New Group")
 			minRows				: 2
 			preferredWidth		: (2 * form.width) / 5
-			enabled				: manualColors.checked
-			rowComponentTitle	: qsTr("Group color")
+			rowComponentTitle	: manualColors.checked ? qsTr("Group color") : ""
 			rowComponent: DropDown
 			{
 				name: "groupColors"
+				enabled: manualColors.checked
+				visible: manualColors.checked
 				values: [
 					{ label: qsTr("red")	, value: "red"		},
 					{ label: qsTr("blue")	, value: "blue"		},
