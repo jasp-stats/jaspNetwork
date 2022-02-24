@@ -13,11 +13,12 @@ jobs:
   debugging:
     runs-on: ubuntu-latest
 
-    - name: print variables
-      run: |
-        echo "$GITHUB_CONTEXT"
-        echo "$GITHUB_EVENT_NAME"
-      shell: bash
+    steps:
+      - name: print variables
+        run: |
+          echo "$GITHUB_CONTEXT"
+          echo "$GITHUB_EVENT_NAME"
+        shell: bash
 
   call-jasp-unit-tests-workflow:
 
