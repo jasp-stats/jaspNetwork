@@ -25,10 +25,9 @@ jobs:
     if: GITHUB_EVENT_NAME != 'schedule'
     # if: GITHUB_EVENT_NAME != 'schedule' || GITHUB_REPOSITORY_OWNER == 'jasp-stats'
 
-    uses: vandenman/jasp-actions/.github/workflows/unittest.yml@reuseable_workflow_unittests
+    uses: vandenman/jasp-actions/.github/workflows/unittests.yml@reuseable_workflow_unittests
     with:
       needs_JAGS:   false
       needs_igraph: true
     secrets:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
