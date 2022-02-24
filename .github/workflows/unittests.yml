@@ -14,13 +14,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v2
       - name: print variables
         run: |
           echo "$GITHUB_CONTEXT"
           echo "$GITHUB_EVENT_NAME"
+          echo "${github.event.name}"
+          echo "${github.repository.owner}"
         shell: bash
 
-  call-jasp-unit-tests-workflow:
+  unit-tests:
 
     if: github.event.name != 'schedule'
     # if: github.event.name != 'schedule' || github.repository.owner == 'jasp-stats'
