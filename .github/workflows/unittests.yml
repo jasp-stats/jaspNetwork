@@ -19,8 +19,8 @@ jobs:
         run: |
           echo "$GITHUB_CONTEXT"
           echo "$GITHUB_EVENT_NAME"
-          echo "${github.event.name}"
-          echo "${github.repository.owner}"
+          echo "${{github.event.name}}"
+          echo "${{github.repository.owner}}"
         shell: bash
 
   unit-tests:
