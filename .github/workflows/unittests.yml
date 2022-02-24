@@ -10,20 +10,6 @@ on:
 name: unit-tests
 
 jobs:
-  debugging:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: print variables
-        run: |
-          echo "$GITHUB_CONTEXT"
-          echo "$GITHUB_EVENT_NAME"
-          echo "${{github.event_name}}"
-          echo "${{github.repository_owner}}"
-        shell: bash
-        env: 
-          GITHUB_CONTEXT: ${{ toJSON(github) }}
 
   unit-tests:
 
