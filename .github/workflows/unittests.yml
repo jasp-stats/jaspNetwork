@@ -13,9 +13,6 @@ jobs:
 
   unit-tests:
 
-    if: github.event.name != 'schedule'
-    # if: github.event.name != 'schedule' || github.repository.owner == 'jasp-stats'
-
     uses: vandenman/jasp-actions/.github/workflows/unittests.yml@reuseable_workflow_unittests
     with:
       needs_JAGS:   false
