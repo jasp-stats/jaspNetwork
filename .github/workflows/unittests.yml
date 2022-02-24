@@ -29,6 +29,3 @@ jobs:
     with:
       needs_JAGS:   false
       needs_igraph: true
-    secrets:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
