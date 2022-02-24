@@ -19,9 +19,11 @@ jobs:
         run: |
           echo "$GITHUB_CONTEXT"
           echo "$GITHUB_EVENT_NAME"
-          echo "${{github.event.name}}"
-          echo "${{github.repository.owner}}"
+          echo "${{github.event_name}}"
+          echo "${{github.repository_owner}}"
         shell: bash
+        env: 
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
 
   unit-tests:
 
