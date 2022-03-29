@@ -1,5 +1,4 @@
-
-on: 
+on:
   push:
     paths: ['**.R', 'tests/**', '**.Rd', '**.c', '**.cpp', '**.h', '**.hpp', 'DESCRIPTION', 'NAMESPACE', 'MAKEVARS', 'MAKEVARS.win', '**.yml']
   pull_request:
