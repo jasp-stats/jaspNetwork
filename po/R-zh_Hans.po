@@ -36,7 +36,7 @@ msgid "Data was binarized using %s."
 msgstr "使用 %s 对数据进行二值化。"
 
 msgid "Only the first %d values of %s were used to color nodes (%d provided)."
-msgstr "只有 %s 的前 %d 个值用于为节点着色（给定 %d ）。"
+msgstr "只有 %2$s 的前 %1$d 个值用于为节点着色（给定 %1$d ）。"
 
 msgid "<em>Warning: </em>"
 msgstr "<em>警告: </em>"
