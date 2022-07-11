@@ -271,7 +271,6 @@ Form
 			rowComponent: DropDown
 			{
 				name: "groupColors"
-				enabled: manualColors.checked
 				visible: manualColors.checked
 				values: [
 					{ label: qsTr("red")	, value: "red"		},
