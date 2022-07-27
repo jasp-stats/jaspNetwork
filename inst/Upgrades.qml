@@ -30,28 +30,29 @@ Upgrades
 		ChangeRename	{	from:	"plotCentrality";					to:		"centralityPlot"								}
 		ChangeRename	{	from:	"plotClustering";					to:		"networkclusteringPlotPlot"						}
 
-		ChangeRename	{	from: 	"tableCentrality"					to:		"centralityTable"								}
-		ChangeRename	{	from: 	"tableClustering"					to:		"clusteringTable"								}
-		ChangeRename	{	from: 	"tableWeightsMatrix"				to:		"weightsMatrixTable"							}
+		ChangeRename	{	from: 	"tableCentrality";					to:		"centralityTable"								}
+		ChangeRename	{	from: 	"tableClustering";					to:		"clusteringTable"								}
+		ChangeRename	{	from: 	"tableWeightsMatrix";				to:		"weightsMatrixTable"							}
 
-		ChangeRename	{	from:	"normalizeCentrality"				to:		"centralityNormalization"						}
+		ChangeRename	{	from:	"normalizeCentrality";				to:		"centralityNormalization"						}
 
-		ChangeRename	{	from: 	"mgmVariableTypeContinuous"			to:		"mgmContinuousVariables"						}
-		ChangeRename	{	from: 	"mgmVariableTypeCategorical"		to:		"mgmCategoricalVariables"						}
-		ChangeRename	{	from: 	"mgmVariableTypeCount"				to:		"mgmCountVariables"								}
+		ChangeRename	{	from: 	"mgmVariableTypeContinuous";		to:		"mgmContinuousVariables"						}
+		ChangeRename	{	from: 	"mgmVariableTypeCategorical";		to:		"mgmCategoricalVariables"						}
+		ChangeRename	{	from: 	"mgmVariableTypeCount";				to:		"mgmCountVariables"								}
 
-		ChangeRename	{	from:	"BootstrapType"						to:		"bootstrapType"									}
+		ChangeRename	{	from:	"BootstrapType";					to:		"bootstrapType"									}
 
-		ChangeRename	{	from: 	"StatisticsEdges"					to:		"statisticsEdges"								}
-		ChangeRename	{	from: 	"StatisticsCentrality"				to:		"statisticsCentrality"							}
+		ChangeRename	{	from: 	"StatisticsEdges";					to:		"statisticsEdges"								}
+		ChangeRename	{	from: 	"StatisticsCentrality";				to:		"statisticsCentrality"							}
 
-		ChangeRename	{	from:	"showDetails"						to:		"details"										}
+		ChangeRename	{	from:	"showDetails";						to:		"details"										}
 
 		ChangeJS
 		{
 			name: "edgeColors"
 			jsFunction: function(options)
 			{
+				console.log("Inside jsFunction for 'edgeColors'");
 				switch (options["edgeColors"])
 				{
 					case "Hollywood":			return "hollywood";
@@ -66,9 +67,9 @@ Upgrades
 			}
 		}
 
-		ChangeRename	{	from:	"scaleLabels",						to:		"labelScale"									}
+		ChangeRename	{	from:	"scaleLabels";						to:		"labelScale"									}
 
-		ChangeRename	{	from:	"showVariableNames",				to:		"variableNamesShown"							}
+		ChangeRename	{	from:	"showVariableNames";				to:		"variableNamesShown"							}
 		ChangeJS
 		{
 			name: "variableNamesShown"
@@ -82,7 +83,7 @@ Upgrades
 			}
 		}
 
-		ChangeRename	{	from:	"showMgmVariableType",				to:		"mgmVariableTypeShown"							}
+		ChangeRename	{	from:	"showMgmVariableType";				to:		"mgmVariableTypeShown"							}
 		ChangeJS
 		{
 			name: "mgmVariableTypeShown"
@@ -97,13 +98,13 @@ Upgrades
 			}
 		}
 
-		ChangeRename	{	from:	"showLegend",						to:		"legend"										}
+		ChangeRename	{	from:	"showLegend";						to:		"legend"										}
 		ChangeJS
 		{
-			name: "mgmVariableTypeShown"
+			name: "legend"
 			jsFunction: function(options)
 			{
-				switch (options["mgmVariableTypeShown"])
+				switch (options["legend"])
 				{
 					case "No legend":			return "hide";
 					case "All plots":			return "allPlots";
@@ -112,12 +113,12 @@ Upgrades
 			}
 		}
 
-		ChangeRename	{	from: 	"Betweenness"						to:		"betweenness"									}
-		ChangeRename	{	from: 	"Closeness"							to:		"closeness"										}
-		ChangeRename	{	from: 	"Degree"							to:		"degree"										}
-		ChangeRename	{	from: 	"ExpectedInfluence"					to:		"expectedInfluence"								}
+		ChangeRename	{	from: 	"Betweenness";						to:		"betweenness"									}
+		ChangeRename	{	from: 	"Closeness";						to:		"closeness"										}
+		ChangeRename	{	from: 	"Degree";							to:		"degree"										}
+		ChangeRename	{	from: 	"ExpectedInfluence";				to:		"expectedInfluence"								}
 
-		ChangeRename	{	from: 	"addLayoutToData"					to:		"layoutSavedToData"								}
+		ChangeRename	{	from: 	"addLayoutToData";					to:		"layoutSavedToData"								}
 
 	}
 }
