@@ -25,6 +25,11 @@ Imports:
   reshape2,
   snow,
   stringr
+Suggests:
+  jaspTools
 Remotes:
   jasp-stats/jaspBase,
-  jasp-stats/jaspGraphs
+  jasp-stats/jaspGraphs,
+  jasp-stats/jaspTools
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.1

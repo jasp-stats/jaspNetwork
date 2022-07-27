@@ -38,11 +38,11 @@ Form
 		label: qsTr("Estimator")
 		Layout.columnSpan: 2
 		values: [
-			{ value: "EBICglasso",		label: "EBICglasso"			},
+			{ value: "ebicGlasso",		label: "EBICglasso"			},
 			{ value: "cor",				label: qsTr("Correlation")		},
 			{ value: "pcor",			label: qsTr("Partial Correlation")},
-			{ value: "IsingFit",		label: "IsingFit"			},
-			{ value: "IsingSampler",	label: "IsingSampler"		},
+			{ value: "isingFit",		label: "IsingFit"			},
+			{ value: "isingSampler",	label: "IsingSampler"		},
 			{ value: "huge",			label: qsTr("huge")			},
 //			{ value: "adalasso",		label: "adalasso"			},	// no longer available due to removal of parcor from CRAN
 			{ value: "mgm",				label: "mgm"				}
@@ -52,17 +52,17 @@ Form
 	Group
 	{
 		title: qsTr("Plots")
-		CheckBox { name: "plotNetwork";		label: qsTr("Network plot")								}
-		CheckBox { name: "plotCentrality";	label: qsTr("Centrality plot");		id: plotCentrality	}
-		CheckBox { name: "plotClustering";	label: qsTr("Clustering plot")							}
+		CheckBox { name: "networkPlot";		label: qsTr("Network plot")								}
+		CheckBox { name: "centralityPlot";	label: qsTr("Centrality plot");		id: centralityPlot	}
+		CheckBox { name: "clusteringPlot";	label: qsTr("Clustering plot")							}
 	}
 
 	Group
 	{
 		title: qsTr("Tables")
-		CheckBox { name: "tableCentrality";		label: qsTr("Centrality table")	}
-		CheckBox { name: "tableClustering";		label: qsTr("Clustering table")	}
-		CheckBox { name: "tableWeightsMatrix";	label: qsTr("Weights matrix")	}
+		CheckBox { name: "centralityTable";		label: qsTr("Centrality table")	}
+		CheckBox { name: "clusteringTable";		label: qsTr("Clustering table")	}
+		CheckBox { name: "weightsMatrixTable";	label: qsTr("Weights matrix")	}
 	}
 
 	Section
@@ -82,7 +82,7 @@ Form
 
 		RadioButtonGroup
 		{
-			name: "normalizeCentrality"
+			name: "centralityNormalization"
 			title: qsTr("Centrality Measures")
 			visible: estimator.currentIndex === 0
 			RadioButton { value: "normalized";	label: qsTr("Normalized"); checked: true }
@@ -213,9 +213,9 @@ Form
 				source: ["variables"]
 			}
 
-			AssignedVariablesList { name: "mgmVariableTypeContinuous";	title: qsTr("Continuous Variables");	suggestedColumns: ["scale"]}
-			AssignedVariablesList { name: "mgmVariableTypeCategorical";	title: qsTr("Categorical Variables");	suggestedColumns: ["ordinal"]}
-			AssignedVariablesList { name: "mgmVariableTypeCount";		title: qsTr("Count Variables");			suggestedColumns: ["nominal"]}
+			AssignedVariablesList { name: "mgmContinuousVariables";		title: qsTr("Continuous Variables");	suggestedColumns: ["scale"]}
+			AssignedVariablesList { name: "mgmCategoricalVariables";	title: qsTr("Categorical Variables");	suggestedColumns: ["ordinal"]}
+			AssignedVariablesList { name: "mgmCountVariables";			title: qsTr("Count Variables");			suggestedColumns: ["nominal"]}
 		}
 	}
 
@@ -234,7 +234,7 @@ Form
 
 		RadioButtonGroup
 		{
-			name: "BootstrapType"
+			name: "bootstrapType"
 			title: qsTr("Bootstrap Type")
 			Layout.rowSpan: 2
 			RadioButton { value: "nonparametric";	label: qsTr("Nonparametric"); checked: true	}
@@ -248,8 +248,8 @@ Form
 		Group
 		{
 			title: qsTr("Statistics")
-			CheckBox { name: "StatisticsEdges";			label: qsTr("Edges");		checked: true }
-			CheckBox { name: "StatisticsCentrality";	label: qsTr("Centrality");	checked: true }
+			CheckBox { name: "statisticsEdges";			label: qsTr("Edges");		checked: true }
+			CheckBox { name: "statisticsCentrality";	label: qsTr("Centrality");	checked: true }
 		}
 	}
 
@@ -330,7 +330,7 @@ Form
 			DoubleField { name: "maxEdgeStrength";	label: qsTr("Max edge strength");	defaultValue: 0; max: 10 }
 			DoubleField { name: "minEdgeStrength";	label: qsTr("Min edge strength");	defaultValue: 0; max: 10 }
 			DoubleField { name: "cut";				label: qsTr("Cut");					defaultValue: 0; max: 10 }
-			CheckBox	{ name: "showDetails";		label: qsTr("Show details") }
+			CheckBox	{ name: "details";			label: qsTr("Show details") }
 			CheckBox
 			{
 								name: "edgeLabels";			label: qsTr("Edge labels");				checked: false
@@ -348,11 +348,11 @@ Form
 					{ label: qsTr("Classic"),		value: "classic"		},
 					{ label: qsTr("Colorblind"),	value: "colorblind"		},
 					{ label: qsTr("Gray"),			value: "gray"			},
-					{ label: qsTr("Hollywood"),		value: "Hollywood"		},
-					{ label: qsTr("Borkulo"),		value: "Borkulo"		},
-					{ label: qsTr("TeamFortress"),	value: "TeamFortress"	},
-					{ label: qsTr("Reddit"),		value: "Reddit"			},
-					{ label: qsTr("Fried"),			value: "Fried"			}
+					{ label: qsTr("Hollywood"),		value: "hollywood"		},
+					{ label: qsTr("Borkulo"),		value: "borkulo"		},
+					{ label: qsTr("TeamFortress"),	value: "teamFortress"	},
+					{ label: qsTr("Reddit"),		value: "reddit"			},
+					{ label: qsTr("Fried"),			value: "fried"			}
 				]
 			}
 		}
@@ -361,7 +361,7 @@ Form
 		{
 			title: qsTr("Labels")
 			DoubleField { name: "labelSize";	label: qsTr("Label size");		defaultValue: 1; max: 10 }
-			CheckBox	{ name: "scaleLabels";	label: qsTr("Scale label size");	checked: true }
+			CheckBox	{ name: "labelScale";	label: qsTr("Scale label size");	checked: true }
 			CheckBox
 			{
 				name: "abbreviateLabels"; label: qsTr("Abbreviate labels to ")
@@ -372,31 +372,31 @@ Form
 
 		RadioButtonGroup
 		{
-			name: "showVariableNames";
+			name: "variableNamesShown";
 			title: qsTr("Show Variable Names")
-			RadioButton { value: "In nodes";			label: qsTr("In plot");	 checked: true	}
-			RadioButton { value: "In legend";		label: qsTr("In legend")					}
+			RadioButton { value: "inNodes";			label: qsTr("In plot");	 checked: true	}
+			RadioButton { value: "inLegend";		label: qsTr("In Legend")				}
 		}
 
 		RadioButtonGroup
 		{
-			name: "showMgmVariableType";
+			name: "mgmVariableTypeShown";
 			title: qsTr("Show Variable Type")
 			visible: [7].includes(estimator.currentIndex)
-			RadioButton { value: "mgmNoShow";		label: qsTr("Don't show")						}
-			RadioButton { value: "mgmNodeColor";	label: qsTr("Using node color")					}
-			RadioButton { value: "mgmNodeShape";	label: qsTr("Using node shape"); checked: true	}
+			RadioButton { value: "hide";		label: qsTr("Don't show")						}
+			RadioButton { value: "nodeColor";	label: qsTr("Using node color")					}
+			RadioButton { value: "nodeShape";	label: qsTr("Using node shape"); checked: true	}
 		}
 
 		RadioButtonGroup
 		{
-			name: "showLegend"
+			name: "legend"
 			title: qsTr("Legend")
-			RadioButton { value: "No legend";		label: qsTr("No legend")					}
-			RadioButton { value: "All plots";		label: qsTr("All plots"); checked: true	}
+			RadioButton { value: "hide";			label: qsTr("No legend")					}
+			RadioButton { value: "allPlots";		label: qsTr("All plots"); checked: true	}
 			RadioButton
 			{
-				value: "In plot number: "; label: qsTr("In plot number: ")
+				value: "specificPlot"; label: qsTr("In plot number: ")
 				childrenOnSameRow: true
 				IntegerField { name: "legendNumber"; defaultValue: 1 }
 			}
@@ -428,11 +428,11 @@ Form
 		Group
 		{
 			title: qsTr("Measures shown in centrality plot")
-			enabled: plotCentrality.checked
-			CheckBox	{	name: "Betweenness";		label: qsTr("Betweenness");			checked: true	}
-			CheckBox	{	name: "Closeness";			label: qsTr("Closeness");			checked: true	}
-			CheckBox	{	name: "Degree";				label: qsTr("Betweenness");			checked: true	}
-			CheckBox	{	name: "ExpectedInfluence";	label: qsTr("Expected Influence");	checked: true	}
+			enabled: centralityPlot.checked
+			CheckBox	{	name: "betweenness";		label: qsTr("Betweenness");			checked: true	}
+			CheckBox	{	name: "closeness";			label: qsTr("Closeness");			checked: true	}
+			CheckBox	{	name: "degree";				label: qsTr("Degree");				checked: true	}
+			CheckBox	{	name: "expectedInfluence";	label: qsTr("Expected Influence");	checked: true	}
 		}
 
 		VariablesForm
@@ -447,7 +447,7 @@ Form
 		CheckBox
 		{
 			text: qsTr("Save the layout in the data set")
-			name: "addLayoutToData"
+			name: "layoutSavedToData"
 			Layout.columnSpan: 2
 			ComputedColumnField { name: "computedLayoutX"; text: qsTr("name for x-coordinates"); id: layoutX }
 			ComputedColumnField { name: "computedLayoutY"; text: qsTr("name for y-coordinates"); id: layoutY }
