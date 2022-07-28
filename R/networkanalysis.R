@@ -193,7 +193,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   if (is.null(mainContainer[["generalTable"]])) {
     tb <- createJaspTable(gettext("Summary of Network"), position = 1, dependencies = c(
       # These are dependencies because specifying them incorrectly is communicated as footnotes on this table
-      "computedLayoutX", "computedLayoutY", "bootstrapOnOff", "numberOfBootstraps", "minEdgeStrength"
+      "computedLayoutX", "computedLayoutY", "bootstrap", "bootstrapSamples", "minEdgeStrength"
     ))
     if (length(dataset) > 1L)
       tb$addColumnInfo(name = "info", title = gettext("Network"), type = "string")
@@ -253,7 +253,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
       tb$addFootnote(text, symbol = gettext("<em>Warning: </em>"))
     }
   }
-  if (xor(options[["bootstrapOnOff"]], options[["numberOfBootstraps"]] > 0L)) {
+  if (xor(options[["bootstrap"]], options[["bootstrapSamples"]] > 0L)) {
     text <- gettext("Bootstrapping is only done when 'Bootstrap network' is ticked and 'Number of Bootstraps' is larger than 0.")
     tb$addFootnote(text, symbol = gettext("<em>Warning: </em>"))
   }
@@ -440,7 +440,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
   # a table to show before bootstrapping to give some feedback to the user.
   # this used to give an ETA but with the progress bars that isn't really necessary anymore.
-  if (!(length(options[["variables"]]) > 2L && options[["bootstrapOnOff"]] && options[["numberOfBootstraps"]] > 0L))
+  if (!(length(options[["variables"]]) > 2L && options[["bootstrap"]] && options[["bootstrapSamples"]] > 0L))
     return()
 
   bootstrapType <- options[["bootstrapType"]]
@@ -448,9 +448,9 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
   table <- createJaspTable(title = gettext("Bootstrap summary of Network"), position = position)
   table$addColumnInfo(name = "type",               title = gettext("Type"), type = "string")
-  table$addColumnInfo(name = "numberOfBootstraps", title = gettext("Number of bootstraps"), type = "integer")
+  table$addColumnInfo(name = "bootstrapSamples", title = gettext("Number of bootstraps"), type = "integer")
   table[["type"]]               <- bootstrapType
-  table[["numberOfBootstraps"]] <- options[["numberOfBootstraps"]]
+  table[["bootstrapSamples"]] <- options[["bootstrapSamples"]]
   bootstrapContainer[["table"]] <- table
 
 }
@@ -460,7 +460,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
   plotContainer <- mainContainer[["plotContainer"]]
   if (is.null(plotContainer)) {
-    plotContainer <- createJaspContainer(position = 5, dependencies = c("abbreviateLabels", "abbreviateNoChars",
+    plotContainer <- createJaspContainer(position = 5, dependencies = c("labelAbbreviation", "labelAbbreviationLength",
                                                                         "legend", "variableNamesShown"))
     mainContainer[["plotContainer"]] <- plotContainer
   }
@@ -555,8 +555,8 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   # long object for centrality or clustering into a ggplot.
 
   # code modified from qgraph::centralityPlot(). Type and graph are switched so the legend title says graph
-  if (options[["abbreviateLabels"]])
-    Long[["node"]] <- base::abbreviate(Long[["node"]], options[["abbreviateNoChars"]])
+  if (options[["labelAbbreviation"]])
+    Long[["node"]] <- base::abbreviate(Long[["node"]], options[["labelAbbreviationLength"]])
 
   # code modified from qgraph::centralityPlot(). Type and graph are switched so the legend title says graph
   Long <- Long[gtools::mixedorder(Long$node), ]
@@ -637,7 +637,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
       minimum             = minE,
       details             = options[["details"]],
       labels              = labels,
-      palette             = if (options[["manualColors"]]) NULL else options[["nodePalette"]],
+      palette             = if (options[["manualColor"]]) NULL else options[["nodePalette"]],
       theme               = .networkAnalysisJaspToBootnetEdgeColors(options[["edgeColors"]]),
       legend              = legend,
       shape               = shape,
@@ -648,7 +648,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
       label.cex           = options[["labelSize"]],
       GLratio             = 1 / options[["legendToPlotRatio"]],
       edge.labels         = options[["edgeLabels"]],
-      edge.label.cex      = options[["edgeLabelCex"]],
+      edge.label.cex      = options[["edgeLabelSize"]],
       edge.label.position = options[["edgeLabelPosition"]]
     ))
 }
@@ -668,11 +668,11 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   networkPlotContainer <- createJaspContainer(title = title, position = 51, dependencies = c(
     "layout", "edgeColors", "repulsion", "edgeSize", "nodeSize", "colorNodesBy",
     "maxEdgeStrength", "minEdgeStrength", "cut", "details", "nodePalette",
-    "legendNumber", "mgmVariableTypeShown",
-    "labelScale", "labelSize", "abbreviateLabels", "abbreviateNoChars",
-    "keepLayoutTheSame", "layoutX", "layoutY", "networkPlot",
-    "groupNames", "groupColors", "variablesForColor", "groupAssigned", "manualColors",
-    "legendToPlotRatio", "edgeLabels", "edgeLabelCex", "edgeLabelPosition"
+    "legendSpecificPlotNumber", "mgmVariableTypeShown",
+    "labelScale", "labelSize", "labelAbbreviation", "labelAbbreviationLength",
+    "layoutNotUpdated", "layoutX", "layoutY", "networkPlot",
+    "manualColorGroups", "color", "colorGroupVariables", "group", "manualColor",
+    "legendToPlotRatio", "edgeLabels", "edgeLabelSize", "edgeLabelPosition"
   ))
   plotContainer[["networkPlotContainer"]] <- networkPlotContainer
 
@@ -697,25 +697,25 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   nodeColor <- NULL
   allLegends <- rep(FALSE, nGraphs) # no legends
 
-  if (length(options[["variablesForColor"]]) > 1L) {
-    variablesForColor <- matrix(unlist(options[["variablesForColor"]]), ncol = 2L, byrow = TRUE)
-    if (length(unique(variablesForColor[, 1L])) > 1L) {
+  if (length(options[["colorGroupVariables"]]) > 1L) {
+    colorGroupVariables <- matrix(unlist(options[["colorGroupVariables"]]), ncol = 2L, byrow = TRUE)
+    if (length(unique(colorGroupVariables[, 1L])) > 1L) {
       # user has defined groups and there are variables in the groups
-      groupNames <- matrix(unlist(options[["groupNames"]]), ncol = 2L, byrow = TRUE)
-      nGroups <- nrow(groupNames)
+      manualColorGroups <- matrix(unlist(options[["manualColorGroups"]]), ncol = 2L, byrow = TRUE)
+      nGroups <- nrow(manualColorGroups)
 
-      idx <- match(variablesForColor[, 1L], groupNames[, 1L])
+      idx <- match(colorGroupVariables[, 1L], manualColorGroups[, 1L])
 
       groups <- vector("list", nGroups)
-      names(groups) <- groupNames[, 1L]
+      names(groups) <- manualColorGroups[, 1L]
       for (i in seq_len(nGroups))
         groups[[i]] <- which(idx == i)
 
       nonEmpty <- lengths(groups) > 0L
       groups <- groups[nonEmpty]
 
-      if (options[["manualColors"]])
-        nodeColor <- groupNames[nonEmpty, 2L]
+      if (options[["manualColor"]])
+        nodeColor <- manualColorGroups[nonEmpty, 2L]
     }
   }
 
@@ -757,8 +757,8 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
   }
 
-  if (options[["abbreviateLabels"]])
-    labels <- base::abbreviate(labels, options[["abbreviateNoChars"]])
+  if (options[["labelAbbreviation"]])
+    labels <- base::abbreviate(labels, options[["labelAbbreviationLength"]])
 
   # do we need to draw legends?
   if (!is.null(groups) || !is.null(nodeNames)) {
@@ -768,17 +768,17 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
     } else if (options[["legend"]] ==  "specificPlot") {
 
-      if (options[["legendNumber"]] > nGraphs) {
+      if (options[["legendSpecificPlotNumber"]] > nGraphs) {
 
         allLegends[nGraphs] <- TRUE
 
-      } else if (options[["legendNumber"]] < 1L) {
+      } else if (options[["legendSpecificPlotNumber"]] < 1L) {
 
         allLegends[1L] <- TRUE
 
       } else {
 
-        allLegends[options[["legendNumber"]]] <- TRUE
+        allLegends[options[["legendSpecificPlotNumber"]]] <- TRUE
 
       }
     }
@@ -1285,7 +1285,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   bootstrapContainer <- mainContainer[["bootstrapContainer"]]
   if (is.null(bootstrapContainer)) {
     bootstrapContainer <- createJaspContainer("", position = 9, dependencies = c(
-      "numberOfBootstraps", "bootstrapType", "bootstrapOnOff"
+      "bootstrapSamples", "bootstrapType", "bootstrap"
     ))
     mainContainer[["bootstrapContainer"]] <- bootstrapContainer
   }
@@ -1304,7 +1304,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 .networkAnalysisComputeBootstrap <- function(bootstrapContainer, network, options) {
 
   bootstrapResult <- bootstrapContainer[["bootstrapState"]]$object
-  bootstrapReady <- length(options[["variables"]]) > 2L && options[["bootstrapOnOff"]] && options[["numberOfBootstraps"]] > 0L
+  bootstrapReady <- length(options[["variables"]]) > 2L && options[["bootstrap"]] && options[["bootstrapSamples"]] > 0L
   if (!bootstrapReady || is.null(network[["network"]]) || bootstrapContainer$getError() || !is.null(bootstrapResult))
     return(bootstrapResult)
 
@@ -1312,7 +1312,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   allNetworks <- network[["network"]]
   nGraphs <- length(allNetworks)
   nCores <- .networkAnalysisGetNumberOfCores(options)
-  noTicks <- if (options[["bootstrapType"]] == "jacknife") network[["network"]][[1L]][["nPerson"]] * nGraphs else options[["numberOfBootstraps"]] * nGraphs
+  noTicks <- if (options[["bootstrapType"]] == "jacknife") network[["network"]][[1L]][["nPerson"]] * nGraphs else options[["bootstrapSamples"]] * nGraphs
 
   startProgressbar(noTicks * 2L, "Bootstrapping network")
 
@@ -1331,7 +1331,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
       for (nm in names(allNetworks)) {
         bootstrapResult[[nm]] <- bootnet::bootnet(
           data       = allNetworks[[nm]],
-          nBoots     = options[["numberOfBootstraps"]],
+          nBoots     = options[["bootstrapSamples"]],
           type       = options[["bootstrapType"]],
           nCores     = nCores,
           statistics = c("edge", "strength", "closeness", "betweenness"),
@@ -1364,7 +1364,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
 .networkAnalysisGetNumberOfCores <- function(options) {
 
-  if (options[["parallelBootstrap"]]) {
+  if (options[["bootstrapParallel"]]) {
     nCores <- parallel::detectCores(TRUE)
     if (is.na(nCores)) # parallel::detectCores returns NA if unknown/ fails
       nCores <- 1

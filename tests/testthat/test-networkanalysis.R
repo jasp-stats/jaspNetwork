@@ -49,8 +49,8 @@ test_that("weightmatrixTB table results match", {
 
 
 options <- jaspTools::analysisOptions("NetworkAnalysis")
-options$bootstrapOnOff <- TRUE
-options$numberOfBootstraps <- 2
+options$bootstrap <- TRUE
+options$bootstrapSamples <- 2
 options$centralityPlot <- TRUE
 options$clusteringPlot <- TRUE
 options$networkPlot <- TRUE

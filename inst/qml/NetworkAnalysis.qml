@@ -226,10 +226,10 @@ Form
 		Group
 		{
 			title: qsTr("Settings")
-			CheckBox	 { name: "bootstrapOnOff";		label: qsTr("Bootstrap network")	}
-			IntegerField { name: "numberOfBootstraps";	label: qsTr("Number of bootstraps"); defaultValue: 0; max: 100000 }
+			CheckBox	 { name: "bootstrap";		label: qsTr("Bootstrap network")	}
+			IntegerField { name: "bootstrapSamples";	label: qsTr("Number of bootstraps"); defaultValue: 0; max: 100000 }
 
-			CheckBox	 { name: "parallelBootstrap";	label: qsTr("Parallel Bootstrap");	checked: false;	visible: false }
+			CheckBox	 { name: "bootstrapParallel";	label: qsTr("Parallel Bootstrap");	checked: false;	visible: false }
 		}
 
 		RadioButtonGroup
@@ -260,18 +260,18 @@ Form
 		InputListView
 		{
 			id					: networkFactors
-			name				: "groupNames"
+			name				: "manualColorGroups"
 			title				: qsTr("Group name")
-			optionKey			: "group"
+			optionKey			: "name"
 			defaultValues		: ["Group 1", "Group 2"]
 			placeHolder			: qsTr("New Group")
 			minRows				: 2
 			preferredWidth		: (2 * form.width) / 5
-			rowComponentTitle	: manualColors.checked ? qsTr("Group color") : ""
+			rowComponentTitle	: manualColor.checked ? qsTr("Group color") : ""
 			rowComponent: DropDown
 			{
-				name: "groupColors"
-				visible: manualColors.checked
+				name: "color"
+				visible: manualColor.checked
 				values: [
 					{ label: qsTr("red")	, value: "red"		},
 					{ label: qsTr("blue")	, value: "blue"		},
@@ -288,25 +288,25 @@ Form
 			Layout.fillWidth				: true
 			Layout.leftMargin				: 40
 			title							: qsTr("Variables in network")
-			name							: "variablesForColor"
+			name							: "colorGroupVariables"
 			source							: ["variables"]
 			addAvailableVariablesToAssigned	: true
 			draggable						: false
 			rowComponentTitle				: qsTr("Group")
 			rowComponent: DropDown
 			{
-				name: "groupAssigned"
-				source: ["groupNames"]
+				name: "group"
+				source: ["manualColorGroups"]
 			}
 		}
 
 		Group
 		{
 			Layout.columnSpan: 2
-			CheckBox	{ name: "manualColors";	label: qsTr("Manual colors");	id: manualColors	}
+			CheckBox	{ name: "manualColor";	label: qsTr("Manual colors");	id: manualColor	}
 			DropDown
 			{
-				enabled: !manualColors.checked
+				enabled: !manualColor.checked
 				id: paletteSelector
 				name: "nodePalette"
 				label: qsTr("Node palette")
@@ -334,7 +334,7 @@ Form
 			CheckBox
 			{
 								name: "edgeLabels";			label: qsTr("Edge labels");				checked: false
-				DoubleField {	name: "edgeLabelCex";		label: qsTr("Edge label size");			min: 0;			max: 10;	defaultValue: 1		}
+				DoubleField {	name: "edgeLabelSize";		label: qsTr("Edge label size");			min: 0;			max: 10;	defaultValue: 1		}
 				DoubleField {	name: "edgeLabelPosition";	label: qsTr("Edge label position");		min: 0;			max: 1;		defaultValue: 0.5	}
 			}
 
@@ -364,9 +364,9 @@ Form
 			CheckBox	{ name: "labelScale";	label: qsTr("Scale label size");	checked: true }
 			CheckBox
 			{
-				name: "abbreviateLabels"; label: qsTr("Abbreviate labels to ")
+				name: "labelAbbreviation"; label: qsTr("Abbreviate labels to ")
 				childrenOnSameRow: true
-				IntegerField { name: "abbreviateNoChars"; defaultValue: 4; min: 1; max: 100000 }
+				IntegerField { name: "labelAbbreviationLength"; defaultValue: 4; min: 1; max: 100000 }
 			}
 		}
 
@@ -398,7 +398,7 @@ Form
 			{
 				value: "specificPlot"; label: qsTr("In plot number: ")
 				childrenOnSameRow: true
-				IntegerField { name: "legendNumber"; defaultValue: 1 }
+				IntegerField { name: "legendSpecificPlotNumber"; defaultValue: 1 }
 			}
 			DoubleField
 			{
@@ -414,7 +414,7 @@ Form
 		{
 			name: "layout"
 			title: qsTr("Layout")
-			CheckBox { name: "keepLayoutTheSame"; label: qsTr("Do not update layout") }
+			CheckBox { name: "layoutNotUpdated"; label: qsTr("Do not update layout") }
 			RadioButton
 			{
 				value: "spring"; label: qsTr("Spring"); checked: true
