@@ -40,16 +40,16 @@ Upgrades
 		ChangeRename	{	from: 	"mgmVariableTypeCategorical";		to:		"mgmCategoricalVariables"						}
 		ChangeRename	{	from: 	"mgmVariableTypeCount";				to:		"mgmCountVariables"								}
 
-		ChangeRename	{	from:	"BootstrapType"						to:		"bootstrapType"									}
-		ChangeRename	{	from:	"bootstrapOnOff"					to:		"bootstrap"										}
-		ChangeRename	{	from:	"numberOfBootstraps"				to:		"bootstrapSamples"								}
-		ChangeRename	{	from:	"parallelBootstrap"					to:		"bootstrapParallel"								}
+		ChangeRename	{	from:	"BootstrapType";					to:		"bootstrapType"									}
+		ChangeRename	{	from:	"bootstrapOnOff";					to:		"bootstrap"										}
+		ChangeRename	{	from:	"numberOfBootstraps";				to:		"bootstrapSamples"								}
+		ChangeRename	{	from:	"parallelBootstrap";				to:		"bootstrapParallel"								}
 		
 
 		ChangeRename	{	from: 	"StatisticsEdges";					to:		"statisticsEdges"								}
 		ChangeRename	{	from: 	"StatisticsCentrality";				to:		"statisticsCentrality"							}
 
-		ChangeRename	{	from: 	"groupNames"						to:		"manualColorGroups"								}
+		ChangeRename	{	from: 	"groupNames";						to:		"manualColorGroups"								}
 
 		ChangeJS
 		{
@@ -63,7 +63,7 @@ Upgrades
 					item["name"] = item["group"];
 					item["color"] = item["groupColor"];
 					return item;
-				}
+				})
 				// for (int i = 0; i < options["manualColorGroups"].length; i++)
 				// {
 				// 	options["manualColorGroups"][i]["name"]  = options["manualColorGroups"][i]["group"]
@@ -74,7 +74,7 @@ Upgrades
 		
 		// variablesForColor -> colorGroupVariables
 		// groupAssigned -> group
-		ChangeRename	{	from:	"variablesForColor"					to:		"colorGroupVariables"							}
+		ChangeRename	{	from:	"variablesForColor";				to:		"colorGroupVariables"							}
 		ChangeJS
 		{
 			name: "colorGroupVariables"
@@ -86,18 +86,18 @@ Upgrades
 					console.log(item);
 					item["group"] = item["groupAssigned"];
 					return item;
-				}
+				})
 
 			}
 		}
 
 
-		ChangeRename	{	from:	"manualColors"						to:		"manualColor"									}
+		ChangeRename	{	from:	"manualColors";						to:		"manualColor"									}
 
-		ChangeRename	{	from:	"showDetails"						to:		"details"										}
+		ChangeRename	{	from:	"showDetails";						to:		"details"										}
 
-		ChangeRename	{	from:	"edgeLabelCex"						to:		"edgeLabelSize"									}
-		ChangeRename	{	from:	"edgeColors"						to:		"edgePalette"									}
+		ChangeRename	{	from:	"edgeLabelCex";						to:		"edgeLabelSize"									}
+		ChangeRename	{	from:	"edgeColors";						to:		"edgePalette"									}
 
 		ChangeJS
 		{
@@ -118,9 +118,9 @@ Upgrades
 			}
 		}
 
-		ChangeRename	{	from:	"scaleLabels",						to:		"labelScale"									}
-		ChangeRename	{	from:	"abbreviateLabels",					to:		"labelAbbreviation"								}
-		ChangeRename	{	from:	"abbreviateNoChars",				to:		"labelAbbreviationLength"						}
+		ChangeRename	{	from:	"scaleLabels";						to:		"labelScale"									}
+		ChangeRename	{	from:	"abbreviateLabels";					to:		"labelAbbreviation"								}
+		ChangeRename	{	from:	"abbreviateNoChars";				to:		"labelAbbreviationLength"						}
 
 		ChangeRename	{	from:	"showVariableNames";				to:		"variableNamesShown"							}
 		ChangeJS
@@ -166,15 +166,15 @@ Upgrades
 			}
 		}
 
-		ChangeRename	{	from: 	"legendNumber"						to:		"legendSpecificPlotNumber"						}
-		ChangeRename	{	from: 	"keepLayoutTheSame"					to:		"layoutNotUpdated"								}
-		ChangeRename	{	from: 	"repulsion"							to:		"layoutSpringRepulsion"							}
+		ChangeRename	{	from: 	"legendNumber";						to:		"legendSpecificPlotNumber"						}
+		ChangeRename	{	from: 	"keepLayoutTheSame";				to:		"layoutNotUpdated"								}
+		ChangeRename	{	from: 	"repulsion";						to:		"layoutSpringRepulsion"							}
 
 		
-		ChangeRename	{	from: 	"Betweenness"						to:		"betweenness"									}
-		ChangeRename	{	from: 	"Closeness"							to:		"closeness"										}
-		ChangeRename	{	from: 	"Degree"							to:		"degree"										}
-		ChangeRename	{	from: 	"ExpectedInfluence"					to:		"expectedInfluence"								}
+		ChangeRename	{	from: 	"Betweenness";						to:		"betweenness"									}
+		ChangeRename	{	from: 	"Closeness";						to:		"closeness"										}
+		ChangeRename	{	from: 	"Degree";							to:		"degree"										}
+		ChangeRename	{	from: 	"ExpectedInfluence";				to:		"expectedInfluence"								}
 
 		ChangeRename	{	from: 	"addLayoutToData";					to:		"layoutSavedToData"								}
 
