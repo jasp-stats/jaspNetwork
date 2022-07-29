@@ -58,22 +58,13 @@ Upgrades
 			{
 
 				options["manualColorGroups"] = options["manualColorGroups"].forEach(item=>{
-					console.log("upgrading this manualColorGroups item:");
-					console.log(item);
 					item["name"] = item["group"];
 					item["color"] = item["groupColor"];
 					return item;
 				})
-				// for (int i = 0; i < options["manualColorGroups"].length; i++)
-				// {
-				// 	options["manualColorGroups"][i]["name"]  = options["manualColorGroups"][i]["group"]
-				// 	options["manualColorGroups"][i]["color"] = options["manualColorGroups"][i]["groupColor"]
-				// }
 			}
 		}
 		
-		// variablesForColor -> colorGroupVariables
-		// groupAssigned -> group
 		ChangeRename	{	from:	"variablesForColor";				to:		"colorGroupVariables"							}
 		ChangeJS
 		{
@@ -82,8 +73,6 @@ Upgrades
 			{
 
 				options["colorGroupVariables"] = options["colorGroupVariables"].forEach(item=>{
-					console.log("upgrading this colorGroupVariables item:");
-					console.log(item);
 					item["group"] = item["groupAssigned"];
 					return item;
 				})
