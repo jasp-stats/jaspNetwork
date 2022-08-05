@@ -59,7 +59,7 @@ Upgrades
 
 				return options["manualColorGroups"].map(item=>{
 					item["name"] = item["group"];
-					item["color"] = item["groupColor"];
+					item["color"] = item["groupColors"];
 					return item;
 				})
 			}

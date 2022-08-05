@@ -419,7 +419,7 @@ Form
 			{
 				value: "spring"; label: qsTr("Spring"); checked: true
 				childrenOnSameRow: true
-				DoubleField { name: "repulsion"; label: qsTr("Repulsion"); defaultValue: 1; max: 10 }
+				DoubleField { name: "layoutSpringRepulsion"; label: qsTr("Repulsion"); defaultValue: 1; max: 10 }
 			}
 			RadioButton { value: "circle";	label: qsTr("Circle")							}
 			RadioButton { value: "data";	label: qsTr("Data");	id: dataRatioButton		}

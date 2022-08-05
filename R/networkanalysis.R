@@ -629,7 +629,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
       input               = wMat,
       layout              = layout,
       groups              = groups,
-      repulsion           = options[["repulsion"]],
+      repulsion           = options[["layoutSpringRepulsion"]],
       cut                 = options[["cut"]],
       edge.width          = options[["edgeSize"]],
       node.width          = options[["nodeSize"]],
@@ -666,7 +666,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   title <- if (nGraphs == 1L) "" else gettext("Network Plots")
 
   networkPlotContainer <- createJaspContainer(title = title, position = 51, dependencies = c(
-    "layout", "edgeColors", "repulsion", "edgeSize", "nodeSize", "colorNodesBy",
+    "layout", "edgeColors", "layoutSpringRepulsion", "edgeSize", "nodeSize", "colorNodesBy",
     "maxEdgeStrength", "minEdgeStrength", "cut", "details", "nodePalette",
     "legendSpecificPlotNumber", "mgmVariableTypeShown",
     "labelScale", "labelSize", "labelAbbreviation", "labelAbbreviationLength",
@@ -909,7 +909,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     mainContainer[["networkState"]]    <- createJaspState(networkList[["network"]])
     mainContainer[["centralityState"]] <- createJaspState(networkList[["centrality"]], dependencies = c("centralityNormalization", "maxEdgeStrength", "minEdgeStrength"))
     mainContainer[["clusteringState"]] <- createJaspState(networkList[["clustering"]])
-    mainContainer[["layoutState"]]     <- createJaspState(networkList[["layout"]], dependencies = c("layout", "repulsion", "layoutX", "layoutY"))
+    mainContainer[["layoutState"]]     <- createJaspState(networkList[["layout"]], dependencies = c("layout", "layoutSpringRepulsion", "layoutX", "layoutY"))
 
     .networkAnalysisSaveLayout(mainContainer, options, networkList[["layout"]][["layout"]])
 
@@ -1226,7 +1226,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     if (layout == "data")
       layout <- "circle"
 
-    jaspBase::.suppressGrDevice(layout <- qgraph::averageLayout(networks, layout = layout, repulsion = options[["repulsion"]]))
+    jaspBase::.suppressGrDevice(layout <- qgraph::averageLayout(networks, layout = layout, repulsion = options[["layoutSpringRepulsion"]]))
     rownames(layout) <- colnames(networks[[1L]])
     layout <- list(layout = layout)
     if (!is.null(userLayout[["message"]]))
@@ -1271,8 +1271,8 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   }
 
   variables <- unlist(options[["variables"]])
-  mainContainer[["layoutXColumn"]] <- createJaspColumn(options[["computedLayoutX"]], c("layout", "repulsion", "layoutX", "layoutY", "computedLayoutX"))
-  mainContainer[["layoutYColumn"]] <- createJaspColumn(options[["computedLayoutY"]], c("layout", "repulsion", "layoutX", "layoutY", "computedLayoutY"))
+  mainContainer[["layoutXColumn"]] <- createJaspColumn(options[["computedLayoutX"]], c("layout", "layoutSpringRepulsion", "layoutX", "layoutY", "computedLayoutX"))
+  mainContainer[["layoutYColumn"]] <- createJaspColumn(options[["computedLayoutY"]], c("layout", "layoutSpringRepulsion", "layoutX", "layoutY", "computedLayoutY"))
   mainContainer[["layoutXColumn"]]$setNominalText(paste(decodeColNames(variables), "=", layout[, 1L]))
   mainContainer[["layoutYColumn"]]$setNominalText(paste(decodeColNames(variables), "=", layout[, 2L]))
 
