@@ -44,7 +44,7 @@ Upgrades
 		ChangeRename	{	from:	"bootstrapOnOff";					to:		"bootstrap"										}
 		ChangeRename	{	from:	"numberOfBootstraps";				to:		"bootstrapSamples"								}
 		ChangeRename	{	from:	"parallelBootstrap";				to:		"bootstrapParallel"								}
-		
+
 
 		ChangeRename	{	from: 	"StatisticsEdges";					to:		"statisticsEdges"								}
 		ChangeRename	{	from: 	"StatisticsCentrality";				to:		"statisticsCentrality"							}
@@ -57,14 +57,14 @@ Upgrades
 			jsFunction: function(options)
 			{
 
-				options["manualColorGroups"] = options["manualColorGroups"].forEach(item=>{
+				return options["manualColorGroups"].map(item=>{
 					item["name"] = item["group"];
 					item["color"] = item["groupColor"];
 					return item;
 				})
 			}
 		}
-		
+
 		ChangeRename	{	from:	"variablesForColor";				to:		"colorGroupVariables"							}
 		ChangeJS
 		{
@@ -72,7 +72,7 @@ Upgrades
 			jsFunction: function(options)
 			{
 
-				options["colorGroupVariables"] = options["colorGroupVariables"].forEach(item=>{
+				return options["colorGroupVariables"].map(item=>{
 					item["group"] = item["groupAssigned"];
 					return item;
 				})
@@ -159,7 +159,7 @@ Upgrades
 		ChangeRename	{	from: 	"keepLayoutTheSame";				to:		"layoutNotUpdated"								}
 		ChangeRename	{	from: 	"repulsion";						to:		"layoutSpringRepulsion"							}
 
-		
+
 		ChangeRename	{	from: 	"Betweenness";						to:		"betweenness"									}
 		ChangeRename	{	from: 	"Closeness";						to:		"closeness"										}
 		ChangeRename	{	from: 	"Degree";							to:		"degree"										}
