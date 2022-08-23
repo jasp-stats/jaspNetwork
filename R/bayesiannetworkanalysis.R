@@ -303,7 +303,6 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
     }
   })
-  
 }
 
 .bayesianNetworkAnalysisStructurePlot <- function(plotContainer, network, options) {
