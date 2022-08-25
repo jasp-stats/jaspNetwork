@@ -230,7 +230,7 @@ Section
 		{
 			name: "layout"
 			title: qsTr("Layout")
-			CheckBox { name: "keepLayoutTheSame"; label: qsTr("Do not update layout") }
+//			CheckBox { name: "keepLayoutTheSame"; label: qsTr("Do not update layout") }
 			RadioButton
 			{
 				value: "spring"; label: qsTr("Spring"); checked: true
@@ -238,7 +238,7 @@ Section
 				DoubleField { name: "repulsion"; label: qsTr("Repulsion"); defaultValue: 1; max: 10 }
 			}
 			RadioButton { value: "circle";	label: qsTr("Circle")							}
-			RadioButton { value: "data";	label: qsTr("Data");	id: dataRatioButton		}
+//			RadioButton { value: "data";	label: qsTr("Data");	id: dataRatioButton		}
 		}
 
 //		Group
@@ -251,37 +251,37 @@ Section
 //			CheckBox	{	name: "ExpectedInfluence";	label: qsTr("Expected Influence");	checked: true	}
 //		}
 
-		VariablesForm
-		{
-			visible: dataRatioButton.checked
-			preferredHeight: jaspTheme.smallDefaultVariablesFormHeight
-			AvailableVariablesList	{ name: "allXYVariables" }
-			AssignedVariablesList	{ name: "layoutX"; title: qsTr("x"); singleVariable: true; suggestedColumns: "nominalText"}
-			AssignedVariablesList	{ name: "layoutY"; title: qsTr("y"); singleVariable: true; suggestedColumns: "nominalText"}
-		}
+//		VariablesForm
+//		{
+//			visible: dataRatioButton.checked
+//			preferredHeight: jaspTheme.smallDefaultVariablesFormHeight
+//			AvailableVariablesList	{ name: "allXYVariables" }
+//			AssignedVariablesList	{ name: "layoutX"; title: qsTr("x"); singleVariable: true; suggestedColumns: "nominalText"}
+//			AssignedVariablesList	{ name: "layoutY"; title: qsTr("y"); singleVariable: true; suggestedColumns: "nominalText"}
+//		}
 
-		CheckBox
-		{
-			text: qsTr("Save the layout in the data set")
-			name: "addLayoutToData"
-			Layout.columnSpan: 2
-			ComputedColumnField { name: "computedLayoutX"; text: qsTr("name for x-coordinates"); id: layoutX }
-			ComputedColumnField { name: "computedLayoutY"; text: qsTr("name for y-coordinates"); id: layoutY }
-			enabled: !dataRatioButton.checked
-			visible: !dataRatioButton.checked
-			id: layoutCheckbox
-			onCheckedChanged:
-			{
-				if (!layoutCheckbox.checked)
-				{
+//		CheckBox
+//		{
+//			text: qsTr("Save the layout in the data set")
+//			name: "addLayoutToData"
+//			Layout.columnSpan: 2
+//			ComputedColumnField { name: "computedLayoutX"; text: qsTr("name for x-coordinates"); id: layoutX }
+//			ComputedColumnField { name: "computedLayoutY"; text: qsTr("name for y-coordinates"); id: layoutY }
+//			enabled: !dataRatioButton.checked
+//			visible: !dataRatioButton.checked
+//			id: layoutCheckbox
+//			onCheckedChanged:
+//			{
+//				if (!layoutCheckbox.checked)
+//				{
 //					The user no longer wants to add the layout to the dataset so we remove it from the dataset if it was there.
-					layoutX.value = ""
-					layoutY.value = ""
-					layoutX.doEditingFinished()
-					layoutY.doEditingFinished()
-				}
-			}
-		}
+//					layoutX.value = ""
+//					layoutY.value = ""
+//					layoutX.doEditingFinished()
+//					layoutY.doEditingFinished()
+//				}
+//			}
+//		}
 	}
 	
 	

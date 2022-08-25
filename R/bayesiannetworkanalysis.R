@@ -96,7 +96,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
 .bayesianNetworkAnalysisRun <- function(mainContainer, dataset, options) {
   
-  # list that contains state or is empty
+  # List that contains state or is empty:
   networkList <- list(
     network    = mainContainer[["networkState"]]$object,
     layout     = mainContainer[["layoutState"]]$object
@@ -123,8 +123,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     mainContainer[["layoutState"]]     <- createJaspState(networkList[["layout"]], 
                                                           dependencies = c("layout", "repulsion", "layoutX", "layoutY"))
     
-    .networkAnalysisSaveLayout(mainContainer, options, networkList[["layout"]])
-    
+    #.networkAnalysisSaveLayout(mainContainer, options, networkList[["layout"]])
   }
   
   return(networkList)
@@ -132,22 +131,24 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
 .bayesianNetworkAnalysisComputeLayout <- function(networks, dataset, options) {
   
-  layout <- options[["layout"]]
-  userLayout <- .networkAnalysisComputeUserLayout(dataset, options)
-  if (layout != "data" || userLayout[["layoutInvalid"]]) {
-    #if (layout == "data")
-      layout <- "circle"
+  #layout <- options[["layout"]]
+  #userLayout <- .networkAnalysisComputeUserLayout(dataset, options)
+ # if (userLayout[["layoutInvalid"]]) {
     
-    # CAN'T GET AVERAGE LAYOUT TO WORK WITH WEIGHT MATRICES
-    #jaspBase::.suppressGrDevice(layout <- qgraph::averageLayout(networks, layout = layout, repulsion = options[["repulsion"]]))
+    # Reformat networks to fit averageLayout:
+    weightMatrices <- list()
+    for (i in 1:length(networks)) {
+      weightMatrices[[i]] <- networks[[i]]$graph
+    }
+    jaspBase::.suppressGrDevice(layout <- qgraph::averageLayout(weightMatrices, layout = options[["layout"]], repulsion = options[["repulsion"]]))
     rownames(layout) <- .unv(colnames(networks[[1L]]))
     
-  } else {
-    layout <- userLayout[["layoutData"]]
-    nms <- .unv(colnames(networks[[1L]]))
-    idx <- match(nms, rownames(layout))
-    layout <- layout[idx, ]
-  }
+  #} else {
+  #  layout <- userLayout[["layoutData"]]
+  #  nms <- .unv(colnames(networks[[1L]]))
+  #  idx <- match(nms, rownames(layout))
+  #  layout <- layout[idx, ]
+  #}
   return(layout)
 }
 

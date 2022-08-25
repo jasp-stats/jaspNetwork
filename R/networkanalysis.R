@@ -1217,7 +1217,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   if (layout != "data" || userLayout[["layoutInvalid"]]) {
     if (layout == "data")
       layout <- "circle"
-
+    
     jaspBase::.suppressGrDevice(layout <- qgraph::averageLayout(networks, layout = layout, repulsion = options[["repulsion"]]))
     rownames(layout) <- colnames(networks[[1L]])
     layout <- list(layout = layout)
