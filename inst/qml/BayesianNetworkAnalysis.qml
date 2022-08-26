@@ -35,7 +35,7 @@ Form
 		title: qsTr("Plots")
 		CheckBox { name: "plotNetwork";		label: qsTr("Network plot")								}
 		CheckBox { name: "plotEvidence";		label: qsTr("Edge evidence plot")				}
-		CheckBox { name: "plotStructure";		label: qsTr("Structure plot")				    }
+		CheckBox { name: "plotCentrality";  label: qsTr("Centrality plot")          }
 	}
 
 	Group
@@ -287,10 +287,11 @@ Section
 	
 	Section
 	{
-		title:		qsTr("Posterior Probability")
+		title:		qsTr("Network structure selection")
 		expanded:	false
 		
-		CheckBox { name: "plotPosteriorStructure";		label: qsTr("Posterior probability of the network structure")	}
-		CheckBox { name: "plotComplexity";		label: qsTr("Posterior probability of complexity")	}
+		CheckBox { name: "plotStructure";		          label: qsTr("Structure plot")				    }
+		CheckBox { name: "plotPosteriorStructure";		label: qsTr("Posterior Structure probability plot")	}
+		CheckBox { name: "plotComplexity";		        label: qsTr("Posterior Complexity probability plot")	}
 	}
 }
