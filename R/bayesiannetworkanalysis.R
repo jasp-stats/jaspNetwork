@@ -177,6 +177,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     bdgraph_res$graph <- bdgraph_res$estimates*bdgraph_res$structure
     bdgraph_res$samples_posterior <- extractposterior(bdgraph_fit, as.data.frame(dataset[[nw]]))[[1]]
     bdgraph_res$centrality_strength <- centrality_strength(bdgraph_res)
+    bdgraph_res$sample_graphs <- bdgraph_fit$sample_graphs
     
     networks[[nw]] <- bdgraph_res
   }
@@ -245,12 +246,10 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   .bayesianNetworkAnalysisEvidencePlot(plotContainer, network, options)
   .bayesianNetworkAnalysisStructurePlot(plotContainer, network, options)
   .bayesianNetworkAnalysisPosteriorStructurePlot(plotContainer, network, options)
-  
-  # Currently debugging: 
   .bayesianNetworkAnalysisCentralityPlot(plotContainer, network, options)
   
-  # TO DO (write function):
-  #.bayesianNetworkAnalysisPosteriorComplexityPlot(plotContainer, network, options)
+  # Currently working on: 
+  .bayesianNetworkAnalysisPosteriorComplexityPlot(plotContainer, network, options)
 }
 
 .bayesianNetworkAnalysisPosteriorStructurePlot <- function(plotContainer, network, options) {
@@ -290,7 +289,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
         ggplot2::theme(legend.position = c(.85, 0.25), axis.text = ggplot2::element_text(size = 20),
               legend.background = ggplot2::element_rect(fill = NULL), panel.border = ggplot2::element_blank(),
               axis.line = ggplot2::element_line(colour = "black", size = 1.1), axis.ticks.length = grid::unit(.2, "cm"), #Is unit from ggplot2 or grid?
-              axis.ticks = ggplot2::element_line(size= .8), legend.text = ggplot2::element_text( size=14),
+              axis.ticks = ggplot2::element_line(size= .8), legend.text = ggplot2::element_text(size=14),
               axis.title.x = ggplot2::element_text(size=18,face="bold"),
               axis.title.y = ggplot2::element_text(size=18,face="bold"),
               panel.grid.major = ggplot2::element_blank()
@@ -340,7 +339,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
               ggplot2::geom_errorbar(ggplot2::aes(ymin = as.numeric(lower), ymax = as.numeric(upper)), size = 1, width = .2) +
               ggplot2::theme_minimal() +
               ggplot2::labs(y = "Centrality", x = "Node") +
-              ggplot2::theme(text = ggplot2::element_text(size = 22, family = "Times New Roman"), axis.title.x = ggplot2::element_text(size=22), 
+              ggplot2::theme(axis.title.x = ggplot2::element_text(size=22), 
                   axis.title.y = ggplot2::element_text(size=22), panel.border = ggplot2::element_blank(),
                   axis.line = ggplot2::element_line(colour = "black", size = 1.1), axis.ticks.length = grid::unit(.3, "cm"), 
                   legend.position = c(.85, 0.9), legend.text = ggplot2::element_text(size = 20)) +
@@ -353,9 +352,63 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   
 }
 
-#.bayesianNetworkAnalysisPosteriorComplexityPlot <- function(plotContainer, network, options) {
-#
-#}
+.bayesianNetworkAnalysisPosteriorComplexityPlot <- function(plotContainer, network, options) {
+
+  if (!is.null(plotContainer[["complexityPlotContainer"]]) || !options[["plotComplexity"]])
+    return()
+  
+  allNetworks <- network[["network"]]
+  nGraphs <- length(allNetworks)
+  
+  title <- if (nGraphs == 1L) "" else gettext("Complexity plots")
+  
+  complexityPlotContainer <- createJaspContainer(title = title, position = 51, dependencies = c("plotComplexity"))
+  plotContainer[["complexityPlotContainer"]] <- complexityPlotContainer
+  
+  if (is.null(network[["network"]]) || plotContainer$getError()) {
+    complexityPlotContainer[["dummyPlot"]] <- createJaspPlot(title = gettext("Complexity Plot"))
+    return()
+  }
+  
+  for (v in names(allNetworks))
+    complexityPlotContainer[[v]] <- createJaspPlot(title = v)
+  
+  jaspBase::.suppressGrDevice({
+
+    for (v in names(allNetworks)) {
+
+      networkToPlot <- allNetworks[[v]]
+
+      complexity <- c()
+      for(i in 1:length(networkToPlot$sample_graphs)){
+        complexity[i] <- sum(as.numeric(unlist(strsplit(networkToPlot$sample_graphs[i], ""))))
+      }
+
+      dataComplexity <- dplyr::as_tibble(cbind(complexity, networkToPlot$graph_weights))
+      dataComplexity <- dplyr::summarise(dplyr::group_by(dataComplexity, complexity), complexity_weight = sum(V2))
+      dataComplexity <- dplyr::mutate(dataComplexity, complexity_weight = complexity_weight/sum(complexity_weight))
+      
+      plot <- ggplot2::ggplot(dataComplexity, ggplot2::aes(x = complexity, y = complexity_weight)) +
+              ggplot2::geom_point() +
+              ggplot2::ylab("Posterior Structure Probability") +
+              ggplot2::xlab("Structure")  +
+              ggplot2::theme_minimal() +
+              ggplot2::theme(legend.position = c(.85, 0.25), axis.text = ggplot2::element_text(size=20),
+                    legend.background = ggplot2::element_rect(fill = NULL), panel.border = ggplot2::element_blank(),
+                    axis.line = ggplot2::element_line(colour = "black", size = 1.1), axis.ticks.length = grid::unit(.2, "cm"),
+                    axis.ticks = ggplot2::element_line(size= .8), legend.text = ggplot2::element_text(size=14),
+                    axis.title.x = ggplot2::element_text(size=18, face="bold"),
+                    axis.title.y = ggplot2::element_text(size=18, face="bold"),
+                    panel.grid.major = ggplot2::element_blank())
+
+      complexityPlotContainer[[v]]$plotObject <- plot
+
+    }
+  })
+  
+  return()
+
+}
 
 .bayesianNetworkAnalysisStructurePlot <- function(plotContainer, network, options) {
   
