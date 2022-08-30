@@ -29,6 +29,19 @@ Form
 		AssignedVariablesList { name: "variables";			title: qsTr("Dependent Variables"); suggestedColumns: ["scale"]; id: networkVariables}
 		AssignedVariablesList { name: "groupingVariable";	title: qsTr("Split"); singleVariable: true; suggestedColumns: ["ordinal", "nominal"] }
 	}
+	
+	DropDown
+	{
+		id: estimator
+		name: "estimator"
+		label: qsTr("Estimator")
+		Layout.columnSpan: 2
+		values: [
+			{ value: "ggm",		        label: "ggm"			},
+//			{ value: "Ising",				label: qsTr("Ising model")		},
+			{ value: "gcgm",				  label: "gcgm"				}
+		]
+	}
 
 	Group
 	{

@@ -39,7 +39,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   
   mainContainer <- jaspResults[["mainContainer"]]
   if (is.null(mainContainer)) {
-    mainContainer <- createJaspContainer(dependencies = c("variables", "groupingVariable", 
+    mainContainer <- createJaspContainer(dependencies = c("variables", "groupingVariable", "estimator",
                                                           "burnin", "iter", "gprior", "dfprior"))
     jaspResults[["mainContainer"]] <- mainContainer
   }
@@ -146,15 +146,30 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   
   networks <- vector("list", length(dataset))
   
-  # Detect network type: 
-  method <- "ggm"
-  
   # For every dataset (given the splitting variable) estimate a network:
   for (nw in seq_along(dataset)) {
+
+    # When method = "gcgm" a vector with binary values is needed:
+    if (options[["estimator"]] == "gcgm") {
+      nonContVariables <- c()
+      for (var in options[["variables"]]) {
+        
+        print("VAR kalfdho3i:")
+        print(var)
+        
+        # A 1 indicates noncontinuous variables:
+        if (length(levels(factor(dataset[[nw]][[var]]))) <= 8) {
+          nonContVariables <- c(nonContVariables, 1)
+        } else {
+          nonContVariables <- c(nonContVariables, 0)
+        }
+      }
+    }
     
     # Estimate network: 
     bdgraph_fit <- BDgraph::bdgraph(data       = as.data.frame(dataset[[nw]]),
-                                    method     = method,
+                                    method     = options[["estimator"]],
+                                    not.cont   = ifelse(options[["estimator"]] == "gcgm", nonContVariables, NULL), 
                                     algorithm  = "rjmcmc",
                                     iter       = as.numeric(options[["iter"]]),
                                     save       = TRUE,
@@ -163,10 +178,10 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
                                     df.prior   = as.numeric(options[["dfprior"]]),
                                     g.prior    = as.numeric(options[["gprior"]]),
                                     cores      = 1)
+    
     # Extract results:
     bdgraph_res <- list()
     
-    bdgraph_res$method <- method 
     bdgraph_res$graph_weights <- bdgraph_fit$graph_weights
     bdgraph_res$inc_probs <- as.matrix(BDgraph::plinks(bdgraph_fit))
     bdgraph_res$inc_probs  <- bdgraph_res$inc_probs + t(bdgraph_res$inc_probs)
@@ -217,9 +232,6 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   if (nGraphs > 1L)
     df[["info"]] <- names(network[["network"]])
   
-  # Let the user know which estimation method was used: 
-  # tb$addFootnote(gettext("Estimation method %s was chosen", method?))
-  
   nVar <- ncol(network[["network"]][[1L]][["graph"]])
   for (i in seq_len(nGraphs)) {
 
@@ -228,7 +240,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     df[["nodes"]][i]    <- nrow(nw[["graph"]])
     df[["nonZero"]][i]  <- paste(sum(nw[["graph"]][upper.tri(nw[["graph"]], diag = FALSE)] != 0), "/", (nVar * (nVar-1L)) %/% 2)
     df[["Sparsity"]][i] <- mean(nw[["graph"]][upper.tri(nw[["graph"]], diag = FALSE)] == 0)
-
+    
   }
   tb$setData(df)
 }
@@ -390,8 +402,8 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       
       plot <- ggplot2::ggplot(dataComplexity, ggplot2::aes(x = complexity, y = complexity_weight)) +
               ggplot2::geom_point() +
-              ggplot2::ylab("Posterior Structure Probability") +
-              ggplot2::xlab("Structure")  +
+              ggplot2::ylab("Posterior Complexity Probability") +
+              ggplot2::xlab("Structure Complexity")  +
               ggplot2::theme_minimal() +
               ggplot2::theme(legend.position = c(.85, 0.25), axis.text = ggplot2::element_text(size=20),
                     legend.background = ggplot2::element_rect(fill = NULL), panel.border = ggplot2::element_blank(),
@@ -422,7 +434,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   
   structurePlotContainer <- createJaspContainer(title = title, position = 51, dependencies = c(
     "layout", "repulsion", "edgeSize", "nodeSize", "colorNodesBy", "cut", "showDetails", "nodePalette",
-    "legendNumber",
+    "legendNumber", "estimator",
     "scaleLabels", "labelSize", "abbreviateLabels", "abbreviateNoChars",
     "keepLayoutTheSame", "layoutX", "layoutY", "plotNetwork",
     "groupNames", "groupColors", "variablesForColor", "groupAssigned", "manualColors",
