@@ -397,8 +397,8 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       
       plot <- ggplot2::ggplot(dataComplexity, ggplot2::aes(x = complexity, y = complexity_weight)) +
               ggplot2::geom_point() +
-              ggplot2::ylab("Posterior Complexity Probability") +
-              ggplot2::xlab("Structure Complexity")  +
+              ggplot2::ylab("Posterior Probability") +
+              ggplot2::xlab("Number of edges")  +
               ggplot2::theme_minimal() +
               ggplot2::theme(legend.position = c(.85, 0.25), axis.text = ggplot2::element_text(size=20),
                     legend.background = ggplot2::element_rect(fill = NULL), panel.border = ggplot2::element_blank(),

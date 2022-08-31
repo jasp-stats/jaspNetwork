@@ -86,8 +86,8 @@ Form
 	{
 		title: qsTr("Prior")
 
-		FormulaField { name: "gprior"; label: qsTr("g prior: "); value: "0.5" ; min: 0; max: 1; Layout.columnSpan: 2 }
-		FormulaField { name: "dfprior"; label: qsTr("df prior: "); value: "3" ; min: 0; Layout.columnSpan: 2 }
+		FormulaField { name: "gprior"; label: qsTr("Prior edge inclusion (g prior): "); value: "0.5" ; min: 0.001; max: 1; Layout.columnSpan: 2 }
+		FormulaField { name: "dfprior"; label: qsTr("Degrees of freedom of G-Wishert prior (df prior): "); value: "3" ; min: 0; Layout.columnSpan: 2 }
 
 	}
 
