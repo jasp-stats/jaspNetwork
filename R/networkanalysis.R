@@ -609,6 +609,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
 .networkAnalysisOneNetworkPlot <- function(network, options, minE, layout, groups, maxE, labels, legend, shape,
                                            nodeColor, edgeColor, nodeNames) {
+  
 
   wMat <- network[["graph"]]
   if (!options[["weightedNetwork"]]) {
@@ -754,8 +755,8 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   }
 
   if (options[["abbreviateLabels"]])
-    labels <- base::abbreviate(labels, options[["abbreviateNoChars"]])
-
+    labels <- base::abbreviate(decodeColNames(labels), minlength = options[["abbreviateNoChars"]])
+  
   # do we need to draw legends?
   if (!is.null(groups) || !is.null(nodeNames)) {
     if (options[["showLegend"]] ==  "All plots") {

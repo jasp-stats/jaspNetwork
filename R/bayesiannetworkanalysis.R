@@ -24,12 +24,10 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   
   network <- .bayesianNetworkAnalysisRun(mainContainer, dataset, options)
   
-  # Tables: 
   .bayesianNetworkAnalysisMainTable(mainContainer, dataset, options, network)
+  
   .bayesianNetworkAnalysisWeightMatrixTable(mainContainer, network, options)
   .bayesianNetworkAnalysisEdgeEvidenceTable(mainContainer, network, options)
-  
-  # Plots: 
   .bayesianNetworkAnalysisPlotContainer(mainContainer, network, options)
   
   return()
@@ -153,9 +151,6 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     if (options[["estimator"]] == "gcgm") {
       nonContVariables <- c()
       for (var in options[["variables"]]) {
-        
-        print("VAR kalfdho3i:")
-        print(var)
         
         # A 1 indicates noncontinuous variables:
         if (length(levels(factor(dataset[[nw]][[var]]))) <= 8) {
@@ -321,9 +316,9 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   allNetworks <- network[["network"]]
   nGraphs <- length(allNetworks)
 
-  title <- if (nGraphs == 1L) "" else gettext("Centrality plots")
+  title <- if (nGraphs == 1L) gettext("Centrality Plot") else gettext("Centrality plots")
 
-  centralityPlotContainer <- createJaspContainer(title = title, position = 51, dependencies = c("plotCentrality"))
+  centralityPlotContainer <- createJaspContainer(title = title, position = 52, dependencies = c("plotCentrality")) # position = 51 before 
   plotContainer[["centralityPlotContainer"]] <- centralityPlotContainer
   
   if (is.null(network[["network"]]) || plotContainer$getError()) {
@@ -372,7 +367,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   allNetworks <- network[["network"]]
   nGraphs <- length(allNetworks)
   
-  title <- if (nGraphs == 1L) "" else gettext("Complexity plots")
+  title <- if (nGraphs == 1L) gettext("Complexity plot") else gettext("Complexity plots")
   
   complexityPlotContainer <- createJaspContainer(title = title, position = 51, dependencies = c("plotComplexity"))
   plotContainer[["complexityPlotContainer"]] <- complexityPlotContainer
@@ -430,7 +425,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   allNetworks <- network[["network"]]
   nGraphs <- length(allNetworks)
   
-  title <- if (nGraphs == 1L) "" else gettext("Structure Plots")
+  title <- if (nGraphs == 1L) gettext("Structure Plot") else gettext("Structure Plots")
   
   structurePlotContainer <- createJaspContainer(title = title, position = 51, dependencies = c(
     "layout", "repulsion", "edgeSize", "nodeSize", "colorNodesBy", "cut", "showDetails", "nodePalette",
@@ -482,17 +477,29 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   # TODO: footnote if legend off and nodenames used
   if (options[["showVariableNames"]] == "In nodes") {
     nodeNames <- NULL
-    labels <- .unv(colnames(allNetworks$Network$graph))
     
+    if (nGraphs == 1) {
+      labels <- .unv(colnames(allNetworks$Network$graph))
+    } else {
+      labels <- .unv(colnames(allNetworks$`1`$graph))
+    }
+
   } else {
     
-    nodeNames <- .unv(colnames(allNetworks$Network$graph))
+    if (nGraphs == 1) {
+      nodeNames <- .unv(colnames(allNetworks$Network$graph))
+    } else {
+      nodeNames <- .unv(colnames(allNetworks$`1`$graph))
+    }
     labels <- seq_along(nodeNames)
     
   }
   
+  labels <- decodeColNames(labels)
+  
+  
   if (options[["abbreviateLabels"]])
-    labels <- base::abbreviate(labels, options[["abbreviateNoChars"]]) # THIS DOESN'T WORK (ALSO NOT IN NETWORKANALYSIS)
+    labels <- base::abbreviate(labels, minlength = options[["abbreviateNoChars"]])
   
   # do we need to draw legends?
   if (!is.null(groups) || !is.null(nodeNames)) {
@@ -622,18 +629,31 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   
   # TODO: footnote if legend off and nodenames used
   if (options[["showVariableNames"]] == "In nodes") {
+    
     nodeNames <- NULL
-    labels <- .unv(colnames(allNetworks$Network$graph))
+    
+    if (nGraphs == 1) {
+      labels <- .unv(colnames(allNetworks$Network$graph))
+    } else {
+      labels <- .unv(colnames(allNetworks$`1`$graph))
+    }
     
   } else {
     
-    nodeNames <- .unv(colnames(allNetworks$Network$graph))
-    labels <- seq_along(nodeNames)
+    if (nGraphs == 1) {
+      nodeNames <- .unv(colnames(allNetworks$Network$graph))
+    } else {
+      nodeNames <- .unv(colnames(allNetworks$`1`$graph))
+    }
+    
+    labels <- seq_along(nodeNames) 
     
   }
   
+  labels <- decodeColNames(labels)
+  
   if (options[["abbreviateLabels"]])
-    labels <- base::abbreviate(labels, options[["abbreviateNoChars"]]) # THIS DOESN'T WORK (ALSO NOT IN NETWORKANALYSIS)
+    labels <- base::abbreviate(labels, options[["abbreviateNoChars"]])     
   
   # do we need to draw legends?
   if (!is.null(groups) || !is.null(nodeNames)) {
@@ -740,7 +760,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   
   # we use an empty container without a name if there is only 1 graph. This container is hidden from the output but it
   # enables us to use the same code for a single network plot and for a collection of network plots.
-  title <- if (nGraphs == 1L) "" else gettext("Edge Evidence Plots")
+  title <- if (nGraphs == 1L) gettext("Edge Evidence Plot") else gettext("Edge Evidence Plots")
   
   evidencePlotContainer <- createJaspContainer(title = title, position = 52, dependencies = c(
     "layout", "repulsion", "edgeSize", "nodeSize", "colorNodesBy", "cut", "showDetails", "nodePalette",
@@ -791,17 +811,28 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   # TODO: footnote if legend off and nodenames used
   if (options[["showVariableNames"]] == "In nodes") {
     nodeNames <- NULL
-    labels <- .unv(colnames(allNetworks$Network$graph))
+    
+    if (nGraphs == 1) {
+      labels <- .unv(colnames(allNetworks$Network$graph))
+    } else {
+      labels <- .unv(colnames(allNetworks$`1`$graph))
+    }
     
   } else {
     
-    nodeNames <- .unv(colnames(allNetworks$Network$graph))
+    if (nGraphs == 1) {
+      nodeNames <- .unv(colnames(allNetworks$Network$graph))
+    } else {
+      nodeNames <- .unv(colnames(allNetworks$`1`$graph))
+    }
     labels <- seq_along(nodeNames)
     
   }
   
+  labels <- decodeColNames(labels)
+  
   if (options[["abbreviateLabels"]])
-    labels <- base::abbreviate(labels, options[["abbreviateNoChars"]]) # THIS DOESN'T WORK (ALSO NOT IN NETWORKANALYSIS)
+    labels <- base::abbreviate(labels, options[["abbreviateNoChars"]])
   
   # do we need to draw legends?
   if (!is.null(groups) || !is.null(nodeNames)) {
