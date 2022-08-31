@@ -47,7 +47,7 @@ Form
 	{
 		title: qsTr("Plots")
 		CheckBox { name: "plotNetwork";		label: qsTr("Network plot")								}
-		CheckBox { name: "plotEvidence";		label: qsTr("Edge evidence plot")				}
+		CheckBox { name: "plotEvidence";		label: qsTr("Edge Evidence plot")				}
 		CheckBox { name: "plotCentrality";  label: qsTr("Centrality plot")          }
 	}
 
@@ -55,7 +55,7 @@ Form
 	{
 		title: qsTr("Tables")
 		CheckBox { name: "tableWeightsMatrix";	label: qsTr("Weights matrix")	}
-		CheckBox { name: "tableEdgeEvidence";		label: qsTr("Edge evidence probability table")	}
+		CheckBox { name: "tableEdgeEvidence";		label: qsTr("Edge Evidence Probability table")	}
 	}
 	
 	Section 
@@ -304,7 +304,7 @@ Section
 		expanded:	false
 		
 		CheckBox { name: "plotStructure";		          label: qsTr("Structure plot")				    }
-		CheckBox { name: "plotPosteriorStructure";		label: qsTr("Posterior Structure probability plot")	}
-		CheckBox { name: "plotComplexity";		        label: qsTr("Posterior Complexity probability plot")	}
+		CheckBox { name: "plotPosteriorStructure";		label: qsTr("Posterior Structure Probability plot")	}
+		CheckBox { name: "plotComplexity";		        label: qsTr("Posterior Complexity Probability plot")	}
 	}
 }
