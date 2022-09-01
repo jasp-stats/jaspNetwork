@@ -19,6 +19,7 @@
 import QtQuick 2.8
 import QtQuick.Layouts 1.3
 import JASP.Controls 1.0
+import JASP.Widgets 1.0
 
 Form
 {
@@ -65,9 +66,9 @@ Form
 		    RadioButtonGroup {
 				  name: "evidenceType";
 		      RadioButton { value: "inclusionProbability"; label: qsTr("Edge Inclusion probability") ; checked: true }
-				  RadioButton { value: "BF10"; label: qsTr("BF_{10}") }
-				  RadioButton { value: "BF01"; label: qsTr("BF_{01}") }
-				  RadioButton { value: "log(BF)"; label: qsTr("log(BF_{10})") }
+				  RadioButton { value: "BF10"; label: qsTr("BF\u2081\u2080") }
+				  RadioButton { value: "BF01"; label: qsTr("BF\u2080\u2081") }
+				  RadioButton { value: "log(BF)"; label: qsTr("Log(BF\u2081\u2080)") }
 				}
 		}
 	}
@@ -79,8 +80,6 @@ Form
 	  FormulaField { name: "burnin"; label: qsTr("Burn in: "); value: "50000" ; min: 1; Layout.columnSpan: 2 }
 	  FormulaField { name: "iter"; label: qsTr("Iterations: "); value: "100000" ; min: 2; Layout.columnSpan: 2 }
 	  
-//	  SetSeed{}
-	  
 	  RadioButtonGroup
 		{
 			name: "missingValues"
@@ -90,12 +89,7 @@ Form
 			RadioButton { value: "listwise";	label: qsTr("Exclude listwise")					}
 		}
 		
-//		Group
-//		{
-//			title: 						qsTr("Additional Options")
-
-//			DoubleField { name: "seed"; text: qsTr("Seed"); defaultValue: 100; min: -999999; max: //999999; fieldWidth: 60 * preferencesModel.uiScale }
-//		}
+		SetSeed{}
 	}
 
 	Section
@@ -319,7 +313,7 @@ Section
 		title:		qsTr("Network structure selection")
 		expanded:	false
 		
-		CheckBox { name: "plotStructure";		          label: qsTr("Structure plot")				    }
+//		CheckBox { name: "plotStructure";		          label: qsTr("Structure plot")				    }
 		CheckBox { name: "plotPosteriorStructure";		label: qsTr("Posterior Structure Probability plot")	}
 		CheckBox { name: "plotComplexity";		        label: qsTr("Posterior Complexity Probability plot")	}
 	}
