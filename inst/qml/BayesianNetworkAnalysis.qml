@@ -47,7 +47,12 @@ Form
 	{
 		title: qsTr("Plots")
 		CheckBox { name: "plotNetwork";		label: qsTr("Network plot")								}
-		CheckBox { name: "plotEvidence";		label: qsTr("Edge Evidence plot")				}
+		CheckBox { 
+		  name: "plotEvidence";		label: qsTr("Edge Evidence plot")
+				  CheckBox { name: "edgeInclusion"; label: qsTr("Evidence for inclusion") ;  checked: true }
+				  CheckBox { name: "edgeExclusion";  label: qsTr("Evidence for exclusion"); checked: true }
+				  CheckBox { name: "edgeAbsence"; label: qsTr("Absence of evidence");   checked: true }
+		}
 		CheckBox { name: "plotCentrality";  label: qsTr("Centrality plot")          }
 	}
 
@@ -55,7 +60,16 @@ Form
 	{
 		title: qsTr("Tables")
 		CheckBox { name: "tableWeightsMatrix";	label: qsTr("Weights matrix")	}
-		CheckBox { name: "tableEdgeEvidence";		label: qsTr("Edge Evidence Probability table")	}
+		CheckBox { 
+		    name: "tableEdgeEvidence";		label: qsTr("Edge Evidence Probability table")
+		    RadioButtonGroup {
+				  name: "evidenceType";
+		      RadioButton { value: "inclusionProbability"; label: qsTr("Edge Inclusion probability") ; checked: true }
+				  RadioButton { value: "BF10"; label: qsTr("BF_{10}") }
+				  RadioButton { value: "BF01"; label: qsTr("BF_{01}") }
+				  RadioButton { value: "log(BF)"; label: qsTr("log(BF_{10})") }
+				}
+		}
 	}
 	
 	Section 
@@ -64,6 +78,8 @@ Form
 	  Layout.columnSpan: 2
 	  FormulaField { name: "burnin"; label: qsTr("Burn in: "); value: "50000" ; min: 1; Layout.columnSpan: 2 }
 	  FormulaField { name: "iter"; label: qsTr("Iterations: "); value: "100000" ; min: 2; Layout.columnSpan: 2 }
+	  
+//	  SetSeed{}
 	  
 	  RadioButtonGroup
 		{

@@ -161,7 +161,10 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       }
     }
     
-    # Estimate network: 
+    # Check if set.seed needs to be used: 
+    # set.seed(123)
+    
+    # Estimate network:  
     bdgraph_fit <- BDgraph::bdgraph(data       = as.data.frame(dataset[[nw]]),
                                     method     = options[["estimator"]],
                                     not.cont   = ifelse(options[["estimator"]] == "gcgm", nonContVariables, NULL), 
@@ -427,11 +430,11 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   
   title <- if (nGraphs == 1L) gettext("Structure Plot") else gettext("Structure Plots")
   
-  structurePlotContainer <- createJaspContainer(title = title, position = 51, dependencies = c(
+  structurePlotContainer <- createJaspContainer(title = title, position = 51, dependencies = c("plotStructure",
     "layout", "repulsion", "edgeSize", "nodeSize", "colorNodesBy", "cut", "showDetails", "nodePalette",
     "legendNumber", "estimator",
     "scaleLabels", "labelSize", "abbreviateLabels", "abbreviateNoChars",
-    "keepLayoutTheSame", "layoutX", "layoutY", "plotNetwork",
+    "keepLayoutTheSame", "layoutX", "layoutY",
     "groupNames", "groupColors", "variablesForColor", "groupAssigned", "manualColors",
     "legendToPlotRatio", "edgeLabels", "edgeLabelCex", "edgeLabelPosition"
   ))
@@ -762,11 +765,11 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   # enables us to use the same code for a single network plot and for a collection of network plots.
   title <- if (nGraphs == 1L) gettext("Edge Evidence Plot") else gettext("Edge Evidence Plots")
   
-  evidencePlotContainer <- createJaspContainer(title = title, position = 52, dependencies = c(
+  evidencePlotContainer <- createJaspContainer(title = title, position = 52, dependencies = c("plotEvidence",
     "layout", "repulsion", "edgeSize", "nodeSize", "colorNodesBy", "cut", "showDetails", "nodePalette",
-    "legendNumber",
+    "legendNumber", "edgeInclusion", "edgeExclusion", "edgeAbsence",
     "scaleLabels", "labelSize", "abbreviateLabels", "abbreviateNoChars",
-    "keepLayoutTheSame", "layoutX", "layoutY", "plotNetwork",
+    "keepLayoutTheSame", "layoutX", "layoutY",
     "groupNames", "groupColors", "variablesForColor", "groupAssigned", "manualColors",
     "legendToPlotRatio"
   ))
@@ -893,13 +896,18 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 .bayesianNetworkAnalysisOneEvidencePlot <- function(network, options, layout, groups, labels, legend, shape,
                                                     nodeColor, nodeNames) {
   
-  graph_color <- network[["BF"]]
-  graph_color <-  ifelse(network[["BF"]] < 10 & network[["BF"]] > .1, graph_color <- "#bfbfbf", graph_color <- "#36648b")
-  graph_color[network[["BF"]] < .1] <- "#990000"
+  # Select options for edges (inclusion, exclusion, absence):
+  graphColor <- matrix(NA, ncol = nrow(network[["graph"]]), nrow = nrow(network[["graph"]]))
+  if (options$edgeInclusion) graphColor[network[["BF"]] >= 10] <- "#36648b"
+  if (options$edgeExclusion) graphColor[network[["BF"]] < .1] <- "#990000"
+  if (options$edgeAbsence) graphColor[network[["BF"]] < 10 & network[["BF"]] > .1] <- "#bfbfbf"
+    
+  # Determine the edges: 
+  edges <- matrix(ifelse(is.na(graphColor), 0, 1), ncol = nrow(network[["graph"]]), nrow = nrow(network[["graph"]]))
   
   return(
     qgraph::qgraph(
-      input               = matrix(1, ncol = nrow(network[["graph"]]), nrow = nrow(network[["graph"]])),
+      input               = edges,
       layout              = layout,
       groups              = groups,
       repulsion           = options[["repulsion"]],
@@ -912,7 +920,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       legend              = legend,
       shape               = shape,
       color               = nodeColor,
-      edge.color          = graph_color,
+      edge.color          = graphColor,
       nodeNames           = nodeNames,
       label.scale         = options[["scaleLabels"]],
       label.cex           = options[["labelSize"]],
@@ -976,7 +984,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   nVar <- length(variables)
   nGraphs <- max(1L, length(network[["network"]]))
   
-  table <- createJaspTable(gettext("Edge evidence probability table"), dependencies = c("tableEdgeEvidence"), position = 4)
+  table <- createJaspTable(gettext("Edge evidence probability table"), dependencies = c("tableEdgeEvidence", "evidenceType"), position = 4)
   table$addColumnInfo(name = "Variable", title = gettext("Variable"), type = "string")
   
   overTitles <- names(network[["network"]])
@@ -1000,7 +1008,17 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     TBcolumns <- data.frame(Variable = variables)
     for (i in seq_len(nGraphs)) {
       
-      toAdd <- allNetworks[[i]][["inc_probs"]]
+      # Check with values to add to the edge evidence table: 
+      if (options$evidenceType == "inclusionProbability") {
+        toAdd <- allNetworks[[i]][["inc_probs"]]
+      } else if (options$evidenceType == "BF10") {
+        toAdd <- allNetworks[[i]][["BF"]]
+      } else if (options$evidenceType == "BF01") {
+        toAdd <- 1 / allNetworks[[i]][["BF"]]
+      } else {
+        toAdd <- log(allNetworks[[i]][["BF"]])
+      }
+      
       toAdd <- as.data.frame(toAdd)
       names(toAdd) <- paste0(variables, i)
       
