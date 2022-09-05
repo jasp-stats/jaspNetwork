@@ -165,7 +165,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     if (options$setSeed) set.seed(options$seed)
     
     # Estimate network:  
-    bdgraph_fit <- BDgraph::bdgraph(data       = as.data.frame(dataset[[nw]]),
+    bdgraphFit <- BDgraph::bdgraph(data       = as.data.frame(dataset[[nw]]),
                                     method     = options[["estimator"]],
                                     not.cont   = ifelse(options[["estimator"]] == "gcgm", nonContVariables, NULL), 
                                     algorithm  = "rjmcmc",
@@ -178,21 +178,20 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
                                     cores      = 1)
     
     # Extract results:
-    bdgraph_res <- list()
+    bdgraphResult <- list()
+    bdgraphResult$graphWeights <- bdgraphFit$graph_weights
+    bdgraphResult$incProbs <- as.matrix(BDgraph::plinks(bdgraphFit)) # Change to inclusionProbabilities 
+    bdgraphResult$incProbs  <- bdgraphResult$incProbs + t(bdgraphResult$incProbs)
+    bdgraphResult$BF <- bdgraphResult$incProbs / (1 - bdgraphResult$incProbs)
+    bdgraphResult$structure <- 1*(bdgraphResult$incProbs > 0.5)
+    bdgraphResult$estimates <- pr2pc(bdgraphFit$K_hat)
+    diag(bdgraphResult$estimates) <- 0
+    bdgraphResult$graph <- bdgraphResult$estimates*bdgraphResult$structure
+    bdgraphResult$samplesPosterior <- extractposterior(bdgraphFit, as.data.frame(dataset[[nw]]))[[1]]
+    bdgraphResult$centralityStrength <- centralityStrength(bdgraphResult)
+    bdgraphResult$sampleGraphs <- bdgraphFit$sample_graphs
     
-    bdgraph_res$graph_weights <- bdgraph_fit$graph_weights
-    bdgraph_res$inc_probs <- as.matrix(BDgraph::plinks(bdgraph_fit))
-    bdgraph_res$inc_probs  <- bdgraph_res$inc_probs + t(bdgraph_res$inc_probs)
-    bdgraph_res$BF <- bdgraph_res$inc_probs / (1 - bdgraph_res$inc_probs)
-    bdgraph_res$structure <- 1*(bdgraph_res$inc_probs > 0.5)
-    bdgraph_res$estimates <- pr2pc(bdgraph_fit$K_hat)
-    diag(bdgraph_res$estimates) <- 0
-    bdgraph_res$graph <- bdgraph_res$estimates*bdgraph_res$structure
-    bdgraph_res$samples_posterior <- extractposterior(bdgraph_fit, as.data.frame(dataset[[nw]]))[[1]]
-    bdgraph_res$centrality_strength <- centrality_strength(bdgraph_res)
-    bdgraph_res$sample_graphs <- bdgraph_fit$sample_graphs
-    
-    networks[[nw]] <- bdgraph_res
+    networks[[nw]] <- bdgraphResult
   }
   
   return(networks)
@@ -289,9 +288,9 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       
       networkToPlot <- allNetworks[[v]]
       
-      sorted_structure_prob <- as.data.frame(sort(networkToPlot$graph_weights/sum(networkToPlot$graph_weights), decreasing = TRUE))
-      colnames(sorted_structure_prob) <- "posterior_prob"
-      plot <- ggplot2::ggplot(sorted_structure_prob, ggplot2::aes(x = 1:nrow(sorted_structure_prob), y = posterior_prob)) +
+      sortedStructureProbability <- as.data.frame(sort(networkToPlot$graphWeights/sum(networkToPlot$graphWeights), decreasing = TRUE))
+      colnames(sortedStructureProbability) <- "posteriorProbability"
+      plot <- ggplot2::ggplot(sortedStructureProbability, ggplot2::aes(x = 1:nrow(sortedStructureProbability), y = posteriorProbability)) +
         ggplot2::geom_point() +
         ggplot2::ylab("Posterior Structure Probability") +
         ggplot2::xlab("Structure Index")  +
@@ -338,12 +337,12 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       
       networkToPlot <- allNetworks[[v]]
       
-      centrality_means <- networkToPlot$centrality_strength$centrality_strength_mean
-      centrality_hdi_intervals <- apply(networkToPlot$centrality_strength$centrality_strength_samples, MARGIN = 2, FUN = HDInterval::hdi, allowSplit = FALSE)
+      centralityMeans <- networkToPlot$centralityStrength$centralityStrengthMean
+      centralityHDIIntervals <- apply(networkToPlot$centralityStrength$centralityStrengthSamples, MARGIN = 2, FUN = HDInterval::hdi, allowSplit = FALSE)
       
-      centrality <- as.data.frame(t(rbind(centrality_means, centrality_hdi_intervals)))
+      centrality <- as.data.frame(t(rbind(centralityMeans, centralityHDIIntervals)))
 
-      plot <- ggplot2::ggplot(centrality, ggplot2::aes(x = 1:nrow(centrality), y = as.numeric(centrality_means))) +
+      plot <- ggplot2::ggplot(centrality, ggplot2::aes(x = 1:nrow(centrality), y = as.numeric(centralityMeans))) +
               ggplot2::geom_line(size = 2) + 
               ggplot2::geom_point(size = 5) +
               ggplot2::geom_errorbar(ggplot2::aes(ymin = as.numeric(lower), ymax = as.numeric(upper)), size = 1, width = .2) +
@@ -390,15 +389,15 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       networkToPlot <- allNetworks[[v]]
 
       complexity <- c()
-      for(i in 1:length(networkToPlot$sample_graphs)){
-        complexity[i] <- sum(as.numeric(unlist(strsplit(networkToPlot$sample_graphs[i], ""))))
+      for(i in 1:length(networkToPlot$sampleGraphs)){
+        complexity[i] <- sum(as.numeric(unlist(strsplit(networkToPlot$sampleGraphs[i], ""))))
       }
 
-      dataComplexity <- dplyr::as_tibble(cbind(complexity, networkToPlot$graph_weights))
-      dataComplexity <- dplyr::summarise(dplyr::group_by(dataComplexity, complexity), complexity_weight = sum(V2))
-      dataComplexity <- dplyr::mutate(dataComplexity, complexity_weight = complexity_weight/sum(complexity_weight))
+      dataComplexity <- dplyr::as_tibble(cbind(complexity, networkToPlot$graphWeights))
+      dataComplexity <- dplyr::summarise(dplyr::group_by(dataComplexity, complexity), complexityWeight = sum(V2))
+      dataComplexity <- dplyr::mutate(dataComplexity, complexityWeight = complexityWeight/sum(complexityWeight))
       
-      plot <- ggplot2::ggplot(dataComplexity, ggplot2::aes(x = complexity, y = complexity_weight)) +
+      plot <- ggplot2::ggplot(dataComplexity, ggplot2::aes(x = complexity, y = complexityWeight)) +
               ggplot2::geom_point() +
               ggplot2::ylab("Posterior Probability") +
               ggplot2::xlab("Number of edges")  +
@@ -1010,7 +1009,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       
       # Check with values to add to the edge evidence table: 
       if (options$evidenceType == "inclusionProbability") {
-        toAdd <- allNetworks[[i]][["inc_probs"]]
+        toAdd <- allNetworks[[i]][["incProbs"]]
       } else if (options$evidenceType == "BF10") {
         toAdd <- allNetworks[[i]][["BF"]]
       } else if (options$evidenceType == "BF01") {
@@ -1062,7 +1061,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 # =========================
 
 # Turns vector into matrix
-vector_to_matrix <- function(vec, p, diag = FALSE, bycolumn = FALSE) {
+vectorToMatrix <- function(vec, p, diag = FALSE, bycolumn = FALSE) {
   m <- matrix(0, p, p)
   
   if(bycolumn == F){
@@ -1111,12 +1110,11 @@ extractposterior <- function(fit, data){
   S <- t(as.matrix(data)) %*% as.matrix(data)
   # check!!
   
-  for (i in seq(1, m, length.out=k)) {
+  for (i in seq(1, m, length.out = k)) {
     graph_ix <- fit$all_graphs[i]
     G <- string2graph(fit$sample_graphs[graph_ix], p)
-    K <- BDgraph::rgwish(n=1, adj=G, b=3+n, D=diag(p) + S)
+    K <- BDgraph::rgwish(n = 1, adj = G, b = 3 + n, D = diag(p) + S)
 
-    #Rs[j,,] <- pr2pc(K)
     Rs[j,] <- as.vector(pr2pc(K)[upper.tri(pr2pc(K))])
     densities[j] <- sum(sum(G)) / (p*(p-1))
     j <- j + 1
@@ -1125,70 +1123,29 @@ extractposterior <- function(fit, data){
 }
 
 # Samples from the G-wishart distribution
-gwish_samples <- function(G, S, nsamples=1000) {
+gwish_samples <- function(G, S, nsamples = 1000) {
   p <- nrow(S)
-  #Rs <- array(0, dim=c(nsamples, p, p))
   Rs = matrix(0, nrow = nsamples, ncol = (p*(p-1))/2)
   
   for (i in 1:nsamples) {
     K <- BDgraph::rgwish(n=1, adj=G, b=3+n, D=diag(p) + S)*(G + diag(p))
     Rs[i,] <- as.vector(pr2pc(K)[upper.tri(pr2pc(K))])
-    #Rs[i,,] <- .pr2pc(K)
   }
   return(Rs)
 }
 
 # Centrality of weighted graphs
-centrality_strength <- function(res) {
+centralityStrength <- function(res) {
   
-  Nsamples <- nrow(res$samples_posterior)
+  Nsamples <- nrow(res$samplesPosterior)
   p <- nrow(res$graph)
   
-  strength_samples <- matrix(0, nrow = Nsamples, ncol = p)
+  strengthSamples <- matrix(0, nrow = Nsamples, ncol = p)
   for(i in 1:Nsamples){
-    strength_samples[i, ] <- rowSums(abs(vector_to_matrix(res$samples_posterior[i,], p, bycolumn = TRUE)))
+    strengthSamples[i, ] <- rowSums(abs(vectorToMatrix(res$samplesPosterior[i,], p, bycolumn = TRUE)))
   }
   
-  strength_mean <- colMeans(strength_samples)
+  strengthMean <- colMeans(strengthSamples)
   
-  return(list(centrality_strength_samples = strength_samples, centrality_strength_mean = strength_mean))
+  return(list(centralityStrengthSamples = strengthSamples, centralityStrengthMean = strengthMean))
 }
-
-# # Centrality of unweighted graphs 
-# centrality_graph <- function(fit, include = c("degree", "closeness", "betweenness") ){
-#   # amount of visited structures
-#   len <- length(fit$sample_graphs)
-#   
-#   # objects to store graph centrality measures
-#   degree <- matrix(0, nrow = len, ncol = p)
-#   betweenness <- matrix(0, nrow = len, ncol = p)
-#   closeness <- matrix(0, nrow = len, ncol = p)
-#   
-#   # Obtain centrality measures for each graph
-#   for (i in 1:len){
-#     graph_matrix <- vector_to_matrix(as.numeric(unlist(strsplit(fit$sample_graphs[1], ""))), p , bycolumn = T)
-#     graph_graph <- igraph::as.undirected(graph.adjacency(graph_matrix, weighted = T))
-#     
-#     degree[i, ] <- igraph::degree(graph_graph)
-#     betweenness[i, ] <- igraph::betweenness(graph_graph)
-#     closeness[i, ] <- igraph::closeness(graph_graph)
-#   }
-#   # save centrality measures of interest
-#   centrality_graph <- list()
-#   if ("degree" %in% include){
-#     degree_samples <- degree[rep(1:nrow(degree), fit$graph_weights),]
-#     centrality_graph[["degree_mean"]] <- colMeans(degree_samples)
-#     centrality_graph[["degree_samples"]] <- degree_samples
-#   }  
-#   if ("betweenness" %in% include) {
-#     betweenness_samples <- betweenness[rep(1:nrow(betweenness), fit$graph_weights),]
-#     centrality_graph[["betweenness_mean"]] <- colMeans(betweenness_samples)
-#     centrality_graph[["betweenness_samples"]] <- betweenness_samples
-#   }  
-#   if("closeness" %in% include){
-#     closeness_samples <- closeness[rep(1:nrow(closeness), fit$graph_weights),]
-#     centrality_graph[["closeness_mean"]] <- colMeans(closeness_samples)
-#     centrality_graph[["closeness_samples"]] <- closeness_samples
-#   }
-#   return(centrality_graph)
-# }
