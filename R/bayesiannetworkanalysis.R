@@ -165,9 +165,9 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     if (options$setSeed) set.seed(options$seed)
     
     # Estimate network:  
-    bdgraphFit <- BDgraph::bdgraph(data       = as.data.frame(dataset[[nw]]),
+    bdgraphFit <- BDgraph::bdgraph(data        = as.data.frame(dataset[[nw]]),
                                     method     = options[["estimator"]],
-                                    not.cont   = ifelse(options[["estimator"]] == "gcgm", nonContVariables, NULL), 
+                                    not.cont   = if (options[["estimator"]] == "gcgm") nonContVariables else NULL, 
                                     algorithm  = "rjmcmc",
                                     iter       = as.numeric(options[["iter"]]),
                                     save       = TRUE,
@@ -179,16 +179,16 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     
     # Extract results:
     bdgraphResult <- list()
-    bdgraphResult$graphWeights <- bdgraphFit$graph_weights
-    bdgraphResult$incProbs <- as.matrix(BDgraph::plinks(bdgraphFit)) # Change to inclusionProbabilities 
-    bdgraphResult$incProbs  <- bdgraphResult$incProbs + t(bdgraphResult$incProbs)
-    bdgraphResult$BF <- bdgraphResult$incProbs / (1 - bdgraphResult$incProbs)
-    bdgraphResult$structure <- 1*(bdgraphResult$incProbs > 0.5)
-    bdgraphResult$estimates <- pr2pc(bdgraphFit$K_hat)
-    diag(bdgraphResult$estimates) <- 0
-    bdgraphResult$graph <- bdgraphResult$estimates*bdgraphResult$structure
-    bdgraphResult$samplesPosterior <- extractposterior(bdgraphFit, as.data.frame(dataset[[nw]]))[[1]]
-    bdgraphResult$sampleGraphs <- bdgraphFit$sample_graphs
+    bdgraphResult$graphWeights           <- bdgraphFit$graph_weights
+    bdgraphResult$inclusionProbabilities <- as.matrix(BDgraph::plinks(bdgraphFit))
+    bdgraphResult$inclusionProbabilities <- bdgraphResult$inclusionProbabilities + t(bdgraphResult$inclusionProbabilities)
+    bdgraphResult$BF                     <- bdgraphResult$inclusionProbabilities / (1 - bdgraphResult$inclusionProbabilities)
+    bdgraphResult$structure              <- 1*(bdgraphResult$inclusionProbabilities > 0.5)
+    bdgraphResult$estimates              <- pr2pc(bdgraphFit$K_hat)
+    diag(bdgraphResult$estimates)        <- 0
+    bdgraphResult$graph                  <- bdgraphResult$estimates*bdgraphResult$structure
+    bdgraphResult$samplesPosterior       <- extractposterior(bdgraphFit, as.data.frame(dataset[[nw]]))[[1]]
+    bdgraphResult$sampleGraphs           <- bdgraphFit$sample_graphs
     
     networks[[nw]] <- bdgraphResult
   }
@@ -1009,7 +1009,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       
       # Check with values to add to the edge evidence table: 
       if (options$evidenceType == "inclusionProbability") {
-        toAdd <- allNetworks[[i]][["incProbs"]]
+        toAdd <- allNetworks[[i]][["inclusionProbabilities"]]
       } else if (options$evidenceType == "BF10") {
         toAdd <- allNetworks[[i]][["BF"]]
       } else if (options$evidenceType == "BF01") {
