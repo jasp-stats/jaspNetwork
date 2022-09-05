@@ -172,7 +172,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
                                     iter       = as.numeric(options[["iter"]]),
                                     save       = TRUE,
                                     burnin     = as.numeric(options[["burnin"]]),
-                                    g.start    = "empty",
+                                    g.start    = options[["initialConfiguration"]],
                                     df.prior   = as.numeric(options[["dfprior"]]),
                                     g.prior    = as.numeric(options[["gprior"]]),
                                     cores      = 1)
@@ -188,7 +188,6 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     diag(bdgraphResult$estimates) <- 0
     bdgraphResult$graph <- bdgraphResult$estimates*bdgraphResult$structure
     bdgraphResult$samplesPosterior <- extractposterior(bdgraphFit, as.data.frame(dataset[[nw]]))[[1]]
-    bdgraphResult$centralityStrength <- centralityStrength(bdgraphResult)
     bdgraphResult$sampleGraphs <- bdgraphFit$sample_graphs
     
     networks[[nw]] <- bdgraphResult
@@ -337,22 +336,23 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       
       networkToPlot <- allNetworks[[v]]
       
-      centralityMeans <- networkToPlot$centralityStrength$centralityStrengthMean
-      centralityHDIIntervals <- apply(networkToPlot$centralityStrength$centralityStrengthSamples, MARGIN = 2, FUN = HDInterval::hdi, allowSplit = FALSE)
+      centralitySamples <- centrality(network = networkToPlot)
+      nSamples <- nrow(networkToPlot$samplesPosterior)
       
-      centrality <- as.data.frame(t(rbind(centralityMeans, centralityHDIIntervals)))
-
-      plot <- ggplot2::ggplot(centrality, ggplot2::aes(x = 1:nrow(centrality), y = as.numeric(centralityMeans))) +
-              ggplot2::geom_line(size = 2) + 
-              ggplot2::geom_point(size = 5) +
-              ggplot2::geom_errorbar(ggplot2::aes(ymin = as.numeric(lower), ymax = as.numeric(upper)), size = 1, width = .2) +
-              ggplot2::theme_minimal() +
-              ggplot2::labs(y = "Centrality", x = "Node") +
-              ggplot2::theme(axis.title.x = ggplot2::element_text(size=22), 
-                  axis.title.y = ggplot2::element_text(size=22), panel.border = ggplot2::element_blank(),
-                  axis.line = ggplot2::element_line(colour = "black", size = 1.1), axis.ticks.length = grid::unit(.3, "cm"), 
-                  legend.position = c(.85, 0.9), legend.text = ggplot2::element_text(size = 20)) +
-              ggplot2::scale_x_continuous(breaks = 1:nrow(centrality))
+      centralityMeans <- apply(centralitySamples[, 3:(nSamples+2)], MARGIN = 1, mean)
+      centralityHDIintervals <- apply(centralitySamples[, 3:(nSamples+2)], MARGIN = 1, 
+                                        FUN = HDInterval::hdi, allowSplit = FALSE)
+      
+      centralitySummary <- cbind(centralitySamples[, 1:2], centralityMeans, t(centralityHDIintervals))
+      
+      plot <- ggplot2::ggplot(data = centralitySummary, ggplot2::aes(x = node, y = centralityMeans, group = measure)) +
+                ggplot2::geom_line() +
+                ggplot2::geom_point() +
+                ggplot2::geom_errorbar(ggplot2::aes(y = centralityMeans, ymin = lower, ymax = upper), size = .5, width = 0.4)+
+                ggplot2::facet_wrap(~ measure, ncol = 4) +
+                ggplot2::coord_flip() +
+                ggplot2::ylab("") +
+                ggplot2::xlab("")
 
       centralityPlotContainer[[v]]$plotObject <- plot
       
@@ -1134,18 +1134,18 @@ gwish_samples <- function(G, S, nsamples = 1000) {
   return(Rs)
 }
 
-# Centrality of weighted graphs
-centralityStrength <- function(res) {
+# of weighted graphs
+centrality <- function(network){
   
-  Nsamples <- nrow(res$samplesPosterior)
-  p <- nrow(res$graph)
-  
-  strengthSamples <- matrix(0, nrow = Nsamples, ncol = p)
-  for(i in 1:Nsamples){
-    strengthSamples[i, ] <- rowSums(abs(vectorToMatrix(res$samplesPosterior[i,], p, bycolumn = TRUE)))
+  for(i in 1:nrow(network$samplesPosterior)){
+    graph <- qgraph::centralityPlot(vectorToMatrix(network$samplesPosterior[i,], as.numeric(nrow(network$estimates)), bycolumn = TRUE), 
+                                    include = c("Closeness", "Betweenness", "Strength", "ExpectedInfluence"),
+                                    verbose = FALSE, print = FALSE, scale = "z-scores")
+    if(i > 1){
+      centralityOutput[, i+2] <- graph$data[, 5]
+    } else {
+      centralityOutput <- graph$data[, 3:5]
+    }
   }
-  
-  strengthMean <- colMeans(strengthSamples)
-  
-  return(list(centralityStrengthSamples = strengthSamples, centralityStrengthMean = strengthMean))
+  return(centralityOutput)
 }

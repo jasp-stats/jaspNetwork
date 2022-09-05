@@ -97,6 +97,20 @@ Form
 		title: qsTr("Prior")
 
 		FormulaField { name: "gprior"; label: qsTr("Prior edge inclusion (g prior): "); value: "0.5" ; min: 0.001; max: 1; Layout.columnSpan: 2 }
+		
+			
+		DropDown
+	  {
+		  id: initialConfiguration
+		  name: "initialConfiguration"
+		  label: qsTr("Initial configuration prior edge inclusion (g start):")
+		  Layout.columnSpan: 2
+		  values: [
+			  { value: "empty",		        label: "empty"			  },
+			  { value: "full",				  label: "full"				    }
+		  ]
+	  }
+
 		FormulaField { name: "dfprior"; label: qsTr("Degrees of freedom of G-Wishert prior (df prior): "); value: "3" ; min: 0; Layout.columnSpan: 2 }
 
 	}
