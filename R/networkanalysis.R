@@ -553,7 +553,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   # code modified from qgraph::centralityPlot(). Type and graph are switched so the legend title says graph
   if (options[["abbreviateLabels"]])
     Long[["node"]] <- base::abbreviate(Long[["node"]], options[["abbreviateNoChars"]])
-
+  
   # code modified from qgraph::centralityPlot(). Type and graph are switched so the legend title says graph
   Long <- Long[gtools::mixedorder(Long$node), ]
   Long$node <- factor(as.character(Long$node), levels = unique(gtools::mixedsort(as.character(Long$node))))
