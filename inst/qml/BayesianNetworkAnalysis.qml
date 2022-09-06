@@ -39,8 +39,7 @@ Form
 		Layout.columnSpan: 2
 		values: [
 			{ value: "ggm",		        label: "ggm"			},
-//			{ value: "Ising",				label: qsTr("Ising model")		},
-			{ value: "gcgm",				  label: "gcgm"				}
+			{ value: "gcgm",				  label: "mgm"				}
 		]
 	}
 
@@ -50,7 +49,18 @@ Form
 		CheckBox { name: "plotNetwork";		label: qsTr("Network plot")								}
 		CheckBox { 
 		  name: "plotEvidence";		label: qsTr("Edge Evidence plot")
-				  CheckBox { name: "edgeInclusion"; label: qsTr("Evidence for inclusion") ;  checked: true }
+				  CheckBox { 
+				        name:    "edgeInclusion";
+				        label:   qsTr("Evidence for inclusion");
+				        checked: true 
+				        IntegerField {
+				          name:         "edgeInclusionCriteria";
+				          label:        qsTr("Inclusion criteria: BF\u2081\u2080 > ");
+				          min:          1;
+				          defaultValue: 10;
+				          max:          2e2
+				        }
+				  }
 				  CheckBox { name: "edgeExclusion";  label: qsTr("Evidence for exclusion"); checked: true }
 				  CheckBox { name: "edgeAbsence"; label: qsTr("Absence of evidence");   checked: true }
 		}
@@ -71,14 +81,15 @@ Form
 				  RadioButton { value: "log(BF)"; label: qsTr("Log(BF\u2081\u2080)") }
 				}
 		}
+//		CheckBox { name: "tableCentrality"; label: qsTr("Centrality table") }
 	}
 	
 	Section 
 	{
 	  title: qsTr("Options")
 	  Layout.columnSpan: 2
-	  FormulaField { name: "burnin"; label: qsTr("Burn in: "); value: "50000" ; min: 1; Layout.columnSpan: 2 }
-	  FormulaField { name: "iter"; label: qsTr("Iterations: "); value: "100000" ; min: 2; Layout.columnSpan: 2 }
+	  IntegerField { name: "burnin"; label: qsTr("Burn in: "); value: "5000" ; min: 0; max: iter.value / 2; fieldWidth: 100; id: burnin }
+	  IntegerField { name: "iter"; label: qsTr("Iterations: "); value: "10000" ; min: burnin.value * 2; fieldWidth: 100; id: iter }
 	  
 	  RadioButtonGroup
 		{
@@ -98,7 +109,6 @@ Form
 
 		FormulaField { name: "gprior"; label: qsTr("Prior edge inclusion (g prior): "); value: "0.5" ; min: 0.001; max: 1; Layout.columnSpan: 2 }
 		
-			
 		DropDown
 	  {
 		  id: initialConfiguration
@@ -106,12 +116,12 @@ Form
 		  label: qsTr("Initial configuration prior edge inclusion (g start):")
 		  Layout.columnSpan: 2
 		  values: [
-			  { value: "empty",		        label: "empty"			  },
-			  { value: "full",				  label: "full"				    }
+			  { value: "empty",		      label: "empty"			  },
+			  { value: "full",				  label: "full"				  }
 		  ]
 	  }
 
-		FormulaField { name: "dfprior"; label: qsTr("Degrees of freedom of G-Wishert prior (df prior): "); value: "3" ; min: 0; Layout.columnSpan: 2 }
+		IntegerField { name: "dfprior"; label: qsTr("Degrees of freedom of G-Wishert prior (df prior): "); value: "3" ; min: 0; Layout.columnSpan: 2 }
 
 	}
 

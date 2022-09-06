@@ -97,6 +97,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   # List that contains state or is empty:
   networkList <- list(
     network    = mainContainer[["networkState"]]$object,
+   # centrality = mainContainer[["centralityState"]]$object,
     layout     = mainContainer[["layoutState"]]$object
   )
   
@@ -764,18 +765,19 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   # enables us to use the same code for a single network plot and for a collection of network plots.
   title <- if (nGraphs == 1L) gettext("Edge Evidence Plot") else gettext("Edge Evidence Plots")
   
+  # Why does it not recreate when choosing a different edgeInclusionCriteria
   evidencePlotContainer <- createJaspContainer(title = title, position = 52, dependencies = c("plotEvidence",
     "layout", "repulsion", "edgeSize", "nodeSize", "colorNodesBy", "cut", "showDetails", "nodePalette",
     "legendNumber", "edgeInclusion", "edgeExclusion", "edgeAbsence",
     "scaleLabels", "labelSize", "abbreviateLabels", "abbreviateNoChars",
-    "keepLayoutTheSame", "layoutX", "layoutY",
+    "keepLayoutTheSame", "layoutX", "layoutY", "edgeInclusionCriteria",
     "groupNames", "groupColors", "variablesForColor", "groupAssigned", "manualColors",
     "legendToPlotRatio"
   ))
   plotContainer[["evidencePlotContainer"]] <- evidencePlotContainer
   
   if (is.null(network[["network"]]) || plotContainer$getError()) {
-    evidencePlotContainer[["dummyPlot"]] <- createJaspPlot(title = gettext("Edge Evidence Plot"))
+    evidencePlotContainer[["dummyPlot"]] <- createJaspPlot(title = gettext("Edge Evidence Plot"), dependencies = "edgeInclusionCriteria")
     return()
   }
   
@@ -897,9 +899,9 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   
   # Select options for edges (inclusion, exclusion, absence):
   graphColor <- matrix(NA, ncol = nrow(network[["graph"]]), nrow = nrow(network[["graph"]]))
-  if (options$edgeInclusion) graphColor[network[["BF"]] >= 10] <- "#36648b"
+  if (options$edgeInclusion) graphColor[network[["BF"]] >= options[["edgeInclusionCriteria"]]] <- "#36648b"
   if (options$edgeExclusion) graphColor[network[["BF"]] < .1] <- "#990000"
-  if (options$edgeAbsence) graphColor[network[["BF"]] < 10 & network[["BF"]] > .1] <- "#bfbfbf"
+  if (options$edgeAbsence) graphColor[network[["BF"]] < options[["edgeInclusionCriteria"]] & network[["BF"]] > .1] <- "#bfbfbf"
     
   # Determine the edges: 
   edges <- matrix(ifelse(is.na(graphColor), 0, 1), ncol = nrow(network[["graph"]]), nrow = nrow(network[["graph"]]))
@@ -1134,7 +1136,7 @@ gwish_samples <- function(G, S, nsamples = 1000) {
   return(Rs)
 }
 
-# of weighted graphs
+# Centrality of weighted graphs
 centrality <- function(network){
   
   for(i in 1:nrow(network$samplesPosterior)){
