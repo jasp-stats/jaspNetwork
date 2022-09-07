@@ -346,57 +346,48 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       
       centralitySummary <- cbind(centralitySamples[, 1:2], value, t(centralityHDIintervals))
       
-      # # code modified from qgraph::centralityPlot(). Type and graph are switched so the legend title says graph
-      # if (options[["abbreviateLabels"]])
-      #   centralitySummary[["node"]] <- base::abbreviate(centralitySummary[["node"]], options[["abbreviateNoChars"]])
-      # 
-      # # code modified from qgraph::centralityPlot(). Type and graph are switched so the legend title says graph
-      # centralitySummary <- centralitySummary[gtools::mixedorder(centralitySummary$node), ]
-      # centralitySummary$node <- factor(as.character(centralitySummary$node), 
-      #                                  levels = unique(gtools::mixedsort(as.character(centralitySummary$node))))
-      # 
-      # centralitySummary$nodeLabel <- NA
-      # if (options[["showVariableNames"]] == "In legend") {
-      #   centralitySummary$nodeLabel <- as.character(centralitySummary$node)
-      #   centralitySummary$node <- factor(match(as.character(centralitySummary$node), unique(as.character(centralitySummary$node))))
-      #   levels(centralitySummary$node) <- rev(levels(centralitySummary$node))
-      #   centralitySummary$nodeLabel <- paste(as.character(centralitySummary$node), "=", centralitySummary$nodeLabel)
-      # }
-      # 
-      # # check the order of x and y
-      # mapping <- ggplot2::aes(x = value, y = node, group = measure)
-      # 
-      # # add a fill element to the mapping -- this is only used to add a legend for the names of the nodes.
-      # hasNodeLabels <- !all(is.na(centralitySummary[["nodeLabel"]]))
-      # if (hasNodeLabels)
-      #   mapping$fill <- as.name("nodeLabel")
-      # 
-      # g <- ggplot2::ggplot(centralitySummary, mapping)
-      # 
-      # g <- g + ggplot2::geom_path() + 
-      #          ggplot2::geom_point() + 
-      #          ggplot2::geom_errorbar(ggplot2::aes(x = value, xmin = lower, xmax = upper), size = .5, width = 0.4) +
-      #          ggplot2::labs(x = NULL, y = NULL, fill = NULL) + 
-      #          ggplot2::facet_grid(~measure, scales = "free") +
-      #          ggplot2::theme_bw()
-      #  
-      # if (options[["showLegend"]] == "No legend")
-      #   g <- g + ggplot2::theme(legend.position = "none")
-      # else if (hasNodeLabels) {
-      #   # the fill aestethic introduces a set of points left of `1 = contNormal`.
-      #   # the statement below sets the size of those points to 0, effectively making them invisible
-      #   # keywidth removes the invisible space introduced so that the legends nicely line up (if there are multiple)
-      #   g <- g + ggplot2::guides(fill = ggplot2::guide_legend(keywidth = 0, override.aes = list(size = 0, alpha = 0)))
-      # }
-    
-      g <- ggplot2::ggplot(data = centralitySummary, ggplot2::aes(x = node, y = value, group = measure)) +
-                ggplot2::geom_line() +
-                ggplot2::geom_point() +
-                ggplot2::geom_errorbar(ggplot2::aes(y = value, ymin = lower, ymax = upper), size = .5, width = 0.4)+
-                ggplot2::facet_wrap(~ measure, ncol = 4) +
-                ggplot2::coord_flip() +
-                ggplot2::ylab("") +
-                ggplot2::xlab("")
+      # code modified from qgraph::centralityPlot(). Type and graph are switched so the legend title says graph
+      if (options[["abbreviateLabels"]])
+        centralitySummary[["node"]] <- base::abbreviate(centralitySummary[["node"]], options[["abbreviateNoChars"]])
+
+      # code modified from qgraph::centralityPlot(). Type and graph are switched so the legend title says graph
+      centralitySummary <- centralitySummary[gtools::mixedorder(centralitySummary$node), ]
+      centralitySummary$node <- factor(as.character(centralitySummary$node),
+                                       levels = unique(gtools::mixedsort(as.character(centralitySummary$node))))
+
+      centralitySummary$nodeLabel <- NA
+      if (options[["showVariableNames"]] == "In legend") {
+        centralitySummary$nodeLabel <- as.character(centralitySummary$node)
+        centralitySummary$node <- factor(match(as.character(centralitySummary$node), unique(as.character(centralitySummary$node))))
+        levels(centralitySummary$node) <- rev(levels(centralitySummary$node))
+        centralitySummary$nodeLabel <- paste(as.character(centralitySummary$node), "=", centralitySummary$nodeLabel)
+      }
+
+      # check the order of x and y
+      mapping <- ggplot2::aes(x = value, y = node, group = measure)
+
+      # add a fill element to the mapping -- this is only used to add a legend for the names of the nodes.
+      hasNodeLabels <- !all(is.na(centralitySummary[["nodeLabel"]]))
+      if (hasNodeLabels)
+        mapping$fill <- as.name("nodeLabel")
+
+      g <- ggplot2::ggplot(centralitySummary, mapping)
+
+      g <- g + ggplot2::geom_path() +
+               ggplot2::geom_point() +
+               ggplot2::geom_errorbar(ggplot2::aes(x = value, xmin = lower, xmax = upper), size = .5, width = 0.4) +
+               ggplot2::labs(x = NULL, y = NULL, fill = NULL) +
+               ggplot2::facet_grid(~measure, scales = "free") +
+               ggplot2::theme_bw()
+
+      if (options[["showLegend"]] == "No legend")
+        g <- g + ggplot2::theme(legend.position = "none")
+      else if (hasNodeLabels) {
+        # the fill aestethic introduces a set of points left of `1 = contNormal`.
+        # the statement below sets the size of those points to 0, effectively making them invisible
+        # keywidth removes the invisible space introduced so that the legends nicely line up (if there are multiple)
+        g <- g + ggplot2::guides(fill = ggplot2::guide_legend(keywidth = 0, override.aes = list(size = 0, alpha = 0)))
+      }
 
       centralityPlotContainer[[v]]$plotObject <- g
       
@@ -1182,24 +1173,19 @@ gwish_samples <- function(G, S, nsamples = 1000) {
 # Centrality of weighted graphs
 centrality <- function(network){
   
-  print("NETWORK 2345667:")
-  print(network)
-  
-  print(names(network$estimates))
+  print("NETWORK NAMES 1234567:")
+  print(colnames(network$estimates))
   
   for(i in 1:nrow(network$samplesPosterior)){
     graph <- qgraph::centralityPlot(vectorToMatrix(network$samplesPosterior[i,], as.numeric(nrow(network$estimates)), bycolumn = TRUE), 
                                     include = c("Closeness", "Betweenness", "Strength", "ExpectedInfluence"),
-                                    verbose = FALSE, print = FALSE, scale = "z-scores") # labels = names(network$estimates)?
+                                    verbose = FALSE, print = FALSE, scale = "z-scores", labels = colnames(network$estimates))
     if(i > 1){
       centralityOutput[, i+2] <- graph$data[, 5]
     } else {
       centralityOutput <- graph$data[, 3:5]
     }
   }
-  
-  print("centralityOutput 6789000:")
-  print(centralityOutput)
   
   return(centralityOutput)
 }
