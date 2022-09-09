@@ -531,9 +531,6 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   what <- match.arg(what)
   wideDf <- Reduce(rbind, wide)
   
-  print("wideDF 2344")
-  print(wideDf)
-  
   if (length(wide) > 1L) {
     wideDf[["type"]] <- rep(names(network[[what]]), each = nrow(wideDf) / length(wide))
     Long <- reshape2::melt(wideDf, id.vars = c("node", "type"))
@@ -545,9 +542,6 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     colnames(Long)[2L] <- "measure"
     Long[["graph"]] <- NA
   }
-  
-  print("LONG 23455")
-  print(Long)
   
   return(Long)
 

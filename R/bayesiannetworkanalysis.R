@@ -368,7 +368,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   for (i in seq_len(nGraphs)) {
     table$addColumnInfo(name = paste0("Betweenness", i),        title = gettext("Betweenness"),        type = "number", overtitle = overTitles[i])
     table$addColumnInfo(name = paste0("Closeness", i),          title = gettext("Closeness"),          type = "number", overtitle = overTitles[i])
-    table$addColumnInfo(name = paste0("Strenght", i),           title = gettext("Strength"),           type = "number", overtitle = overTitles[i])
+    table$addColumnInfo(name = paste0("Strength", i),           title = gettext("Strength"),           type = "number", overtitle = overTitles[i])
     table$addColumnInfo(name = paste0("Expected influence", i), title = gettext("Expected influence"), type = "number", overtitle = overTitles[i])
   }
   
@@ -383,11 +383,16 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     toAdd <- network[["centrality"]][[i]]
   
     test <- stats::reshape(toAdd, idvar = "node", timevar = "measure", direction = "wide")
-    # print("HIHAHO")
-    # print(test)
-    # 
-    # print("hihaho")
-    # print(toAdd)
+    print("HIHAHO")
+    print(test)
+
+    print("hihaho")
+    print(toAdd)
+    
+    test <- subset(centralitySummary, c("node", "Betweenness", "Closeness", "Strength", "ExpectedInfluence"))
+    
+    print("HIHAHO after subset:")
+    print(test)
     
     names(toAdd) <- c("Variable", paste0(c("Betweenness", 
                                            "Closeness", 
@@ -432,8 +437,11 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   }
       
   if (!all(measuresToShow)) {
-      measuresToFilter <- c("Betweenness", "Closeness", "Strenght", "ExpectedInfluence")[measuresToShow]
-      centralitySummary <- subset(centralitySummary, measure %in% measuresToFilter)
+    print("weirddd...") 
+    print(centralitySummary)
+    
+    measuresToFilter <- c("Betweenness", "Closeness", "Strength", "ExpectedInfluence")[measuresToShow]
+    centralitySummary <- subset(centralitySummary, measure %in% measuresToFilter)
   }
       
   .bayesianNetworkAnalysisMakeCentralityPlot(plot, centralitySummary, options)
@@ -483,7 +491,6 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
   if (length(unique(centralitySummary$type)) > 1) {
       g <- g + ggplot2::facet_grid(type ~ measure, scales = "free")
-
   } else {
       g <- g + ggplot2::facet_grid(~measure, scales = "free")
   }
