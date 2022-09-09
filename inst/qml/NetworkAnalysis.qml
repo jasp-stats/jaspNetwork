@@ -60,9 +60,9 @@ Form
 	Group
 	{
 		title: qsTr("Tables")
+		CheckBox { name: "tableWeightsMatrix";	label: qsTr("Weights matrix")	}
 		CheckBox { name: "tableCentrality";		label: qsTr("Centrality table")	}
 		CheckBox { name: "tableClustering";		label: qsTr("Clustering table")	}
-		CheckBox { name: "tableWeightsMatrix";	label: qsTr("Weights matrix")	}
 	}
 
 	Section
@@ -429,9 +429,9 @@ Form
 		{
 			title: qsTr("Measures shown in centrality plot")
 			enabled: plotCentrality.checked
-			CheckBox	{	name: "Betweenness";		label: qsTr("Betweenness");			checked: true	}
-			CheckBox	{	name: "Closeness";			label: qsTr("Closeness");			checked: true	}
-			CheckBox	{	name: "Degree";				label: qsTr("Betweenness");			checked: true	}
+			CheckBox	{	name: "Betweenness";		    label: qsTr("Betweenness");			    checked: true	}
+			CheckBox	{	name: "Closeness";			    label: qsTr("Closeness");			      checked: true	}
+			CheckBox	{	name: "Degree";				      label: qsTr("Degree");			        checked: true	}
 			CheckBox	{	name: "ExpectedInfluence";	label: qsTr("Expected Influence");	checked: true	}
 		}
 

@@ -24,11 +24,11 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   
   network <- .bayesianNetworkAnalysisRun(mainContainer, dataset, options)
   
-  .bayesianNetworkAnalysisMainTable(mainContainer, dataset, options, network)
-  
+  .bayesianNetworkAnalysisMainTable        (mainContainer, dataset, options, network)
   .bayesianNetworkAnalysisWeightMatrixTable(mainContainer, network, options)
   .bayesianNetworkAnalysisEdgeEvidenceTable(mainContainer, network, options)
-  .bayesianNetworkAnalysisPlotContainer(mainContainer, network, options)
+  .bayesianNetworkAnalysisPlotContainer    (mainContainer, network, options)
+  .bayesianNetworkAnalysisCentralityTable  (mainContainer, network, options)
   
   return()
 }
@@ -97,7 +97,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   # List that contains state or is empty:
   networkList <- list(
     network    = mainContainer[["networkState"]]$object,
-   # centrality = mainContainer[["centralityState"]]$object,
+    centrality = mainContainer[["centralityState"]]$object,
     layout     = mainContainer[["layoutState"]]$object
   )
   
@@ -112,13 +112,17 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       }
     )
   
-  if (!mainContainer$getError() && !is.null(networkList[["network"]])) { #  if (!mainContainer$getError() && !is.null(networkList[["network"]])) {
+  if (!mainContainer$getError() && !is.null(networkList[["network"]])) { 
     if (is.null(networkList[["layout"]]))
       networkList[["layout"]] <- .bayesianNetworkAnalysisComputeLayout(networkList[["network"]], dataset, options)
     
-    names(networkList[["network"]]) <- names(dataset)
+    if (is.null(networkList[["centrality"]]) && (options[["tableCentrality"]] || options[["plotCentrality"]]))
+      networkList[["centrality"]] <- .bayesianNetworkAnalysisComputeCentrality(networkList[["network"]])
+    
+    names(networkList[["network"]]) <- names(dataset) # <- names(networkList[["centrality"]])
     
     mainContainer[["networkState"]]    <- createJaspState(networkList[["network"]])
+    mainContainer[["centralityState"]] <- createJaspState(networkList[["centrality"]], dependencies = c("maxEdgeStrength", "minEdgeStrength"))
     mainContainer[["layoutState"]]     <- createJaspState(networkList[["layout"]], 
                                                           dependencies = c("layout", "repulsion", "layoutX", "layoutY"))
     
@@ -126,6 +130,30 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   }
   
   return(networkList)
+}
+
+.bayesianNetworkAnalysisComputeCentrality <- function(networks) {
+  
+  centralities <- vector("list", length(networks))
+  for (nw in seq_along(networks)) {
+    
+    network <- networks[[nw]]
+    
+    # add measures 
+    centralitySamples <- centrality(network = network)
+    nSamples <- nrow(network$samplesPosterior)
+    
+    value <- apply(centralitySamples[, 3:(nSamples+2)], MARGIN = 1, mean)
+    centralityHDIintervals <- apply(centralitySamples[, 3:(nSamples+2)], MARGIN = 1, 
+                                    FUN = HDInterval::hdi, allowSplit = FALSE)
+    
+    centralitySummary <- cbind(centralitySamples[, 1:2], value, t(centralityHDIintervals))
+    
+    centralities[[nw]] <- centralitySummary
+    
+  }
+  
+  return(centralities)
 }
 
 .bayesianNetworkAnalysisComputeLayout <- function(networks, dataset, options) {
@@ -175,8 +203,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
                                     burnin     = as.numeric(options[["burnin"]]),
                                     g.start    = options[["initialConfiguration"]],
                                     df.prior   = as.numeric(options[["dfprior"]]),
-                                    g.prior    = as.numeric(options[["gprior"]]),
-                                    cores      = 1)
+                                    g.prior    = as.numeric(options[["gprior"]]))
     
     # Extract results:
     bdgraphResult <- list()
@@ -185,8 +212,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     bdgraphResult$inclusionProbabilities <- bdgraphResult$inclusionProbabilities + t(bdgraphResult$inclusionProbabilities)
     bdgraphResult$BF                     <- bdgraphResult$inclusionProbabilities / (1 - bdgraphResult$inclusionProbabilities)
     bdgraphResult$structure              <- 1*(bdgraphResult$inclusionProbabilities > 0.5)
-    bdgraphResult$estimates              <- pr2pc(bdgraphFit$K_hat)
-    diag(bdgraphResult$estimates)        <- 0
+    bdgraphResult$estimates              <- pr2pc(bdgraphFit$K_hat); diag(bdgraphResult$estimates) <- 0
     bdgraphResult$graph                  <- bdgraphResult$estimates*bdgraphResult$structure
     bdgraphResult$samplesPosterior       <- extractposterior(bdgraphFit, as.data.frame(dataset[[nw]]))[[1]]
     bdgraphResult$sampleGraphs           <- bdgraphFit$sample_graphs
@@ -242,6 +268,23 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   tb$setData(df)
 }
 
+.bayesianNetworkAnalysisWeightMatrixTable <- function(mainContainer, network, options) {
+  
+  if (!is.null(mainContainer[["weightsTable"]]) || !options[["tableWeightsMatrix"]])
+    return()
+  
+  nGraphs <- max(1L, length(network[["network"]]))
+  table <- createJaspTable(gettext("Weights matrix"), position = 4, dependencies = "tableWeightsMatrix")
+  table$addColumnInfo(name = "Variable", title = gettext("Variable"), type = "string")
+  
+  # shared titles
+  overTitles <- names(network[["network"]])
+  if (is.null(overTitles))
+    overTitles <- gettext("Network")
+  
+  
+}
+
 .bayesianNetworkAnalysisPlotContainer <- function(mainContainer, network, options) {
   
   plotContainer <- mainContainer[["plotContainer"]]
@@ -253,11 +296,8 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   
   .bayesianNetworkAnalysisNetworkPlot(plotContainer, network, options)
   .bayesianNetworkAnalysisEvidencePlot(plotContainer, network, options)
-  # .bayesianNetworkAnalysisStructurePlot(plotContainer, network, options)
   .bayesianNetworkAnalysisPosteriorStructurePlot(plotContainer, network, options)
   .bayesianNetworkAnalysisCentralityPlot(plotContainer, network, options)
-  
-  # Currently working on: 
   .bayesianNetworkAnalysisPosteriorComplexityPlot(plotContainer, network, options)
 }
 
@@ -310,90 +350,155 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   })
 }
 
-.bayesianNetworkAnalysisCentralityPlot <- function (plotContainer, network, options) {
-
-  if (!is.null(plotContainer[["centralityPlotContainer"]]) || !options[["plotCentrality"]])
-    return()
-
-  allNetworks <- network[["network"]]
-  nGraphs <- length(allNetworks)
-
-  title <- if (nGraphs == 1L) gettext("Centrality Plot") else gettext("Centrality plots")
-
-  centralityPlotContainer <- createJaspContainer(title = title, position = 52, dependencies = c("plotCentrality")) # position = 51 before 
-  plotContainer[["centralityPlotContainer"]] <- centralityPlotContainer
+.bayesianNetworkAnalysisCentralityTable <- function(mainContainer, network, options) {
   
-  if (is.null(network[["network"]]) || plotContainer$getError()) {
-    centralityPlotContainer[["dummyPlot"]] <- createJaspPlot(title = gettext("Centrality Plot"))
+  if (!is.null(mainContainer[["centralityTable"]]) || !options[["tableCentrality"]])
     return()
+  
+  nGraphs <- max(1L, length(network[["network"]]))
+  table <- createJaspTable(gettext("Centrality measures per variable"), position = 2,
+                           dependencies = c("tableCentrality", "maxEdgeStrength", "minEdgeStrength"))
+  table$addColumnInfo(name = "Variable", title = gettext("Variable"), type = "string")
+  
+  # shared titles
+  overTitles <- names(network[["network"]])
+  if (is.null(overTitles))
+    overTitles <- gettext("Network")
+  
+  for (i in seq_len(nGraphs)) {
+    table$addColumnInfo(name = paste0("Betweenness", i),        title = gettext("Betweenness"),        type = "number", overtitle = overTitles[i])
+    table$addColumnInfo(name = paste0("Closeness", i),          title = gettext("Closeness"),          type = "number", overtitle = overTitles[i])
+    table$addColumnInfo(name = paste0("Strenght", i),           title = gettext("Strength"),           type = "number", overtitle = overTitles[i])
+    table$addColumnInfo(name = paste0("Expected influence", i), title = gettext("Expected influence"), type = "number", overtitle = overTitles[i])
+  }
+  
+  mainContainer[["centralityTable"]] <- table
+  if (is.null(network[["centrality"]]) || mainContainer$getError())
+    return()
+  
+  # fill with results
+  TBcolumns <- NULL
+  for (i in seq_len(nGraphs)) {
+    
+    toAdd <- network[["centrality"]][[i]]
+  
+    test <- stats::reshape(toAdd, idvar = "node", timevar = "measure", direction = "wide")
+    # print("HIHAHO")
+    # print(test)
+    # 
+    # print("hihaho")
+    # print(toAdd)
+    
+    names(toAdd) <- c("Variable", paste0(c("Betweenness", 
+                                           "Closeness", 
+                                           "Strength", 
+                                           "Expected influence"), i))
+    
+    if (i == 1L) {# if more than 1 network drop the first column which indicates the variable
+      TBcolumns <- toAdd
+    } else {
+      toAdd <- toAdd[, -1L]
+      TBcolumns <- cbind(TBcolumns, toAdd)
+    }
+  }
+  table$setData(TBcolumns)
+  
+}
+
+.bayesianNetworkAnalysisCentralityPlot <- function(plotContainer, network, options) {
+  
+  if (!is.null(plotContainer[["centralityPlot"]]) || !options[["plotCentrality"]])
+    return()
+  
+  measuresToShow <- unlist(options[c("Betweenness", "Closeness", "Strength", "ExpectedInfluence")], use.names = FALSE)
+  hasMeasures <- any(measuresToShow)
+      
+  width <- if (hasMeasures) 120 * sum(measuresToShow) else 120
+  plot <- createJaspPlot(title = gettext("Centrality Plot"), position = 52, width = width,
+                         dependencies = c("plotCentrality", "Betweenness", "Closeness", "Strength", "ExpectedInfluence"))
+  
+  plotContainer[["centralityPlot"]] <- plot
+  
+  if (is.null(network[["centrality"]]) || plotContainer$getError() || !hasMeasures)
+    return()
+  
+  centralitySummary <- network[["centrality"]]
+  
+  if (length(centralitySummary) > 1L) {
+    centralitySummary <- dplyr::bind_rows(centralitySummary, .id = 'graph')
+  } else {
+    centralitySummary[[1]][["graph"]] <- NA
+    centralitySummary <- data.frame(centralitySummary)
+  }
+      
+  if (!all(measuresToShow)) {
+      measuresToFilter <- c("Betweenness", "Closeness", "Strenght", "ExpectedInfluence")[measuresToShow]
+      centralitySummary <- subset(centralitySummary, measure %in% measuresToFilter)
+  }
+      
+  .bayesianNetworkAnalysisMakeCentralityPlot(plot, centralitySummary, options)
+      
+}
+
+
+.bayesianNetworkAnalysisMakeCentralityPlot <- function(jaspPlot, centralitySummary, options) {
+  
+  # code modified from qgraph::centralityPlot(). Type and graph are switched so the legend title says graph
+  if (options[["abbreviateLabels"]])
+    centralitySummary[["node"]] <- base::abbreviate(centralitySummary[["node"]], options[["abbreviateNoChars"]])
+  
+  # code modified from qgraph::centralityPlot(). Type and graph are switched so the legend title says graph
+  centralitySummary <- centralitySummary[gtools::mixedorder(centralitySummary$node), ]
+  centralitySummary$node <- factor(as.character(centralitySummary$node),
+                                   levels = unique(gtools::mixedsort(as.character(centralitySummary$node))))
+  
+  centralitySummary$nodeLabel <- NA
+  if (options[["showVariableNames"]] == "In legend") {
+    centralitySummary$nodeLabel <- as.character(centralitySummary$node)
+    centralitySummary$node <- factor(match(as.character(centralitySummary$node), unique(as.character(centralitySummary$node))))
+    levels(centralitySummary$node) <- rev(levels(centralitySummary$node))
+    centralitySummary$nodeLabel <- paste(as.character(centralitySummary$node), "=", centralitySummary$nodeLabel)
+  }
+  
+  if (length(unique(centralitySummary$graph)) > 1L) {
+    mapping <- ggplot2::aes(x = value, y = node, group = graph, colour = graph)
+    # change the name graph into the variable name for splitting
+    guide   <- ggplot2::guides(color = ggplot2::guide_legend(title = options[["groupingVariable"]]))
+  } else {
+    mapping <- ggplot2::aes(x = value, y = node, group = graph)
+    guide   <- NULL
   }
 
-  for (v in names(allNetworks))
-    centralityPlotContainer[[v]] <- createJaspPlot(title = v)
+  # add a fill element to the mapping -- this is only used to add a legend for the names of the nodes.
+  hasNodeLabels <- !all(is.na(centralitySummary[["nodeLabel"]]))
+  if (hasNodeLabels)
+    mapping$fill <- as.name("nodeLabel")
   
-  jaspBase::.suppressGrDevice({
-    
-    for (v in names(allNetworks)) {
-      
-      networkToPlot <- allNetworks[[v]]
-      
-      centralitySamples <- centrality(network = networkToPlot)
-      nSamples <- nrow(networkToPlot$samplesPosterior)
-      
-      value <- apply(centralitySamples[, 3:(nSamples+2)], MARGIN = 1, mean)
-      centralityHDIintervals <- apply(centralitySamples[, 3:(nSamples+2)], MARGIN = 1, 
-                                        FUN = HDInterval::hdi, allowSplit = FALSE)
-      
-      centralitySummary <- cbind(centralitySamples[, 1:2], value, t(centralityHDIintervals))
-      
-      # code modified from qgraph::centralityPlot(). Type and graph are switched so the legend title says graph
-      if (options[["abbreviateLabels"]])
-        centralitySummary[["node"]] <- base::abbreviate(centralitySummary[["node"]], options[["abbreviateNoChars"]])
-
-      # code modified from qgraph::centralityPlot(). Type and graph are switched so the legend title says graph
-      centralitySummary <- centralitySummary[gtools::mixedorder(centralitySummary$node), ]
-      centralitySummary$node <- factor(as.character(centralitySummary$node),
-                                       levels = unique(gtools::mixedsort(as.character(centralitySummary$node))))
-
-      centralitySummary$nodeLabel <- NA
-      if (options[["showVariableNames"]] == "In legend") {
-        centralitySummary$nodeLabel <- as.character(centralitySummary$node)
-        centralitySummary$node <- factor(match(as.character(centralitySummary$node), unique(as.character(centralitySummary$node))))
-        levels(centralitySummary$node) <- rev(levels(centralitySummary$node))
-        centralitySummary$nodeLabel <- paste(as.character(centralitySummary$node), "=", centralitySummary$nodeLabel)
-      }
-
-      # check the order of x and y
-      mapping <- ggplot2::aes(x = value, y = node, group = measure)
-
-      # add a fill element to the mapping -- this is only used to add a legend for the names of the nodes.
-      hasNodeLabels <- !all(is.na(centralitySummary[["nodeLabel"]]))
-      if (hasNodeLabels)
-        mapping$fill <- as.name("nodeLabel")
-
-      g <- ggplot2::ggplot(centralitySummary, mapping)
-
-      g <- g + ggplot2::geom_path() +
-               ggplot2::geom_point() +
-               ggplot2::geom_errorbar(ggplot2::aes(x = value, xmin = lower, xmax = upper), size = .5, width = 0.4) +
-               ggplot2::labs(x = NULL, y = NULL, fill = NULL) +
-               ggplot2::facet_grid(~measure, scales = "free") +
-               ggplot2::theme_bw()
-
-      if (options[["showLegend"]] == "No legend")
-        g <- g + ggplot2::theme(legend.position = "none")
-      else if (hasNodeLabels) {
-        # the fill aestethic introduces a set of points left of `1 = contNormal`.
-        # the statement below sets the size of those points to 0, effectively making them invisible
-        # keywidth removes the invisible space introduced so that the legends nicely line up (if there are multiple)
-        g <- g + ggplot2::guides(fill = ggplot2::guide_legend(keywidth = 0, override.aes = list(size = 0, alpha = 0)))
-      }
-
-      centralityPlotContainer[[v]]$plotObject <- g
-      
-    }
-  })
+  g <- ggplot2::ggplot(centralitySummary, mapping) + guide
   
+  g <- g + ggplot2::geom_path() +
+           ggplot2::geom_point() +
+           ggplot2::geom_errorbar(ggplot2::aes(x = value, xmin = lower, xmax = upper), size = .5, width = 0.4) +
+           ggplot2::labs(x = NULL, y = NULL, fill = NULL)
+
+  if (length(unique(centralitySummary$type)) > 1) {
+      g <- g + ggplot2::facet_grid(type ~ measure, scales = "free")
+
+  } else {
+      g <- g + ggplot2::facet_grid(~measure, scales = "free")
+  }
+  g <- g + ggplot2::theme_bw()
+  
+  if (options[["showLegend"]] == "No legend")
+    g <- g + ggplot2::theme(legend.position = "none")
+  else if (hasNodeLabels) {
+    # the fill aestethic introduces a set of points left of `1 = contNormal`.
+    # the statement below sets the size of those points to 0, effectively making them invisible
+    # keywidth removes the invisible space introduced so that the legends nicely line up (if there are multiple)
+    g <- g + ggplot2::guides(fill = ggplot2::guide_legend(keywidth = 0, override.aes = list(size = 0, alpha = 0)))
+  }
+  
+  jaspPlot$plotObject <- g
 }
 
 .bayesianNetworkAnalysisPosteriorComplexityPlot <- function(plotContainer, network, options) {
@@ -1171,11 +1276,12 @@ gwish_samples <- function(G, S, nsamples = 1000) {
 }
 
 # Centrality of weighted graphs
-centrality <- function(network){
+centrality <- function(network, measures = c("Closeness", "Betweenness", "Strength", "ExpectedInfluence")){
   
   for(i in 1:nrow(network$samplesPosterior)){
+
     graph <- qgraph::centralityPlot(vectorToMatrix(network$samplesPosterior[i,], as.numeric(nrow(network$estimates)), bycolumn = TRUE), 
-                                    include = c("Closeness", "Betweenness", "Strength", "ExpectedInfluence"),
+                                    include = measures,
                                     verbose = FALSE, print = FALSE, scale = "z-scores", labels = colnames(network$estimates))
     if(i > 1){
       centralityOutput[, i+2] <- graph$data[, 5]

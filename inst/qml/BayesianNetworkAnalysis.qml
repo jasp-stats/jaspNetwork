@@ -39,7 +39,7 @@ Form
 		Layout.columnSpan: 2
 		values: [
 			{ value: "ggm",		        label: "ggm"			},
-			{ value: "gcgm",				  label: "mgm"				}
+			{ value: "gcgm",				  label: "mgm"			}
 		]
 	}
 
@@ -48,7 +48,7 @@ Form
 		title: qsTr("Plots")
 		CheckBox { name: "plotNetwork";		label: qsTr("Network plot")								}
 		CheckBox { 
-		  name: "plotEvidence";		label: qsTr("Edge Evidence plot")
+		  name: "plotEvidence";		label: qsTr("Edge evidence plot")
 				  CheckBox { 
 				        name:    "edgeInclusion";
 				        label:   qsTr("Evidence for inclusion");
@@ -72,24 +72,24 @@ Form
 		title: qsTr("Tables")
 		CheckBox { name: "tableWeightsMatrix";	label: qsTr("Weights matrix")	}
 		CheckBox { 
-		    name: "tableEdgeEvidence";		label: qsTr("Edge Evidence Probability table")
+		    name: "tableEdgeEvidence";		label: qsTr("Edge evidence probability table")
 		    RadioButtonGroup {
 				  name: "evidenceType";
-		      RadioButton { value: "inclusionProbability"; label: qsTr("Edge Inclusion probability") ; checked: true }
+		      RadioButton { value: "inclusionProbability"; label: qsTr("Edge inclusion probability") ; checked: true }
 				  RadioButton { value: "BF10"; label: qsTr("BF\u2081\u2080") }
 				  RadioButton { value: "BF01"; label: qsTr("BF\u2080\u2081") }
 				  RadioButton { value: "log(BF)"; label: qsTr("Log(BF\u2081\u2080)") }
 				}
 		}
-//		CheckBox { name: "tableCentrality"; label: qsTr("Centrality table") }
+		CheckBox { name: "tableCentrality"; label: qsTr("Centrality table") }
 	}
 	
 	Section 
 	{
 	  title: qsTr("Options")
 	  Layout.columnSpan: 2
-	  IntegerField { name: "burnin"; label: qsTr("Burn in: "); value: "5000" ; min: 0; max: iter.value / 2; fieldWidth: 100; id: burnin }
-	  IntegerField { name: "iter"; label: qsTr("Iterations: "); value: "10000" ; min: burnin.value * 2; fieldWidth: 100; id: iter }
+	  IntegerField { name: "burnin"; label: qsTr("Burn in: "); value: "5" ; min: 0; max: iter.value / 2; fieldWidth: 100; id: burnin }
+	  IntegerField { name: "iter"; label: qsTr("Iterations: "); value: "10" ; min: burnin.value * 2; fieldWidth: 100; id: iter }
 	  
 	  RadioButtonGroup
 		{
@@ -185,12 +185,12 @@ Section
 				label: qsTr("Node palette")
 				indexDefaultValue: 1
 				values: [
-					{ label: qsTr("Rainbow"),		value: "rainbow"	},
-					{ label: qsTr("Colorblind"),	value: "colorblind"	},
-					{ label: qsTr("Pastel"),		value: "pastel"		},
-					{ label: qsTr("Gray"),			value: "gray"		},
-					{ label: qsTr("R"),				value: "R"			},
-					{ label: qsTr("ggplot2"),		value: "ggplot2"	}
+					{ label: qsTr("Rainbow"),		   value: "rainbow"	    },
+					{ label: qsTr("Colorblind"),	 value: "colorblind"	},
+					{ label: qsTr("Pastel"),		   value: "pastel"		  },
+					{ label: qsTr("Gray"),			   value: "gray"		    },
+					{ label: qsTr("R"),				     value: "R"			      },
+					{ label: qsTr("ggplot2"),		   value: "ggplot2"	    }
 				]
 			}
 			DoubleField	{ name: "nodeSize";		label: qsTr("Node size");		defaultValue: 1; max: 10	}
@@ -206,8 +206,8 @@ Section
 			CheckBox	{ name: "showDetails";		label: qsTr("Show details") }
 			CheckBox
 			{
-								name: "edgeLabels";			label: qsTr("Edge labels");				checked: false
-				DoubleField {	name: "edgeLabelCex";		label: qsTr("Edge label size");			min: 0;			max: 10;	defaultValue: 1		}
+				name: "edgeLabels";			              label: qsTr("Edge labels");				checked: false
+				DoubleField {	name: "edgeLabelCex";		label: qsTr("Edge label size");			      min: 0;			max: 10;	defaultValue: 1		}
 				DoubleField {	name: "edgeLabelPosition";	label: qsTr("Edge label position");		min: 0;			max: 1;		defaultValue: 0.5	}
 			}
 
@@ -218,14 +218,14 @@ Section
 				indexDefaultValue: 1
 				values:
 				[
-					{ label: qsTr("Classic"),		value: "classic"		},
-					{ label: qsTr("Colorblind"),	value: "colorblind"		},
-					{ label: qsTr("Gray"),			value: "gray"			},
-					{ label: qsTr("Hollywood"),		value: "Hollywood"		},
-					{ label: qsTr("Borkulo"),		value: "Borkulo"		},
+					{ label: qsTr("Classic"),		    value: "classic"		},
+					{ label: qsTr("Colorblind"),	  value: "colorblind"		},
+					{ label: qsTr("Gray"),			    value: "gray"			},
+					{ label: qsTr("Hollywood"),		  value: "Hollywood"		},
+					{ label: qsTr("Borkulo"),		    value: "Borkulo"		},
 					{ label: qsTr("TeamFortress"),	value: "TeamFortress"	},
-					{ label: qsTr("Reddit"),		value: "Reddit"			},
-					{ label: qsTr("Fried"),			value: "Fried"			}
+					{ label: qsTr("Reddit"),		    value: "Reddit"			},
+					{ label: qsTr("Fried"),			    value: "Fried"			}
 				]
 			}
 		}
@@ -288,15 +288,15 @@ Section
 //			RadioButton { value: "data";	label: qsTr("Data");	id: dataRatioButton		}
 		}
 
-//		Group
-//		{
-//			title: qsTr("Measures shown in centrality plot")
-//			enabled: plotCentrality.checked
-//			CheckBox	{	name: "Betweenness";		label: qsTr("Betweenness");			checked: true	}
-//			CheckBox	{	name: "Closeness";			label: qsTr("Closeness");			checked: true	}
-//			CheckBox	{	name: "Degree";				label: qsTr("Betweenness");			checked: true	}
-//			CheckBox	{	name: "ExpectedInfluence";	label: qsTr("Expected Influence");	checked: true	}
-//		}
+		Group
+		{
+			title: qsTr("Measures shown in centrality plot")
+			enabled: plotCentrality.checked
+			CheckBox	{	name: "Betweenness";		    label: qsTr("Betweenness");			    checked: true	}
+			CheckBox	{	name: "Closeness";			    label: qsTr("Closeness");			      checked: true	}
+			CheckBox	{	name: "Strength";				    label: qsTr("Strength");			      checked: true	}
+			CheckBox	{	name: "ExpectedInfluence";	label: qsTr("Expected influence");	checked: true	}
+		}
 
 //		VariablesForm
 //		{
@@ -338,7 +338,7 @@ Section
 		expanded:	false
 		
 //		CheckBox { name: "plotStructure";		          label: qsTr("Structure plot")				    }
-		CheckBox { name: "plotPosteriorStructure";		label: qsTr("Posterior Structure Probability plot")	}
-		CheckBox { name: "plotComplexity";		        label: qsTr("Posterior Complexity Probability plot")	}
+		CheckBox { name: "plotPosteriorStructure";		label: qsTr("Posterior structure probability plot")	}
+		CheckBox { name: "plotComplexity";		        label: qsTr("Posterior complexity probability plot")	}
 	}
 }

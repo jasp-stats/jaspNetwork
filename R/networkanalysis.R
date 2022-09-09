@@ -306,7 +306,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   # fill with results
   TBcolumns <- NULL
   for (i in seq_len(nGraphs)) {
-
+    
     toAdd <- network[["centrality"]][[i]]
     names(toAdd) <- c("Variable", paste0(c("Betweenness", "Closeness", "Strength", "Expected influence"), i))
     if (i == 1L) {# if more than 1 network drop the first column which indicates the variable
@@ -484,7 +484,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   wide <- network[["centrality"]]
 
   Long <- .networkAnalysisReshapeWideToLong(wide, network, "centrality")
-
+  
   if (!all(measuresToShow)) {
     measuresToFilter <- c("Betweenness", "Closeness", "Degree", "Expected Influence")[measuresToShow]
     Long <- subset(Long, measure %in% measuresToFilter)
@@ -527,9 +527,13 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 }
 
 .networkAnalysisReshapeWideToLong <- function(wide, network, what = c("centrality", "clustering")) {
-
+  
   what <- match.arg(what)
   wideDf <- Reduce(rbind, wide)
+  
+  print("wideDF 2344")
+  print(wideDf)
+  
   if (length(wide) > 1L) {
     wideDf[["type"]] <- rep(names(network[[what]]), each = nrow(wideDf) / length(wide))
     Long <- reshape2::melt(wideDf, id.vars = c("node", "type"))
@@ -541,6 +545,10 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     colnames(Long)[2L] <- "measure"
     Long[["graph"]] <- NA
   }
+  
+  print("LONG 23455")
+  print(Long)
+  
   return(Long)
 
 }
@@ -549,7 +557,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
   # "Long" is how qgraph refers to this object. This function transforms the
   # long object for centrality or clustering into a ggplot.
-
+  
   # code modified from qgraph::centralityPlot(). Type and graph are switched so the legend title says graph
   if (options[["abbreviateLabels"]])
     Long[["node"]] <- base::abbreviate(Long[["node"]], options[["abbreviateNoChars"]])
@@ -1071,6 +1079,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 }
 
 .networkAnalysisComputeCentrality <- function(networks, normalizeCentrality, weightedNetwork, signedNetwork) {
+  
   centralities <- vector("list", length(networks))
   for (nw in seq_along(networks)) {
 
@@ -1165,6 +1174,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     centralities[[nw]] <- cent
 
   }
+  
   return(centralities)
 }
 
