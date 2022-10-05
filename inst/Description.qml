@@ -7,7 +7,7 @@ Description
 	title:			qsTr("Network")
 	description:	qsTr("Explore the connections between variables organized as a network")
 	icon:			"analysis-network.svg"
-	version:		"0.16.4"
+	version:		"0.17.0"
 	author:			"JASP Team"
 	maintainer:		"JASP Team <info@jasp-stats.org>"
 	website:		"jasp-stats.org"
