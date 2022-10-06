@@ -6,8 +6,8 @@ Upgrades
 	Upgrade
 	{
 		functionName:		"NetworkAnalysis"
-		fromVersion:		"0.15"
-		toVersion:			"0.16.4"
+		fromVersion:		"0.16.4"
+		toVersion:			"0.17.0"
 
 		ChangeJS
 		{
@@ -28,7 +28,7 @@ Upgrades
 
 		ChangeRename	{	from:	"plotNetwork";						to:		"networkPlot"									}
 		ChangeRename	{	from:	"plotCentrality";					to:		"centralityPlot"								}
-		ChangeRename	{	from:	"plotClustering";					to:		"networkclusteringPlotPlot"						}
+		ChangeRename	{	from:	"plotClustering";					to:		"clusteringPlot"						}
 
 		ChangeRename	{	from: 	"tableCentrality";					to:		"centralityTable"								}
 		ChangeRename	{	from: 	"tableClustering";					to:		"clusteringTable"								}
@@ -58,9 +58,10 @@ Upgrades
 			{
 
 				return options["manualColorGroups"].map(item=>{
-					item["name"] = item["group"];
-					item["color"] = item["groupColors"];
-					return item;
+					return {
+						"name":		item["group"],
+						"color":	item["groupColors"]
+					};
 				})
 			}
 		}
@@ -73,8 +74,10 @@ Upgrades
 			{
 
 				return options["colorGroupVariables"].map(item=>{
-					item["group"] = item["groupAssigned"];
-					return item;
+					return {
+						"variable":		item["variable"],
+						"group":		item["groupAssigned"]
+					};
 				})
 
 			}
