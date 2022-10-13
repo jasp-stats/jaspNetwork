@@ -34,7 +34,7 @@ test_that("centralityTB table results match", {
 test_that("clusteringTB table results match", {
   table <- results[["results"]][["mainContainer"]][["collection"]][["mainContainer_clusteringTable"]][["data"]]
   jaspTools::expect_equal_tables(table,
-                      list("contNormal", 0, 0, 0, 0, "contcor1", 0, 0, 0, 0, "contcor2",
+                      list("contcor1", 0, 0, 0, 0, "contcor2", 0, 0, 0, 0, "contNormal",
                            0, 0, 0, 0)
   )
 })
