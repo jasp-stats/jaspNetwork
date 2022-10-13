@@ -340,7 +340,7 @@ Form
 
 			DropDown
 			{
-				name: "edgeColors"
+				name: "edgePalette"
 				label: qsTr("Edge palette")
 				indexDefaultValue: 1
 				values:

@@ -638,7 +638,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
       details             = options[["details"]],
       labels              = labels,
       palette             = if (options[["manualColor"]]) NULL else options[["nodePalette"]],
-      theme               = .networkAnalysisJaspToBootnetEdgeColors(options[["edgeColors"]]),
+      theme               = .networkAnalysisJaspToBootnetEdgeColors(options[["edgePalette"]]),
       legend              = legend,
       shape               = shape,
       color               = nodeColor,
@@ -666,7 +666,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   title <- if (nGraphs == 1L) "" else gettext("Network Plots")
 
   networkPlotContainer <- createJaspContainer(title = title, position = 51, dependencies = c(
-    "layout", "edgeColors", "layoutSpringRepulsion", "edgeSize", "nodeSize", "colorNodesBy",
+    "layout", "edgePalette", "layoutSpringRepulsion", "edgeSize", "nodeSize", "colorNodesBy",
     "maxEdgeStrength", "minEdgeStrength", "cut", "details", "nodePalette",
     "legendSpecificPlotNumber", "mgmVariableTypeShown",
     "labelScale", "labelSize", "labelAbbreviation", "labelAbbreviationLength",
@@ -1563,14 +1563,14 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   )
 }
 
-.networkAnalysisJaspToBootnetEdgeColors <- function(edgeColors) {
-  switch(edgeColors,
+.networkAnalysisJaspToBootnetEdgeColors <- function(edgePalette) {
+  switch(edgePalette,
          "hollywood"    = "Hollywood",
          "borkulo"      = "Borkulo",
          "teamFortress" = "TeamFortress",
          "reddit"       = "Reddit",
          "fried"        = "Fried",
-         edgeColors
+         edgePalette
   )
 }
 
