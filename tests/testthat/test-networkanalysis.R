@@ -6,11 +6,11 @@ context("Network Analysis")
 # - plots or graphical options
 
 options <- jaspTools::analysisOptions("NetworkAnalysis")
-options$estimator <- "EBICglasso"
+options$estimator <- "ebicGlasso"
 options$variables <- c("contNormal", "contcor1", "contcor2")
-options$tableCentrality <- TRUE
-options$tableClustering <- TRUE
-options$tableWeightsMatrix <- TRUE
+options$centralityTable <- TRUE
+options$clusteringTable <- TRUE
+options$weightsMatrixTable <- TRUE
 options$tableLayout <- TRUE
 results <- jaspTools::runAnalysis("NetworkAnalysis", "test.csv", options)
 
@@ -49,19 +49,19 @@ test_that("weightmatrixTB table results match", {
 
 
 options <- jaspTools::analysisOptions("NetworkAnalysis")
-options$bootstrapOnOff <- TRUE
-options$numberOfBootstraps <- 2
-options$plotCentrality <- TRUE
-options$plotClustering <- TRUE
-options$plotNetwork <- TRUE
-options$showLegend <- "All plots"
-options$showVariableNames <- "In nodes"
-options$tableCentrality <- TRUE
-options$tableClustering <- TRUE
-options$tableWeightsMatrix <- TRUE
+options$bootstrap <- TRUE
+options$bootstrapSamples <- 2
+options$centralityPlot <- TRUE
+options$clusteringPlot <- TRUE
+options$networkPlot <- TRUE
+options$legend <- "allPlots"
+options$variableNamesShown <- "inNodes"
+options$centralityTable <- TRUE
+options$clusteringTable <- TRUE
+options$weightsMatrixTable <- TRUE
 options$variables <- list("A1", "A2", "A3", "A4", "A5")
-estimators <- c("EBICglasso","cor","pcor","IsingFit","IsingSampler","huge","adalasso")
-file <- "networkResults.rds"
+estimators <- c("ebicGlasso","cor","pcor","isingFit","isingSampler","huge","adalasso")
+file <- testthat::test_path("networkResults.rds")
 
 # run the code below to create the .rds object
 # clearEverythingButData <- function(x) {
@@ -125,8 +125,8 @@ for (estimator in estimators) {
   })
 
   test_that(paste0(estimator, ": Bootstrapped edge plot matches"), {
-    if (estimator == "IsingSampler")
-      skip("Cannot reliably test Bootstrapped edge plot for IsingSampler")
+    if (estimator == "isingSampler")
+      skip("Cannot reliably test Bootstrapped edge plot for isingSampler")
     skip_if_adalasso(estimator)
     plotName <- results[["results"]][["mainContainer"]][["collection"]][["mainContainer_bootstrapContainer"]][["collection"]][["mainContainer_bootstrapContainer_EdgeStabilityPlots"]][["collection"]][["mainContainer_bootstrapContainer_EdgeStabilityPlots_Network"]][["data"]]
     testPlot <- results[["state"]][["figures"]][[plotName]][["obj"]]
@@ -135,7 +135,7 @@ for (estimator in estimators) {
 
   test_that(paste0(estimator, ": Bootstrapped centrality plot matches"), {
     skip_if_adalasso(estimator)
-    plotName <- results[["results"]][["mainContainer"]][["collection"]][["mainContainer_bootstrapContainer"]][["collection"]][["mainContainer_bootstrapContainer_StatisticsCentralityPlots"]][["collection"]][["mainContainer_bootstrapContainer_StatisticsCentralityPlots_Network"]][["data"]]
+    plotName <- results[["results"]][["mainContainer"]][["collection"]][["mainContainer_bootstrapContainer"]][["collection"]][["mainContainer_bootstrapContainer_statisticsCentralityPlots"]][["collection"]][["mainContainer_bootstrapContainer_statisticsCentralityPlots_Network"]][["data"]]
     testPlot <- results[["state"]][["figures"]][[plotName]][["obj"]]
     jaspTools::expect_equal_plots(testPlot, paste0(estimator, "-bootstrapped-centrality"))
   })
@@ -157,8 +157,8 @@ for (estimator in estimators) {
   })
 
   test_that(paste0(estimator, ": Network plot matches"), {
-    if (estimator == "IsingSampler")
-      skip("Cannot reliably test Network plot for IsingSampler")
+    if (estimator == "isingSampler")
+      skip("Cannot reliably test Network plot for isingSampler")
     skip_if_adalasso(estimator)
     plotName <- results[["results"]][["mainContainer"]][["collection"]][["mainContainer_plotContainer"]][["collection"]][["mainContainer_plotContainer_networkPlotContainer"]][["collection"]][["mainContainer_plotContainer_networkPlotContainer_Network"]][["data"]]
     testPlot <- results[["state"]][["figures"]][[plotName]][["obj"]]
@@ -175,7 +175,7 @@ dataset <- matrix(rnorm(n * p), n, p)
 dataset[sample(n, 0.5 * n), ] <- NA
 dataset <- as.data.frame(dataset)
 options <- jaspTools::analysisOptions("NetworkAnalysis")
-options$estimator <- "EBICglasso"
+options$estimator <- "ebicGlasso"
 options$variables <- c("V1", "V2", "V3")
 results <- jaspTools::runAnalysis("NetworkAnalysis", dataset, options)
 
@@ -196,11 +196,11 @@ dataset$V3 <- dataset$V1 + dataset$V2 + rnorm(n)
 dataset$layoutX <- c("V1 = 1", "V2 = 0")
 dataset$layoutY <- c("V1 = 1", "V2 = 0")
 options <- jaspTools::analysisOptions("NetworkAnalysis")
-options$estimator <- "EBICglasso"
+options$estimator <- "ebicGlasso"
 options$variables <- c("V1", "V2", "V3")
 options$layoutX <- "layoutX"
 options$layoutY <- "layoutY"
-options$plotNetwork <- TRUE
+options$networkPlot <- TRUE
 results <- jaspTools::runAnalysis("NetworkAnalysis", dataset, options)
 
 test_that("Incorrect user layout shows a warning", {
@@ -215,8 +215,8 @@ test_that("Incorrect user layout shows a warning", {
 options <- analysisOptions("NetworkAnalysis")
 options$estimator <- "pcor"
 options$variables <- c(paste0("A", 1:5), paste0("O", 1:5), paste0("E", 1:5))
-options$plotNetwork <- TRUE
-options$tableWeightsMatrix <- TRUE
+options$networkPlot <- TRUE
+options$weightsMatrixTable <- TRUE
 options$thresholdBox <- "method"
 
 table2df <- function(data, variables) {
