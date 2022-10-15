@@ -409,10 +409,6 @@ msgid "Show Variable Names"
 msgstr "Mostrar nome das variáveis"
 
 msgctxt "NetworkAnalysis|"
-msgid "In legend"
-msgstr "Na legenda"
-
-msgctxt "NetworkAnalysis|"
 msgid "Show Variable Type"
 msgstr "Mostrar tipo de variável"
 
@@ -575,3 +571,11 @@ msgstr "Influência esperada (expected influence)"
 msgctxt "Description|"
 msgid "Explore the connections between variables organized as a network"
 msgstr "Explore conexões entre variáveis organizadas em uma rede"
+
+msgctxt "NetworkAnalysis|"
+msgid "In Legend"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Degree"
+msgstr ""

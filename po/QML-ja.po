@@ -472,10 +472,6 @@ msgid "In plot"
 msgstr "プロット内"
 
 msgctxt "NetworkAnalysis|"
-msgid "In legend"
-msgstr "凡例内"
-
-msgctxt "NetworkAnalysis|"
 msgid "Show Variable Type"
 msgstr "変数の型を表示"
 
@@ -574,3 +570,11 @@ msgstr "Y 座標の名前"
 msgctxt "Description|"
 msgid "Explore the connections between variables organized as a network"
 msgstr "ネットワークとして組織される変数間の接続を探索する"
+
+msgctxt "NetworkAnalysis|"
+msgid "In Legend"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Degree"
+msgstr ""
