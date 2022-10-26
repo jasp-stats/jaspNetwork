@@ -295,11 +295,10 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   if (is.null(overTitles))
     overTitles <- gettext("Network") # paste0("Network", 1:nGraphs)
 
-  nameCol3 <- if ("degree" %in% colnames(network[["centrality"]][[1]])[3]) "degree" else "Strength"
   for (i in seq_len(nGraphs)) { # three centrality columns per network
     table$addColumnInfo(name = paste0("betweenness", i),        title = gettext("Betweenness"),        type = "number", overtitle = overTitles[i])
     table$addColumnInfo(name = paste0("closeness", i),          title = gettext("Closeness"),          type = "number", overtitle = overTitles[i])
-    table$addColumnInfo(name = paste0(nameCol3, i),             title = gettext("Strength"),           type = "number", overtitle = overTitles[i])
+    table$addColumnInfo(name = paste0("Strength", i),           title = gettext("Strength"),           type = "number", overtitle = overTitles[i])
     table$addColumnInfo(name = paste0("Expected influence", i), title = gettext("Expected influence"), type = "number", overtitle = overTitles[i])
   }
 
@@ -493,6 +492,14 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     measuresToFilter <- c("betweenness", "closeness", "degree", "Expected Influence")[measuresToShow]
     long <- subset(long, measure %in% measuresToFilter)
   }
+
+  if (options[["degree"]]) {
+    measureLevels <- levels(long[["measure"]])
+    levels(long[["measure"]]) <- ifelse(measureLevels == "degree", "Strength", measureLevels)
+  }
+
+  # ensure that the first character is capitalized in the text above the subplots so it matches the centrality table
+  levels(long[["measure"]]) <- stringr::str_to_title(levels(long[["measure"]]))
 
   .networkAnalysisMakePlotFromLong(plot, long, options)
 
@@ -1101,7 +1108,8 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
       wmat <- abs(wmat)
 
     directedGraph <- ifelse(base::isSymmetric.matrix(object = wmat, tol = 1e-12), FALSE, TRUE)
-    weightedGraph <- ifelse(all(qgraph::mat2vec(wmat) %in% c(0, 1)), FALSE, TRUE)
+    # Always assume we have a weighted graph, otherwise graphs without any edges are interpreted as unweighted
+    weightedGraph <- TRUE #ifelse(all(qgraph::mat2vec(wmat) %in% c(0, 1)), FALSE, TRUE)
 
     if (directedGraph) {
 
