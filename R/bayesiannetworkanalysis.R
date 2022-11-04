@@ -142,7 +142,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     # add measures 
     centralitySamples <- centrality(network = network)
     
-    nSamples <- 30 # nrow(network$samplesPosterior)
+    nSamples <- nrow(network$samplesPosterior)
     
     value <- apply(centralitySamples[, 3:(nSamples+2)], MARGIN = 1, mean)
     centralityHDIintervals <- apply(centralitySamples[, 3:(nSamples+2)], MARGIN = 1, 
@@ -427,10 +427,10 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     centralitySummary <- data.frame(centralitySummary)
   }
       
-  # if (!all(measuresToShow)) {
-  #   measuresToFilter <- c("Betweenness", "Closeness", "Strength", "ExpectedInfluence")[measuresToShow]
-  #   centralitySummary <- subset(centralitySummary, measure %in% measuresToFilter)
-  # }
+  if (!all(measuresToShow)) {
+    measuresToFilter <- c("Betweenness", "Closeness", "Strength", "ExpectedInfluence")[measuresToShow]
+    centralitySummary <- subset(centralitySummary, measure %in% measuresToFilter)
+  }
       
   .bayesianNetworkAnalysisMakeCentralityPlot(plot, centralitySummary, options)
       
@@ -1244,7 +1244,6 @@ extractposterior <- function(fit, data){
   densities <- rep(0, k)
   Rs <- matrix(0, nrow = k, ncol = (p*(p-1))/2)
   S <- t(as.matrix(data)) %*% as.matrix(data)
-  # check!!
   
   for (i in seq(1, m, length.out = k)) {
     graph_ix <- fit$all_graphs[i]

@@ -86,7 +86,7 @@ Form
 	
 	Section 
 	{
-	  title: qsTr("Options")
+	  title: qsTr("Sampling Options")
 	  Layout.columnSpan: 2
 	  IntegerField { name: "burnin"; label: qsTr("Burn in: "); value: "5" ; min: 0; max: iter.value / 2; fieldWidth: 100; id: burnin }
 	  IntegerField { name: "iter"; label: qsTr("Iterations: "); value: "10" ; min: burnin.value * 2; fieldWidth: 100; id: iter }
