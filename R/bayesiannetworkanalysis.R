@@ -141,7 +141,8 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     
     # add measures 
     centralitySamples <- centrality(network = network)
-    nSamples <- nrow(network$samplesPosterior)
+    
+    nSamples <- 30 # nrow(network$samplesPosterior)
     
     value <- apply(centralitySamples[, 3:(nSamples+2)], MARGIN = 1, mean)
     centralityHDIintervals <- apply(centralitySamples[, 3:(nSamples+2)], MARGIN = 1, 
@@ -150,7 +151,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     centralitySummary <- cbind(centralitySamples[, 1:2], value, t(centralityHDIintervals))
     
     centralities[[nw]] <- centralitySummary
-    
+
   }
   
   return(centralities)
@@ -282,7 +283,6 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   if (is.null(overTitles))
     overTitles <- gettext("Network")
   
-  
 }
 
 .bayesianNetworkAnalysisPlotContainer <- function(mainContainer, network, options) {
@@ -381,18 +381,9 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   for (i in seq_len(nGraphs)) {
     
     toAdd <- network[["centrality"]][[i]]
-  
-    test <- stats::reshape(toAdd, idvar = "node", timevar = "measure", direction = "wide")
-    print("HIHAHO")
-    print(test)
+    toAdd <- stats::reshape(toAdd, idvar = "node", timevar = "measure", direction = "wide")
 
-    print("hihaho")
-    print(toAdd)
-    
-    test <- subset(centralitySummary, c("node", "Betweenness", "Closeness", "Strength", "ExpectedInfluence"))
-    
-    print("HIHAHO after subset:")
-    print(test)
+    toAdd <- dplyr::select(toAdd, c("node", "value.Betweenness", "value.Closeness", "value.Strength", "value.ExpectedInfluence"))
     
     names(toAdd) <- c("Variable", paste0(c("Betweenness", 
                                            "Closeness", 
@@ -436,13 +427,10 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     centralitySummary <- data.frame(centralitySummary)
   }
       
-  if (!all(measuresToShow)) {
-    print("weirddd...") 
-    print(centralitySummary)
-    
-    measuresToFilter <- c("Betweenness", "Closeness", "Strength", "ExpectedInfluence")[measuresToShow]
-    centralitySummary <- subset(centralitySummary, measure %in% measuresToFilter)
-  }
+  # if (!all(measuresToShow)) {
+  #   measuresToFilter <- c("Betweenness", "Closeness", "Strength", "ExpectedInfluence")[measuresToShow]
+  #   centralitySummary <- subset(centralitySummary, measure %in% measuresToFilter)
+  # }
       
   .bayesianNetworkAnalysisMakeCentralityPlot(plot, centralitySummary, options)
       

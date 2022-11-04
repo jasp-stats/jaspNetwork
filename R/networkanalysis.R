@@ -316,6 +316,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
       TBcolumns <- cbind(TBcolumns, toAdd)
     }
   }
+
   table$setData(TBcolumns)
 }
 
@@ -1166,7 +1167,6 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     cent <- TBcent
 
     centralities[[nw]] <- cent
-
   }
   
   return(centralities)
