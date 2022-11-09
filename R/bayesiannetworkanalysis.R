@@ -17,7 +17,7 @@
 
 BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   
-  options[["listwise"]] <- TRUE # Unfortunately BDgraph does not work with pairwise missing values
+  options[["missingValues"]] <- "listwise" # Unfortunately BDgraph does not work with pairwise missing values
   
   dataset <- .networkAnalysisReadData(dataset, options)
 
