@@ -17,6 +17,8 @@
 
 BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   
+  options[["listwise"]] <- TRUE # Unfortunately BDgraph does not work with pairwise missing values
+  
   dataset <- .networkAnalysisReadData(dataset, options)
 
   mainContainer <- .bayesianNetworkAnalysisSetupMainContainerAndTable(jaspResults, dataset, options)
@@ -89,7 +91,6 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       groupingVariable <- options[["groupingVariable"]]
     }
   }
-  
 }
 
 .bayesianNetworkAnalysisRun <- function(mainContainer, dataset, options) {
@@ -1273,7 +1274,6 @@ gwish_samples <- function(G, S, nsamples = 1000) {
 centrality <- function(network, measures = c("Closeness", "Betweenness", "Strength", "ExpectedInfluence")){
   
   for(i in 1:nrow(network$samplesPosterior)){
-
     graph <- qgraph::centralityPlot(vectorToMatrix(network$samplesPosterior[i,], as.numeric(nrow(network$estimates)), bycolumn = TRUE), 
                                     include = measures,
                                     verbose = FALSE, print = FALSE, scale = "z-scores", labels = colnames(network$estimates))

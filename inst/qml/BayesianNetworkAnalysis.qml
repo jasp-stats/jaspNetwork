@@ -91,14 +91,14 @@ Form
 	  IntegerField { name: "burnin"; label: qsTr("Burn in: "); value: "5" ; min: 0; max: iter.value / 2; fieldWidth: 100; id: burnin }
 	  IntegerField { name: "iter"; label: qsTr("Iterations: "); value: "10" ; min: burnin.value * 2; fieldWidth: 100; id: iter }
 	  
-	  RadioButtonGroup
-		{
-			name: "missingValues"
-			title: qsTr("Missing Values")
-			visible: [0, 1, 2].includes(estimator.currentIndex)
-			RadioButton { value: "pairwise";	label: qsTr("Exclude pairwise"); checked: true	}
-			RadioButton { value: "listwise";	label: qsTr("Exclude listwise")					}
-		}
+//	  RadioButtonGroup
+//		{
+//			name: "missingValues"
+//			title: qsTr("Missing Values")
+//			visible: [0, 1, 2].includes(estimator.currentIndex)
+//			RadioButton { value: "pairwise";	label: qsTr("Exclude pairwise"); checked: true	}
+//			RadioButton { value: "listwise";	label: qsTr("Exclude listwise")					}
+//		}
 		
 		SetSeed{}
 	}
