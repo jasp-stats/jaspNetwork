@@ -263,7 +263,7 @@ Form
 			name				: "manualColorGroups"
 			title				: qsTr("Group name")
 			optionKey			: "name"
-			defaultValues		: ["Group 1", "Group 2"]
+			defaultValues		: [qsTr("Group 1"), qsTr("Group 2")]
 			placeHolder			: qsTr("New Group")
 			minRows				: 2
 			preferredWidth		: (2 * form.width) / 5
