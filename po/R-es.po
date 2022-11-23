@@ -37,9 +37,9 @@ msgstr "Exigüidad"
 msgid "Data was binarized using %s."
 msgstr "Se hicieron binarios los datos utilizando %s."
 
-msgid "Only the first %d values of %s were used to color nodes (%d provided)."
+msgid "Only the first %1$d values of %2$s were used to color nodes (%3$d provided)."
 msgstr ""
-"Solo se utilizaron los primeros %d valores de %s para colorear los nodos (%d "
+"Solo se utilizaron los primeros %1$d valores de %2$s para colorear los nodos (%3$d "
 "suministrados)."
 
 msgid "<em>Warning: </em>"

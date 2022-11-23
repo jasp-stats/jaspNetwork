@@ -221,7 +221,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
   if (!is.null(options[["colorNodesByData"]]) && length(options[["colorNodesByData"]]) != length(options[["variables"]])) {
     tb$addFootnote(
-      gettextf("Only the first %d values of %s were used to color nodes (%d provided). ",
+      gettextf("Only the first %1$d values of %2$s were used to color nodes (%3$d provided). ",
                length(options[["variables"]]),
                as.character(options[["colorNodesBy"]]),
                length(options[["colorNodesByData"]]))

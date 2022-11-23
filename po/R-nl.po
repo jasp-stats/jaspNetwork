@@ -36,9 +36,9 @@ msgstr "Spaarzaamheid"
 msgid "Data was binarized using %s."
 msgstr "Data was gebinariseerd met %s."
 
-msgid "Only the first %d values of %s were used to color nodes (%d provided)."
+msgid "Only the first %1$d values of %2$s were used to color nodes (%3$d provided)."
 msgstr ""
-"Alleen de eerste %d waarden van %s zijn gebruikt om nodes te kleuren (%d "
+"Alleen de eerste %1$d waarden van %2$s zijn gebruikt om nodes te kleuren (%3$d "
 "gegeven)."
 
 msgid "<em>Warning: </em>"
