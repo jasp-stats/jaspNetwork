@@ -35,8 +35,8 @@ msgstr "スパース性"
 msgid "Data was binarized using %s."
 msgstr "データは %s を使ってバイナリ化されました。"
 
-msgid "Only the first %d values of %s were used to color nodes (%d provided)."
-msgstr "ノードのカラー設定に使用されたのは、%d の最初の %s 値のみです (%d が指定されています)."
+msgid "Only the first %1$d values of %2$s were used to color nodes (%3$d provided)."
+msgstr "ノードのカラー設定に使用されたのは、%1$d の最初の %2$s 値のみです (%3$d が指定されています)."
 
 msgid "<em>Warning: </em>"
 msgstr "<em>警告:</em>"

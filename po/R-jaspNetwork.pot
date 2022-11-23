@@ -31,7 +31,7 @@ msgstr ""
 msgid "Data was binarized using %s."
 msgstr ""
 
-msgid "Only the first %d values of %s were used to color nodes (%d provided)."
+msgid "Only the first %1$d values of %2$s were used to color nodes (%3$d provided)."
 msgstr ""
 
 msgid "<em>Warning: </em>"
