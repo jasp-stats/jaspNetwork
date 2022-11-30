@@ -576,3 +576,11 @@ msgstr ""
 msgctxt "NetworkAnalysis|"
 msgid "Degree"
 msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Group 1"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Group 2"
+msgstr ""

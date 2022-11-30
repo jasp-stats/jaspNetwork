@@ -1,17 +1,11 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2022-09-28 09:56+0000\n"
-"Last-Translator: Cécile Mazon <cecile.mazon@inria.fr>\n"
-"Language-Team: French <https://hosted.weblate.org/projects/jasp/jaspnetwork-"
-"qml/fr/>\n"
-"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.14.1\n"
-"X-Qt-Contexts: true\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Language: fr\n"
+"X-Qt-Contexts: true\n"
 
 msgctxt "Description|"
 msgid "Network"
@@ -117,9 +111,10 @@ msgctxt "NetworkAnalysis|"
 msgid "Raw"
 msgstr ""
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Network"
-msgstr ""
+msgstr "Réseau"
 
 msgctxt "NetworkAnalysis|"
 msgid "Weighted"
@@ -482,10 +477,6 @@ msgid "In plot"
 msgstr ""
 
 msgctxt "NetworkAnalysis|"
-msgid "In legend"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
 msgid "Show Variable Type"
 msgstr ""
 
@@ -579,4 +570,20 @@ msgstr ""
 
 msgctxt "NetworkAnalysis|"
 msgid "name for y-coordinates"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Group 1"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Group 2"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "In Legend"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Degree"
 msgstr ""
