@@ -64,7 +64,14 @@ Form
 				  CheckBox { name: "edgeExclusion";  label: qsTr("Evidence for exclusion"); checked: true }
 				  CheckBox { name: "edgeAbsence"; label: qsTr("Absence of evidence");   checked: true }
 		}
-		CheckBox { name: "plotCentrality";  label: qsTr("Centrality plot")          }
+		CheckBox { 
+		  name: "plotCentrality";  label: qsTr("Centrality plot") 
+		  CheckBox { 
+				    name:    "credibilityInterval";
+				    label:   qsTr("Credibility interval 95%");
+				    checked: false 
+		  }
+	  }
 	}
 
 	Group

@@ -123,7 +123,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     names(networkList[["network"]]) <- names(dataset) # <- names(networkList[["centrality"]])
     
     mainContainer[["networkState"]]    <- createJaspState(networkList[["network"]])
-    mainContainer[["centralityState"]] <- createJaspState(networkList[["centrality"]], dependencies = c("maxEdgeStrength", "minEdgeStrength"))
+    mainContainer[["centralityState"]] <- createJaspState(networkList[["centrality"]], dependencies = c("maxEdgeStrength", "minEdgeStrength", "credibilityInterval"))
     mainContainer[["layoutState"]]     <- createJaspState(networkList[["layout"]], 
                                                           dependencies = c("layout", "repulsion", "layoutX", "layoutY"))
     
@@ -179,6 +179,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   for (nw in seq_along(dataset)) {
 
     # When method = "gcgm" a vector with binary values is needed:
+    nonContVariables <- NULL 
     if (options[["estimator"]] == "gcgm") {
       nonContVariables <- c()
       for (var in options[["variables"]]) {
@@ -198,7 +199,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     # Estimate network:  
     bdgraphFit <- BDgraph::bdgraph(data        = as.data.frame(dataset[[nw]]),
                                     method     = options[["estimator"]],
-                                    not.cont   = if (options[["estimator"]] == "gcgm") nonContVariables else NULL, 
+                                    not.cont   = nonContVariables, 
                                     algorithm  = "rjmcmc",
                                     iter       = as.numeric(options[["iter"]]),
                                     save       = TRUE,
@@ -206,6 +207,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
                                     g.start    = options[["initialConfiguration"]],
                                     df.prior   = as.numeric(options[["dfprior"]]),
                                     g.prior    = as.numeric(options[["gprior"]]))
+  
     
     # Extract results:
     bdgraphResult <- list()
@@ -216,7 +218,10 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     bdgraphResult$structure              <- 1*(bdgraphResult$inclusionProbabilities > 0.5)
     bdgraphResult$estimates              <- pr2pc(bdgraphFit$K_hat); diag(bdgraphResult$estimates) <- 0
     bdgraphResult$graph                  <- bdgraphResult$estimates*bdgraphResult$structure
-    bdgraphResult$samplesPosterior       <- extractposterior(bdgraphFit, as.data.frame(dataset[[nw]]))[[1]]
+    bdgraphResult$samplesPosterior       <- extractposterior(fit = bdgraphFit, 
+                                                             data = as.data.frame(dataset[[nw]]), 
+                                                             method = options[["estimator"]], 
+                                                             not.cont = nonContVariables)[[1]]
     bdgraphResult$sampleGraphs           <- bdgraphFit$sample_graphs
     
     networks[[nw]] <- bdgraphResult
@@ -1233,28 +1238,32 @@ string2graph <- function(Gchar, p) {
   return(G) 
 }
 
-# BDgraph extract posterior distribution for estimates
-extractposterior <- function(fit, data){
+# BDgraph extract posterior distribution for estimates:
+extractposterior <- function(fit, data, method = c("ggm", "gcgm"), not.cont) {
   
   m <- length(fit$all_graphs)
-  k <- 5000 
+  k <- 30000
   n <- nrow(as.matrix(data))
   p <- ncol(as.matrix(data))
   j <- 1
-
   densities <- rep(0, k)
   Rs <- matrix(0, nrow = k, ncol = (p*(p-1))/2)
-  S <- t(as.matrix(data)) %*% as.matrix(data)
+  
+  if(method == "gcgm") {
+    S <- get_S_n_p(data, method = method, n = n, not.cont = not.cont)$S
+  } else {
+    S <- t(as.matrix(data)) %*% as.matrix(data)
+  }
   
   for (i in seq(1, m, length.out = k)) {
     graph_ix <- fit$all_graphs[i]
     G <- string2graph(fit$sample_graphs[graph_ix], p)
     K <- BDgraph::rgwish(n = 1, adj = G, b = 3 + n, D = diag(p) + S)
-
     Rs[j,] <- as.vector(pr2pc(K)[upper.tri(pr2pc(K))])
     densities[j] <- sum(sum(G)) / (p*(p-1))
     j <- j + 1
   }
+  
   return(list(Rs, densities))
 }
 
