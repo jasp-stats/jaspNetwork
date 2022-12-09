@@ -123,7 +123,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     names(networkList[["network"]]) <- names(dataset) # <- names(networkList[["centrality"]])
     
     mainContainer[["networkState"]]    <- createJaspState(networkList[["network"]])
-    mainContainer[["centralityState"]] <- createJaspState(networkList[["centrality"]], dependencies = c("maxEdgeStrength", "minEdgeStrength", "credibilityInterval"))
+    mainContainer[["centralityState"]] <- createJaspState(networkList[["centrality"]], dependencies = c("maxEdgeStrength", "minEdgeStrength"))
     mainContainer[["layoutState"]]     <- createJaspState(networkList[["layout"]], 
                                                           dependencies = c("layout", "repulsion", "layoutX", "layoutY"))
     
@@ -218,10 +218,10 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     bdgraphResult$structure              <- 1*(bdgraphResult$inclusionProbabilities > 0.5)
     bdgraphResult$estimates              <- pr2pc(bdgraphFit$K_hat); diag(bdgraphResult$estimates) <- 0
     bdgraphResult$graph                  <- bdgraphResult$estimates*bdgraphResult$structure
-    bdgraphResult$samplesPosterior       <- extractposterior(fit = bdgraphFit, 
-                                                             data = as.data.frame(dataset[[nw]]), 
-                                                             method = options[["estimator"]], 
-                                                             not.cont = nonContVariables)[[1]]
+    bdgraphResult$samplesPosterior       <- extractposterior(bdgraphFit, 
+                                                             as.data.frame(dataset[[nw]]), 
+                                                             options[["estimator"]], 
+                                                             nonContVariables)[[1]]
     bdgraphResult$sampleGraphs           <- bdgraphFit$sample_graphs
     
     networks[[nw]] <- bdgraphResult
@@ -1239,7 +1239,7 @@ string2graph <- function(Gchar, p) {
 }
 
 # BDgraph extract posterior distribution for estimates:
-extractposterior <- function(fit, data, method = c("ggm", "gcgm"), not.cont) {
+extractposterior <- function(fit, data, method = c("ggm", "gcgm"), nonContVariables) {
   
   m <- length(fit$all_graphs)
   k <- 30000
@@ -1250,7 +1250,7 @@ extractposterior <- function(fit, data, method = c("ggm", "gcgm"), not.cont) {
   Rs <- matrix(0, nrow = k, ncol = (p*(p-1))/2)
   
   if(method == "gcgm") {
-    S <- get_S_n_p(data, method = method, n = n, not.cont = not.cont)$S
+    S <- BDgraph::get_S_n_p(data, method = method, n = n, not.cont = nonContVariables)$S
   } else {
     S <- t(as.matrix(data)) %*% as.matrix(data)
   }
