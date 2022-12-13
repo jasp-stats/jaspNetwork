@@ -1279,7 +1279,7 @@ gwish_samples <- function(G, S, nsamples = 1000) {
 # Centrality of weighted graphs
 centrality <- function(network, measures = c("Closeness", "Betweenness", "Strength", "ExpectedInfluence")){
   
-  for(i in 1:nrow(network$samplesPosterior)){
+  for(i in seq_len(nrow(network$samplesPosterior))) {
     graph <- qgraph::centralityPlot(vectorToMatrix(network$samplesPosterior[i,], as.numeric(nrow(network$estimates)), bycolumn = TRUE), 
                                     include = measures,
                                     verbose = FALSE, print = FALSE, scale = "z-scores", labels = colnames(network$estimates))
