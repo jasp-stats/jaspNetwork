@@ -611,16 +611,20 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
 
 .networkAnalysisOneNetworkPlot <- function(network, options, minE, layout, groups, maxE, labels, legend, shape,
-                                           nodeColor, edgeColor, nodeNames) {
+                                           nodeColor, edgeColor, nodeNames, method = "frequentist") {
   
 
   wMat <- network[["graph"]]
-  if (!options[["weightedNetwork"]]) {
-    wMat <- sign(wMat)
+  
+  if (method != "Bayesian") {
+    if (!options[["weightedNetwork"]]) {
+      wMat <- sign(wMat)
+    }
+    if (!options[["signedNetwork"]]) {
+      wMat <- abs(wMat)
+    }
   }
-  if (!options[["signedNetwork"]]) {
-    wMat <- abs(wMat)
-  }
+  
   if (all(abs(wMat) <= minE))
     minE <- NULL
 
@@ -653,7 +657,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     ))
 }
 
-.networkAnalysisNetworkPlot <- function(plotContainer, network, options) {
+.networkAnalysisNetworkPlot <- function(plotContainer, network, options, method = "frequentist") {
 
   if (!is.null(plotContainer[["networkPlotContainer"]]) || !options[["plotNetwork"]])
     return()
@@ -681,7 +685,11 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     return()
   }
 
-  layout <- network[["layout"]][["layout"]] # calculated in .networkAnalysisRun()
+  if (method == "Bayesian") {
+    layout <- network[["layout"]] # calculated in .bayesianNetworkAnalysisRun()
+  } else {
+    layout <- network[["layout"]][["layout"]] # calculated in .networkAnalysisRun()
+  }
 
   # ensure minimum/ maximum makes sense or ignore these parameters.
   # TODO: message in general table if they have been reset.
@@ -748,14 +756,34 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   # TODO: footnote if legend off and nodenames used
   if (options[["showVariableNames"]] == "In nodes") {
     nodeNames <- NULL
-    labels <- .unv(allNetworks[[1]][["labels"]])
-
+    
+    if (method == "Bayesian") {
+      if (nGraphs == 1) {
+        labels <- .unv(colnames(allNetworks$Network$graph))
+      } else {
+        labels <- .unv(colnames(allNetworks$`1`$graph))
+      }
+    } else {
+      labels <- .unv(allNetworks[[1]][["labels"]])
+    }
+    
   } else {
-
-    nodeNames <- .unv(allNetworks[[1]][["labels"]])
+    
+    if (method == "Bayesian") {
+      if (nGraphs == 1) {
+        nodeNames <- .unv(colnames(allNetworks$Network$graph))
+      } else {
+        nodeNames <- .unv(colnames(allNetworks$`1`$graph))
+      }
+    } else {
+      nodeNames <- .unv(allNetworks[[1]][["labels"]])
+    }
+    
     labels <- seq_along(nodeNames)
 
   }
+  
+  if (method == "Bayesian") labels <- decodeColNames(labels)
 
   if (options[["abbreviateLabels"]])
     labels <- base::abbreviate(decodeColNames(labels), minlength = options[["abbreviateNoChars"]])
@@ -817,7 +845,8 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
         shape      = shape,
         nodeColor  = nodeColor,
         edgeColor  = edgeColor,
-        nodeNames  = nodeNames
+        nodeNames  = nodeNames, 
+        method     = method
       )
     }
   })

@@ -126,7 +126,6 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     mainContainer[["layoutState"]]     <- createJaspState(networkList[["layout"]], 
                                                           dependencies = c("layout", "repulsion", "layoutX", "layoutY"))
     
-    #.networkAnalysisSaveLayout(mainContainer, options, networkList[["layout"]])
   }
   
   return(networkList)
@@ -137,19 +136,17 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   centralities <- vector("list", length(networks))
   for (nw in seq_along(networks)) {
     
+    # Compute centrality measures for each posterior sample: 
     network <- networks[[nw]]
-    
-    # add measures 
     centralitySamples <- centrality(network = network)
-    
     nSamples <- nrow(network$samplesPosterior)
     
-    value <- apply(centralitySamples[, 3:(nSamples+2)], MARGIN = 1, mean)
+    # centralitySamples is in wide format, so to select all samples (without cols representing the variables) we need 3:(nSamples+2)
+    posteriorMeans <- colMeans(centralitySamples[, 3:(nSamples+2)]) 
     centralityHDIintervals <- apply(centralitySamples[, 3:(nSamples+2)], MARGIN = 1, 
                                     FUN = HDInterval::hdi, allowSplit = FALSE)
     
-    centralitySummary <- cbind(centralitySamples[, 1:2], value, t(centralityHDIintervals))
-    
+    centralitySummary <- cbind(centralitySamples[, 1:2], posteriorMeans, t(centralityHDIintervals))
     centralities[[nw]] <- centralitySummary
 
   }
@@ -298,7 +295,8 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     mainContainer[["plotContainer"]] <- plotContainer
   }
   
-  .bayesianNetworkAnalysisNetworkPlot(plotContainer, network, options)
+  .networkAnalysisNetworkPlot(plotContainer, network, options, method = "Bayesian")
+  #.bayesianNetworkAnalysisNetworkPlot(plotContainer, network, options)
   .bayesianNetworkAnalysisEvidencePlot(plotContainer, network, options)
   .bayesianNetworkAnalysisPosteriorStructurePlot(plotContainer, network, options)
   .bayesianNetworkAnalysisCentralityPlot(plotContainer, network, options)
@@ -698,199 +696,6 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   
 }
 
-.bayesianNetworkAnalysisNetworkPlot <- function(plotContainer, network, options) {
-  
-  if (!is.null(plotContainer[["networkPlotContainer"]]) || !options[["plotNetwork"]])
-    return()
-  
-  allNetworks <- network[["network"]]
-  nGraphs <- length(allNetworks)
-  
-  # we use an empty container without a name if there is only 1 graph. This container is hidden from the output but it
-  # enables us to use the same code for a single network plot and for a collection of network plots.
-  title <- if (nGraphs == 1L) "" else gettext("Network Plots")
-  
-  networkPlotContainer <- createJaspContainer(title = title, position = 51, dependencies = c(
-    "layout", "edgeColors", "repulsion", "edgeSize", "nodeSize", "colorNodesBy",
-    "maxEdgeStrength", "minEdgeStrength", "cut", "showDetails", "nodePalette",
-    "legendNumber",
-    "scaleLabels", "labelSize", "abbreviateLabels", "abbreviateNoChars",
-    "keepLayoutTheSame", "layoutX", "layoutY", "plotNetwork",
-    "groupNames", "groupColors", "variablesForColor", "groupAssigned", "manualColors",
-    "legendToPlotRatio", "edgeLabels", "edgeLabelCex", "edgeLabelPosition"
-  ))
-  plotContainer[["networkPlotContainer"]] <- networkPlotContainer
-  
-  if (is.null(network[["network"]]) || plotContainer$getError()) {
-    networkPlotContainer[["dummyPlot"]] <- createJaspPlot(title = gettext("Network Plot"))
-    return()
-  }
-  
-  layout <- network[["layout"]] # calculated in .bayesianNetworkAnalysisRun()
-  
-  # ensure minimum/ maximum makes sense or ignore these parameters.
-  # TODO: message in general table if they have been reset.
-  minE <- options[["minEdgeStrength"]]
-  maxE <- options[["maxEdgeStrength"]]
-  
-  if (minE == 0)
-    minE <- NULL
-  if (maxE == 0 || (!is.null(minE) && maxE <= minE))
-    maxE <- NULL
-  
-  groups <- NULL
-  nodeColor <- NULL
-  allLegends <- rep(FALSE, nGraphs) # no legends
-  
-  if (length(options[["variablesForColor"]]) > 1L) {
-    variablesForColor <- matrix(unlist(options[["variablesForColor"]]), ncol = 2L, byrow = TRUE)
-    if (length(unique(variablesForColor[, 1L])) > 1L) {
-      # user has defined groups and there are variables in the groups
-      groupNames <- matrix(unlist(options[["groupNames"]]), ncol = 2L, byrow = TRUE)
-      nGroups <- nrow(groupNames)
-      
-      idx <- match(variablesForColor[, 1L], groupNames[, 1L])
-      
-      groups <- vector("list", nGroups)
-      names(groups) <- groupNames[, 1L]
-      for (i in seq_len(nGroups))
-        groups[[i]] <- which(idx == i)
-      
-      nonEmpty <- lengths(groups) > 0L
-      groups <- groups[nonEmpty]
-      
-      if (options[["manualColors"]])
-        nodeColor <- groupNames[nonEmpty, 2L]
-    }
-  }
-  
-  # defaults
-  shape <- "circle"
-  edgeColor <- NULL
-  
-  # TODO: footnote if legend off and nodenames used
-  if (options[["showVariableNames"]] == "In nodes") {
-    
-    nodeNames <- NULL
-    
-    if (nGraphs == 1) {
-      labels <- .unv(colnames(allNetworks$Network$graph))
-    } else {
-      labels <- .unv(colnames(allNetworks$`1`$graph))
-    }
-    
-  } else {
-    
-    if (nGraphs == 1) {
-      nodeNames <- .unv(colnames(allNetworks$Network$graph))
-    } else {
-      nodeNames <- .unv(colnames(allNetworks$`1`$graph))
-    }
-    
-    labels <- seq_along(nodeNames) 
-    
-  }
-  
-  labels <- decodeColNames(labels)
-  
-  if (options[["abbreviateLabels"]])
-    labels <- base::abbreviate(labels, options[["abbreviateNoChars"]])     
-  
-  # do we need to draw legends?
-  if (!is.null(groups) || !is.null(nodeNames)) {
-    if (options[["showLegend"]] ==  "All plots") {
-      
-      allLegends <- rep(TRUE, nGraphs)
-      
-    } else if (options[["showLegend"]] ==  "In plot number: ") {
-      
-      if (options[["legendNumber"]] > nGraphs) {
-        
-        allLegends[nGraphs] <- TRUE
-        
-      } else if (options[["legendNumber"]] < 1L) {
-        
-        allLegends[1L] <- TRUE
-        
-      } else {
-        
-        allLegends[options[["legendNumber"]]] <- TRUE
-        
-      }
-    }
-  }
-  
-  names(allLegends) <- names(allNetworks) # allows indexing by name
-  
-  basePlotSize <- 320
-  legendMultiplier <- options[["legendToPlotRatio"]] * basePlotSize
-  height <- setNames(rep(basePlotSize, nGraphs), names(allLegends))
-  width  <- basePlotSize + allLegends * legendMultiplier
-  for (v in names(allNetworks))
-    networkPlotContainer[[v]] <- createJaspPlot(title = v, width = width[v], height = height[v])
-  
-  jaspBase::.suppressGrDevice({
-    
-    for (v in names(allNetworks)) {
-      
-      networkToPlot <- allNetworks[[v]]
-      
-      legend <- allLegends[[v]]
-      networkPlotContainer[[v]]$plotObject <- .bayesianNetworkAnalysisOneNetworkPlot(
-        network    = networkToPlot,
-        options    = options,
-        minE       = minE,
-        maxE       = maxE,
-        layout     = layout,
-        groups     = groups,
-        labels     = labels,
-        legend     = legend,
-        shape      = shape,
-        nodeColor  = nodeColor,
-        edgeColor  = edgeColor,
-        nodeNames  = nodeNames
-      )
-    }
-  })
-}
-
-.bayesianNetworkAnalysisOneNetworkPlot <- function(network, options, minE, layout, groups, maxE, labels, legend, shape,
-                                                   nodeColor, edgeColor, nodeNames) {
-  
-  wMat <- network$graph
-  
-  if (all(abs(wMat) <= minE)) 
-    minE <- NULL
-  
-  return(
-    qgraph::qgraph(
-      input               = wMat,
-      layout              = layout,
-      groups              = groups,
-      repulsion           = options[["repulsion"]],
-      cut                 = options[["cut"]],
-      edge.width          = options[["edgeSize"]],
-      node.width          = options[["nodeSize"]],
-      maximum             = maxE,
-      minimum             = minE,
-      details             = options[["showDetails"]],
-      labels              = labels,
-      palette             = if (options[["manualColors"]]) NULL else options[["nodePalette"]],
-      theme               = options[["edgeColors"]],
-      legend              = legend,
-      shape               = shape,
-      color               = nodeColor,
-      edge.color          = edgeColor,
-      nodeNames           = nodeNames,
-      label.scale         = options[["scaleLabels"]],
-      label.cex           = options[["labelSize"]],
-      GLratio             = 1 / options[["legendToPlotRatio"]],
-      edge.labels         = options[["edgeLabels"]],
-      edge.label.cex      = options[["edgeLabelCex"]],
-      edge.label.position = options[["edgeLabelPosition"]]
-    ))
-}
-
 .bayesianNetworkAnalysisEvidencePlot <- function(plotContainer, network, options) {
   
   if (!is.null(plotContainer[["evidencePlotContainer"]]) || !options[["plotEvidence"]])
@@ -1200,7 +1005,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 #  ADDITIONAL FUNCTIONS
 # =========================
 
-# Turns vector into matrix
+# Turns vector into matrix:
 vectorToMatrix <- function(vec, p, diag = FALSE, bycolumn = FALSE) {
   m <- matrix(0, p, p)
   
@@ -1216,7 +1021,7 @@ vectorToMatrix <- function(vec, p, diag = FALSE, bycolumn = FALSE) {
   return(m)
 }
 
-# Transform precision into partial correlations for interpretation
+# Transform precision into partial correlations for interpretation:
 pr2pc <- function(K) {
   R <- diag(2, nrow(K)) - stats::cov2cor(K)
   colnames(R) <- colnames(K)
@@ -1224,7 +1029,7 @@ pr2pc <- function(K) {
   return(R)
 }
 
-# BDgraph stores graphs as byte strings for efficiency
+# BDgraph stores graphs as byte strings for efficiency:
 string2graph <- function(Gchar, p) {
   Gvec <- rep(0, p*(p-1)/2)
   edges <- which(unlist(strsplit(as.character(Gchar), "", fixed = TRUE)) == 1)
@@ -1246,7 +1051,7 @@ extractposterior <- function(fit, data, method = c("ggm", "gcgm"), nonContVariab
   densities <- rep(0, k)
   Rs <- matrix(0, nrow = k, ncol = (p*(p-1))/2)
   
-  if(method == "gcgm") {
+  if (method == "gcgm") {
     S <- BDgraph::get_S_n_p(data, method = method, n = n, not.cont = nonContVariables)$S
   } else {
     S <- t(as.matrix(data)) %*% as.matrix(data)
@@ -1264,29 +1069,32 @@ extractposterior <- function(fit, data, method = c("ggm", "gcgm"), nonContVariab
   return(list(Rs, densities))
 }
 
-# Samples from the G-wishart distribution
-gwish_samples <- function(G, S, nsamples = 1000) {
-  p <- nrow(S)
-  Rs = matrix(0, nrow = nsamples, ncol = (p*(p-1))/2)
+# Samples from the G-wishart distribution:
+gwish_samples <- function(G, S, nSamples = 1000) {
   
-  for (i in 1:nsamples) {
-    K <- BDgraph::rgwish(n=1, adj=G, b=3+n, D=diag(p) + S)*(G + diag(p))
+  p <- nrow(S)
+  Rs = matrix(0, nrow = nSamples, ncol = (p*(p-1))/2)
+  
+  for (i in 1:nSamples) {
+    K <- BDgraph::rgwish(n = 1, adj = G, b = 3 + n, D = diag(p) + S) * (G + diag(p))
     Rs[i,] <- as.vector(pr2pc(K)[upper.tri(pr2pc(K))])
   }
+  
   return(Rs)
 }
 
 # Centrality of weighted graphs
 centrality <- function(network, measures = c("Closeness", "Betweenness", "Strength", "ExpectedInfluence")){
   
-  for(i in seq_len(nrow(network$samplesPosterior))) {
+  for (i in seq_len(nrow(network$samplesPosterior))) {
     graph <- qgraph::centralityPlot(vectorToMatrix(network$samplesPosterior[i,], as.numeric(nrow(network$estimates)), bycolumn = TRUE), 
                                     include = measures,
                                     verbose = FALSE, print = FALSE, scale = "z-scores", labels = colnames(network$estimates))
+    
     if(i > 1){
-      centralityOutput[, i+2] <- graph$data[, 5]
+      centralityOutput[, i+2] <- graph$data[, "value"]
     } else {
-      centralityOutput <- graph$data[, 3:5]
+      centralityOutput <- graph$data[, c("node", "measure", "value")]
     }
   }
   
