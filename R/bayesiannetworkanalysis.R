@@ -1226,12 +1226,12 @@ pr2pc <- function(K) {
 
 # BDgraph stores graphs as byte strings for efficiency
 string2graph <- function(Gchar, p) {
-  Gvec = rep(0, p*(p-1)/2)
-  edges <- which(unlist(strsplit(as.character(Gchar), "")) == 1)
+  Gvec <- rep(0, p*(p-1)/2)
+  edges <- which(unlist(strsplit(as.character(Gchar), "", fixed = TRUE)) == 1)
   Gvec[edges] = 1
   G <- matrix(0, p, p)
   G[upper.tri(G)] <- Gvec
-  G = G + t(G)
+  G <- G + t(G)
   return(G) 
 }
 
