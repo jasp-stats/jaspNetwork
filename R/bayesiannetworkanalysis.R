@@ -52,8 +52,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   
   if (is.null(mainContainer[["generalTable"]])) {
     
-    tb <- createJaspTable(gettext("Summary of Network"), position = 1, dependencies = c(
-      "minEdgeStrength")) 
+    tb <- createJaspTable(gettext("Summary of Network"), position = 1, dependencies = "minEdgeStrength") 
     
     if (length(dataset) > 1L) tb$addColumnInfo(name = "info", title = gettext("Network"), type = "string")
     
