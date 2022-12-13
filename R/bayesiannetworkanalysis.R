@@ -192,8 +192,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       }
     }
     
-    # Check if set.seed needs to be used: 
-    if (options$setSeed) set.seed(options$seed)
+    jaspBase::.setSeedJASP(options)
     
     # Estimate network:  
     bdgraphFit <- BDgraph::bdgraph(data        = as.data.frame(dataset[[nw]]),
