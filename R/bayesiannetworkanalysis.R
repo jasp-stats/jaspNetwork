@@ -161,7 +161,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
   # Reformat networks to fit averageLayout:
   weightMatrices <- list()
-  for (i in 1:length(networks)) {
+  for (i in seq_along(networks)) {
     weightMatrices[[i]] <- networks[[i]]$graph
   }
   jaspBase::.suppressGrDevice(layout <- qgraph::averageLayout(weightMatrices, layout = options[["layout"]], repulsion = options[["repulsion"]]))
