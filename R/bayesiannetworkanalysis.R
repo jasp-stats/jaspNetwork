@@ -1218,8 +1218,7 @@ vectorToMatrix <- function(vec, p, diag = FALSE, bycolumn = FALSE) {
 
 # Transform precision into partial correlations for interpretation
 pr2pc <- function(K) {
-  D.Prec = diag(diag(K)^(-.5))
-  R <- diag(2,dim(K)[1])-D.Prec%*%K%*%D.Prec
+  R <- diag(2, nrow(K)) - stats::cov2cor(K)
   colnames(R) <- colnames(K)
   rownames(R) <- rownames(K)
   return(R)
