@@ -144,7 +144,8 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     nSamples <- nrow(network$samplesPosterior)
     
     # centralitySamples is in wide format, so to select all samples (without cols representing the variables) we need 3:(nSamples+2)
-    posteriorMeans <- colMeans(centralitySamples[, 3:(nSamples+2)]) 
+    posteriorMeans <- apply(centralitySamples[, 3:(nSamples+2)], MARGIN = 1, mean)
+
     centralityHDIintervals <- apply(centralitySamples[, 3:(nSamples+2)], MARGIN = 1, 
                                     FUN = HDInterval::hdi, allowSplit = FALSE)
     
@@ -215,6 +216,8 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     bdgraphResult$structure              <- 1*(bdgraphResult$inclusionProbabilities > 0.5)
     bdgraphResult$estimates              <- pr2pc(bdgraphFit$K_hat); diag(bdgraphResult$estimates) <- 0
     bdgraphResult$graph                  <- bdgraphResult$estimates*bdgraphResult$structure
+    
+    # TODO: remove by default and place in the centrality function:
     bdgraphResult$samplesPosterior       <- extractposterior(bdgraphFit, 
                                                              as.data.frame(dataset[[nw]]), 
                                                              options[["estimator"]], 
@@ -297,11 +300,10 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     mainContainer[["plotContainer"]] <- plotContainer
   }
   
-  .networkAnalysisNetworkPlot(plotContainer, network, options, method = "Bayesian")
-  #.bayesianNetworkAnalysisNetworkPlot(plotContainer, network, options)
-  .bayesianNetworkAnalysisEvidencePlot(plotContainer, network, options)
-  .bayesianNetworkAnalysisPosteriorStructurePlot(plotContainer, network, options)
-  .bayesianNetworkAnalysisCentralityPlot(plotContainer, network, options)
+  .networkAnalysisNetworkPlot                    (plotContainer, network, options, method = "Bayesian")
+  .bayesianNetworkAnalysisEvidencePlot           (plotContainer, network, options)
+  .bayesianNetworkAnalysisPosteriorStructurePlot (plotContainer, network, options)
+  .bayesianNetworkAnalysisCentralityPlot         (plotContainer, network, options)
   .bayesianNetworkAnalysisPosteriorComplexityPlot(plotContainer, network, options)
 }
 
@@ -386,15 +388,16 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     
     toAdd <- network[["centrality"]][[i]]
     toAdd <- stats::reshape(toAdd, idvar = "node", timevar = "measure", direction = "wide")
-
-    toAdd <- dplyr::select(toAdd, c("node", "value.Betweenness", "value.Closeness", "value.Strength", "value.ExpectedInfluence"))
+    
+    toAdd <- dplyr::select(toAdd, c("node", "posteriorMeans.Betweenness", "posteriorMeans.Closeness", "posteriorMeans.Strength", "posteriorMeans.ExpectedInfluence"))
     
     names(toAdd) <- c("Variable", paste0(c("Betweenness", 
                                            "Closeness", 
                                            "Strength", 
                                            "Expected influence"), i))
     
-    if (i == 1L) {# if more than 1 network drop the first column which indicates the variable
+    # If more than 1 network drop the first column which indicates the variable:
+    if (i == 1L) { 
       TBcolumns <- toAdd
     } else {
       toAdd <- toAdd[, -1L]
@@ -437,9 +440,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   }
       
   .bayesianNetworkAnalysisMakeCentralityPlot(plot, centralitySummary, options)
-      
 }
-
 
 .bayesianNetworkAnalysisMakeCentralityPlot <- function(jaspPlot, centralitySummary, options) {
   
@@ -461,11 +462,11 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   }
   
   if (length(unique(centralitySummary$graph)) > 1L) {
-    mapping <- ggplot2::aes(x = value, y = node, group = graph, colour = graph)
+    mapping <- ggplot2::aes(x = posteriorMeans, y = node, group = graph, colour = graph)
     # change the name graph into the variable name for splitting
     guide   <- ggplot2::guides(color = ggplot2::guide_legend(title = options[["groupingVariable"]]))
   } else {
-    mapping <- ggplot2::aes(x = value, y = node, group = graph)
+    mapping <- ggplot2::aes(x = posteriorMeans, y = node, group = graph)
     guide   <- NULL
   }
 
@@ -478,13 +479,13 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   
   g <- g + ggplot2::geom_path() +
            ggplot2::geom_point() +
-           ggplot2::geom_errorbar(ggplot2::aes(x = value, xmin = lower, xmax = upper), size = .5, width = 0.4) +
+           ggplot2::geom_errorbar(ggplot2::aes(x = posteriorMeans, xmin = lower, xmax = upper), size = .5, width = 0.4) +
            ggplot2::labs(x = NULL, y = NULL, fill = NULL)
 
   if (length(unique(centralitySummary$type)) > 1) {
       g <- g + ggplot2::facet_grid(type ~ measure, scales = "free")
   } else {
-      g <- g + ggplot2::facet_grid(~measure, scales = "free")
+      g <- g + ggplot2::facet_grid(~ measure, scales = "free")
   }
   g <- g + ggplot2::theme_bw()
   
@@ -1045,7 +1046,10 @@ string2graph <- function(Gchar, p) {
 extractposterior <- function(fit, data, method = c("ggm", "gcgm"), nonContVariables) {
   
   m <- length(fit$all_graphs)
-  k <- 30000
+  
+  # Number of samples from posterior: 
+  k <- 5000
+  
   n <- nrow(as.matrix(data))
   p <- ncol(as.matrix(data))
   j <- 1
@@ -1092,7 +1096,7 @@ centrality <- function(network, measures = c("Closeness", "Betweenness", "Streng
                                     include = measures,
                                     verbose = FALSE, print = FALSE, scale = "z-scores", labels = colnames(network$estimates))
     
-    if(i > 1){
+    if (i > 1){
       centralityOutput[, i+2] <- graph$data[, "value"]
     } else {
       centralityOutput <- graph$data[, c("node", "measure", "value")]
