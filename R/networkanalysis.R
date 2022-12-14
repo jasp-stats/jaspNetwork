@@ -759,7 +759,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     
     if (method == "Bayesian") {
       if (nGraphs == 1) {
-        labels <- .unv(colnames(allNetworks$Network$graph))
+        labels <- colnames(allNetworks$Network$graph)
       } else {
         labels <- .unv(colnames(allNetworks$`1`$graph))
       }
