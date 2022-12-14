@@ -17,6 +17,8 @@
 
 BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   
+  
+  # Needed for the .networkAnalysisReadData function in the frequentist network module: 
   options[["missingValues"]] <- "listwise" # Unfortunately BDgraph does not work with pairwise missing values
   
   dataset <- .networkAnalysisReadData(dataset, options)
@@ -79,14 +81,14 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       # these cannot be chained unfortunately
       groupingVariableName <- options[["groupingVariable"]]
       dfGroup <- data.frame(groupingVariable)
-      colnames(dfGroup) <- .v(groupingVariableName)
+      colnames(dfGroup) <- groupingVariableName
       .hasErrors(dataset = dfGroup,
                  type = c("missingValues", "factorLevels"),
                  missingValues.target = groupingVariableName,
                  factorLevels.target = groupingVariableName,
                  factorLevels.amount = "< 2",
                  exitAnalysisIfErrors = TRUE)
-      dataset[[.v(options[["groupingVariable"]])]] <- groupingVariable
+      dataset[[options[["groupingVariable"]]]] <- groupingVariable
       groupingVariable <- options[["groupingVariable"]]
     }
   }
@@ -162,7 +164,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     weightMatrices[[i]] <- networks[[i]]$graph
   }
   jaspBase::.suppressGrDevice(layout <- qgraph::averageLayout(weightMatrices, layout = options[["layout"]], repulsion = options[["repulsion"]]))
-  rownames(layout) <- .unv(colnames(networks[[1L]]))
+  rownames(layout) <- colnames(networks[[1L]])
 
   return(layout)
 }
@@ -618,24 +620,23 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     nodeNames <- NULL
     
     if (nGraphs == 1) {
-      labels <- .unv(colnames(allNetworks$Network$graph))
+      labels <- colnames(allNetworks$Network$graph)
     } else {
-      labels <- .unv(colnames(allNetworks$`1`$graph))
+      labels <- colnames(allNetworks$`1`$graph)
     }
 
   } else {
     
     if (nGraphs == 1) {
-      nodeNames <- .unv(colnames(allNetworks$Network$graph))
+      nodeNames <- colnames(allNetworks$Network$graph)
     } else {
-      nodeNames <- .unv(colnames(allNetworks$`1`$graph))
+      nodeNames <- colnames(allNetworks$`1`$graph)
     }
     labels <- seq_along(nodeNames)
     
   }
   
   labels <- decodeColNames(labels)
-  
   
   if (options[["abbreviateLabels"]])
     labels <- base::abbreviate(labels, minlength = options[["abbreviateNoChars"]])
@@ -760,17 +761,17 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     nodeNames <- NULL
     
     if (nGraphs == 1) {
-      labels <- .unv(colnames(allNetworks$Network$graph))
+      labels <- colnames(allNetworks$Network$graph)
     } else {
-      labels <- .unv(colnames(allNetworks$`1`$graph))
+      labels <- colnames(allNetworks$`1`$graph)
     }
     
   } else {
     
     if (nGraphs == 1) {
-      nodeNames <- .unv(colnames(allNetworks$Network$graph))
+      nodeNames <- colnames(allNetworks$Network$graph)
     } else {
-      nodeNames <- .unv(colnames(allNetworks$`1`$graph))
+      nodeNames <- colnames(allNetworks$`1`$graph)
     }
     labels <- seq_along(nodeNames)
     
