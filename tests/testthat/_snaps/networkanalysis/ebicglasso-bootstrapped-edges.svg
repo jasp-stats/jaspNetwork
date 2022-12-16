@@ -54,7 +54,7 @@
 <polyline points='327.60,545.11 327.60,78.63 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
 <polyline points='504.70,545.11 504.70,78.63 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
 <polyline points='681.81,545.11 681.81,78.63 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
-<polygon points='89.73,539.43 199.26,488.86 303.20,438.29 365.93,387.72 424.99,337.16 442.00,286.59 485.68,236.02 466.99,185.45 610.36,134.88 681.83,84.32 684.33,84.32 619.77,134.88 475.26,185.45 509.15,236.02 467.29,286.59 439.25,337.16 367.91,387.72 320.19,438.29 204.85,488.86 96.93,539.43 ' style='stroke-width: 1.07; stroke: none; fill: #000000; fill-opacity: 0.10;' />
+<polygon points='89.73,539.43 199.26,488.86 303.20,438.29 365.93,387.72 424.99,337.16 442.00,286.59 485.68,236.02 466.99,185.45 610.36,134.88 681.83,84.32 684.33,84.32 619.77,134.88 475.26,185.45 509.15,236.02 467.29,286.59 439.25,337.16 367.91,387.72 320.19,438.29 204.85,488.86 96.93,539.43 ' style='stroke-width: 1.07; stroke: none; stroke-linecap: butt; fill: #000000; fill-opacity: 0.10;' />
 <polyline points='93.33,539.43 202.06,488.86 311.70,438.29 366.92,387.72 432.12,337.16 454.64,286.59 497.42,236.02 471.12,185.45 615.07,134.88 683.08,84.32 ' style='stroke-width: 1.07; stroke-linecap: butt;' />
 <polyline points='80.58,539.43 229.31,488.86 327.60,438.29 327.60,387.72 438.69,337.16 465.72,286.59 481.85,236.02 487.48,185.45 602.63,134.88 679.61,84.32 ' style='stroke-width: 2.13; stroke: #8B0000; stroke-linecap: butt;' />
 <circle cx='80.58' cy='539.43' r='1.95' style='stroke-width: 0.71; stroke: #8B0000; stroke-opacity: 0.55; fill: #8B0000; fill-opacity: 0.55;' />
@@ -126,6 +126,6 @@
 <circle cx='412.72' cy='36.90' r='1.95' style='stroke-width: 0.71; stroke: #8B0000; fill: #8B0000;' />
 <text x='336.47' y='39.93' style='font-size: 8.80px; font-family: sans;' textLength='62.14px' lengthAdjust='spacingAndGlyphs'>Bootstrap mean</text>
 <text x='426.84' y='39.93' style='font-size: 8.80px; font-family: sans;' textLength='29.84px' lengthAdjust='spacingAndGlyphs'>Sample</text>
-<text x='50.40' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='190.82px' lengthAdjust='spacingAndGlyphs'>EBICglasso-bootstrapped-edges</text>
+<text x='50.40' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='187.15px' lengthAdjust='spacingAndGlyphs'>ebicGlasso-bootstrapped-edges</text>
 </g>
 </svg>

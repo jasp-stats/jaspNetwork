@@ -37,9 +37,9 @@ msgstr "Sparsamkeit"
 msgid "Data was binarized using %s."
 msgstr "Daten wurden mit %s dichotomisiert."
 
-msgid "Only the first %d values of %s were used to color nodes (%d provided)."
+msgid "Only the first %1$d values of %2$s were used to color nodes (%3$d provided)."
 msgstr ""
-"Nur die ersten %d Werte von %s wurden zum Färben von Knoten verwendet (%d "
+"Nur die ersten %1$d Werte von %2$s wurden zum Färben von Knoten verwendet (%3$d "
 "bereitgestellt)."
 
 msgid "<em>Warning: </em>"

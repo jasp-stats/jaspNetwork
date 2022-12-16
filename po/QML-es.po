@@ -473,10 +473,6 @@ msgid "In plot"
 msgstr "En gráfico"
 
 msgctxt "NetworkAnalysis|"
-msgid "In legend"
-msgstr "En leyenda"
-
-msgctxt "NetworkAnalysis|"
 msgid "Show Variable Type"
 msgstr "Mostrar tipo de variable"
 
@@ -575,3 +571,19 @@ msgstr "nombre de las coordenadas y"
 msgctxt "Description|"
 msgid "Explore the connections between variables organized as a network"
 msgstr "Explore las conexiones entre variables organizadas como una red"
+
+msgctxt "NetworkAnalysis|"
+msgid "In Legend"
+msgstr "En la Leyenda"
+
+msgctxt "NetworkAnalysis|"
+msgid "Degree"
+msgstr "Grado"
+
+msgctxt "NetworkAnalysis|"
+msgid "Group 1"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Group 2"
+msgstr ""

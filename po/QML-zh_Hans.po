@@ -476,10 +476,6 @@ msgid "In plot"
 msgstr "在绘图中"
 
 msgctxt "NetworkAnalysis|"
-msgid "In legend"
-msgstr "在图例中"
-
-msgctxt "NetworkAnalysis|"
 msgid "Show Variable Type"
 msgstr "显示变量类型"
 
@@ -574,3 +570,19 @@ msgstr "x 坐标名称"
 msgctxt "NetworkAnalysis|"
 msgid "name for y-coordinates"
 msgstr "y 坐标名称"
+
+msgctxt "NetworkAnalysis|"
+msgid "In Legend"
+msgstr "在图例中"
+
+msgctxt "NetworkAnalysis|"
+msgid "Degree"
+msgstr "点度（Degree）"
+
+msgctxt "NetworkAnalysis|"
+msgid "Group 1"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Group 2"
+msgstr ""

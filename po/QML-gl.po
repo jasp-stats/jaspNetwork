@@ -257,10 +257,6 @@ msgid "Closeness"
 msgstr "Proximidade"
 
 msgctxt "NetworkAnalysis|"
-msgid "In legend"
-msgstr "Na lenda"
-
-msgctxt "NetworkAnalysis|"
 msgid "No legend"
 msgstr "Sen lenda"
 
@@ -575,3 +571,19 @@ msgstr "Lenda"
 msgctxt "NetworkAnalysis|"
 msgid "Data"
 msgstr "Datos"
+
+msgctxt "NetworkAnalysis|"
+msgid "In Legend"
+msgstr "Na Lenda"
+
+msgctxt "NetworkAnalysis|"
+msgid "Degree"
+msgstr "Grao"
+
+msgctxt "NetworkAnalysis|"
+msgid "Group 1"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Group 2"
+msgstr ""

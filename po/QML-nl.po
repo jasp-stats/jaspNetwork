@@ -473,10 +473,6 @@ msgid "In plot"
 msgstr "In grafiek"
 
 msgctxt "NetworkAnalysis|"
-msgid "In legend"
-msgstr "In legenda"
-
-msgctxt "NetworkAnalysis|"
 msgid "Show Variable Type"
 msgstr "Toon type variabele"
 
@@ -576,3 +572,19 @@ msgctxt "Description|"
 msgid "Explore the connections between variables organized as a network"
 msgstr ""
 "Onderzoek de verbanden tussen variabelen die als netwerk georganiseerd zijn"
+
+msgctxt "NetworkAnalysis|"
+msgid "In Legend"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Degree"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Group 1"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Group 2"
+msgstr ""
