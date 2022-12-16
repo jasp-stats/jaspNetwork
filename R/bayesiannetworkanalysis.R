@@ -18,7 +18,7 @@
 BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   
   
-  # Needed for the .networkAnalysisReadData function in the frequentist network module: 
+  # MissingValues needed for the .networkAnalysisReadData function in the frequentist network module: 
   options[["missingValues"]] <- "listwise" # Unfortunately BDgraph does not work with pairwise missing values
   
   dataset <- .networkAnalysisReadData(dataset, options)
@@ -119,12 +119,12 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       networkList[["layout"]] <- .bayesianNetworkAnalysisComputeLayout(networkList[["network"]], dataset, options)
     
     if (is.null(networkList[["centrality"]]) && (options[["tableCentrality"]] || options[["plotCentrality"]]))
-      networkList[["centrality"]] <- .bayesianNetworkAnalysisComputeCentrality(networkList[["network"]])
+      networkList[["centrality"]] <- .bayesianNetworkAnalysisComputeCentrality(networkList[["network"]], options)
     
     names(networkList[["network"]]) <- names(dataset) # <- names(networkList[["centrality"]])
     
     mainContainer[["networkState"]]    <- createJaspState(networkList[["network"]])
-    mainContainer[["centralityState"]] <- createJaspState(networkList[["centrality"]], dependencies = c("maxEdgeStrength", "minEdgeStrength"))
+    mainContainer[["centralityState"]] <- createJaspState(networkList[["centrality"]], dependencies = c("maxEdgeStrength", "minEdgeStrength", "credibilityInterval"))
     mainContainer[["layoutState"]]     <- createJaspState(networkList[["layout"]], 
                                                           dependencies = c("layout", "repulsion", "layoutX", "layoutY"))
     
@@ -133,24 +133,34 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   return(networkList)
 }
 
-.bayesianNetworkAnalysisComputeCentrality <- function(networks) {
+.bayesianNetworkAnalysisComputeCentrality <- function(networks, options) {
   
   centralities <- vector("list", length(networks))
   for (nw in seq_along(networks)) {
     
-    # Compute centrality measures for each posterior sample: 
+    
     network <- networks[[nw]]
-    centralitySamples <- centrality(network = network)
-    nSamples <- nrow(network$samplesPosterior)
     
-    # centralitySamples is in wide format, so to select all samples (without cols representing the variables) we need 3:(nSamples+2)
-    posteriorMeans <- apply(centralitySamples[, 3:(nSamples+2)], MARGIN = 1, mean)
-
-    centralityHDIintervals <- apply(centralitySamples[, 3:(nSamples+2)], MARGIN = 1, 
-                                    FUN = HDInterval::hdi, allowSplit = FALSE)
+    if (options[["credibilityInterval"]]) {
+      
+      centralitySamples <- centrality(network = network, options = options)
+      
+      # Compute centrality measures for each posterior sample:
+      nSamples <- nrow(network$samplesPosterior)
+      
+      # centralitySamples is in wide format, so to select all samples (without cols representing the variables) we need 3:(nSamples+2)
+      posteriorMeans <- apply(centralitySamples[, 3:(nSamples+2)], MARGIN = 1, mean)
+      
+      centralityHDIintervals <- apply(centralitySamples[, 3:(nSamples+2)], MARGIN = 1, 
+                                      FUN = HDInterval::hdi, allowSplit = FALSE)
+      
+      centralitySummary <- cbind(centralitySamples[, 1:2], posteriorMeans, t(centralityHDIintervals))
+      
+    } else {
+      centralitySummary <- centrality(network = network, options = options)
+    }
     
-    centralitySummary <- cbind(centralitySamples[, 1:2], posteriorMeans, t(centralityHDIintervals))
-    centralities[[nw]] <- centralitySummary
+    centralities[[nw]] <- centralitySummary 
 
   }
   
@@ -195,18 +205,21 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     jaspBase::.setSeedJASP(options)
     
     # Estimate network:  
-    bdgraphFit <- BDgraph::bdgraph(data        = as.data.frame(dataset[[nw]]),
-                                    method     = options[["estimator"]],
-                                    not.cont   = nonContVariables, 
-                                    algorithm  = "rjmcmc",
-                                    iter       = as.numeric(options[["iter"]]),
-                                    save       = TRUE,
-                                    burnin     = as.numeric(options[["burnin"]]),
-                                    g.start    = options[["initialConfiguration"]],
-                                    df.prior   = as.numeric(options[["dfprior"]]),
-                                    g.prior    = as.numeric(options[["gprior"]]))
-  
+    bdgraphFit <- try(BDgraph::bdgraph(data        = as.data.frame(dataset[[nw]]),
+                                       method     = options[["estimator"]],
+                                       not.cont   = nonContVariables, 
+                                       algorithm  = "rjmcmc",
+                                       iter       = as.numeric(options[["iter"]]),
+                                       save       = TRUE,
+                                       burnin     = as.numeric(options[["burnin"]]),
+                                       g.start    = options[["initialConfiguration"]],
+                                       df.prior   = as.numeric(options[["dfprior"]]),
+                                       g.prior    = as.numeric(options[["gprior"]])))
     
+    if (inherits(bdgraphFit, "try-error")) {
+      bdgraphResult$errorMessage <- as.character(bdgraphFit)
+    }
+  
     # Extract results:
     bdgraphResult <- list()
     bdgraphResult$graphWeights           <- bdgraphFit$graph_weights
@@ -216,13 +229,14 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     bdgraphResult$structure              <- 1*(bdgraphResult$inclusionProbabilities > 0.5)
     bdgraphResult$estimates              <- pr2pc(bdgraphFit$K_hat); diag(bdgraphResult$estimates) <- 0
     bdgraphResult$graph                  <- bdgraphResult$estimates*bdgraphResult$structure
+    bdgraphResult$sampleGraphs           <- bdgraphFit$sample_graphs
     
     # TODO: remove by default and place in the centrality function:
     bdgraphResult$samplesPosterior       <- extractposterior(bdgraphFit, 
                                                              as.data.frame(dataset[[nw]]), 
                                                              options[["estimator"]], 
-                                                             nonContVariables)[[1]]
-    bdgraphResult$sampleGraphs           <- bdgraphFit$sample_graphs
+                                                             nonContVariables,
+                                                             options)[[1]]
     
     networks[[nw]] <- bdgraphResult
   }
@@ -418,7 +432,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       
   width <- if (hasMeasures) 120 * sum(measuresToShow) else 120
   plot <- createJaspPlot(title = gettext("Centrality Plot"), position = 52, width = width,
-                         dependencies = c("plotCentrality", "Betweenness", "Closeness", "Strength", "ExpectedInfluence"))
+                         dependencies = c("plotCentrality", "Betweenness", "Closeness", "Strength", "ExpectedInfluence", "credibilityInterval"))
   
   plotContainer[["centralityPlot"]] <- plot
   
@@ -478,9 +492,12 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   g <- ggplot2::ggplot(centralitySummary, mapping) + guide
   
   g <- g + ggplot2::geom_path() +
-           ggplot2::geom_point() +
-           ggplot2::geom_errorbar(ggplot2::aes(x = posteriorMeans, xmin = lower, xmax = upper), size = .5, width = 0.4) +
-           ggplot2::labs(x = NULL, y = NULL, fill = NULL)
+    ggplot2::geom_point() +
+    ggplot2::labs(x = NULL, y = NULL, fill = NULL)
+  
+  if (options[["credibilityInterval"]]) {
+    g <- g + ggplot2::geom_errorbar(ggplot2::aes(x = posteriorMeans, xmin = lower, xmax = upper), size = .5, width = 0.4)
+  }
 
   if (length(unique(centralitySummary$type)) > 1) {
       g <- g + ggplot2::facet_grid(type ~ measure, scales = "free")
@@ -1043,16 +1060,14 @@ string2graph <- function(Gchar, p) {
 }
 
 # BDgraph extract posterior distribution for estimates:
-extractposterior <- function(fit, data, method = c("ggm", "gcgm"), nonContVariables) {
+extractposterior <- function(fit, data, method = c("ggm", "gcgm"), nonContVariables, options) {
   
   m <- length(fit$all_graphs)
-  
-  # Number of samples from posterior: 
-  k <- 5000
-  
   n <- nrow(as.matrix(data))
   p <- ncol(as.matrix(data))
-  j <- 1
+  
+  # Number of samples from posterior: 
+  k <- as.numeric(options[["iter"]])
   densities <- rep(0, k)
   Rs <- matrix(0, nrow = k, ncol = (p*(p-1))/2)
   
@@ -1062,6 +1077,7 @@ extractposterior <- function(fit, data, method = c("ggm", "gcgm"), nonContVariab
     S <- t(as.matrix(data)) %*% as.matrix(data)
   }
   
+  j <- 1
   for (i in seq(1, m, length.out = k)) {
     graph_ix <- fit$all_graphs[i]
     G <- string2graph(fit$sample_graphs[graph_ix], p)
@@ -1089,18 +1105,38 @@ gwish_samples <- function(G, S, nSamples = 1000) {
 }
 
 # Centrality of weighted graphs
-centrality <- function(network, measures = c("Closeness", "Betweenness", "Strength", "ExpectedInfluence")){
+centrality <- function(network, measures = c("Closeness", "Betweenness", "Strength", "ExpectedInfluence"), options) {
   
-  for (i in seq_len(nrow(network$samplesPosterior))) {
-    graph <- qgraph::centralityPlot(vectorToMatrix(network$samplesPosterior[i,], as.numeric(nrow(network$estimates)), bycolumn = TRUE), 
-                                    include = measures,
-                                    verbose = FALSE, print = FALSE, scale = "z-scores", labels = colnames(network$estimates))
+  if (options[["credibilityInterval"]]) {
     
-    if (i > 1){
-      centralityOutput[, i+2] <- graph$data[, "value"]
-    } else {
-      centralityOutput <- graph$data[, c("node", "measure", "value")]
+    # Compute centrality for each posterior sample: 
+    for (i in seq_len(nrow(network$samplesPosterior))) {
+      graph <- qgraph::centralityPlot(vectorToMatrix(network$samplesPosterior[i,], as.numeric(nrow(network$estimates)), bycolumn = TRUE), 
+                                      include = measures,
+                                      verbose = FALSE, 
+                                      print = FALSE, 
+                                      scale = "z-scores", 
+                                      labels = colnames(network$estimates))
+      
+      if (i > 1){
+        centralityOutput[, i+2] <- graph$data[, "value"]
+      } else {
+        centralityOutput <- graph$data[, c("node", "measure", "value")]
+      }
     }
+    
+  } else {
+    
+    graph <- qgraph::centralityPlot(unname(as.matrix(network$estimates)),
+                                    include = measures, 
+                                    verbose = FALSE, 
+                                    print = FALSE,
+                                    scale = "z-scores", 
+                                    labels = colnames(network$estimates))
+    
+    centralityOutput <- graph$data[, c("node", "measure", "value")] 
+    colnames(centralityOutput) <- c("node", "measure", "posteriorMeans")
+    
   }
   
   return(centralityOutput)

@@ -66,11 +66,11 @@ Form
 		}
 		CheckBox { 
 		  name: "plotCentrality";  label: qsTr("Centrality plot") 
-//		  CheckBox { 
-//				    name:    "credibilityInterval";
-//				    label:   qsTr("Credibility interval 95%");
-//				    checked: false 
-//		  }
+		  CheckBox { 
+				    name:    "credibilityInterval";
+				    label:   qsTr("Credibility interval 95%");
+				    checked: false 
+		  }
 	  }
 	}
 
