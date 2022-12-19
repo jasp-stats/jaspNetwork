@@ -237,7 +237,6 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
                                                              options[["estimator"]], 
                                                              nonContVariables,
                                                              options)[[1]]
-    
     networks[[nw]] <- bdgraphResult
   }
   
@@ -592,7 +591,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     "legendSpecificPlotNumber", "estimator",
     "labelScale", "labelSize", "labelAbbreviation", "labelAbbreviationLength",
     "keepLayoutTheSame", "layoutX", "layoutY",
-    "manualColorGroups", "groupColors", "colorGroupVariables", "groupAssigned", "manualColors",
+    "manualColorGroups", "groupColors", "colorGroupVariables", "groupAssigned", "manualColor",
     "legendToPlotRatio", "edgeLabels", "edgeLabelCex", "edgeLabelPosition"
   ))
   plotContainer[["structurePlotContainer"]] <- structurePlotContainer
@@ -625,7 +624,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       nonEmpty <- lengths(groups) > 0L
       groups <- groups[nonEmpty]
       
-      if (options[["manualColors"]])
+      if (options[["manualColor"]])
         nodeColor <- manualColorGroups[nonEmpty, 2L]
     }
   }
@@ -734,7 +733,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     "legendSpecificPlotNumber", "edgeInclusion", "edgeExclusion", "edgeAbsence",
     "labelScale", "labelSize", "labelAbbreviation", "labelAbbreviationLength",
     "keepLayoutTheSame", "layoutX", "layoutY", "edgeInclusionCriteria",
-    "manualColorGroups", "groupColors", "colorGroupVariables", "groupAssigned", "manualColors",
+    "manualColorGroups", "groupColors", "colorGroupVariables", "groupAssigned", "manualColor",
     "legendToPlotRatio"
   ))
   plotContainer[["evidencePlotContainer"]] <- evidencePlotContainer
@@ -767,7 +766,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       nonEmpty <- lengths(groups) > 0L
       groups <- groups[nonEmpty]
       
-      if (options[["manualColors"]])
+      if (options[["manualColor"]])
         nodeColor <- manualColorGroups[nonEmpty, 2L]
     }
   }
@@ -880,7 +879,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       node.width          = options[["nodeSize"]],
       details             = options[["showDetails"]],
       labels              = labels,
-      palette             = if (options[["manualColors"]]) NULL else options[["nodePalette"]],
+      palette             = if (options[["manualColor"]]) NULL else options[["nodePalette"]],
       legend              = legend,
       shape               = shape,
       color               = nodeColor,
@@ -1007,7 +1006,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       node.width          = options[["nodeSize"]],
       details             = options[["showDetails"]],
       labels              = labels,
-      palette             = if (options[["manualColors"]]) NULL else options[["nodePalette"]],
+      palette             = if (options[["manualColor"]]) NULL else options[["nodePalette"]],
       legend              = legend,
       shape               = shape,
       color               = nodeColor,
