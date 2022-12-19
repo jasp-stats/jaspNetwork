@@ -46,9 +46,9 @@ Form
 	Group
 	{
 		title: qsTr("Plots")
-		CheckBox { name: "plotNetwork";		label: qsTr("Network plot")								}
+		CheckBox { name: "networkPlot";		label: qsTr("Network plot")								}
 		CheckBox { 
-		  name: "plotEvidence";		label: qsTr("Edge evidence plot")
+		  name: "evidencePlot";		label: qsTr("Edge evidence plot")
 				  CheckBox { 
 				        name:    "edgeInclusion";
 				        label:   qsTr("Evidence for inclusion");
@@ -65,7 +65,7 @@ Form
 				  CheckBox { name: "edgeAbsence"; label: qsTr("Absence of evidence");   checked: true }
 		}
 		CheckBox { 
-		  name: "plotCentrality";  label: qsTr("Centrality plot") 
+		  name: "centralityPlot";  label: qsTr("Centrality plot") 
 		  CheckBox { 
 				    name:    "credibilityInterval";
 				    label:   qsTr("Credibility interval 95%");
@@ -77,9 +77,9 @@ Form
 	Group
 	{
 		title: qsTr("Tables")
-		CheckBox { name: "tableWeightsMatrix";	label: qsTr("Weights matrix")	}
+		CheckBox { name: "weightsMatrixTable";	label: qsTr("Weights matrix")	}
 		CheckBox { 
-		    name: "tableEdgeEvidence";		label: qsTr("Edge evidence probability table")
+		    name: "edgeEvidenceTable";		label: qsTr("Edge evidence probability table")
 		    RadioButtonGroup {
 				  name: "evidenceType";
 		      RadioButton { value: "inclusionProbability"; label: qsTr("Edge inclusion probability") ; checked: true }
@@ -88,7 +88,7 @@ Form
 				  RadioButton { value: "log(BF)"; label: qsTr("Log(BF\u2081\u2080)") }
 				}
 		}
-		CheckBox { name: "tableCentrality"; label: qsTr("Centrality table") }
+		CheckBox { name: "centralityTable"; label: qsTr("Centrality table") }
 	}
 	
 	Section 
@@ -131,18 +131,17 @@ Section
 		InputListView
 		{
 			id					: networkFactors
-			name				: "groupNames"
+			name				: "manualColorGroups"
 			title				: qsTr("Group name")
-			optionKey			: "group"
-			defaultValues		: ["Group 1", "Group 2"]
+			optionKey			: "name"
+			defaultValues		: [qsTr("Group 1"), qsTr("Group 2")]
 			placeHolder			: qsTr("New Group")
 			minRows				: 2
 			preferredWidth		: (2 * form.width) / 5
-			enabled				: manualColors.checked
-			rowComponentTitle	: qsTr("Group color")
+			rowComponentTitle				: manualColor.checked ? qsTr("Group color") : ""
 			rowComponent: DropDown
 			{
-				name: "groupColors"
+				name: "color"
 				values: [
 					{ label: qsTr("red")	, value: "red"		},
 					{ label: qsTr("blue")	, value: "blue"		},
@@ -159,22 +158,22 @@ Section
 			Layout.fillWidth				: true
 			Layout.leftMargin				: 40
 			title							: qsTr("Variables in network")
-			name							: "variablesForColor"
+			name							: "colorGroupVariables"
 			source							: ["variables"]
 			addAvailableVariablesToAssigned	: true
 			draggable						: false
 			rowComponentTitle				: qsTr("Group")
 			rowComponent: DropDown
 			{
-				name: "groupAssigned"
-				source: ["groupNames"]
+				name: "group"
+				source: ["manualColorGroups"]
 			}
 		}
 
 		Group
 		{
 			Layout.columnSpan: 2
-			CheckBox	{ name: "manualColors";	label: qsTr("Manual colors");	id: manualColors	}
+			CheckBox	{ name: "manualColor";	label: qsTr("Manual colors");	id: manualColor	}
 			DropDown
 			{
 				enabled: !manualColors.checked
@@ -201,17 +200,17 @@ Section
 			DoubleField { name: "maxEdgeStrength";	label: qsTr("Max edge strength");	defaultValue: 0; max: 10 }
 			DoubleField { name: "minEdgeStrength";	label: qsTr("Min edge strength");	defaultValue: 0; max: 10 }
 			DoubleField { name: "cut";				label: qsTr("Cut");					defaultValue: 0; max: 10 }
-			CheckBox	{ name: "showDetails";		label: qsTr("Show details") }
+			CheckBox	{ name: "details";		label: qsTr("Show details") }
 			CheckBox
 			{
 				name: "edgeLabels";			              label: qsTr("Edge labels");				checked: false
-				DoubleField {	name: "edgeLabelCex";		label: qsTr("Edge label size");			      min: 0;			max: 10;	defaultValue: 1		}
+				DoubleField {	name: "edgeLabelSize";		label: qsTr("Edge label size");			      min: 0;			max: 10;	defaultValue: 1		}
 				DoubleField {	name: "edgeLabelPosition";	label: qsTr("Edge label position");		min: 0;			max: 1;		defaultValue: 0.5	}
 			}
 
 			DropDown
 			{
-				name: "edgeColors"
+				name: "edgePalette"
 				label: qsTr("Edge palette")
 				indexDefaultValue: 1
 				values:
@@ -232,34 +231,34 @@ Section
 		{
 			title: qsTr("Labels")
 			DoubleField { name: "labelSize";	label: qsTr("Label size");		defaultValue: 1; max: 10 }
-			CheckBox	{ name: "scaleLabels";	label: qsTr("Scale label size");	checked: true }
+			CheckBox	{ name: "labelScale";	label: qsTr("Scale label size");	checked: true }
 			CheckBox
 			{
-				name: "abbreviateLabels"; label: qsTr("Abbreviate labels to ")
+				name: "labelAbbreviation"; label: qsTr("Abbreviate labels to ")
 				childrenOnSameRow: true
-				IntegerField { name: "abbreviateNoChars"; defaultValue: 4; min: 1; max: 100000 }
+				IntegerField { name: "labelAbbreviationLength"; defaultValue: 4; min: 1; max: 100000 }
 			}
 		}
 
 		RadioButtonGroup
 		{
-			name: "showVariableNames";
+			name: "variableNamesShown";
 			title: qsTr("Show Variable Names")
-			RadioButton { value: "In nodes";			label: qsTr("In plot");	 checked: true	}
-			RadioButton { value: "In legend";		label: qsTr("In legend")					}
+			RadioButton { value: "inNodes";			label: qsTr("In plot");	 checked: true	}
+			RadioButton { value: "inLegend";		label: qsTr("In legend")					}
 		}
 		
 		RadioButtonGroup
 		{
-			name: "showLegend"
+			name: "legend"
 			title: qsTr("Legend")
-			RadioButton { value: "No legend";		label: qsTr("No legend")					}
-			RadioButton { value: "All plots";		label: qsTr("All plots"); checked: true	}
+			RadioButton { value: "hide";		label: qsTr("No legend")					}
+			RadioButton { value: "allPlots";		label: qsTr("All plots"); checked: true	}
 			RadioButton
 			{
-				value: "In plot number: "; label: qsTr("In plot number: ")
+				value: "specificPlot: "; label: qsTr("In plot number: ")
 				childrenOnSameRow: true
-				IntegerField { name: "legendNumber"; defaultValue: 1 }
+				IntegerField { name: "legendSpecificPlotNumber"; defaultValue: 1 }
 			}
 			DoubleField
 			{
@@ -275,58 +274,24 @@ Section
 		{
 			name: "layout"
 			title: qsTr("Layout")
-//			CheckBox { name: "keepLayoutTheSame"; label: qsTr("Do not update layout") }
 			RadioButton
 			{
 				value: "spring"; label: qsTr("Spring"); checked: true
 				childrenOnSameRow: true
-				DoubleField { name: "repulsion"; label: qsTr("Repulsion"); defaultValue: 1; max: 10 }
+				DoubleField { name: "layoutSpringRepulsion"; label: qsTr("Repulsion"); defaultValue: 1; max: 10 }
 			}
 			RadioButton { value: "circle";	label: qsTr("Circle")							}
-//			RadioButton { value: "data";	label: qsTr("Data");	id: dataRatioButton		}
 		}
 
 		Group
 		{
 			title: qsTr("Measures shown in centrality plot")
 			enabled: plotCentrality.checked
-			CheckBox	{	name: "Betweenness";		    label: qsTr("Betweenness");			    checked: true	}
-			CheckBox	{	name: "Closeness";			    label: qsTr("Closeness");			      checked: true	}
-			CheckBox	{	name: "Strength";				    label: qsTr("Strength");			      checked: true	}
-			CheckBox	{	name: "ExpectedInfluence";	label: qsTr("Expected influence");	checked: true	}
+			CheckBox	{	name: "betweenness";		    label: qsTr("Betweenness");			    checked: true	}
+			CheckBox	{	name: "closeness";			    label: qsTr("Closeness");			      checked: true	}
+			CheckBox	{	name: "strength";				    label: qsTr("Strength");			      checked: true	}
+			CheckBox	{	name: "expectedInfluence";	label: qsTr("Expected influence");	checked: true	}
 		}
-
-//		VariablesForm
-//		{
-//			visible: dataRatioButton.checked
-//			preferredHeight: jaspTheme.smallDefaultVariablesFormHeight
-//			AvailableVariablesList	{ name: "allXYVariables" }
-//			AssignedVariablesList	{ name: "layoutX"; title: qsTr("x"); singleVariable: true; suggestedColumns: "nominalText"}
-//			AssignedVariablesList	{ name: "layoutY"; title: qsTr("y"); singleVariable: true; suggestedColumns: "nominalText"}
-//		}
-
-//		CheckBox
-//		{
-//			text: qsTr("Save the layout in the data set")
-//			name: "addLayoutToData"
-//			Layout.columnSpan: 2
-//			ComputedColumnField { name: "computedLayoutX"; text: qsTr("name for x-coordinates"); id: layoutX }
-//			ComputedColumnField { name: "computedLayoutY"; text: qsTr("name for y-coordinates"); id: layoutY }
-//			enabled: !dataRatioButton.checked
-//			visible: !dataRatioButton.checked
-//			id: layoutCheckbox
-//			onCheckedChanged:
-//			{
-//				if (!layoutCheckbox.checked)
-//				{
-//					The user no longer wants to add the layout to the dataset so we remove it from the dataset if it was there.
-//					layoutX.value = ""
-//					layoutY.value = ""
-//					layoutX.doEditingFinished()
-//					layoutY.doEditingFinished()
-//				}
-//			}
-//		}
 	}
 	
 	
@@ -334,9 +299,7 @@ Section
 	{
 		title:		qsTr("Network structure selection")
 		expanded:	false
-		
-//		CheckBox { name: "plotStructure";		          label: qsTr("Structure plot")				    }
-		CheckBox { name: "plotPosteriorStructure";		label: qsTr("Posterior structure probability plot")	}
-		CheckBox { name: "plotComplexity";		        label: qsTr("Posterior complexity probability plot")	}
+		CheckBox { name: "posteriorStructurePlot";		label: qsTr("Posterior structure probability plot")	}
+		CheckBox { name: "complexityPlot";		        label: qsTr("Posterior complexity probability plot")	}
 	}
 }
