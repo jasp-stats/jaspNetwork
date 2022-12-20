@@ -119,7 +119,7 @@ Form
 		  ]
 	  }
 
-		IntegerField { name: "dfprior"; label: qsTr("Degrees of freedom of G-Wishert prior (df prior): "); value: "3" ; min: 0; Layout.columnSpan: 2 }
+		IntegerField { name: "dfprior"; label: qsTr("Degrees of freedom of G-Wishart prior (df prior): "); value: "3" ; min: 0; Layout.columnSpan: 2 }
 
 	}
 
