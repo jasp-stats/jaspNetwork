@@ -358,7 +358,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
         jaspGraphs::themeJaspRaw() +
         ggplot2::theme(legend.position = c(.85, 0.25), axis.text = ggplot2::element_text(size = 20),
               legend.background = ggplot2::element_rect(fill = NULL), panel.border = ggplot2::element_blank(),
-              axis.line = ggplot2::element_line(colour = "black", size = 1.1), axis.ticks.length = grid::unit(.2, "cm"), #Is unit from ggplot2 or grid?
+              axis.line = ggplot2::element_line(colour = "black", size = 1.1), axis.ticks.length = grid::unit(.2, "cm"),
               axis.ticks = ggplot2::element_line(size= .8), legend.text = ggplot2::element_text(size=14),
               axis.title.x = ggplot2::element_text(size=18,face="bold"),
               axis.title.y = ggplot2::element_text(size=18,face="bold"),
