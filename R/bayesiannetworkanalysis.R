@@ -351,10 +351,11 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       sortedStructureProbability <- as.data.frame(sort(networkToPlot$graphWeights/sum(networkToPlot$graphWeights), decreasing = TRUE))
       colnames(sortedStructureProbability) <- "posteriorProbability"
       plot <- ggplot2::ggplot(sortedStructureProbability, ggplot2::aes(x = 1:nrow(sortedStructureProbability), y = posteriorProbability)) +
-        ggplot2::geom_point() +
+        jaspGraphs::geom_point() +
         ggplot2::ylab("Posterior Structure Probability") +
         ggplot2::xlab("Structure Index")  +
-        ggplot2::theme_minimal() +
+        jaspGraphs::geom_rangeframe() +
+        jaspGraphs::themeJaspRaw() +
         ggplot2::theme(legend.position = c(.85, 0.25), axis.text = ggplot2::element_text(size = 20),
               legend.background = ggplot2::element_rect(fill = NULL), panel.border = ggplot2::element_blank(),
               axis.line = ggplot2::element_line(colour = "black", size = 1.1), axis.ticks.length = grid::unit(.2, "cm"), #Is unit from ggplot2 or grid?
