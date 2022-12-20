@@ -22,7 +22,7 @@ Description
   
 	Analysis
 	{
-		title:	qsTr("Network")
+		title:	qsTr("Network analysis")
 		qml:    "NetworkAnalysis.qml"
 		func:	  "NetworkAnalysis"
 	}
@@ -37,7 +37,7 @@ Description
 	
 	Analysis
 	{
-		title:	qsTr("Network")
+		title:	qsTr("Bayesian network analysis")
 		qml:    "BayesianNetworkAnalysis.qml"
 		func:	  "BayesianNetworkAnalysis"
 	}
