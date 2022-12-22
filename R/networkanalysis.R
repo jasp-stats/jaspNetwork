@@ -309,7 +309,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   # fill with results
   TBcolumns <- NULL
   for (i in seq_len(nGraphs)) {
-
+    
     toAdd <- network[["centrality"]][[i]]
     names(toAdd) <- c("Variable", paste0(c("betweenness", "closeness", "Strength", "Expected influence"), i))
     if (i == 1L) {# if more than 1 network drop the first column which indicates the variable
@@ -319,6 +319,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
       TBcolumns <- cbind(TBcolumns, toAdd)
     }
   }
+
   table$setData(TBcolumns)
 }
 
@@ -538,9 +539,10 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 }
 
 .networkAnalysisReshapeWideToLong <- function(wide, network, what = c("centrality", "clustering")) {
-
+  
   what <- match.arg(what)
   wideDf <- Reduce(rbind, wide)
+  
   if (length(wide) > 1L) {
     wideDf[["type"]] <- rep(names(network[[what]]), each = nrow(wideDf) / length(wide))
     Long <- reshape2::melt(wideDf, id.vars = c("node", "type"))
@@ -552,6 +554,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     colnames(Long)[2L] <- "measure"
     Long[["graph"]] <- NA
   }
+  
   return(Long)
 
 }
@@ -560,7 +563,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
   # "Long" is how qgraph refers to this object. This function transforms the
   # long object for centrality or clustering into a ggplot.
-
+  
   # code modified from qgraph::centralityPlot(). Type and graph are switched so the legend title says graph
   if (options[["labelAbbreviation"]])
     Long[["node"]] <- base::abbreviate(Long[["node"]], options[["labelAbbreviationLength"]])
@@ -619,15 +622,20 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
 
 .networkAnalysisOneNetworkPlot <- function(network, options, minE, layout, groups, maxE, labels, legend, shape,
-                                           nodeColor, edgeColor, nodeNames) {
+                                           nodeColor, edgeColor, nodeNames, method = "frequentist") {
+  
 
   wMat <- network[["graph"]]
-  if (!options[["weightedNetwork"]]) {
-    wMat <- sign(wMat)
+  
+  if (method != "Bayesian") {
+    if (!options[["weightedNetwork"]]) {
+      wMat <- sign(wMat)
+    }
+    if (!options[["signedNetwork"]]) {
+      wMat <- abs(wMat)
+    }
   }
-  if (!options[["signedNetwork"]]) {
-    wMat <- abs(wMat)
-  }
+  
   if (all(abs(wMat) <= minE))
     minE <- NULL
 
@@ -660,7 +668,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     ))
 }
 
-.networkAnalysisNetworkPlot <- function(plotContainer, network, options) {
+.networkAnalysisNetworkPlot <- function(plotContainer, network, options, method = "frequentist") {
 
   if (!is.null(plotContainer[["networkPlotContainer"]]) || !options[["networkPlot"]])
     return()
@@ -688,7 +696,11 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     return()
   }
 
-  layout <- network[["layout"]][["layout"]] # calculated in .networkAnalysisRun()
+  if (method == "Bayesian") {
+    layout <- network[["layout"]] # calculated in .bayesianNetworkAnalysisRun()
+  } else {
+    layout <- network[["layout"]][["layout"]] # calculated in .networkAnalysisRun()
+  }
 
   # ensure minimum/ maximum makes sense or ignore these parameters.
   # TODO: message in general table if they have been reset.
@@ -760,14 +772,34 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   # TODO: footnote if legend off and nodenames used
   if (options[["variableNamesShown"]] == "inNodes") {
     nodeNames <- NULL
-    labels <- allNetworks[[1]][["labels"]]
-
+    
+    if (method == "Bayesian") {
+      if (nGraphs == 1) {
+        labels <- colnames(allNetworks$Network$graph)
+      } else {
+        labels <- .unv(colnames(allNetworks$`1`$graph))
+      }
+    } else {
+      labels <- .unv(allNetworks[[1]][["labels"]])
+    }
+    
   } else {
-
-    nodeNames <- allNetworks[[1]][["labels"]]
+    
+    if (method == "Bayesian") {
+      if (nGraphs == 1) {
+        nodeNames <- .unv(colnames(allNetworks$Network$graph))
+      } else {
+        nodeNames <- .unv(colnames(allNetworks$`1`$graph))
+      }
+    } else {
+      nodeNames <- .unv(allNetworks[[1]][["labels"]])
+    }
+    
     labels <- seq_along(nodeNames)
 
   }
+  
+  if (method == "Bayesian") labels <- decodeColNames(labels)
 
   if (options[["labelAbbreviation"]])
     labels <- base::abbreviate(labels, options[["labelAbbreviationLength"]])
@@ -829,7 +861,8 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
         shape      = shape,
         nodeColor  = nodeColor,
         edgeColor  = edgeColor,
-        nodeNames  = nodeNames
+        nodeNames  = nodeNames, 
+        method     = method
       )
     }
   })
@@ -1089,6 +1122,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 }
 
 .networkAnalysisComputeCentrality <- function(networks, centralityNormalization, weightedNetwork, signedNetwork) {
+
   centralities <- vector("list", length(networks))
   for (nw in seq_along(networks)) {
 
@@ -1183,8 +1217,8 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     cent <- TBcent
 
     centralities[[nw]] <- cent
-
   }
+  
   return(centralities)
 }
 
@@ -1240,6 +1274,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
       layout <- "circle"
 
     jaspBase::.suppressGrDevice(layout <- qgraph::averageLayout(networks, layout = layout, repulsion = options[["layoutSpringRepulsion"]]))
+
     rownames(layout) <- colnames(networks[[1L]])
     layout <- list(layout = layout)
     if (!is.null(userLayout[["message"]]))

@@ -14,9 +14,31 @@ Description
 	license:		"GPL (>= 2)"
 
 
+  GroupTitle
+  {
+  	title:	"Classical"
+  	icon:			"analysis-network.svg"
+  }
+  
 	Analysis
 	{
-		title:	qsTr("Network")
-		func:	"NetworkAnalysis"
+		title:	qsTr("Network analysis")
+		qml:    "NetworkAnalysis.qml"
+		func:	  "NetworkAnalysis"
+	}
+	
+	Separator {}
+	
+	GroupTitle
+  {
+  	title:	"Bayesian"
+  	icon:		"bayesian-analysis-network.svg"
+  }
+	
+	Analysis
+	{
+		title:	qsTr("Bayesian network analysis")
+		qml:    "BayesianNetworkAnalysis.qml"
+		func:	  "BayesianNetworkAnalysis"
 	}
 }
