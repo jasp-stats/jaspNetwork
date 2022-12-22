@@ -355,15 +355,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
         ggplot2::ylab("Posterior Structure Probability") +
         ggplot2::xlab("Structure Index")  +
         jaspGraphs::geom_rangeframe() +
-        jaspGraphs::themeJaspRaw() +
-        ggplot2::theme(legend.position = c(.85, 0.25), axis.text = ggplot2::element_text(size = 20),
-              legend.background = ggplot2::element_rect(fill = NULL), panel.border = ggplot2::element_blank(),
-              axis.line = ggplot2::element_line(colour = "black", size = 1.1), axis.ticks.length = grid::unit(.2, "cm"),
-              axis.ticks = ggplot2::element_line(size= .8), legend.text = ggplot2::element_text(size=14),
-              axis.title.x = ggplot2::element_text(size=18,face="bold"),
-              axis.title.y = ggplot2::element_text(size=18,face="bold"),
-              panel.grid.major = ggplot2::element_blank()
-        )
+        jaspGraphs::themeJaspRaw(legend.position = c(.85, 0.25))
 
       posteriorStructurePlotContainer[[v]]$plotObject <- plot
 
@@ -560,14 +552,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
               ggplot2::ylab("Posterior Probability") +
               ggplot2::xlab("Number of edges")  +
               jaspGraphs::geom_rangeframe() +
-              jaspGraphs::themeJaspRaw() +
-              ggplot2::theme(legend.position = c(.85, 0.25), axis.text = ggplot2::element_text(size=20),
-                    legend.background = ggplot2::element_rect(fill = NULL), panel.border = ggplot2::element_blank(),
-                    axis.line = ggplot2::element_line(colour = "black", size = 1.1), axis.ticks.length = grid::unit(.2, "cm"),
-                    axis.ticks = ggplot2::element_line(size= .8), legend.text = ggplot2::element_text(size=14),
-                    axis.title.x = ggplot2::element_text(size=18, face="bold"),
-                    axis.title.y = ggplot2::element_text(size=18, face="bold"),
-                    panel.grid.major = ggplot2::element_blank())
+              jaspGraphs::themeJaspRaw(legend.position = c(.85, 0.25))
 
       complexityPlotContainer[[v]]$plotObject <- plot
 
