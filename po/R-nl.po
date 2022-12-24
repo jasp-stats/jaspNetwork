@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: R 3.6.1\n"
 "Report-Msgid-Bugs-To: github.com/jasp-stats/jasp-issues/issues\n"
-"POT-Creation-Date: 2021-11-27 02:30\n"
+"POT-Creation-Date: 2022-12-24 02:31\n"
 "PO-Revision-Date: 2021-09-07 07:34+0000\n"
 "Last-Translator: DanaJohanna <dana__@live.nl>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/jasp/jaspnetwork-r/"
@@ -13,10 +13,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n==0 ? 0 : n==1 ? 0 : 1;\n"
 "X-Generator: Weblate 4.8.1-dev\n"
-
-msgid ""
-"After binarizing the data too little variance remained in variable(s): %s."
-msgstr "Na binarisatie van de data te weinig variantie in variabele(n): %s."
 
 msgid "Summary of Network"
 msgstr "Samenvatting van Netwerk"
@@ -33,17 +29,6 @@ msgstr "Aantal verbindingen ongelijk aan 0"
 msgid "Sparsity"
 msgstr "Spaarzaamheid"
 
-msgid "Data was binarized using %s."
-msgstr "Data was gebinariseerd met %s."
-
-msgid "Only the first %1$d values of %2$s were used to color nodes (%3$d provided)."
-msgstr ""
-"Alleen de eerste %1$d waarden van %2$s zijn gebruikt om nodes te kleuren (%3$d "
-"gegeven)."
-
-msgid "<em>Warning: </em>"
-msgstr "<em>Waarschuwing: </em>"
-
 msgid ""
 "Minimum edge strength ignored in the network plot because it was larger than "
 "the absolute value of the strongest edge."
@@ -58,18 +43,23 @@ msgstr ""
 "Minimale randsterkte genegeerd in de netwerkgrafiek van groep %1$s%% %2$s "
 "omdat deze groter was dan de absolute waarde van de sterkste rand."
 
-msgid ""
-"Bootstrapping is only done when 'Bootstrap network' is ticked and 'Number of "
-"Bootstraps' is larger than 0."
-msgstr ""
-"Bootstrapping wordt alleen gedaan wanneer 'Bootstrap netwerk' is aangevinkt "
-"en wanneer 'Aantal Bootstraps' groter is dan 0."
+msgid "<em>Warning: </em>"
+msgstr "<em>Waarschuwing: </em>"
 
-msgid "Centrality measures per variable"
-msgstr "Centraliteitsmaten per variabele"
+msgid "Weights matrix"
+msgstr "Gewichten matrix"
 
 msgid "Variable"
 msgstr "Variabele"
+
+msgid "Posterior Probability Structure Plots"
+msgstr ""
+
+msgid "Posterior Probability Structure Plot"
+msgstr ""
+
+msgid "Centrality measures per variable"
+msgstr "Centraliteitsmaten per variabele"
 
 msgid "Betweenness"
 msgstr "Betweenness"
@@ -82,6 +72,55 @@ msgstr "Sterkte"
 
 msgid "Expected influence"
 msgstr "Verwachte invloed"
+
+msgid "Centrality Plot"
+msgstr "Centraliteitsgrafiek"
+
+#, fuzzy
+msgid "Complexity plot"
+msgstr "Centraliteitsgrafiek"
+
+msgid "Complexity plots"
+msgstr ""
+
+#, fuzzy
+msgid "Complexity Plot"
+msgstr "Centraliteitsgrafiek"
+
+msgid "Structure Plot"
+msgstr ""
+
+msgid "Structure Plots"
+msgstr ""
+
+msgid "Edge Evidence Plot"
+msgstr ""
+
+msgid "Edge Evidence Plots"
+msgstr ""
+
+msgid "Edge evidence probability table"
+msgstr ""
+
+msgid ""
+"After binarizing the data too little variance remained in variable(s): %s."
+msgstr "Na binarisatie van de data te weinig variantie in variabele(n): %s."
+
+msgid "Data was binarized using %s."
+msgstr "Data was gebinariseerd met %s."
+
+msgid ""
+"Only the first %1$d values of %2$s were used to color nodes (%3$d provided)."
+msgstr ""
+"Alleen de eerste %1$d waarden van %2$s zijn gebruikt om nodes te kleuren "
+"(%3$d gegeven)."
+
+msgid ""
+"Bootstrapping is only done when 'Bootstrap network' is ticked and 'Number of "
+"Bootstraps' is larger than 0."
+msgstr ""
+"Bootstrapping wordt alleen gedaan wanneer 'Bootstrap netwerk' is aangevinkt "
+"en wanneer 'Aantal Bootstraps' groter is dan 0."
 
 msgid "Barrat"
 msgstr "Barrat"
@@ -101,9 +140,6 @@ msgstr "Maten per variabele geclusterd"
 msgid "Clustering measures could not be computed for network%1$s: %2$s"
 msgstr "Clusteringsmaten konden niet worden berekend voor netwerk%1$s: %2$s"
 
-msgid "Weights matrix"
-msgstr "Gewichten matrix"
-
 msgid "Bootstrap summary of Network"
 msgstr "Bootstrap samenvatting van Netwerk"
 
@@ -112,9 +148,6 @@ msgstr "Type"
 
 msgid "Number of bootstraps"
 msgstr "Aantal bootstraps"
-
-msgid "Centrality Plot"
-msgstr "Centraliteitsgrafiek"
 
 msgid "Clustering Plot"
 msgstr "Clusteringsgrafiek"
@@ -141,8 +174,8 @@ msgstr ""
 msgid ""
 "Please drag all variables to a particular type under \"Analysis options\"."
 msgstr ""
-"Sleep a.u.b. alle variabelen naar een specifiek type onder \"Analyse opties"
-"\"."
+"Sleep a.u.b. alle variabelen naar een specifiek type onder \"Analyse "
+"opties\"."
 
 msgid ""
 "Coefficient could not be standardized because the variance is too small."

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: jaspNetwork 0.0.0\n"
-"POT-Creation-Date: 2021-11-27 02:30\n"
+"POT-Creation-Date: 2022-12-24 02:31\n"
 "PO-Revision-Date: 2022-06-09 15:35+0000\n"
 "Last-Translator: JASP Stats <b.boutin@uva.nl>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/jasp/"
@@ -12,10 +12,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 4.13-dev\n"
-
-msgid ""
-"After binarizing the data too little variance remained in variable(s): %s."
-msgstr "データをバイナリ化した後、変数に残った分散が少なすぎます: %s."
 
 msgid "Summary of Network"
 msgstr "ネットワークの概要"
@@ -32,38 +28,37 @@ msgstr "ゼロでないエッジ数"
 msgid "Sparsity"
 msgstr "スパース性"
 
-msgid "Data was binarized using %s."
-msgstr "データは %s を使ってバイナリ化されました。"
-
-msgid "Only the first %1$d values of %2$s were used to color nodes (%3$d provided)."
-msgstr "ノードのカラー設定に使用されたのは、%1$d の最初の %2$s 値のみです (%3$d が指定されています)."
-
-msgid "<em>Warning: </em>"
-msgstr "<em>警告:</em>"
-
 msgid ""
 "Minimum edge strength ignored in the network plot because it was larger than "
 "the absolute value of the strongest edge."
-msgstr "最小エッジ強度は、最強のエッジの絶対値よりも大きかったため、ネットワークプロットでは無視されました."
+msgstr ""
+"最小エッジ強度は、最強のエッジの絶対値よりも大きかったため、ネットワークプ"
+"ロットでは無視されました."
 
 msgid ""
 "Minimum edge strength ignored in the network plot of group%1$s %2$s because "
 "it was larger than the absolute value of the strongest edge."
 msgstr ""
-"グループ%1$s %2$s のネットワークプロットで無視された最小エッジ強度は、最も強いエッジの絶対値よりも大きかったため、このような結果になりました."
+"グループ%1$s %2$s のネットワークプロットで無視された最小エッジ強度は、最も強"
+"いエッジの絶対値よりも大きかったため、このような結果になりました."
 
-msgid ""
-"Bootstrapping is only done when 'Bootstrap network' is ticked and 'Number of "
-"Bootstraps' is larger than 0."
-msgstr ""
-"ブートストラップは、 'Bootstrap network' がチェックされ、 'Number of Bootstraps' "
-"が0より大きい場合にのみ行われます."
+msgid "<em>Warning: </em>"
+msgstr "<em>警告:</em>"
 
-msgid "Centrality measures per variable"
-msgstr "変数ごとの中心性指標"
+msgid "Weights matrix"
+msgstr "重み行列"
 
 msgid "Variable"
 msgstr "変数"
+
+msgid "Posterior Probability Structure Plots"
+msgstr ""
+
+msgid "Posterior Probability Structure Plot"
+msgstr ""
+
+msgid "Centrality measures per variable"
+msgstr "変数ごとの中心性指標"
 
 msgid "Betweenness"
 msgstr "間隔"
@@ -76,6 +71,55 @@ msgstr "強度"
 
 msgid "Expected influence"
 msgstr "期待される影響"
+
+msgid "Centrality Plot"
+msgstr "中心性プロット"
+
+#, fuzzy
+msgid "Complexity plot"
+msgstr "中心性プロット"
+
+msgid "Complexity plots"
+msgstr ""
+
+#, fuzzy
+msgid "Complexity Plot"
+msgstr "中心性プロット"
+
+msgid "Structure Plot"
+msgstr ""
+
+msgid "Structure Plots"
+msgstr ""
+
+msgid "Edge Evidence Plot"
+msgstr ""
+
+msgid "Edge Evidence Plots"
+msgstr ""
+
+msgid "Edge evidence probability table"
+msgstr ""
+
+msgid ""
+"After binarizing the data too little variance remained in variable(s): %s."
+msgstr "データをバイナリ化した後、変数に残った分散が少なすぎます: %s."
+
+msgid "Data was binarized using %s."
+msgstr "データは %s を使ってバイナリ化されました。"
+
+msgid ""
+"Only the first %1$d values of %2$s were used to color nodes (%3$d provided)."
+msgstr ""
+"ノードのカラー設定に使用されたのは、%1$d の最初の %2$s 値のみです (%3$d が指"
+"定されています)."
+
+msgid ""
+"Bootstrapping is only done when 'Bootstrap network' is ticked and 'Number of "
+"Bootstraps' is larger than 0."
+msgstr ""
+"ブートストラップは、 'Bootstrap network' がチェックされ、 'Number of "
+"Bootstraps' が0より大きい場合にのみ行われます."
 
 msgid "Barrat"
 msgstr "バラット(Barrat)"
@@ -93,10 +137,8 @@ msgid "Clustering measures per variable"
 msgstr "変数ごとのクラスタリング指標"
 
 msgid "Clustering measures could not be computed for network%1$s: %2$s"
-msgstr "ネットワーク%1$s: %2$s に対してクラスタリング指標を計算できませんでした"
-
-msgid "Weights matrix"
-msgstr "重み行列"
+msgstr ""
+"ネットワーク%1$s: %2$s に対してクラスタリング指標を計算できませんでした"
 
 msgid "Bootstrap summary of Network"
 msgstr "ネットワークのブートストラップ要約"
@@ -106,9 +148,6 @@ msgstr "型"
 
 msgid "Number of bootstraps"
 msgstr "ブートストラップの数"
-
-msgid "Centrality Plot"
-msgstr "中心性プロット"
 
 msgid "Clustering Plot"
 msgstr "クラスタリングプロット"
@@ -152,12 +191,15 @@ msgstr "データセットの列名に一致しない変数があります."
 msgid ""
 "Supplied data for layout was not understood and instead a circle layout was "
 "used."
-msgstr "レイアウト用に提供されたデータが理解されず、代わりに円のレイアウトが使用されました."
+msgstr ""
+"レイアウト用に提供されたデータが理解されず、代わりに円のレイアウトが使用され"
+"ました."
 
 msgid ""
 "Data supplied in %1$s AND %2$s could not be used to determine node locations."
-msgstr "%1$s AND %2$s "
-"で提供されたデータは、ノードの位置を決定するために使用できませんでした."
+msgstr ""
+"%1$s AND %2$s で提供されたデータは、ノードの位置を決定するために使用できませ"
+"んでした."
 
 msgid "Data supplied in %s could not be used to determine node locations."
 msgstr "%s で指定されたデータを使用してノードの場所を特定できませんでした."
@@ -178,7 +220,8 @@ msgid ""
 "variance or few distinct observations.</li></ul>"
 msgstr ""
 "ブートネットは、次のエラー メッセージでクラッシュしました:\n"
-"%s. <ul><li>ネットワーク内に分散が少ないか、またはいくつかの離散観測値を持つ変数があるかどうかを確認してください。</li></ul>"
+"%s. <ul><li>ネットワーク内に分散が少ないか、またはいくつかの離散観測値を持つ"
+"変数があるかどうかを確認してください。</li></ul>"
 
 msgid "%1$s X-Coordinates for variable %2$s was not understood."
 msgid_plural "%1$s X-Coordinates for variables %2$s were not understood."

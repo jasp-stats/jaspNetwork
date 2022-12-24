@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: R 3.6.1\n"
 "Report-Msgid-Bugs-To: github.com/jasp-stats/jasp-issues/issues\n"
-"POT-Creation-Date: 2021-11-27 02:30\n"
+"POT-Creation-Date: 2022-12-24 02:31\n"
 "PO-Revision-Date: 2021-10-29 10:56+0000\n"
 "Last-Translator: JASP Stats <b.boutin@uva.nl>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/jasp/"
@@ -16,12 +16,6 @@ msgstr ""
 "X-Language: en_US\n"
 "X-Source-Language: American English\n"
 "X-Qt-Contexts: true\n"
-
-msgid ""
-"After binarizing the data too little variance remained in variable(s): %s."
-msgstr ""
-"Depois de binarizar os dados, muito pouca variância permaneceu na (s) "
-"variável (s):%s."
 
 msgid "Summary of Network"
 msgstr ""
@@ -38,15 +32,6 @@ msgstr ""
 msgid "Sparsity"
 msgstr "Esparsidade"
 
-msgid "Data was binarized using %s."
-msgstr ""
-
-msgid "Only the first %1$d values of %2$s were used to color nodes (%3$d provided)."
-msgstr ""
-
-msgid "<em>Warning: </em>"
-msgstr "<em>Aviso:</em>"
-
 msgid ""
 "Minimum edge strength ignored in the network plot because it was larger than "
 "the absolute value of the strongest edge."
@@ -57,16 +42,23 @@ msgid ""
 "it was larger than the absolute value of the strongest edge."
 msgstr ""
 
-msgid ""
-"Bootstrapping is only done when 'Bootstrap network' is ticked and 'Number of "
-"Bootstraps' is larger than 0."
+msgid "<em>Warning: </em>"
+msgstr "<em>Aviso:</em>"
+
+msgid "Weights matrix"
+msgstr "Matriz de ponderação"
+
+msgid "Variable"
+msgstr "Variável"
+
+msgid "Posterior Probability Structure Plots"
+msgstr ""
+
+msgid "Posterior Probability Structure Plot"
 msgstr ""
 
 msgid "Centrality measures per variable"
 msgstr ""
-
-msgid "Variable"
-msgstr "Variável"
 
 msgid "Betweenness"
 msgstr "Intermediação"
@@ -79,6 +71,53 @@ msgstr "Força"
 
 msgid "Expected influence"
 msgstr "Influência esperada"
+
+msgid "Centrality Plot"
+msgstr "Gráfico de centralidade"
+
+#, fuzzy
+msgid "Complexity plot"
+msgstr "Gráfico de centralidade"
+
+msgid "Complexity plots"
+msgstr ""
+
+#, fuzzy
+msgid "Complexity Plot"
+msgstr "Gráfico de centralidade"
+
+msgid "Structure Plot"
+msgstr ""
+
+msgid "Structure Plots"
+msgstr ""
+
+msgid "Edge Evidence Plot"
+msgstr ""
+
+msgid "Edge Evidence Plots"
+msgstr ""
+
+msgid "Edge evidence probability table"
+msgstr ""
+
+msgid ""
+"After binarizing the data too little variance remained in variable(s): %s."
+msgstr ""
+"Depois de binarizar os dados, muito pouca variância permaneceu na (s) "
+"variável (s):%s."
+
+msgid "Data was binarized using %s."
+msgstr ""
+
+msgid ""
+"Only the first %1$d values of %2$s were used to color nodes (%3$d provided)."
+msgstr ""
+
+msgid ""
+"Bootstrapping is only done when 'Bootstrap network' is ticked and 'Number of "
+"Bootstraps' is larger than 0."
+msgstr ""
 
 msgid "Barrat"
 msgstr "Barrat"
@@ -100,9 +139,6 @@ msgid "Clustering measures could not be computed for network%1$s: %2$s"
 msgstr ""
 "As medidas de agrupamento não puderam ser calculadas para a rede%1$s: %2$s"
 
-msgid "Weights matrix"
-msgstr "Matriz de ponderação"
-
 msgid "Bootstrap summary of Network"
 msgstr ""
 
@@ -112,9 +148,6 @@ msgstr "Tipo"
 #, fuzzy
 msgid "Number of bootstraps"
 msgstr "bootstraps"
-
-msgid "Centrality Plot"
-msgstr "Gráfico de centralidade"
 
 msgid "Clustering Plot"
 msgstr "Gráfico de agrupamento"
