@@ -1,9 +1,15 @@
 msgid ""
 msgstr ""
+"PO-Revision-Date: 2022-12-26 17:53+0000\n"
+"Last-Translator: ecadrian <ecadrian@hotmail.com>\n"
+"Language-Team: Galician <https://hosted.weblate.org/projects/jasp/"
+"jaspnetwork-qml/gl/>\n"
+"Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.15.1-dev\n"
 "X-Language: gl_ES\n"
 "X-Source-Language: C\n"
 "X-Qt-Contexts: true\n"
@@ -90,7 +96,7 @@ msgstr "Variables na rede"
 
 msgctxt "NetworkAnalysis|"
 msgid "Edges"
-msgstr "Bordos"
+msgstr "Beiras"
 
 msgctxt "NetworkAnalysis|"
 msgid "Fried"
@@ -142,7 +148,7 @@ msgstr "Cor do grupo"
 
 msgctxt "NetworkAnalysis|"
 msgid "Edge palette"
-msgstr "Paletas dos bordos"
+msgstr "Paleta da beira"
 
 msgctxt "NetworkAnalysis|"
 msgid "Correlation Method"
@@ -246,11 +252,11 @@ msgstr "Validación cruzada"
 
 msgctxt "NetworkAnalysis|"
 msgid "Show Variable Names"
-msgstr "Amosar os nomes das variables"
+msgstr "Amosar os Nomes das Variables"
 
 msgctxt "NetworkAnalysis|"
 msgid "Edge label size"
-msgstr "Tamaño da etiqueta do bordo"
+msgstr "Tamaño da etiqueta da beira"
 
 msgctxt "NetworkAnalysis|"
 msgid "Closeness"
@@ -282,7 +288,7 @@ msgstr "laranxa"
 
 msgctxt "NetworkAnalysis|"
 msgid "Edge labels"
-msgstr "Etiquetas dos bordos"
+msgstr "Etiquetas das beiras"
 
 msgctxt "NetworkAnalysis|"
 msgid "purple"
@@ -362,7 +368,7 @@ msgstr "Tamaño do nodo"
 
 msgctxt "NetworkAnalysis|"
 msgid "Edge label position"
-msgstr "Posición da etiqueta do bordo"
+msgstr "Posición da etiqueta da beira"
 
 msgctxt "NetworkAnalysis|"
 msgid "Ising Estimator"
@@ -414,7 +420,7 @@ msgstr "Na gráfica número: "
 
 msgctxt "NetworkAnalysis|"
 msgid "Edge size"
-msgstr "Tamaño do bordo"
+msgstr "Tamaño da beira"
 
 msgctxt "NetworkAnalysis|"
 msgid "Network plot"
@@ -470,7 +476,7 @@ msgstr "Variables Dependentes"
 
 msgctxt "NetworkAnalysis|"
 msgid "Split"
-msgstr "Separador"
+msgstr "Separar"
 
 msgctxt "NetworkAnalysis|"
 msgid "Estimator"
@@ -590,434 +596,368 @@ msgstr "Grupo 2"
 
 msgctxt "Description|"
 msgid "Network analysis"
-msgstr ""
+msgstr "Análise de rede"
 
 msgctxt "Description|"
 msgid "Bayesian network analysis"
-msgstr ""
+msgstr "Análise baiesiano de rede"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Dependent Variables"
 msgstr "Variables Dependentes"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Split"
-msgstr "Separador"
+msgstr "Separar"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Estimator"
 msgstr "Estimador"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Plots"
 msgstr "Gráficas"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Network plot"
 msgstr "Gráfica en rede"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge evidence plot"
-msgstr ""
+msgstr "Gráfica de evidencia da beira"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Evidence for inclusion"
-msgstr ""
+msgstr "Evidencia para a inclusión"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Inclusion criteria: BF₁₀ > "
-msgstr ""
+msgstr "Criterio de inclusión: FB₁₀ > "
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Evidence for exclusion"
-msgstr ""
+msgstr "Evidencia para a exclusión"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Absence of evidence"
-msgstr ""
+msgstr "Ausencia de evidencia"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Centrality plot"
 msgstr "Gráfica de centrado"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Credibility interval 95%"
-msgstr ""
+msgstr "Intervalo co 95% de credibilidade"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Tables"
 msgstr "Táboas"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Weights matrix"
 msgstr "Matriz de ponderacións"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge evidence probability table"
-msgstr ""
+msgstr "Táboa de probabilidade de evidencia da beira"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge inclusion probability"
-msgstr ""
+msgstr "Probabilidade de inclusión da beira"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "BF₁₀"
-msgstr ""
+msgstr "FB₁₀"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "BF₀₁"
-msgstr ""
+msgstr "FB₀₁"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Log(BF₁₀)"
-msgstr ""
+msgstr "Log(FB₁₀)"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Centrality table"
 msgstr "Táboa de Centrado"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Sampling Options"
-msgstr ""
+msgstr "Opcións da Mostraxe"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Burn in: "
-msgstr ""
+msgstr "Quecemento: "
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Iterations: "
-msgstr ""
+msgstr "Iteracións: "
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Prior"
-msgstr ""
+msgstr "Previo"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Prior edge inclusion (g prior): "
-msgstr ""
+msgstr "Inclusión previa da beira (g previa): "
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Initial configuration prior edge inclusion (g start):"
-msgstr ""
+msgstr "Configuración inicial de inclusión previa da beira (g inicial):"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Degrees of freedom of G-Wishart prior (df prior): "
-msgstr ""
+msgstr "Graos de liberdade de G-Wishart previa (gl previa): "
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Graphical Options"
 msgstr "Opcións Gráficas"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Group name"
 msgstr "Nome do grupo"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Group 1"
 msgstr "Grupo 1"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Group 2"
 msgstr "Grupo 2"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "New Group"
 msgstr "Novo Grupo"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Group color"
 msgstr "Cor do grupo"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "red"
 msgstr "vermello"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "blue"
 msgstr "azul"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "yellow"
 msgstr "amarelo"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "green"
 msgstr "verde"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "purple"
 msgstr "morado"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "orange"
 msgstr "laranxa"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Variables in network"
 msgstr "Variables na rede"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Group"
 msgstr "Grupo"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Manual colors"
 msgstr "Cores manuais"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Node palette"
 msgstr "Paleta do nodo"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Rainbow"
 msgstr "Arco da vella"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Colorblind"
 msgstr "Daltónica"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Pastel"
 msgstr "Pastel"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Gray"
 msgstr "Gris"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "R"
 msgstr "R"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "ggplot2"
 msgstr "GGplot2"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Node size"
 msgstr "Tamaño do nodo"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edges"
-msgstr "Bordos"
+msgstr "Beiras"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge size"
-msgstr "Tamaño do bordo"
+msgstr "Tamaño da beira"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Max edge strength"
 msgstr "Intensidade máxima da beira"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Min edge strength"
 msgstr "Intensidade mínima da beira"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Cut"
 msgstr "Cortar"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Show details"
 msgstr "Amosar os detalles"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge labels"
-msgstr "Etiquetas dos bordos"
+msgstr "Etiquetas das beiras"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge label size"
-msgstr "Tamaño da etiqueta do bordo"
+msgstr "Tamaño da etiqueta da beira"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge label position"
-msgstr "Posición da etiqueta do bordo"
+msgstr "Posición da etiqueta da beira"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge palette"
-msgstr "Paletas dos bordos"
+msgstr "Paleta da beira"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Classic"
 msgstr "Clásico"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Hollywood"
 msgstr "Hollywood"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Borkulo"
 msgstr "Borkulo"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "TeamFortress"
 msgstr "TeamFortress"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Reddit"
 msgstr "Reddit"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Fried"
 msgstr "Fritido"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Labels"
 msgstr "Etiquetas"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Label size"
 msgstr "Tamaño da etiqueta"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Scale label size"
 msgstr "Escalar o tamaño da etiqueta"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Abbreviate labels to "
 msgstr "Acurtar as etiquetas a "
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Show Variable Names"
-msgstr "Amosar os nomes das variables"
+msgstr "Amosar os Nomes das Variables"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "In plot"
 msgstr "Na gráfica"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "In legend"
-msgstr ""
+msgstr "Na lenda"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Legend"
 msgstr "Lenda"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "No legend"
 msgstr "Sen lenda"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "All plots"
 msgstr "Todas as gráficas"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "In plot number: "
 msgstr "Na gráfica número: "
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Legend to plot ratio"
 msgstr "Proporción da lenda coa gráfica"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Layout"
 msgstr "Deseño"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Spring"
 msgstr "Resorte"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Repulsion"
 msgstr "Rexeitamento"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Circle"
 msgstr "Círculo"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Measures shown in centrality plot"
 msgstr "Medidas amosadas na gráfica de centrado"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Betweenness"
 msgstr "Mediación"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Closeness"
 msgstr "Proximidade"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Strength"
-msgstr ""
+msgstr "Intensidade"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Expected influence"
-msgstr ""
+msgstr "Influencia agardada"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Network structure selection"
-msgstr ""
+msgstr "Selección da estrutura de rede"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Posterior structure probability plot"
-msgstr ""
+msgstr "Gráfica de probabilidade da estrutura posterior"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Posterior complexity probability plot"
-msgstr ""
+msgstr "Gráfica de probabilidade da complexidade posterior"
