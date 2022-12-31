@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2022-12-24 02:31\n"
-"PO-Revision-Date: 2021-11-14 11:51+0000\n"
+"PO-Revision-Date: 2022-12-26 17:53+0000\n"
 "Last-Translator: ecadrian <ecadrian@hotmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/jasp/"
 "jaspnetwork-r/gl/>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.9.1-dev\n"
+"X-Generator: Weblate 4.15.1-dev\n"
 "X-Virgin-Header: remove this line if you change anything in the header.\n"
 "X-Language: gl_ES\n"
 "X-Source-Language: C\n"
@@ -31,7 +31,7 @@ msgid "Number of nodes"
 msgstr "Número de nodos"
 
 msgid "Number of non-zero edges"
-msgstr "Número de cantos non nulos"
+msgstr "Número de beiras non nulas"
 
 msgid "Sparsity"
 msgstr "Exigüidade"
@@ -60,10 +60,10 @@ msgid "Variable"
 msgstr "Variable"
 
 msgid "Posterior Probability Structure Plots"
-msgstr ""
+msgstr "Gráficas de Estrutura da Probabilidade Posterior"
 
 msgid "Posterior Probability Structure Plot"
-msgstr ""
+msgstr "Gráfica de Estrutura da Probabilidade Posterior"
 
 msgid "Centrality measures per variable"
 msgstr "Medidas de centrado por variable"
@@ -83,31 +83,29 @@ msgstr "Influencia agardada"
 msgid "Centrality Plot"
 msgstr "Gráfica de Centrado"
 
-#, fuzzy
 msgid "Complexity plot"
-msgstr "Gráfica de Centrado"
+msgstr "Gráfica de Complexidade"
 
 msgid "Complexity plots"
-msgstr ""
+msgstr "Gráficas de Complexidade"
 
-#, fuzzy
 msgid "Complexity Plot"
-msgstr "Gráfica de Centrado"
+msgstr "Gráfica de Complexidade"
 
 msgid "Structure Plot"
-msgstr ""
+msgstr "Gráfica de Estrutura"
 
 msgid "Structure Plots"
-msgstr ""
+msgstr "Gráficas de Estrutura"
 
 msgid "Edge Evidence Plot"
-msgstr ""
+msgstr "Gráfica de Evidencia da Beira"
 
 msgid "Edge Evidence Plots"
-msgstr ""
+msgstr "Gráficas de Evidencia da Beira"
 
 msgid "Edge evidence probability table"
-msgstr ""
+msgstr "Táboa de probabilidade de evidencia da beira"
 
 msgid ""
 "After binarizing the data too little variance remained in variable(s): %s."
