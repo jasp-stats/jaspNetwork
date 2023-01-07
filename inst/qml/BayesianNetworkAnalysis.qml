@@ -39,7 +39,7 @@ Form
 		Layout.columnSpan: 2
 		values: [
 			{ value: "ggm",		        label: "ggm"			},
-			{ value: "gcgm",				  label: "mgm"			}
+			{ value: "gcgm",				  label: "gcgm"			}
 		]
 	}
 
