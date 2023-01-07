@@ -737,16 +737,21 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   allLegends <- rep(FALSE, nGraphs) # no legends
   
   if (length(options[["colorGroupVariables"]]) > 1L) {
-    colorGroupVariables <- matrix(unlist(options[["colorGroupVariables"]]), ncol = 2L, byrow = TRUE)
-    if (length(unique(colorGroupVariables[, 1L])) > 1L) {
-      # user has defined groups and there are variables in the groups
-      manualColorGroups <- matrix(unlist(options[["manualColorGroups"]]), ncol = 2L, byrow = TRUE)
-      nGroups <- nrow(manualColorGroups)
+    
+    assignedGroup <- vapply(options[["colorGroupVariables"]], `[[`, character(1L), "group")
+    
+    if (length(unique(assignedGroup)) > 1L) {
       
-      idx <- match(colorGroupVariables[, 1L], manualColorGroups[, 1L])
+      # user has defined groups and there are variables in the groups
+      groupNames  <- vapply(options[["manualColorGroups"]], `[[`, character(1L), "name")
+      groupColors <- vapply(options[["manualColorGroups"]], `[[`, character(1L), "color")
+      
+      nGroups <- length(groupNames)
+      
+      idx <- match(assignedGroup, groupNames)
       
       groups <- vector("list", nGroups)
-      names(groups) <- manualColorGroups[, 1L]
+      names(groups) <- groupNames
       for (i in seq_len(nGroups))
         groups[[i]] <- which(idx == i)
       
@@ -754,7 +759,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       groups <- groups[nonEmpty]
       
       if (options[["manualColor"]])
-        nodeColor <- manualColorGroups[nonEmpty, 2L]
+        nodeColor <- groupColors[nonEmpty]
     }
   }
   
@@ -817,6 +822,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   legendMultiplier <- options[["legendToPlotRatio"]] * basePlotSize
   height <- setNames(rep(basePlotSize, nGraphs), names(allLegends))
   width  <- basePlotSize + allLegends * legendMultiplier
+  
   for (v in names(allNetworks))
     evidencePlotContainer[[v]] <- createJaspPlot(title = v, width = width[v], height = height[v])
   
