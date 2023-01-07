@@ -205,7 +205,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     jaspBase::.setSeedJASP(options)
     
     # Estimate network:  
-    bdgraphFit <- try(BDgraph::bdgraph(data        = as.data.frame(dataset[[nw]]),
+    bdgraphFit <- try(BDgraph::bdgraph(data       = as.data.frame(dataset[[nw]]),
                                        method     = options[["estimator"]],
                                        not.cont   = nonContVariables, 
                                        algorithm  = "rjmcmc",
@@ -868,7 +868,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       groups              = groups,
       repulsion           = options[["layoutSpringRepulsion"]],
       cut                 = options[["cut"]],
-      edge.width          = options[["edgeSize"]],
+      edge.width          = options[["edgeSize"]] * 2,
       node.width          = options[["nodeSize"]],
       details             = options[["showDetails"]],
       labels              = labels,
