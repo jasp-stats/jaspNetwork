@@ -1,9 +1,15 @@
 msgid ""
 msgstr ""
+"PO-Revision-Date: 2023-01-06 07:47+0000\n"
+"Last-Translator: Shun Wang <shuonwang@gmail.com>\n"
+"Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
+"jasp/jaspnetwork-qml/zh_Hans/>\n"
+"Language: zh_Hans\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 4.15.1-dev\n"
 "X-Language: zh_Hans\n"
 "X-Qt-Contexts: true\n"
 
@@ -45,7 +51,7 @@ msgstr "绘图"
 
 msgctxt "NetworkAnalysis|"
 msgid "Network plot"
-msgstr "网络绘图"
+msgstr "绘制网络图"
 
 msgctxt "NetworkAnalysis|"
 msgid "Centrality plot"
@@ -589,36 +595,31 @@ msgstr "分组 2"
 
 msgctxt "Description|"
 msgid "Network analysis"
-msgstr ""
+msgstr "网络分析"
 
 msgctxt "Description|"
 msgid "Bayesian network analysis"
-msgstr ""
+msgstr "贝叶斯网络分析"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Dependent Variables"
 msgstr "因变量"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Split"
 msgstr "拆分"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Estimator"
 msgstr "估计器"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Plots"
 msgstr "绘图"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Network plot"
-msgstr "网络绘图"
+msgstr "绘制网络图"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge evidence plot"
