@@ -124,7 +124,7 @@ Form
 	}
 
 
-Section
+  Section
 	{
 		title: qsTr("Graphical Options")
 
@@ -142,6 +142,7 @@ Section
 			rowComponent: DropDown
 			{
 				name: "color"
+				visible: manualColor.checked
 				values: [
 					{ label: qsTr("red")	, value: "red"		},
 					{ label: qsTr("blue")	, value: "blue"		},
