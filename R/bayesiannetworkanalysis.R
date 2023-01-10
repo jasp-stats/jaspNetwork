@@ -138,13 +138,12 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   centralities <- vector("list", length(networks))
   for (nw in seq_along(networks)) {
     
-    
     network <- networks[[nw]]
     
     if (options[["credibilityInterval"]]) {
       
       centralitySamples <- centrality(network = network, options = options)
-      
+
       # Compute centrality measures for each posterior sample:
       nSamples <- nrow(network$samplesPosterior)
       
@@ -420,12 +419,12 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   if (!is.null(plotContainer[["centralityPlot"]]) || !options[["centralityPlot"]])
     return()
   
-  measuresToShow <- unlist(options[c("betweenness", "closeness", "strength", "expectedInfluence")], use.names = FALSE)
+  measuresToShow <- unlist(options[c("Betweenness", "Closeness", "Strength", "ExpectedInfluence")], use.names = FALSE)
   hasMeasures <- any(measuresToShow)
       
   width <- if (hasMeasures) 120 * sum(measuresToShow) else 120
   plot <- createJaspPlot(title = gettext("Centrality Plot"), width = width, # position = 52
-                         dependencies = c("centralityPlot", "betweenness", "closeness", "strength", "expectedInfluence", "credibilityInterval"))
+                         dependencies = c("centralityPlot", "Betweenness", "Closeness", "Strength", "ExpectedInfluence", "credibilityInterval"))
   
   plotContainer[["centralityPlot"]] <- plot
   
@@ -715,7 +714,6 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   # enables us to use the same code for a single network plot and for a collection of network plots.
   title <- if (nGraphs == 1L) gettext("Edge Evidence Plot") else gettext("Edge Evidence Plots")
   
-  # Why does it not recreate when choosing a different edgeInclusionCriteria
   evidencePlotContainer <- createJaspContainer(title = title, position = 3, dependencies = c("evidencePlot",
     "layout", "layoutSpringRepulsion", "edgeSize", "nodeSize", "colorNodesBy", "cut", "showDetails", "nodePalette",
     "legendSpecificPlotNumber", "edgeInclusion", "edgeExclusion", "edgeAbsence",
@@ -1101,36 +1099,30 @@ gwish_samples <- function(G, S, nSamples = 1000) {
 # Centrality of weighted graphs
 centrality <- function(network, measures = c("Closeness", "Betweenness", "Strength", "ExpectedInfluence"), options) {
   
+  graph <- qgraph::centralityPlot(unname(as.matrix(network$estimates)),
+                                  include = measures, 
+                                  verbose = FALSE, 
+                                  print = FALSE,
+                                  scale = "z-scores", 
+                                  labels = colnames(network$estimates))
+  
+  centralityOutput <- graph$data[, c("node", "measure", "value")] 
+  colnames(centralityOutput) <- c("node", "measure", "posteriorMeans")
+  
   if (options[["credibilityInterval"]]) {
     
     # Compute centrality for each posterior sample: 
     for (i in seq_len(nrow(network$samplesPosterior))) {
+      
       graph <- qgraph::centralityPlot(vectorToMatrix(network$samplesPosterior[i,], as.numeric(nrow(network$estimates)), bycolumn = TRUE), 
-                                      include = measures,
+                                      #include = measures,
                                       verbose = FALSE, 
                                       print = FALSE, 
                                       scale = "z-scores", 
                                       labels = colnames(network$estimates))
       
-      if (i > 1){
-        centralityOutput[, i+2] <- graph$data[, "value"]
-      } else {
-        centralityOutput <- graph$data[, c("node", "measure", "value")]
-      }
+      centralityOutput <- cbind(centralityOutput, graph$data[, "value"])
     }
-    
-  } else {
-    
-    graph <- qgraph::centralityPlot(unname(as.matrix(network$estimates)),
-                                    include = measures, 
-                                    verbose = FALSE, 
-                                    print = FALSE,
-                                    scale = "z-scores", 
-                                    labels = colnames(network$estimates))
-    
-    centralityOutput <- graph$data[, c("node", "measure", "value")] 
-    colnames(centralityOutput) <- c("node", "measure", "posteriorMeans")
-    
   }
   
   return(centralityOutput)

@@ -285,13 +285,12 @@ Form
 		{
 			title: qsTr("Measures shown in centrality plot")
 			enabled: plotCentrality.checked
-			CheckBox	{	name: "betweenness";		    label: qsTr("Betweenness");			    checked: true	}
-			CheckBox	{	name: "closeness";			    label: qsTr("Closeness");			      checked: true	}
-			CheckBox	{	name: "strength";				    label: qsTr("Strength");			      checked: true	}
-			CheckBox	{	name: "expectedInfluence";	label: qsTr("Expected influence");	checked: true	}
+			CheckBox	{	name: "Betweenness";		    label: qsTr("Betweenness");			    checked: true	}
+			CheckBox	{	name: "Closeness";			    label: qsTr("Closeness");			      checked: true	}
+			CheckBox	{	name: "Strength";				    label: qsTr("Strength");			      checked: true	}
+			CheckBox	{	name: "ExpectedInfluence";	label: qsTr("Expected influence");	checked: true	}
 		}
 	}
-	
 	
 	Section
 	{
