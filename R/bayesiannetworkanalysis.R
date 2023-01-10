@@ -294,7 +294,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     return()
   
   nGraphs <- max(1L, length(network[["network"]]))
-  table <- createJaspTable(gettext("Weights matrix"), position = 4, dependencies = "weightsMatrixTable")
+  table <- createJaspTable(gettext("Weights matrix"), dependencies = "weightsMatrixTable") # position = 4
   table$addColumnInfo(name = "Variable", title = gettext("Variable"), type = "string")
   
   # shared titles
@@ -309,8 +309,8 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   plotContainer <- mainContainer[["plotContainer"]]
   
   if (is.null(plotContainer)) {
-    plotContainer <- createJaspContainer(position = 5, dependencies = c("labelAbbreviation", "labelAbbreviationLength",
-                                                                        "legend", "variableNamesShown"))
+    plotContainer <- createJaspContainer(dependencies = c("labelAbbreviation", "labelAbbreviationLength",
+                                                                        "legend", "variableNamesShown")) # position = 5
     mainContainer[["plotContainer"]] <- plotContainer
   }
   
@@ -331,7 +331,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   
   title <- if (nGraphs == 1L) "" else gettext("Posterior Probability Structure Plots")
   
-  posteriorStructurePlotContainer <- createJaspContainer(title = title, position = 51, dependencies = c("posteriorStructurePlot"))
+  posteriorStructurePlotContainer <- createJaspContainer(title = title, dependencies = c("posteriorStructurePlot")) # , position = 51
   plotContainer[["posteriorStructurePlotContainer"]] <- posteriorStructurePlotContainer
   
   if (is.null(network[["network"]]) || plotContainer$getError()) {
@@ -369,7 +369,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     return()
   
   nGraphs <- max(1L, length(network[["network"]]))
-  table <- createJaspTable(gettext("Centrality measures per variable"), position = 2,
+  table <- createJaspTable(gettext("Centrality measures per variable"), #position = 2,
                            dependencies = c("centralityTable", "maxEdgeStrength", "minEdgeStrength"))
   table$addColumnInfo(name = "Variable", title = gettext("Variable"), type = "string")
   
@@ -424,7 +424,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   hasMeasures <- any(measuresToShow)
       
   width <- if (hasMeasures) 120 * sum(measuresToShow) else 120
-  plot <- createJaspPlot(title = gettext("Centrality Plot"), position = 52, width = width,
+  plot <- createJaspPlot(title = gettext("Centrality Plot"), width = width, # position = 52
                          dependencies = c("centralityPlot", "betweenness", "closeness", "strength", "expectedInfluence", "credibilityInterval"))
   
   plotContainer[["centralityPlot"]] <- plot
@@ -521,7 +521,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   
   title <- if (nGraphs == 1L) gettext("Complexity plot") else gettext("Complexity plots")
   
-  complexityPlotContainer <- createJaspContainer(title = title, position = 51, dependencies = c("complexityPlot"))
+  complexityPlotContainer <- createJaspContainer(title = title, dependencies = c("complexityPlot")) # position = 51
   plotContainer[["complexityPlotContainer"]] <- complexityPlotContainer
   
   if (is.null(network[["network"]]) || plotContainer$getError()) {
@@ -573,7 +573,8 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   
   title <- if (nGraphs == 1L) gettext("Structure Plot") else gettext("Structure Plots")
   
-  structurePlotContainer <- createJaspContainer(title = title, position = 51, dependencies = c("posteriorStructurePlot",
+  # position = 51,
+  structurePlotContainer <- createJaspContainer(title = title, dependencies = c("posteriorStructurePlot",
     "layout", "layoutSpringRepulsion", "edgeSize", "nodeSize", "colorNodesBy", "cut", "showDetails", "nodePalette",
     "legendSpecificPlotNumber", "estimator",
     "labelScale", "labelSize", "labelAbbreviation", "labelAbbreviationLength",
@@ -715,7 +716,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   title <- if (nGraphs == 1L) gettext("Edge Evidence Plot") else gettext("Edge Evidence Plots")
   
   # Why does it not recreate when choosing a different edgeInclusionCriteria
-  evidencePlotContainer <- createJaspContainer(title = title, position = 52, dependencies = c("evidencePlot",
+  evidencePlotContainer <- createJaspContainer(title = title, position = 3, dependencies = c("evidencePlot",
     "layout", "layoutSpringRepulsion", "edgeSize", "nodeSize", "colorNodesBy", "cut", "showDetails", "nodePalette",
     "legendSpecificPlotNumber", "edgeInclusion", "edgeExclusion", "edgeAbsence",
     "labelScale", "labelSize", "labelAbbreviation", "labelAbbreviationLength",
@@ -855,8 +856,8 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   # Select options for edges (inclusion, exclusion, absence):
   graphColor <- matrix(NA, ncol = nrow(network[["graph"]]), nrow = nrow(network[["graph"]]))
   if (options$edgeInclusion) graphColor[network[["BF"]] >= options[["edgeInclusionCriteria"]]] <- "#36648b"
-  if (options$edgeExclusion) graphColor[network[["BF"]] < .1] <- "#990000"
-  if (options$edgeAbsence) graphColor[network[["BF"]] < options[["edgeInclusionCriteria"]] & network[["BF"]] > .1] <- "#bfbfbf"
+  if (options$edgeExclusion) graphColor[network[["BF"]] < (1 / options[["edgeInclusionCriteria"]])] <- "#990000"
+  if (options$edgeAbsence) graphColor[network[["BF"]] < options[["edgeInclusionCriteria"]] & network[["BF"]] > (1 / options[["edgeInclusionCriteria"]])] <- "#bfbfbf"
     
   # Determine the edges: 
   edges <- matrix(ifelse(is.na(graphColor), 0, 1), ncol = nrow(network[["graph"]]), nrow = nrow(network[["graph"]]))
@@ -896,7 +897,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   nVar <- length(variables)
   nGraphs <- max(1L, length(network[["network"]]))
   
-  table <- createJaspTable(gettext("Weights matrix"), dependencies = c("weightsMatrixTable"), position = 4)
+  table <- createJaspTable(gettext("Weights matrix"), dependencies = c("weightsMatrixTable")) #, position = 4
   table$addColumnInfo(name = "Variable", title = gettext("Variable"), type = "string")
   
   overTitles <- names(network[["network"]])
@@ -940,7 +941,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   nVar <- length(variables)
   nGraphs <- max(1L, length(network[["network"]]))
   
-  table <- createJaspTable(gettext("Edge evidence probability table"), dependencies = c("edgeEvidenceTable", "evidenceType"), position = 4)
+  table <- createJaspTable(gettext("Edge evidence probability table"), dependencies = c("edgeEvidenceTable", "evidenceType")) # , position = 4
   table$addColumnInfo(name = "Variable", title = gettext("Variable"), type = "string")
   
   overTitles <- names(network[["network"]])

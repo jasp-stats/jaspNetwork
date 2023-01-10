@@ -48,19 +48,16 @@ Form
 		title: qsTr("Plots")
 		CheckBox { name: "networkPlot";		label: qsTr("Network plot")								}
 		CheckBox { 
-		  name: "evidencePlot";		label: qsTr("Edge evidence plot")
-				  CheckBox { 
-				        name:    "edgeInclusion";
-				        label:   qsTr("Evidence for inclusion");
-				        checked: true 
-				        IntegerField {
-				          name:         "edgeInclusionCriteria";
-				          label:        qsTr("Inclusion criteria: BF\u2081\u2080 > ");
-				          min:          1;
-				          defaultValue: 10;
-				          max:          2e2
-				        }
-				  }
+		  name: "evidencePlot";		
+		  label: qsTr("Edge evidence plot")
+		  IntegerField {
+				  name:         "edgeInclusionCriteria";
+				  label:        qsTr("Inclusion criteria: BF\u2081\u2080 > ");
+				  min:          1;
+				  defaultValue: 10;
+				  max:          2e2
+			}
+				  CheckBox { name:    "edgeInclusion"; label:   qsTr("Evidence for inclusion"); checked: true }
 				  CheckBox { name: "edgeExclusion";  label: qsTr("Evidence for exclusion"); checked: true }
 				  CheckBox { name: "edgeAbsence"; label: qsTr("Absence of evidence");   checked: true }
 		}
