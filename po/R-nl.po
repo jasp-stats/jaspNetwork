@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: R 3.6.1\n"
 "Report-Msgid-Bugs-To: github.com/jasp-stats/jasp-issues/issues\n"
 "POT-Creation-Date: 2022-12-24 02:31\n"
-"PO-Revision-Date: 2021-09-07 07:34+0000\n"
-"Last-Translator: DanaJohanna <dana__@live.nl>\n"
+"PO-Revision-Date: 2023-01-12 00:08+0000\n"
+"Last-Translator: Jill de Ron <jillderon93@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/jasp/jaspnetwork-r/"
 "nl/>\n"
 "Language: nl\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n==0 ? 0 : n==1 ? 0 : 1;\n"
-"X-Generator: Weblate 4.8.1-dev\n"
+"X-Generator: Weblate 4.15.1-dev\n"
 
 msgid "Summary of Network"
 msgstr "Samenvatting van Netwerk"
@@ -53,10 +53,10 @@ msgid "Variable"
 msgstr "Variabele"
 
 msgid "Posterior Probability Structure Plots"
-msgstr ""
+msgstr "Posterior Waarschijnlijkheid Structuur Grafieken"
 
 msgid "Posterior Probability Structure Plot"
-msgstr ""
+msgstr "Posterior Waarschijnlijkheid Structuur Grafiek"
 
 msgid "Centrality measures per variable"
 msgstr "Centraliteitsmaten per variabele"
@@ -76,31 +76,29 @@ msgstr "Verwachte invloed"
 msgid "Centrality Plot"
 msgstr "Centraliteitsgrafiek"
 
-#, fuzzy
 msgid "Complexity plot"
-msgstr "Centraliteitsgrafiek"
+msgstr "Complexiteitsgrafiek"
 
 msgid "Complexity plots"
-msgstr ""
+msgstr "Complexiteitsgrafieken"
 
-#, fuzzy
 msgid "Complexity Plot"
-msgstr "Centraliteitsgrafiek"
+msgstr "Complexiteitsgrafiek"
 
 msgid "Structure Plot"
-msgstr ""
+msgstr "Structuur Grafiek"
 
 msgid "Structure Plots"
-msgstr ""
+msgstr "Structuur Grafieken"
 
 msgid "Edge Evidence Plot"
-msgstr ""
+msgstr "Verbinding Evidentie Grafiek"
 
 msgid "Edge Evidence Plots"
-msgstr ""
+msgstr "Verbinding Evidentie Grafieken"
 
 msgid "Edge evidence probability table"
-msgstr ""
+msgstr "Verbinding evidentie waarschijnlijkheidstabel"
 
 msgid ""
 "After binarizing the data too little variance remained in variable(s): %s."
