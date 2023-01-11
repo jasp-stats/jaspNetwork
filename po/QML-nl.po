@@ -1,9 +1,15 @@
 msgid ""
 msgstr ""
+"PO-Revision-Date: 2023-01-11 15:53+0000\n"
+"Last-Translator: Jill de Ron <jillderon93@gmail.com>\n"
+"Language-Team: Dutch <https://hosted.weblate.org/projects/jasp/"
+"jaspnetwork-qml/nl/>\n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.15.1-dev\n"
 "X-Language: nl\n"
 "X-Source-Language: American English\n"
 "X-Qt-Contexts: true\n"
@@ -575,72 +581,68 @@ msgstr ""
 
 msgctxt "NetworkAnalysis|"
 msgid "In Legend"
-msgstr ""
+msgstr "In legenda"
 
 msgctxt "NetworkAnalysis|"
 msgid "Degree"
-msgstr ""
+msgstr "Graad"
 
 msgctxt "NetworkAnalysis|"
 msgid "Group 1"
-msgstr ""
+msgstr "Groep 1"
 
 msgctxt "NetworkAnalysis|"
 msgid "Group 2"
-msgstr ""
+msgstr "Groep 2"
 
 msgctxt "Description|"
 msgid "Network analysis"
-msgstr ""
+msgstr "Netwerk analyse"
 
 msgctxt "Description|"
 msgid "Bayesian network analysis"
-msgstr ""
+msgstr "Bayesiaanse netwerk analyse"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Dependent Variables"
-msgstr "Afhankelijke variabelen"
+msgstr "Afhankelijke Variabelen"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Split"
-msgstr "Splits"
+msgstr "Split"
 
 #, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Estimator"
 msgstr "Schatter"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Plots"
 msgstr "Grafieken"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Network plot"
 msgstr "Netwerkgrafiek"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge evidence plot"
-msgstr ""
+msgstr "Verbinding evidentie grafiek"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Evidence for inclusion"
-msgstr ""
+msgstr "Evidentie voor inclusie"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Inclusion criteria: BF₁₀ > "
-msgstr ""
+msgstr "Inclusie criterium: BF₁₀ > "
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Evidence for exclusion"
-msgstr ""
+msgstr "Evidentie voor exclusie"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Absence of evidence"
-msgstr ""
+msgstr "Afwezigheid van evidentie"
 
 #, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
@@ -649,37 +651,36 @@ msgstr "Centraliteitsgrafiek"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Credibility interval 95%"
-msgstr ""
+msgstr "Feloofwaardigheidsinterval 95%"
 
 #, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Tables"
 msgstr "Tabellen"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Weights matrix"
 msgstr "Gewichtenmatrix"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge evidence probability table"
-msgstr ""
+msgstr "Rand evidentie waarschijnlijkheidstabel"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge inclusion probability"
-msgstr ""
+msgstr "Rand inclusie waarschijnlijkheid"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "BF₁₀"
-msgstr ""
+msgstr "BF₁₀"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "BF₀₁"
-msgstr ""
+msgstr "BF₀₁"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Log(BF₁₀)"
-msgstr ""
+msgstr "Log(BF₁₀)"
 
 #, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
@@ -692,11 +693,11 @@ msgstr ""
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Burn in: "
-msgstr ""
+msgstr "Branden: "
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Iterations: "
-msgstr ""
+msgstr "Iteraties: "
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Prior"
@@ -704,135 +705,112 @@ msgstr ""
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Prior edge inclusion (g prior): "
-msgstr ""
+msgstr "Prior rand inclusie (g prior): "
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Initial configuration prior edge inclusion (g start):"
-msgstr ""
+msgstr "Initiële configuratie prior rand inclusie (g start):"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Degrees of freedom of G-Wishart prior (df prior): "
-msgstr ""
+msgstr "Vrijheidsgraden van G-Wishart prior (df prior): "
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Graphical Options"
 msgstr "Grafische opties"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Group name"
 msgstr "Groepsnaam"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Group 1"
-msgstr ""
+msgstr "Groep 1"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Group 2"
-msgstr ""
+msgstr "Groep 2"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "New Group"
-msgstr "Nieuwe groep"
+msgstr "Nieuwe Groep"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Group color"
 msgstr "Groepskleur"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "red"
 msgstr "rood"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "blue"
 msgstr "blauw"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "yellow"
 msgstr "geel"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "green"
 msgstr "groen"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "purple"
 msgstr "paars"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "orange"
 msgstr "oranje"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Variables in network"
 msgstr "Variabelen in netwerk"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Group"
 msgstr "Groep"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Manual colors"
 msgstr "Handmatige kleuren"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Node palette"
 msgstr "Knooppalet"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Rainbow"
 msgstr "Regenboog"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Colorblind"
 msgstr "Kleurenblind"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Pastel"
 msgstr "Pastel"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Gray"
 msgstr "Grijs"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "R"
 msgstr "R"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "ggplot2"
 msgstr "ggplot2"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Node size"
 msgstr "Knoopgrootte"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edges"
 msgstr "Randen"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge size"
 msgstr "Verbindingsgrootte"
