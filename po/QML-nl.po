@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2023-01-11 15:53+0000\n"
+"PO-Revision-Date: 2023-01-12 00:08+0000\n"
 "Last-Translator: Jill de Ron <jillderon93@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/jasp/"
 "jaspnetwork-qml/nl/>\n"
@@ -664,11 +664,11 @@ msgstr "Gewichtenmatrix"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge evidence probability table"
-msgstr "Rand evidentie waarschijnlijkheidstabel"
+msgstr "Verbinding evidentie waarschijnlijkheidstabel"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge inclusion probability"
-msgstr "Rand inclusie waarschijnlijkheid"
+msgstr "Verbinding inclusie waarschijnlijkheid"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "BF₁₀"
@@ -705,11 +705,11 @@ msgstr ""
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Prior edge inclusion (g prior): "
-msgstr "Prior rand inclusie (g prior): "
+msgstr "Prior verbinding inclusie (g prior): "
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Initial configuration prior edge inclusion (g start):"
-msgstr "Initiële configuratie prior rand inclusie (g start):"
+msgstr "Initiële configuratie prior verbinding inclusie (g start):"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Degrees of freedom of G-Wishart prior (df prior): "
@@ -809,18 +809,16 @@ msgstr "Knoopgrootte"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edges"
-msgstr "Randen"
+msgstr "Verbindingen"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge size"
 msgstr "Verbindingsgrootte"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Max edge strength"
 msgstr "Max. verbindingssterkte"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Min edge strength"
 msgstr "Min. verbindingssterkte"
@@ -830,171 +828,142 @@ msgctxt "BayesianNetworkAnalysis|"
 msgid "Cut"
 msgstr "Scheiding"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Show details"
 msgstr "Toon details"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge labels"
 msgstr "Verbindingslabels"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge label size"
 msgstr "Grootte verbindingslabel"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge label position"
 msgstr "Positie verbindingslabel"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge palette"
-msgstr "Padpalet"
+msgstr "Verbindingspalet"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Classic"
 msgstr "Klassiek"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Hollywood"
 msgstr "Hollywood"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Borkulo"
 msgstr "Borkulo"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "TeamFortress"
 msgstr "TeamFortress"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Reddit"
 msgstr "Reddit"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Fried"
-msgstr "Gefrituurd"
+msgstr "Fried"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Labels"
 msgstr "Labels"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Label size"
 msgstr "Labelgrootte"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Scale label size"
 msgstr "Schaal labelgrootte mee"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Abbreviate labels to "
 msgstr "Kort labels af tot "
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Show Variable Names"
 msgstr "Toon Variabelnamen"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "In plot"
 msgstr "In grafiek"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "In legend"
-msgstr ""
+msgstr "In legenda"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Legend"
 msgstr "Legenda"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "No legend"
 msgstr "Geen legenda"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "All plots"
 msgstr "Alle grafieken"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "In plot number: "
 msgstr "In grafiek nummer: "
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Legend to plot ratio"
 msgstr "Ratio legenda tot plot"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Layout"
 msgstr "Opmaak"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Spring"
 msgstr "Spring"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Repulsion"
 msgstr "Repulsie"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Circle"
 msgstr "Cirkel"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Measures shown in centrality plot"
-msgstr "Pasmaten getoond in centraliteitsgrafiek"
+msgstr "Maten getoond in centraliteitsgrafiek"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Betweenness"
-msgstr "Betweenness"
+msgstr "Tussenheid"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Closeness"
 msgstr "Geslotenheid"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Strength"
-msgstr ""
+msgstr "Sterkte"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Expected influence"
-msgstr ""
+msgstr "Verwachte invloed"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Network structure selection"
-msgstr ""
+msgstr "Netwerk structuur selectie"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Posterior structure probability plot"
-msgstr ""
+msgstr "Posterior structuur waarschijnlijkheidsgrafiek"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Posterior complexity probability plot"
-msgstr ""
+msgstr "Posterior complexiteit waarschijnlijkheidsgrafiek"
