@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2023-01-12 00:08+0000\n"
-"Last-Translator: Jill de Ron <jillderon93@gmail.com>\n"
+"PO-Revision-Date: 2023-01-13 12:30+0000\n"
+"Last-Translator: Don van den Bergh <donvdbergh@hotmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/jasp/"
 "jaspnetwork-qml/nl/>\n"
 "Language: nl\n"
@@ -611,7 +611,6 @@ msgctxt "BayesianNetworkAnalysis|"
 msgid "Split"
 msgstr "Split"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Estimator"
 msgstr "Schatter"
@@ -644,7 +643,6 @@ msgctxt "BayesianNetworkAnalysis|"
 msgid "Absence of evidence"
 msgstr "Afwezigheid van evidentie"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Centrality plot"
 msgstr "Centraliteitsgrafiek"
@@ -653,7 +651,6 @@ msgctxt "BayesianNetworkAnalysis|"
 msgid "Credibility interval 95%"
 msgstr "Feloofwaardigheidsinterval 95%"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Tables"
 msgstr "Tabellen"
@@ -682,14 +679,13 @@ msgctxt "BayesianNetworkAnalysis|"
 msgid "Log(BF₁₀)"
 msgstr "Log(BF₁₀)"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Centrality table"
 msgstr "Centraliteitstabel"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Sampling Options"
-msgstr ""
+msgstr "Sampling Opties"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Burn in: "
@@ -701,7 +697,7 @@ msgstr "Iteraties: "
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Prior"
-msgstr ""
+msgstr "Prior"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Prior edge inclusion (g prior): "
@@ -823,7 +819,6 @@ msgctxt "BayesianNetworkAnalysis|"
 msgid "Min edge strength"
 msgstr "Min. verbindingssterkte"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Cut"
 msgstr "Scheiding"
