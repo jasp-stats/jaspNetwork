@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: JASP 0.9.2\n"
-"POT-Creation-Date: 2021-11-27 02:30\n"
-"PO-Revision-Date: 2022-02-05 02:23+0000\n"
-"Last-Translator: JASP Stats <b.boutin@uva.nl>\n"
+"POT-Creation-Date: 2022-12-24 02:31\n"
+"PO-Revision-Date: 2022-12-26 17:53+0000\n"
+"Last-Translator: ecadrian <ecadrian@hotmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/jasp/"
 "jaspnetwork-r/es/>\n"
 "Language: es\n"
@@ -11,13 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.11-dev\n"
-
-msgid ""
-"After binarizing the data too little variance remained in variable(s): %s."
-msgstr ""
-"Después de hacer que los datos sean binarios, queda muy poca varianza en "
-"la(s) variable(s): %s."
+"X-Generator: Weblate 4.15.1-dev\n"
 
 msgid "Summary of Network"
 msgstr "Resumen de la Red"
@@ -34,17 +28,6 @@ msgstr "Número de bordes no nulos"
 msgid "Sparsity"
 msgstr "Exigüidad"
 
-msgid "Data was binarized using %s."
-msgstr "Se hicieron binarios los datos utilizando %s."
-
-msgid "Only the first %1$d values of %2$s were used to color nodes (%3$d provided)."
-msgstr ""
-"Solo se utilizaron los primeros %1$d valores de %2$s para colorear los nodos (%3$d "
-"suministrados)."
-
-msgid "<em>Warning: </em>"
-msgstr "<em>Advertencia: </em>"
-
 msgid ""
 "Minimum edge strength ignored in the network plot because it was larger than "
 "the absolute value of the strongest edge."
@@ -56,24 +39,29 @@ msgid ""
 "Minimum edge strength ignored in the network plot of group%1$s %2$s because "
 "it was larger than the absolute value of the strongest edge."
 msgstr ""
-"Se ignoró la intensidad mínima del borde en el gráfico de la red del grupo"
-"%1$s %2$s porque era mayor que el valor absoluto del borde más intenso."
+"Se ignoró la intensidad mínima del borde en el gráfico de la red del "
+"grupo%1$s %2$s porque era mayor que el valor absoluto del borde más intenso."
 
-msgid ""
-"Bootstrapping is only done when 'Bootstrap network' is ticked and 'Number of "
-"Bootstraps' is larger than 0."
-msgstr ""
-"El Bootstrapping solo se aplica cuando está marcada la 'Red de Bootstrap', y "
-"el 'Número de Bootstraps' es mayor que 0."
+msgid "<em>Warning: </em>"
+msgstr "<em>Advertencia: </em>"
 
-msgid "Centrality measures per variable"
-msgstr "Medidas de centralidad por variable"
+msgid "Weights matrix"
+msgstr "Matriz de ponderaciones"
 
 msgid "Variable"
 msgstr "Variable"
 
+msgid "Posterior Probability Structure Plots"
+msgstr "Gráficos de Estructura de la Probabilidad Posterior"
+
+msgid "Posterior Probability Structure Plot"
+msgstr "Gráfica de Estructura de la Probabilidad Posterior"
+
+msgid "Centrality measures per variable"
+msgstr "Medidas de centralidad por variable"
+
 msgid "Betweenness"
-msgstr "Mediación"
+msgstr "Intermediación"
 
 msgid "Closeness"
 msgstr "Proximidad"
@@ -83,6 +71,55 @@ msgstr "Intensidad"
 
 msgid "Expected influence"
 msgstr "Influencia esperada"
+
+msgid "Centrality Plot"
+msgstr "Gráfico de Centralidad"
+
+msgid "Complexity plot"
+msgstr "Gráfico de Complejidad"
+
+msgid "Complexity plots"
+msgstr "Gráficos de Complejidad"
+
+msgid "Complexity Plot"
+msgstr "Gráfico de Complejidad"
+
+msgid "Structure Plot"
+msgstr "Gráfico de Estructura"
+
+msgid "Structure Plots"
+msgstr "Gráficos de Estructura"
+
+msgid "Edge Evidence Plot"
+msgstr "Gráfico de Evidencia del Borde"
+
+msgid "Edge Evidence Plots"
+msgstr "Gráficos de Evidencia del Borde"
+
+msgid "Edge evidence probability table"
+msgstr "Tabla de probabilidad de evidencia del borde"
+
+msgid ""
+"After binarizing the data too little variance remained in variable(s): %s."
+msgstr ""
+"Después de hacer que los datos sean binarios, queda muy poca varianza en "
+"la(s) variable(s): %s."
+
+msgid "Data was binarized using %s."
+msgstr "Se hicieron binarios los datos utilizando %s."
+
+msgid ""
+"Only the first %1$d values of %2$s were used to color nodes (%3$d provided)."
+msgstr ""
+"Solo se utilizaron los primeros %1$d valores de %2$s para colorear los nodos "
+"(%3$d suministrados)."
+
+msgid ""
+"Bootstrapping is only done when 'Bootstrap network' is ticked and 'Number of "
+"Bootstraps' is larger than 0."
+msgstr ""
+"El Bootstrapping solo se aplica cuando está marcada la 'Red de Bootstrap', y "
+"el 'Número de Bootstraps' es mayor que 0."
 
 msgid "Barrat"
 msgstr "Barrat"
@@ -104,9 +141,6 @@ msgstr ""
 "Non se pueden calcular las medidas de los conglomerados para la red %1$s: "
 "%2$s"
 
-msgid "Weights matrix"
-msgstr "Matriz de ponderaciones"
-
 msgid "Bootstrap summary of Network"
 msgstr "Resumen del Bootstrap de la Red"
 
@@ -115,9 +149,6 @@ msgstr "Tipo"
 
 msgid "Number of bootstraps"
 msgstr "Número de Bootstraps"
-
-msgid "Centrality Plot"
-msgstr "Gráfico de Centralidad"
 
 msgid "Clustering Plot"
 msgstr "Gráfico de los Conglomerados"

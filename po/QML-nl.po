@@ -575,16 +575,384 @@ msgstr ""
 
 msgctxt "NetworkAnalysis|"
 msgid "In Legend"
-msgstr ""
+msgstr "In legenda"
 
 msgctxt "NetworkAnalysis|"
 msgid "Degree"
-msgstr ""
+msgstr "Graad"
 
 msgctxt "NetworkAnalysis|"
 msgid "Group 1"
-msgstr ""
+msgstr "Groep 1"
 
 msgctxt "NetworkAnalysis|"
 msgid "Group 2"
-msgstr ""
+msgstr "Groep 2"
+
+msgctxt "Description|"
+msgid "Network analysis"
+msgstr "Netwerk analyse"
+
+msgctxt "Description|"
+msgid "Bayesian network analysis"
+msgstr "Bayesiaanse netwerk analyse"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Dependent Variables"
+msgstr "Afhankelijke Variabelen"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Split"
+msgstr "Split"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Estimator"
+msgstr "Schatter"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Plots"
+msgstr "Grafieken"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Network plot"
+msgstr "Netwerkgrafiek"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Edge evidence plot"
+msgstr "Verbinding evidentie grafiek"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Evidence for inclusion"
+msgstr "Evidentie voor inclusie"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Inclusion criteria: BF₁₀ > "
+msgstr "Inclusie criterium: BF₁₀ > "
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Evidence for exclusion"
+msgstr "Evidentie voor exclusie"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Absence of evidence"
+msgstr "Afwezigheid van evidentie"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Centrality plot"
+msgstr "Centraliteitsgrafiek"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Credibility interval 95%"
+msgstr "Feloofwaardigheidsinterval 95%"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Tables"
+msgstr "Tabellen"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Weights matrix"
+msgstr "Gewichtenmatrix"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Edge evidence probability table"
+msgstr "Verbinding evidentie waarschijnlijkheidstabel"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Edge inclusion probability"
+msgstr "Verbinding inclusie waarschijnlijkheid"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "BF₁₀"
+msgstr "BF₁₀"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "BF₀₁"
+msgstr "BF₀₁"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Log(BF₁₀)"
+msgstr "Log(BF₁₀)"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Centrality table"
+msgstr "Centraliteitstabel"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Sampling Options"
+msgstr "Sampling Opties"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Burn in: "
+msgstr "Branden: "
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Iterations: "
+msgstr "Iteraties: "
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Prior"
+msgstr "Prior"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Prior edge inclusion (g prior): "
+msgstr "Prior verbinding inclusie (g prior): "
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Initial configuration prior edge inclusion (g start):"
+msgstr "Initiële configuratie prior verbinding inclusie (g start):"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Degrees of freedom of G-Wishart prior (df prior): "
+msgstr "Vrijheidsgraden van G-Wishart prior (df prior): "
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Graphical Options"
+msgstr "Grafische opties"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Group name"
+msgstr "Groepsnaam"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Group 1"
+msgstr "Groep 1"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Group 2"
+msgstr "Groep 2"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "New Group"
+msgstr "Nieuwe Groep"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Group color"
+msgstr "Groepskleur"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "red"
+msgstr "rood"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "blue"
+msgstr "blauw"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "yellow"
+msgstr "geel"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "green"
+msgstr "groen"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "purple"
+msgstr "paars"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "orange"
+msgstr "oranje"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Variables in network"
+msgstr "Variabelen in netwerk"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Group"
+msgstr "Groep"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Manual colors"
+msgstr "Handmatige kleuren"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Node palette"
+msgstr "Knooppalet"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Rainbow"
+msgstr "Regenboog"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Colorblind"
+msgstr "Kleurenblind"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Pastel"
+msgstr "Pastel"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Gray"
+msgstr "Grijs"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "R"
+msgstr "R"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "ggplot2"
+msgstr "ggplot2"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Node size"
+msgstr "Knoopgrootte"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Edges"
+msgstr "Verbindingen"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Edge size"
+msgstr "Verbindingsgrootte"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Max edge strength"
+msgstr "Max. verbindingssterkte"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Min edge strength"
+msgstr "Min. verbindingssterkte"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Cut"
+msgstr "Scheiding"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Show details"
+msgstr "Toon details"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Edge labels"
+msgstr "Verbindingslabels"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Edge label size"
+msgstr "Grootte verbindingslabel"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Edge label position"
+msgstr "Positie verbindingslabel"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Edge palette"
+msgstr "Verbindingspalet"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Classic"
+msgstr "Klassiek"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Hollywood"
+msgstr "Hollywood"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Borkulo"
+msgstr "Borkulo"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "TeamFortress"
+msgstr "TeamFortress"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Reddit"
+msgstr "Reddit"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Fried"
+msgstr "Fried"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Labels"
+msgstr "Labels"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Label size"
+msgstr "Labelgrootte"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Scale label size"
+msgstr "Schaal labelgrootte mee"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Abbreviate labels to "
+msgstr "Kort labels af tot "
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Show Variable Names"
+msgstr "Toon Variabelnamen"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "In plot"
+msgstr "In grafiek"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "In legend"
+msgstr "In legenda"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Legend"
+msgstr "Legenda"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "No legend"
+msgstr "Geen legenda"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "All plots"
+msgstr "Alle grafieken"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "In plot number: "
+msgstr "In grafiek nummer: "
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Legend to plot ratio"
+msgstr "Ratio legenda tot plot"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Layout"
+msgstr "Opmaak"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Spring"
+msgstr "Spring"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Repulsion"
+msgstr "Repulsie"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Circle"
+msgstr "Cirkel"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Measures shown in centrality plot"
+msgstr "Maten getoond in centraliteitsgrafiek"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Betweenness"
+msgstr "Tussenheid"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Closeness"
+msgstr "Geslotenheid"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Strength"
+msgstr "Sterkte"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Expected influence"
+msgstr "Verwachte invloed"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Network structure selection"
+msgstr "Netwerk structuur selectie"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Posterior structure probability plot"
+msgstr "Posterior structuur waarschijnlijkheidsgrafiek"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Posterior complexity probability plot"
+msgstr "Posterior complexiteit waarschijnlijkheidsgrafiek"

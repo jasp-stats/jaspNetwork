@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: R 3.6.1\n"
 "Report-Msgid-Bugs-To: github.com/jasp-stats/jasp-issues/issues\n"
-"POT-Creation-Date: 2021-11-27 02:30\n"
-"PO-Revision-Date: 2022-01-27 16:20+0000\n"
-"Last-Translator: Thomas Langkamp <thomas.lassdiesonnerein@gmx.de>\n"
+"POT-Creation-Date: 2022-12-24 02:31\n"
+"PO-Revision-Date: 2023-01-15 11:50+0000\n"
+"Last-Translator: Johannes Keyser <joke@fsfe.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/jasp/"
 "jaspnetwork-r/de/>\n"
 "Language: de\n"
@@ -12,12 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n==0 ? 0 : n==1 ? 0 : 1;\n"
-"X-Generator: Weblate 4.11-dev\n"
-
-msgid ""
-"After binarizing the data too little variance remained in variable(s): %s."
-msgstr ""
-"Nach der Binarisierung der Daten blieb zu wenig Varianz in Variable(n): %s."
+"X-Generator: Weblate 4.15.1-dev\n"
 
 msgid "Summary of Network"
 msgstr "Zusammenfassung des Netwerks"
@@ -34,17 +29,6 @@ msgstr "Anzahl von Kanten ungleich 0"
 msgid "Sparsity"
 msgstr "Sparsamkeit"
 
-msgid "Data was binarized using %s."
-msgstr "Daten wurden mit %s dichotomisiert."
-
-msgid "Only the first %1$d values of %2$s were used to color nodes (%3$d provided)."
-msgstr ""
-"Nur die ersten %1$d Werte von %2$s wurden zum Färben von Knoten verwendet (%3$d "
-"bereitgestellt)."
-
-msgid "<em>Warning: </em>"
-msgstr "<em>Warnung: </em>"
-
 msgid ""
 "Minimum edge strength ignored in the network plot because it was larger than "
 "the absolute value of the strongest edge."
@@ -59,18 +43,23 @@ msgstr ""
 "Die minimale Kantenstärke wird im Netzwerkdiagramm der Gruppe%1$s %2$s "
 "ignoriert, da sie größer als der absolute Wert der stärksten Kante war."
 
-msgid ""
-"Bootstrapping is only done when 'Bootstrap network' is ticked and 'Number of "
-"Bootstraps' is larger than 0."
-msgstr ""
-"Das Bootstrapping wird nur durchgeführt, wenn \"Bootstrap-Netzwerk\" "
-"angekreuzt ist und \"Anzahl der Bootstraps\" größer als 0 ist."
+msgid "<em>Warning: </em>"
+msgstr "<em>Warnung: </em>"
 
-msgid "Centrality measures per variable"
-msgstr "Zentralitätsmaße pro Variable"
+msgid "Weights matrix"
+msgstr "Gewichtematrix"
 
 msgid "Variable"
 msgstr "Variable"
+
+msgid "Posterior Probability Structure Plots"
+msgstr "Posterior-Wahrscheinlichkeit Strukturdiagramme"
+
+msgid "Posterior Probability Structure Plot"
+msgstr "Posterior-Wahrscheinlichkeit Strukturdiagramm"
+
+msgid "Centrality measures per variable"
+msgstr "Zentralitätsmaße pro Variable"
 
 msgid "Betweenness"
 msgstr "Verflechtung"
@@ -83,6 +72,54 @@ msgstr "Stärke"
 
 msgid "Expected influence"
 msgstr "Erwarteter Einfluß"
+
+msgid "Centrality Plot"
+msgstr "Zentralitätsdiagramm"
+
+msgid "Complexity plot"
+msgstr "Komplexitätsdiagramm"
+
+msgid "Complexity plots"
+msgstr "Komplexitätsdiagramme"
+
+msgid "Complexity Plot"
+msgstr "Komplexitätsdiagramm"
+
+msgid "Structure Plot"
+msgstr "Strukturdiagramm"
+
+msgid "Structure Plots"
+msgstr "Strukturdiagramme"
+
+msgid "Edge Evidence Plot"
+msgstr "Kanten-Evidenz-Diagramm"
+
+msgid "Edge Evidence Plots"
+msgstr "Kanten-Evidenz-Diagramme"
+
+msgid "Edge evidence probability table"
+msgstr "Kantenevidenz-Wahrscheinlichkeitstabelle"
+
+msgid ""
+"After binarizing the data too little variance remained in variable(s): %s."
+msgstr ""
+"Nach der Binarisierung der Daten blieb zu wenig Varianz in Variable(n): %s."
+
+msgid "Data was binarized using %s."
+msgstr "Daten wurden mit %s dichotomisiert."
+
+msgid ""
+"Only the first %1$d values of %2$s were used to color nodes (%3$d provided)."
+msgstr ""
+"Nur die ersten %1$d Werte von %2$s wurden zum Färben von Knoten verwendet "
+"(%3$d bereitgestellt)."
+
+msgid ""
+"Bootstrapping is only done when 'Bootstrap network' is ticked and 'Number of "
+"Bootstraps' is larger than 0."
+msgstr ""
+"Das Bootstrapping wird nur durchgeführt, wenn \"Bootstrap-Netzwerk\" "
+"angekreuzt ist und \"Anzahl der Bootstraps\" größer als 0 ist."
 
 msgid "Barrat"
 msgstr "Barrat"
@@ -102,9 +139,6 @@ msgstr "Clustering-Maße pro Variable"
 msgid "Clustering measures could not be computed for network%1$s: %2$s"
 msgstr "Clustering-Maße konnten für Netzwerk%1$s nicht berechnet werden: %2$s"
 
-msgid "Weights matrix"
-msgstr "Gewichte-Matrix"
-
 msgid "Bootstrap summary of Network"
 msgstr "Bootstrap-Zusammenfassung des Netzwerks"
 
@@ -114,17 +148,14 @@ msgstr "Typ"
 msgid "Number of bootstraps"
 msgstr "Anzahl Bootstraps"
 
-msgid "Centrality Plot"
-msgstr "Zentralitäts-Abbildung"
-
 msgid "Clustering Plot"
-msgstr "Clustering-Abbildung"
+msgstr "Clustering-Diagramm"
 
 msgid "Network Plots"
-msgstr "Netzwerk-Abbildung"
+msgstr "Netzwerkdiagramme"
 
 msgid "Network Plot"
-msgstr "Netzwerk-Abbildung"
+msgstr "Netzwerkdiagramm"
 
 msgid "Edge Stability"
 msgstr "Randstabilität"

@@ -586,3 +586,435 @@ msgstr ""
 msgctxt "NetworkAnalysis|"
 msgid "Group 2"
 msgstr ""
+
+msgctxt "Description|"
+msgid "Network analysis"
+msgstr ""
+
+msgctxt "Description|"
+msgid "Bayesian network analysis"
+msgstr ""
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Dependent Variables"
+msgstr "従属変数"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Split"
+msgstr "分割"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Estimator"
+msgstr "推定"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Plots"
+msgstr "プロット"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Network plot"
+msgstr "ネットワークプロット"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Edge evidence plot"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Evidence for inclusion"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Inclusion criteria: BF₁₀ > "
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Evidence for exclusion"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Absence of evidence"
+msgstr ""
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Centrality plot"
+msgstr "中心性プロット"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Credibility interval 95%"
+msgstr ""
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Tables"
+msgstr "表"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Weights matrix"
+msgstr "重み行列"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Edge evidence probability table"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Edge inclusion probability"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "BF₁₀"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "BF₀₁"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Log(BF₁₀)"
+msgstr ""
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Centrality table"
+msgstr "中心性表"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Sampling Options"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Burn in: "
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Iterations: "
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Prior"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Prior edge inclusion (g prior): "
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Initial configuration prior edge inclusion (g start):"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Degrees of freedom of G-Wishart prior (df prior): "
+msgstr ""
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Graphical Options"
+msgstr "グラフィカルオプション"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Group name"
+msgstr "グループ名"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Group 1"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Group 2"
+msgstr ""
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "New Group"
+msgstr "新しいグループ"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Group color"
+msgstr "グループカラー"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "red"
+msgstr "赤"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "blue"
+msgstr "青"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "yellow"
+msgstr "黄"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "green"
+msgstr "緑"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "purple"
+msgstr "紫"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "orange"
+msgstr "橙"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Variables in network"
+msgstr "ネットワーク内の変数"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Group"
+msgstr "群"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Manual colors"
+msgstr "手動の色"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Node palette"
+msgstr "ノードパレット"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Rainbow"
+msgstr "虹"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Colorblind"
+msgstr "カラーブラインド"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Pastel"
+msgstr "パステル"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Gray"
+msgstr "灰色"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "R"
+msgstr "R"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "ggplot2"
+msgstr "ggplot2"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Node size"
+msgstr "ノードサイズ"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Edges"
+msgstr "エッジ"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Edge size"
+msgstr "エッジサイズ"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Max edge strength"
+msgstr "最大エッジ強度"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Min edge strength"
+msgstr "最小エッジ強度"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Cut"
+msgstr "カット"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Show details"
+msgstr "詳細を表示"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Edge labels"
+msgstr "エッジラベル"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Edge label size"
+msgstr "エッジラベルサイズ"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Edge label position"
+msgstr "エッジラベル位置"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Edge palette"
+msgstr "エッジパレット"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Classic"
+msgstr "伝統的な"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Hollywood"
+msgstr "ハリウッド"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Borkulo"
+msgstr "ボルクロ"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "TeamFortress"
+msgstr "チームフォートレス"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Reddit"
+msgstr "レディット"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Fried"
+msgstr "フライド"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Labels"
+msgstr "ラベル"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Label size"
+msgstr "ラベルサイズ"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Scale label size"
+msgstr "スケールラベルサイズ"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Abbreviate labels to "
+msgstr "ラベルを次のように省略します "
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Show Variable Names"
+msgstr "変数名の表示"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "In plot"
+msgstr "プロット内"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "In legend"
+msgstr ""
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Legend"
+msgstr "凡例"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "No legend"
+msgstr "凡例なし"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "All plots"
+msgstr "すべてのプロット"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "In plot number: "
+msgstr "プロット番号: "
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Legend to plot ratio"
+msgstr "凡例とプロットの比率"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Layout"
+msgstr "レイアウト"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Spring"
+msgstr "スプリング"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Repulsion"
+msgstr "反発(Repulsion)"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Circle"
+msgstr "円"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Measures shown in centrality plot"
+msgstr "中心性プロットに示す指標"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Betweenness"
+msgstr "間隔"
+
+#, fuzzy
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Closeness"
+msgstr "近さ"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Strength"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Expected influence"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Network structure selection"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Posterior structure probability plot"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Posterior complexity probability plot"
+msgstr ""

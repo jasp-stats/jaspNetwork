@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2021-11-27 02:30\n"
-"PO-Revision-Date: 2021-11-14 11:51+0000\n"
+"POT-Creation-Date: 2022-12-24 02:31\n"
+"PO-Revision-Date: 2022-12-26 17:53+0000\n"
 "Last-Translator: ecadrian <ecadrian@hotmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/jasp/"
 "jaspnetwork-r/gl/>\n"
@@ -16,16 +16,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.9.1-dev\n"
+"X-Generator: Weblate 4.15.1-dev\n"
 "X-Virgin-Header: remove this line if you change anything in the header.\n"
 "X-Language: gl_ES\n"
 "X-Source-Language: C\n"
-
-msgid ""
-"After binarizing the data too little variance remained in variable(s): %s."
-msgstr ""
-"Despois de facer que os datos sexan binarios, queda moi pouca varianza na(s) "
-"variable(s): %s."
 
 msgid "Summary of Network"
 msgstr "Resumo da Rede"
@@ -37,21 +31,10 @@ msgid "Number of nodes"
 msgstr "Número de nodos"
 
 msgid "Number of non-zero edges"
-msgstr "Número de cantos non nulos"
+msgstr "Número de beiras non nulas"
 
 msgid "Sparsity"
 msgstr "Exigüidade"
-
-msgid "Data was binarized using %s."
-msgstr "Fixéronse binarios os datos utilizando %s."
-
-msgid "Only the first %1$d values of %2$s were used to color nodes (%3$d provided)."
-msgstr ""
-"Só se utilizaron os primeiros %1$d valores de %2$s para colorear os nodos (%3$d "
-"subministrados)."
-
-msgid "<em>Warning: </em>"
-msgstr "<em>Aviso: </em>"
 
 msgid ""
 "Minimum edge strength ignored in the network plot because it was larger than "
@@ -67,18 +50,23 @@ msgstr ""
 "Ignorouse a intensidade mínima da beira na gráfica da rede do grupo%1$s %2$s "
 "porque era maior que o valor absoluto da beira máis intensa."
 
-msgid ""
-"Bootstrapping is only done when 'Bootstrap network' is ticked and 'Number of "
-"Bootstraps' is larger than 0."
-msgstr ""
-"O Bootstrapping só se fai cando está marcada a 'Rede de Bootstrap', e o "
-"'Número de Bootstraps' é maior que 0."
+msgid "<em>Warning: </em>"
+msgstr "<em>Aviso: </em>"
 
-msgid "Centrality measures per variable"
-msgstr "Medidas de centrado por variable"
+msgid "Weights matrix"
+msgstr "Matriz de ponderacións"
 
 msgid "Variable"
 msgstr "Variable"
+
+msgid "Posterior Probability Structure Plots"
+msgstr "Gráficas de Estrutura da Probabilidade Posterior"
+
+msgid "Posterior Probability Structure Plot"
+msgstr "Gráfica de Estrutura da Probabilidade Posterior"
+
+msgid "Centrality measures per variable"
+msgstr "Medidas de centrado por variable"
 
 msgid "Betweenness"
 msgstr "Mediación"
@@ -91,6 +79,55 @@ msgstr "Intensidade"
 
 msgid "Expected influence"
 msgstr "Influencia agardada"
+
+msgid "Centrality Plot"
+msgstr "Gráfica de Centrado"
+
+msgid "Complexity plot"
+msgstr "Gráfica de Complexidade"
+
+msgid "Complexity plots"
+msgstr "Gráficas de Complexidade"
+
+msgid "Complexity Plot"
+msgstr "Gráfica de Complexidade"
+
+msgid "Structure Plot"
+msgstr "Gráfica de Estrutura"
+
+msgid "Structure Plots"
+msgstr "Gráficas de Estrutura"
+
+msgid "Edge Evidence Plot"
+msgstr "Gráfica de Evidencia da Beira"
+
+msgid "Edge Evidence Plots"
+msgstr "Gráficas de Evidencia da Beira"
+
+msgid "Edge evidence probability table"
+msgstr "Táboa de probabilidade de evidencia da beira"
+
+msgid ""
+"After binarizing the data too little variance remained in variable(s): %s."
+msgstr ""
+"Despois de facer que os datos sexan binarios, queda moi pouca varianza na(s) "
+"variable(s): %s."
+
+msgid "Data was binarized using %s."
+msgstr "Fixéronse binarios os datos utilizando %s."
+
+msgid ""
+"Only the first %1$d values of %2$s were used to color nodes (%3$d provided)."
+msgstr ""
+"Só se utilizaron os primeiros %1$d valores de %2$s para colorear os nodos "
+"(%3$d subministrados)."
+
+msgid ""
+"Bootstrapping is only done when 'Bootstrap network' is ticked and 'Number of "
+"Bootstraps' is larger than 0."
+msgstr ""
+"O Bootstrapping só se fai cando está marcada a 'Rede de Bootstrap', e o "
+"'Número de Bootstraps' é maior que 0."
 
 msgid "Barrat"
 msgstr "Barrat"
@@ -111,9 +148,6 @@ msgid "Clustering measures could not be computed for network%1$s: %2$s"
 msgstr ""
 "Non se poden calcular as medidas dos conglomerados para a rede %1$s: %2$s"
 
-msgid "Weights matrix"
-msgstr "Matriz de ponderacións"
-
 msgid "Bootstrap summary of Network"
 msgstr "Resumo do Bootstrap da Rede"
 
@@ -122,9 +156,6 @@ msgstr "Tipo"
 
 msgid "Number of bootstraps"
 msgstr "Número de Bootstraps"
-
-msgid "Centrality Plot"
-msgstr "Gráfica de Centrado"
 
 msgid "Clustering Plot"
 msgstr "Gráfica dos Conglomerados"

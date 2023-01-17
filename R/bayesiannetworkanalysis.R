@@ -293,6 +293,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     return()
   
   nGraphs <- max(1L, length(network[["network"]]))
+
   table <- createJaspTable(gettext("Weights matrix"), dependencies = "weightsMatrixTable") # position = 4
   table$addColumnInfo(name = "Variable", title = gettext("Variable"), type = "string")
   
@@ -329,8 +330,9 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   nGraphs <- length(allNetworks)
   
   title <- if (nGraphs == 1L) "" else gettext("Posterior Probability Structure Plots")
-  
+
   posteriorStructurePlotContainer <- createJaspContainer(title = title, dependencies = c("posteriorStructurePlot")) # , position = 51
+
   plotContainer[["posteriorStructurePlotContainer"]] <- posteriorStructurePlotContainer
   
   if (is.null(network[["network"]]) || plotContainer$getError()) {
@@ -368,7 +370,9 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     return()
   
   nGraphs <- max(1L, length(network[["network"]]))
+
   table <- createJaspTable(gettext("Centrality measures per variable"), #position = 2,
+
                            dependencies = c("centralityTable", "maxEdgeStrength", "minEdgeStrength"))
   table$addColumnInfo(name = "Variable", title = gettext("Variable"), type = "string")
   
@@ -521,6 +525,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   title <- if (nGraphs == 1L) gettext("Complexity plot") else gettext("Complexity plots")
   
   complexityPlotContainer <- createJaspContainer(title = title, dependencies = c("complexityPlot")) # position = 51
+
   plotContainer[["complexityPlotContainer"]] <- complexityPlotContainer
   
   if (is.null(network[["network"]]) || plotContainer$getError()) {
@@ -571,8 +576,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   nGraphs <- length(allNetworks)
   
   title <- if (nGraphs == 1L) gettext("Structure Plot") else gettext("Structure Plots")
-  
-  # position = 51,
+
   structurePlotContainer <- createJaspContainer(title = title, dependencies = c("posteriorStructurePlot",
     "layout", "layoutSpringRepulsion", "edgeSize", "nodeSize", "colorNodesBy", "cut", "showDetails", "nodePalette",
     "legendSpecificPlotNumber", "estimator",
@@ -736,7 +740,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   allLegends <- rep(FALSE, nGraphs) # no legends
   
   if (length(options[["colorGroupVariables"]]) > 1L) {
-    
+
     assignedGroup <- vapply(options[["colorGroupVariables"]], `[[`, character(1L), "group")
     
     if (length(unique(assignedGroup)) > 1L) {
@@ -751,6 +755,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       
       groups <- vector("list", nGroups)
       names(groups) <- groupNames
+
       for (i in seq_len(nGroups))
         groups[[i]] <- which(idx == i)
       
@@ -759,6 +764,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       
       if (options[["manualColor"]])
         nodeColor <- groupColors[nonEmpty]
+
     }
   }
   
@@ -821,7 +827,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   legendMultiplier <- options[["legendToPlotRatio"]] * basePlotSize
   height <- setNames(rep(basePlotSize, nGraphs), names(allLegends))
   width  <- basePlotSize + allLegends * legendMultiplier
-  
+
   for (v in names(allNetworks))
     evidencePlotContainer[[v]] <- createJaspPlot(title = v, width = width[v], height = height[v])
   
@@ -856,6 +862,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   if (options$edgeInclusion) graphColor[network[["BF"]] >= options[["edgeInclusionCriteria"]]] <- "#36648b"
   if (options$edgeExclusion) graphColor[network[["BF"]] < (1 / options[["edgeInclusionCriteria"]])] <- "#990000"
   if (options$edgeAbsence) graphColor[network[["BF"]] < options[["edgeInclusionCriteria"]] & network[["BF"]] > (1 / options[["edgeInclusionCriteria"]])] <- "#bfbfbf"
+
     
   # Determine the edges: 
   edges <- matrix(ifelse(is.na(graphColor), 0, 1), ncol = nrow(network[["graph"]]), nrow = nrow(network[["graph"]]))
@@ -1098,7 +1105,7 @@ gwish_samples <- function(G, S, nSamples = 1000) {
 
 # Centrality of weighted graphs
 centrality <- function(network, measures = c("Closeness", "Betweenness", "Strength", "ExpectedInfluence"), options) {
-  
+
   graph <- qgraph::centralityPlot(unname(as.matrix(network$estimates)),
                                   include = measures, 
                                   verbose = FALSE, 
@@ -1108,12 +1115,12 @@ centrality <- function(network, measures = c("Closeness", "Betweenness", "Streng
   
   centralityOutput <- graph$data[, c("node", "measure", "value")] 
   colnames(centralityOutput) <- c("node", "measure", "posteriorMeans")
-  
+
   if (options[["credibilityInterval"]]) {
     
     # Compute centrality for each posterior sample: 
     for (i in seq_len(nrow(network$samplesPosterior))) {
-      
+
       graph <- qgraph::centralityPlot(vectorToMatrix(network$samplesPosterior[i,], as.numeric(nrow(network$estimates)), bycolumn = TRUE), 
                                       #include = measures,
                                       verbose = FALSE, 
