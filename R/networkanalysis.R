@@ -478,7 +478,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   measuresToShow <- unlist(options[c("betweenness", "closeness", "strength", "expectedInfluence")], use.names = FALSE)
   hasMeasures <- any(measuresToShow)
 
-  width <- if (hasMeasures) 120 * sum(measuresToShow) else 120
+  width <- 200 + 120 * sum(measuresToShow)
   plot <- createJaspPlot(title = gettext("Centrality Plot"), position = 52, width = width,
                          dependencies = c("centralityPlot", "betweenness", "closeness", "strength", "expectedInfluence"))
   plotContainer[["centralityPlot"]] <- plot
