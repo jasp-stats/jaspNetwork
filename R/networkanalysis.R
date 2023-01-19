@@ -309,7 +309,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   # fill with results
   TBcolumns <- NULL
   for (i in seq_len(nGraphs)) {
-    
+
     toAdd <- network[["centrality"]][[i]]
     names(toAdd) <- c("Variable", paste0(c("betweenness", "closeness", "Strength", "Expected influence"), i))
     if (i == 1L) {# if more than 1 network drop the first column which indicates the variable
@@ -475,12 +475,12 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   if (!is.null(plotContainer[["centralityPlot"]]) || !options[["centralityPlot"]])
     return()
 
-  measuresToShow <- unlist(options[c("betweenness", "closeness", "degree", "expectedInfluence")], use.names = FALSE)
+  measuresToShow <- unlist(options[c("betweenness", "closeness", "strength", "expectedInfluence")], use.names = FALSE)
   hasMeasures <- any(measuresToShow)
 
-  width <- if (hasMeasures) 120 * sum(measuresToShow) else 120
+  width <- 200 + 120 * sum(measuresToShow)
   plot <- createJaspPlot(title = gettext("Centrality Plot"), position = 52, width = width,
-                         dependencies = c("centralityPlot", "betweenness", "closeness", "degree", "expectedInfluence"))
+                         dependencies = c("centralityPlot", "betweenness", "closeness", "strength", "expectedInfluence"))
   plotContainer[["centralityPlot"]] <- plot
   if (is.null(network[["centrality"]]) || plotContainer$getError() || !hasMeasures)
     return()
@@ -490,13 +490,8 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   long <- .networkAnalysisReshapeWideToLong(wide, network, "centrality")
 
   if (!all(measuresToShow)) {
-    measuresToFilter <- c("betweenness", "closeness", "degree", "Expected Influence")[measuresToShow]
+    measuresToFilter <- c("betweenness", "closeness", "Strength", "Expected Influence")[measuresToShow]
     long <- subset(long, measure %in% measuresToFilter)
-  }
-
-  if (options[["degree"]]) {
-    measureLevels <- levels(long[["measure"]])
-    levels(long[["measure"]]) <- ifelse(measureLevels == "degree", "Strength", measureLevels)
   }
 
   # ensure that the first character is capitalized in the text above the subplots so it matches the centrality table
@@ -539,10 +534,10 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 }
 
 .networkAnalysisReshapeWideToLong <- function(wide, network, what = c("centrality", "clustering")) {
-  
+
   what <- match.arg(what)
   wideDf <- Reduce(rbind, wide)
-  
+
   if (length(wide) > 1L) {
     wideDf[["type"]] <- rep(names(network[[what]]), each = nrow(wideDf) / length(wide))
     Long <- reshape2::melt(wideDf, id.vars = c("node", "type"))
@@ -554,7 +549,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     colnames(Long)[2L] <- "measure"
     Long[["graph"]] <- NA
   }
-  
+
   return(Long)
 
 }
@@ -563,7 +558,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
   # "Long" is how qgraph refers to this object. This function transforms the
   # long object for centrality or clustering into a ggplot.
-  
+
   # code modified from qgraph::centralityPlot(). Type and graph are switched so the legend title says graph
   if (options[["labelAbbreviation"]])
     Long[["node"]] <- base::abbreviate(Long[["node"]], options[["labelAbbreviationLength"]])
@@ -623,10 +618,10 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
 .networkAnalysisOneNetworkPlot <- function(network, options, minE, layout, groups, maxE, labels, legend, shape,
                                            nodeColor, edgeColor, nodeNames, method = "frequentist") {
-  
+
 
   wMat <- network[["graph"]]
-  
+
   if (method != "Bayesian") {
     if (!options[["weightedNetwork"]]) {
       wMat <- sign(wMat)
@@ -635,7 +630,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
       wMat <- abs(wMat)
     }
   }
-  
+
   if (all(abs(wMat) <= minE))
     minE <- NULL
 
@@ -772,7 +767,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   # TODO: footnote if legend off and nodenames used
   if (options[["variableNamesShown"]] == "inNodes") {
     nodeNames <- NULL
-    
+
     if (method == "Bayesian") {
       if (nGraphs == 1) {
         labels <- colnames(allNetworks$Network$graph)
@@ -782,9 +777,9 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     } else {
       labels <- .unv(allNetworks[[1]][["labels"]])
     }
-    
+
   } else {
-    
+
     if (method == "Bayesian") {
       if (nGraphs == 1) {
         nodeNames <- .unv(colnames(allNetworks$Network$graph))
@@ -794,11 +789,11 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     } else {
       nodeNames <- .unv(allNetworks[[1]][["labels"]])
     }
-    
+
     labels <- seq_along(nodeNames)
 
   }
-  
+
   if (method == "Bayesian") labels <- decodeColNames(labels)
 
   if (options[["labelAbbreviation"]])
@@ -861,7 +856,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
         shape      = shape,
         nodeColor  = nodeColor,
         edgeColor  = edgeColor,
-        nodeNames  = nodeNames, 
+        nodeNames  = nodeNames,
         method     = method
       )
     }
@@ -1169,9 +1164,11 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
         colnames(TBcent)[3] <- "Strength"
 
-      } else { # unweighted
+        # Modification from the original function! We don't want the names to change and assume strength everywhere
+        # we also do not support unweighted graphs anyway, so this would only arise due to a numerical fluke.
+      # } else { # unweighted
 
-        colnames(TBcent)[3] <- "degree"
+        # colnames(TBcent)[3] <- "degree"
 
       }
 
@@ -1218,7 +1215,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
     centralities[[nw]] <- cent
   }
-  
+
   return(centralities)
 }
 

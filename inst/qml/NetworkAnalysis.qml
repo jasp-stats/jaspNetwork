@@ -327,8 +327,8 @@ Form
 		{
 			title: qsTr("Edges")
 			DoubleField { name: "edgeSize";			label: qsTr("Edge size");			defaultValue: 1 }
-			DoubleField { name: "maxEdgeStrength";	label: qsTr("Max edge strength");	defaultValue: 0; max: 10 }
-			DoubleField { name: "minEdgeStrength";	label: qsTr("Min edge strength");	defaultValue: 0; max: 10 }
+			DoubleField { name: "maxEdgeStrength";	label: qsTr("Max edge strength");	defaultValue: 0; id: maxEdgeStrength; min: minEdgeStrength.value;	max: 100					}
+			DoubleField { name: "minEdgeStrength";	label: qsTr("Min edge strength");	defaultValue: 0; id: minEdgeStrength; min: -100;					max: maxEdgeStrength.value	}
 			DoubleField { name: "cut";				label: qsTr("Cut");					defaultValue: 0; max: 10 }
 			CheckBox	{ name: "details";			label: qsTr("Show details") }
 			CheckBox
@@ -431,7 +431,7 @@ Form
 			enabled: centralityPlot.checked
 			CheckBox	{	name: "betweenness";		label: qsTr("Betweenness");			checked: true	}
 			CheckBox	{	name: "closeness";			label: qsTr("Closeness");			checked: true	}
-			CheckBox	{	name: "degree";				label: qsTr("Degree");				checked: true	}
+			CheckBox	{	name: "strength";			label: qsTr("Strength");			checked: true	}
 			CheckBox	{	name: "expectedInfluence";	label: qsTr("Expected Influence");	checked: true	}
 		}
 

@@ -165,7 +165,7 @@ Upgrades
 
 		ChangeRename	{	from: 	"Betweenness";						to:		"betweenness"									}
 		ChangeRename	{	from: 	"Closeness";						to:		"closeness"										}
-		ChangeRename	{	from: 	"Degree";							to:		"degree"										}
+		ChangeRename	{	from: 	"Degree";							to:		"strength"										}
 		ChangeRename	{	from: 	"ExpectedInfluence";				to:		"expectedInfluence"								}
 
 		ChangeRename	{	from: 	"addLayoutToData";					to:		"layoutSavedToData"								}
