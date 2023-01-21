@@ -929,10 +929,6 @@ msgid "Closeness"
 msgstr ""
 
 msgctxt "NetworkAnalysis|"
-msgid "Degree"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
 msgid "Expected Influence"
 msgstr ""
 
@@ -954,4 +950,8 @@ msgstr ""
 
 msgctxt "NetworkAnalysis|"
 msgid "name for y-coordinates"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Strength"
 msgstr ""

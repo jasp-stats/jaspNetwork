@@ -558,10 +558,6 @@ msgid "Closeness"
 msgstr ""
 
 msgctxt "NetworkAnalysis|"
-msgid "Degree"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
 msgid "Expected Influence"
 msgstr ""
 
@@ -951,4 +947,8 @@ msgstr ""
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Posterior complexity probability plot"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Strength"
 msgstr ""

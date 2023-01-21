@@ -578,10 +578,6 @@ msgid "In Legend"
 msgstr "In Legende"
 
 msgctxt "NetworkAnalysis|"
-msgid "Degree"
-msgstr "Grad"
-
-msgctxt "NetworkAnalysis|"
 msgid "Group 1"
 msgstr "Gruppe 1"
 
@@ -956,3 +952,8 @@ msgstr "Posterior-Struktur-Wahrscheinlichkeitsdiagramm"
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Posterior complexity probability plot"
 msgstr "Posterior-Komplexitäts-Wahrscheinlichkeitsdiagramm"
+
+#, fuzzy
+msgctxt "NetworkAnalysis|"
+msgid "Strength"
+msgstr "Stärke"

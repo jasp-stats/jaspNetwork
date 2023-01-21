@@ -575,10 +575,6 @@ msgctxt "NetworkAnalysis|"
 msgid "In Legend"
 msgstr ""
 
-msgctxt "NetworkAnalysis|"
-msgid "Degree"
-msgstr ""
-
 msgctxt "Description|"
 msgid "Network analysis"
 msgstr ""
@@ -954,4 +950,8 @@ msgstr ""
 
 msgctxt "NetworkAnalysis|"
 msgid "Group 2"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Strength"
 msgstr ""

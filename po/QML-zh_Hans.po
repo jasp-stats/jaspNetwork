@@ -576,10 +576,6 @@ msgid "In Legend"
 msgstr "在图例中"
 
 msgctxt "NetworkAnalysis|"
-msgid "Degree"
-msgstr "点度（Degree）"
-
-msgctxt "NetworkAnalysis|"
 msgid "Group 1"
 msgstr "分组 1"
 
@@ -1014,4 +1010,8 @@ msgstr ""
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Posterior complexity probability plot"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Strength"
 msgstr ""
