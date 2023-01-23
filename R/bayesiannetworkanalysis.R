@@ -1113,9 +1113,6 @@ centrality <- function(network, measures = c("closeness", "betweenness", "streng
 
   measures <- firstup(measures)
   
-  print("TESTIEIET305858:")
-  print(measures)
-  
   graph <- qgraph::centralityPlot(unname(as.matrix(network$estimates)),
                                   include = measures, 
                                   verbose = FALSE, 
