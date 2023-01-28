@@ -584,14 +584,6 @@ msgctxt "NetworkAnalysis|"
 msgid "In Legend"
 msgstr ""
 
-msgctxt "Description|"
-msgid "Network analysis"
-msgstr ""
-
-msgctxt "Description|"
-msgid "Bayesian network analysis"
-msgstr ""
-
 #, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Dependent Variables"
@@ -955,4 +947,12 @@ msgstr ""
 
 msgctxt "NetworkAnalysis|"
 msgid "Strength"
+msgstr ""
+
+msgctxt "Description|"
+msgid "Network Analysis"
+msgstr ""
+
+msgctxt "Description|"
+msgid "Bayesian Network Analysis"
 msgstr ""

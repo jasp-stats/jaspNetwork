@@ -581,14 +581,6 @@ msgctxt "NetworkAnalysis|"
 msgid "name for y-coordinates"
 msgstr ""
 
-msgctxt "Description|"
-msgid "Network analysis"
-msgstr ""
-
-msgctxt "Description|"
-msgid "Bayesian network analysis"
-msgstr ""
-
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Dependent Variables"
 msgstr ""
@@ -951,4 +943,12 @@ msgstr ""
 
 msgctxt "NetworkAnalysis|"
 msgid "Strength"
+msgstr ""
+
+msgctxt "Description|"
+msgid "Network Analysis"
+msgstr ""
+
+msgctxt "Description|"
+msgid "Bayesian Network Analysis"
 msgstr ""

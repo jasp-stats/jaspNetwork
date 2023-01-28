@@ -583,14 +583,6 @@ msgctxt "NetworkAnalysis|"
 msgid "Group 2"
 msgstr "分组 2"
 
-msgctxt "Description|"
-msgid "Network analysis"
-msgstr "网络分析"
-
-msgctxt "Description|"
-msgid "Bayesian network analysis"
-msgstr "贝叶斯网络分析"
-
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Dependent Variables"
 msgstr "因变量"
@@ -1014,4 +1006,12 @@ msgstr ""
 
 msgctxt "NetworkAnalysis|"
 msgid "Strength"
+msgstr ""
+
+msgctxt "Description|"
+msgid "Network Analysis"
+msgstr ""
+
+msgctxt "Description|"
+msgid "Bayesian Network Analysis"
 msgstr ""
