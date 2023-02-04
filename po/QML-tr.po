@@ -1,15 +1,9 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2023-01-31 20:50+0000\n"
-"Last-Translator: Ünal Halit ÖZDEN <uozden@ticaret.edu.tr>\n"
-"Language-Team: Turkish <https://hosted.weblate.org/projects/jasp/"
-"jaspnetwork-qml/tr/>\n"
-"Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.16-dev\n"
 "X-Language: tr\n"
 "X-Qt-Contexts: true\n"
 
@@ -589,25 +583,29 @@ msgctxt "NetworkAnalysis|"
 msgid "Group 2"
 msgstr ""
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Dependent Variables"
-msgstr ""
+msgstr "Bağımlı değişkenler"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Split"
 msgstr ""
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Estimator"
-msgstr ""
+msgstr "Tahminci"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Plots"
-msgstr ""
+msgstr "Grafikler"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Network plot"
-msgstr ""
+msgstr "Ağ grafiği"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge evidence plot"
@@ -637,13 +635,15 @@ msgctxt "BayesianNetworkAnalysis|"
 msgid "Credibility interval 95%"
 msgstr ""
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Tables"
-msgstr ""
+msgstr "Tablolar"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Weights matrix"
-msgstr ""
+msgstr "Ağırlık matrisi"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge evidence probability table"
