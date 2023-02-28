@@ -224,7 +224,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     bdgraphResult$graphWeights           <- bdgraphFit$graph_weights
     bdgraphResult$inclusionProbabilities <- as.matrix(BDgraph::plinks(bdgraphFit))
     bdgraphResult$inclusionProbabilities <- bdgraphResult$inclusionProbabilities + t(bdgraphResult$inclusionProbabilities)
-    bdgraphResult$BF                     <- bdgraphResult$inclusionProbabilities / (1 - bdgraphResult$inclusionProbabilities)
+    bdgraphResult$BF                     <- bdgraphResult$inclusionProbabilities / (1 - bdgraphResult$inclusionProbabilities) / (as.numeric(options[["gprior"]]) / (1 - as.numeric(options[["gprior"]])))
     bdgraphResult$structure              <- 1*(bdgraphResult$inclusionProbabilities > 0.5)
     bdgraphResult$estimates              <- pr2pc(bdgraphFit$K_hat); diag(bdgraphResult$estimates) <- 0
     bdgraphResult$graph                  <- bdgraphResult$estimates*bdgraphResult$structure
