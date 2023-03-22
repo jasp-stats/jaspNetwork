@@ -16,8 +16,7 @@
 #
 
 BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
-  
-  
+
   # MissingValues needed for the .networkAnalysisReadData function in the frequentist network module: 
   options[["missingValues"]] <- "listwise" # Unfortunately BDgraph does not work with pairwise missing values
   
@@ -215,9 +214,9 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
                                        df.prior   = as.numeric(options[["dfprior"]]),
                                        g.prior    = as.numeric(options[["gprior"]])))
     
-    if (inherits(bdgraphFit, "try-error")) {
+    if (inherits(bdgraphFit, "try-error")) 
       bdgraphResult$errorMessage <- as.character(bdgraphFit)
-    }
+
   
     # Extract results:
     bdgraphResult <- list()
@@ -446,7 +445,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       
   if (!all(measuresToShow)) {
     measuresToFilter <- c("betweenness", "closeness", "strength", "expectedInfluence")[measuresToShow]
-    centralitySummary <- subset(centralitySummary, measure %in% measuresToFilter)
+    centralitySummary <- subset(centralitySummary, measure %in% firstup(measuresToFilter))
   }
       
   .bayesianNetworkAnalysisMakeCentralityPlot(plot, centralitySummary, options)
@@ -603,6 +602,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     if (length(unique(colorGroupVariables[, 1L])) > 1L) {
       # user has defined groups and there are variables in the groups
       manualColorGroups <- matrix(unlist(options[["manualColorGroups"]]), ncol = 2L, byrow = TRUE)
+    
       nGroups <- nrow(manualColorGroups)
       
       idx <- match(colorGroupVariables[, 1L], manualColorGroups[, 1L])
@@ -1138,6 +1138,8 @@ centrality <- function(network, measures = c("closeness", "betweenness", "streng
       centralityOutput <- cbind(centralityOutput, graph$data[, "value"])
     }
   }
+
+  centralityOutput$posteriorMeans <- ifelse(is.na(centralityOutput$posteriorMeans), 0, centralityOutput$posteriorMeans)
   
   return(centralityOutput)
 }
