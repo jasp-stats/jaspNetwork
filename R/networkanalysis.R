@@ -1574,7 +1574,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   # Unfortunately, these error appear for particular subsets of the data (from cross validation),
   # so it's difficult to traceable particular errors to the complete data.
 
-  errmsg <- .extractErrorMessage(e)
+  errmsg <- .extractErrorMessage(e[["message"]])
   # possibly add other checks here in the future
   dataIssue <- startsWith(errmsg, "y is constant") || endsWith(errmsg, "standardization step")
 
