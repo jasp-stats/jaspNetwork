@@ -186,11 +186,11 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   for (nw in seq_along(dataset)) {
 
     # When method = "gcgm" a vector with binary values is needed:
-    nonContVariables <- NULL 
+    nonContVariables <- NULL
     if (options[["estimator"]] == "gcgm") {
       nonContVariables <- c()
       for (var in options[["variables"]]) {
-        
+
         # A 1 indicates noncontinuous variables:
         if (length(levels(factor(dataset[[nw]][[var]]))) <= 8) {
           nonContVariables <- c(nonContVariables, 1)
@@ -199,13 +199,13 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
         }
       }
     }
-    
+
     jaspBase::.setSeedJASP(options)
-    
-    # Estimate network:  
+
+    # Estimate network:
     bdgraphFit <- try(BDgraph::bdgraph(data       = as.data.frame(dataset[[nw]]),
                                        method     = options[["estimator"]],
-                                       not.cont   = nonContVariables, 
+                                       not.cont   = nonContVariables,
                                        algorithm  = "rjmcmc",
                                        iter       = as.numeric(options[["iter"]]),
                                        save       = TRUE,
@@ -213,13 +213,19 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
                                        g.start    = options[["initialConfiguration"]],
                                        df.prior   = as.numeric(options[["dfprior"]]),
                                        g.prior    = as.numeric(options[["gprior"]])))
-    
-    if (inherits(bdgraphFit, "try-error")) 
-      bdgraphResult$errorMessage <- as.character(bdgraphFit)
 
-  
+    if (isTryError(bdgraphFit)) {
+      message <- .extractErrorMessage(bdgraphFit)
+      if (startsWith(message, "system is computationally singular")) {
+        .quitAnalysis(gettext("Could not invert the posterior rate matrix. Check if the covariance matrix of your data is singular. For example, check for any pairs of variables with extreme correlations (> .95)."))
+      } else {
+        .quitAnalysis(gettextf("BDgraph failed with the following error message:\n%s", message))
+      }
+    }
+
     # Extract results:
     bdgraphResult <- list()
+
     bdgraphResult$graphWeights           <- bdgraphFit$graph_weights
     bdgraphResult$inclusionProbabilities <- as.matrix(BDgraph::plinks(bdgraphFit))
     bdgraphResult$inclusionProbabilities <- bdgraphResult$inclusionProbabilities + t(bdgraphResult$inclusionProbabilities)
@@ -228,16 +234,17 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     bdgraphResult$estimates              <- pr2pc(bdgraphFit$K_hat); diag(bdgraphResult$estimates) <- 0
     bdgraphResult$graph                  <- bdgraphResult$estimates*bdgraphResult$structure
     bdgraphResult$sampleGraphs           <- bdgraphFit$sample_graphs
-    
+
     # TODO: remove by default and place in the centrality function:
-    bdgraphResult$samplesPosterior       <- extractposterior(bdgraphFit, 
-                                                             as.data.frame(dataset[[nw]]), 
-                                                             options[["estimator"]], 
+    bdgraphResult$samplesPosterior       <- extractposterior(bdgraphFit,
+                                                             as.data.frame(dataset[[nw]]),
+                                                             options[["estimator"]],
                                                              nonContVariables,
                                                              options)[[1]]
+
     networks[[nw]] <- bdgraphResult
   }
-  
+
   return(networks)
 }
 
