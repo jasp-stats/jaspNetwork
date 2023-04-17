@@ -109,7 +109,11 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     tryCatch(
       networkList[["network"]] <- .bayesianNetworkAnalysisComputeNetworks(options, dataset),
       error = function(e) {
-        mainContainer$setError(.extractErrorMessage(e))
+        # rethrow the error if it was .quitAnalysis was called
+        if (inherits(e, "validationError"))
+          stop(e)
+
+        mainContainer$setError(.extractErrorMessage(e[["message"]]))
       }
     )
   
