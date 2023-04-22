@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: jaspNetwork 0.17.0\n"
-"POT-Creation-Date: 2022-12-24 02:31\n"
+"POT-Creation-Date: 2023-04-22 02:30\n"
 "PO-Revision-Date: 2022-11-26 00:43+0000\n"
 "Last-Translator: Tomasz Misiuro <tomaszmisiuro@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/jasp/jaspnetwork-"
@@ -27,6 +27,17 @@ msgid "Number of non-zero edges"
 msgstr "Liczba krawędzi niezerowych"
 
 msgid "Sparsity"
+msgstr ""
+
+msgid ""
+"Could not invert the posterior rate matrix. Check if the covariance matrix "
+"of your data is singular. For example, check for any pairs of variables with "
+"extreme correlations (> .95)."
+msgstr ""
+
+msgid ""
+"BDgraph failed with the following error message:\n"
+"%s"
 msgstr ""
 
 msgid ""

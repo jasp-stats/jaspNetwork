@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: jaspNetwork 0.17.1\n"
-"POT-Creation-Date: 2023-02-11 02:37\n"
+"Project-Id-Version: jaspNetwork 0.17.2\n"
+"POT-Creation-Date: 2023-04-22 02:30\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,6 +24,12 @@ msgid "Number of non-zero edges"
 msgstr ""
 
 msgid "Sparsity"
+msgstr ""
+
+msgid "Could not invert the posterior rate matrix. Check if the covariance matrix of your data is singular. For example, check for any pairs of variables with extreme correlations (> .95)."
+msgstr ""
+
+msgid "BDgraph failed with the following error message:\n%s"
 msgstr ""
 
 msgid "Minimum edge strength ignored in the network plot because it was larger than the absolute value of the strongest edge."

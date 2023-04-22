@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: jaspNetwork 0.15\n"
-"POT-Creation-Date: 2022-12-24 02:31\n"
+"POT-Creation-Date: 2023-04-22 02:30\n"
 "PO-Revision-Date: 2022-09-20 15:24+0000\n"
 "Last-Translator: Shun Wang <shuonwang@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -27,6 +27,20 @@ msgstr "非零边数"
 
 msgid "Sparsity"
 msgstr "稀缺性"
+
+msgid ""
+"Could not invert the posterior rate matrix. Check if the covariance matrix "
+"of your data is singular. For example, check for any pairs of variables with "
+"extreme correlations (> .95)."
+msgstr ""
+
+#, fuzzy
+msgid ""
+"BDgraph failed with the following error message:\n"
+"%s"
+msgstr ""
+"bootnet 崩溃，错误信息如下：\n"
+"%s"
 
 msgid ""
 "Minimum edge strength ignored in the network plot because it was larger than "
