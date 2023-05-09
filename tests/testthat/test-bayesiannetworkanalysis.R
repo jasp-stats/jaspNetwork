@@ -46,12 +46,20 @@ testthat::test_that("Centrality plot works with empty graphs", {
   options$dfprior <- 3
   options$gprior  <- "0.5"
   options$manualColorGroups <- list(list(color = "red", name = "Group 1"), list(color = "red", name = "Group 2"))
-
+  options$centralityPlot <- TRUE
+  options$credibilityInterval <- TRUE
+  options$burnin <- 100
+  options$iter   <- 500
+  options$group  <- ""
+  options$initialConfiguration <- "empty"
   results <- jaspTools::runAnalysis("BayesianNetworkAnalysis", sleep, options)
 
-  dput(options2)
-  dput(options)
-  all.equal(options, options2)
+  table <- results[["results"]][["mainContainer"]][["collection"]][["mainContainer_generalTable"]][["data"]]
+  jaspTools::expect_equal_tables(table,
+                                 list(0.333333333333333, 3, "2 / 3"))
 
-  setdiff(names(options2), names(options))
+  plotName <- results[["results"]][["mainContainer"]][["collection"]][["mainContainer_plotContainer"]][["collection"]][["mainContainer_plotContainer_centralityPlot"]][["data"]]
+  testPlot <- results[["state"]][["figures"]][[plotName]][["obj"]]
+  jaspTools::expect_equal_plots(testPlot, "centrality-plot")
+
 })
