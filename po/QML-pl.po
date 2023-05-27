@@ -1,40 +1,46 @@
 msgid ""
 msgstr ""
+"PO-Revision-Date: 2023-05-28 00:24+0000\n"
+"Last-Translator: Tomasz Misiuro <tomaszmisiuro@gmail.com>\n"
+"Language-Team: Polish <https://hosted.weblate.org/projects/jasp/"
+"jaspnetwork-qml/pl/>\n"
+"Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
-"|| n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 4.18-dev\n"
 "X-Language: pl\n"
 "X-Qt-Contexts: true\n"
 
 msgctxt "Description|"
 msgid "Network"
-msgstr ""
+msgstr "Sieć"
 
 msgctxt "Description|"
 msgid "Explore the connections between variables organized as a network"
-msgstr ""
+msgstr "Eksploruj powiązania pomiędzy zmiennymi tworzącymi sieć"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Dependent Variables"
-msgstr ""
+msgstr "Zmienne zależne"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Split"
-msgstr ""
+msgstr "Podział"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Estimator"
-msgstr ""
+msgstr "Estymator"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Plots"
-msgstr ""
+msgstr "Wykresy"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Network plot"
-msgstr ""
+msgstr "Wykres sieci"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge evidence plot"
@@ -46,7 +52,7 @@ msgstr ""
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Inclusion criteria: BF₁₀ > "
-msgstr ""
+msgstr "Kryteria włączenia: BF₁₀ > "
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Evidence for exclusion"
@@ -62,15 +68,15 @@ msgstr ""
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Credibility interval 95%"
-msgstr ""
+msgstr "Przedział wiarygodności 95%"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Tables"
-msgstr ""
+msgstr "Tabele"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Weights matrix"
-msgstr ""
+msgstr "Macierz wag"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge evidence probability table"
@@ -82,15 +88,15 @@ msgstr ""
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "BF₁₀"
-msgstr ""
+msgstr "BF₁₀"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "BF₀₁"
-msgstr ""
+msgstr "BF₀₁"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Log(BF₁₀)"
-msgstr ""
+msgstr "Log(BF₁₀)"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Centrality table"
@@ -98,7 +104,7 @@ msgstr ""
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Sampling Options"
-msgstr ""
+msgstr "Opcje próbkowania"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Burn in: "
@@ -106,11 +112,11 @@ msgstr ""
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Iterations: "
-msgstr ""
+msgstr "Iteracje: "
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Prior"
-msgstr ""
+msgstr "Prior"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Prior edge inclusion (g prior): "
@@ -130,47 +136,47 @@ msgstr ""
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Group name"
-msgstr ""
+msgstr "Nazwa grupy"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Group 1"
-msgstr ""
+msgstr "Grupa 1"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Group 2"
-msgstr ""
+msgstr "Grupa 2"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "New Group"
-msgstr ""
+msgstr "Nowa grupa"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Group color"
-msgstr ""
+msgstr "Kolor grupy"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "red"
-msgstr ""
+msgstr "czerwony"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "blue"
-msgstr ""
+msgstr "niebieski"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "yellow"
-msgstr ""
+msgstr "żółty"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "green"
-msgstr ""
+msgstr "zielony"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "purple"
-msgstr ""
+msgstr "fioletowy"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "orange"
-msgstr ""
+msgstr "pomarańczowy"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Variables in network"
@@ -178,11 +184,11 @@ msgstr ""
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Group"
-msgstr ""
+msgstr "Grupa"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Manual colors"
-msgstr ""
+msgstr "Ręcznie"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Node palette"
@@ -190,7 +196,7 @@ msgstr ""
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Rainbow"
-msgstr ""
+msgstr "Tęcza"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Colorblind"
@@ -198,15 +204,15 @@ msgstr "Kontrastowy"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Pastel"
-msgstr ""
+msgstr "Pastelowy"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Gray"
-msgstr ""
+msgstr "Szary"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "R"
-msgstr ""
+msgstr "R"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "ggplot2"
@@ -218,19 +224,19 @@ msgstr ""
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edges"
-msgstr ""
+msgstr "Krawędzie"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge size"
-msgstr ""
+msgstr "Wielkość krawędzi"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Max edge strength"
-msgstr ""
+msgstr "Maks. grubość krawędzi"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Min edge strength"
-msgstr ""
+msgstr "Min. grubość krawędzi"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Cut"
@@ -238,43 +244,43 @@ msgstr ""
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Show details"
-msgstr ""
+msgstr "Pokaż detale"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge labels"
-msgstr ""
+msgstr "Etykiety krawędzi"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge label size"
-msgstr ""
+msgstr "Rozmiar etykiet krawędzi"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge label position"
-msgstr ""
+msgstr "Pozycja etykiet krawędzi"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge palette"
-msgstr ""
+msgstr "Paleta kolorów"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Classic"
-msgstr ""
+msgstr "Klasyczne"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Hollywood"
-msgstr ""
+msgstr "Hollywood"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Borkulo"
-msgstr ""
+msgstr "Borkulo"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "TeamFortress"
-msgstr ""
+msgstr "TeamFortress"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Reddit"
-msgstr ""
+msgstr "Reddit"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Fried"
@@ -282,15 +288,15 @@ msgstr ""
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Labels"
-msgstr ""
+msgstr "Etykiety"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Label size"
-msgstr ""
+msgstr "Rozmiar etykiety"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Scale label size"
-msgstr ""
+msgstr "Skaluj rozmiar etykiety"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Abbreviate labels to "
@@ -298,27 +304,27 @@ msgstr ""
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Show Variable Names"
-msgstr ""
+msgstr "Pokaż nazwy zmiennych"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "In plot"
-msgstr ""
+msgstr "W wykresie"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "In legend"
-msgstr ""
+msgstr "W legendzie"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Legend"
-msgstr ""
+msgstr "Legenda"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "No legend"
-msgstr ""
+msgstr "Bez legendy"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "All plots"
-msgstr ""
+msgstr "Wszystkie wykresy"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "In plot number: "
@@ -330,7 +336,7 @@ msgstr ""
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Layout"
-msgstr ""
+msgstr "Warstwa"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Spring"
@@ -342,7 +348,7 @@ msgstr ""
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Circle"
-msgstr ""
+msgstr "Okrąg"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Measures shown in centrality plot"
@@ -378,23 +384,23 @@ msgstr ""
 
 msgctxt "NetworkAnalysis|"
 msgid "Dependent Variables"
-msgstr ""
+msgstr "Zmienne zależne"
 
 msgctxt "NetworkAnalysis|"
 msgid "Split"
-msgstr ""
+msgstr "Podział"
 
 msgctxt "NetworkAnalysis|"
 msgid "Estimator"
-msgstr ""
+msgstr "Estymator"
 
 msgctxt "NetworkAnalysis|"
 msgid "Correlation"
-msgstr ""
+msgstr "KOrelacja"
 
 msgctxt "NetworkAnalysis|"
 msgid "Partial Correlation"
-msgstr ""
+msgstr "Korelacja cząstkowa"
 
 msgctxt "NetworkAnalysis|"
 msgid "huge"
@@ -402,11 +408,11 @@ msgstr ""
 
 msgctxt "NetworkAnalysis|"
 msgid "Plots"
-msgstr ""
+msgstr "Wykresy"
 
 msgctxt "NetworkAnalysis|"
 msgid "Network plot"
-msgstr ""
+msgstr "Wykres sieci"
 
 msgctxt "NetworkAnalysis|"
 msgid "Centrality plot"
@@ -418,7 +424,7 @@ msgstr ""
 
 msgctxt "NetworkAnalysis|"
 msgid "Tables"
-msgstr ""
+msgstr "Tabele"
 
 msgctxt "NetworkAnalysis|"
 msgid "Centrality table"
@@ -430,27 +436,27 @@ msgstr ""
 
 msgctxt "NetworkAnalysis|"
 msgid "Weights matrix"
-msgstr ""
+msgstr "Macierz wag"
 
 msgctxt "NetworkAnalysis|"
 msgid "Analysis Options - "
-msgstr ""
+msgstr "Opcje analizy - "
 
 msgctxt "NetworkAnalysis|"
 msgid "Correlation Method"
-msgstr ""
+msgstr "Metoda korelacji"
 
 msgctxt "NetworkAnalysis|"
 msgid "Auto"
-msgstr ""
+msgstr "Auto."
 
 msgctxt "NetworkAnalysis|"
 msgid "Cor"
-msgstr ""
+msgstr "Kor."
 
 msgctxt "NetworkAnalysis|"
 msgid "Cov"
-msgstr ""
+msgstr "Kow."
 
 msgctxt "NetworkAnalysis|"
 msgid "Npn"
@@ -462,31 +468,31 @@ msgstr ""
 
 msgctxt "NetworkAnalysis|"
 msgid "Normalized"
-msgstr ""
+msgstr "Znormalizowane"
 
 msgctxt "NetworkAnalysis|"
 msgid "Relative"
-msgstr ""
+msgstr "Wzglęne"
 
 msgctxt "NetworkAnalysis|"
 msgid "Raw"
-msgstr ""
+msgstr "Wiersz"
 
 msgctxt "NetworkAnalysis|"
 msgid "Network"
-msgstr ""
+msgstr "Sieć"
 
 msgctxt "NetworkAnalysis|"
 msgid "Weighted"
-msgstr ""
+msgstr "Ważone"
 
 msgctxt "NetworkAnalysis|"
 msgid "Signed"
-msgstr ""
+msgstr "Oznaczone"
 
 msgctxt "NetworkAnalysis|"
 msgid "Missing Values"
-msgstr ""
+msgstr "Braki danych"
 
 msgctxt "NetworkAnalysis|"
 msgid "Exclude pairwise"
@@ -502,11 +508,11 @@ msgstr "Wielkość próby"
 
 msgctxt "NetworkAnalysis|"
 msgid "Maximum"
-msgstr ""
+msgstr "Maksimum"
 
 msgctxt "NetworkAnalysis|"
 msgid "Minimum"
-msgstr ""
+msgstr "MInimum"
 
 msgctxt "NetworkAnalysis|"
 msgid "Ising Estimator"
@@ -534,19 +540,19 @@ msgstr ""
 
 msgctxt "NetworkAnalysis|"
 msgid "EBIC"
-msgstr ""
+msgstr "EBIC"
 
 msgctxt "NetworkAnalysis|"
 msgid "RIC"
-msgstr ""
+msgstr "RIC"
 
 msgctxt "NetworkAnalysis|"
 msgid "STARS"
-msgstr ""
+msgstr "STARS"
 
 msgctxt "NetworkAnalysis|"
 msgid "CV"
-msgstr ""
+msgstr "CV"
 
 msgctxt "NetworkAnalysis|"
 msgid "Rule"
@@ -554,19 +560,19 @@ msgstr ""
 
 msgctxt "NetworkAnalysis|"
 msgid "AND"
-msgstr ""
+msgstr "I"
 
 msgctxt "NetworkAnalysis|"
 msgid "OR"
-msgstr ""
+msgstr "LUB"
 
 msgctxt "NetworkAnalysis|"
 msgid "Median"
-msgstr ""
+msgstr "Mediana"
 
 msgctxt "NetworkAnalysis|"
 msgid "Mean"
-msgstr ""
+msgstr "Średnia"
 
 msgctxt "NetworkAnalysis|"
 msgid "Tuning Parameter"
@@ -578,7 +584,7 @@ msgstr "Wartość"
 
 msgctxt "NetworkAnalysis|"
 msgid "Threshold"
-msgstr ""
+msgstr "Próg"
 
 msgctxt "NetworkAnalysis|"
 msgid "Method"
@@ -586,11 +592,11 @@ msgstr "Metoda"
 
 msgctxt "NetworkAnalysis|"
 msgid "Significant"
-msgstr ""
+msgstr "Istotny"
 
 msgctxt "NetworkAnalysis|"
 msgid "Cross-validation"
-msgstr ""
+msgstr "Walidacja krzyżowa"
 
 msgctxt "NetworkAnalysis|"
 msgid "nFolds"
@@ -598,15 +604,15 @@ msgstr ""
 
 msgctxt "NetworkAnalysis|"
 msgid "Variables in network"
-msgstr ""
+msgstr "Zmienne w sieci"
 
 msgctxt "NetworkAnalysis|"
 msgid "Continuous Variables"
-msgstr ""
+msgstr "Zmienne ciągłe"
 
 msgctxt "NetworkAnalysis|"
 msgid "Categorical Variables"
-msgstr ""
+msgstr "Zmienne kategorialne"
 
 msgctxt "NetworkAnalysis|"
 msgid "Count Variables"
@@ -614,11 +620,11 @@ msgstr ""
 
 msgctxt "NetworkAnalysis|"
 msgid "Bootstrap Options"
-msgstr ""
+msgstr "Opcje bootstrapu"
 
 msgctxt "NetworkAnalysis|"
 msgid "Settings"
-msgstr ""
+msgstr "Ustawienia"
 
 msgctxt "NetworkAnalysis|"
 msgid "Bootstrap network"
@@ -626,7 +632,7 @@ msgstr ""
 
 msgctxt "NetworkAnalysis|"
 msgid "Number of bootstraps"
-msgstr ""
+msgstr "Liczba próbek"
 
 msgctxt "NetworkAnalysis|"
 msgid "Parallel Bootstrap"
@@ -634,11 +640,11 @@ msgstr ""
 
 msgctxt "NetworkAnalysis|"
 msgid "Bootstrap Type"
-msgstr ""
+msgstr "Typ bootstrapu"
 
 msgctxt "NetworkAnalysis|"
 msgid "Nonparametric"
-msgstr ""
+msgstr "Nieparametryczny"
 
 msgctxt "NetworkAnalysis|"
 msgid "Case"
@@ -650,7 +656,7 @@ msgstr ""
 
 msgctxt "NetworkAnalysis|"
 msgid "Parametric"
-msgstr ""
+msgstr "Parametryczny"
 
 msgctxt "NetworkAnalysis|"
 msgid "Person"
@@ -662,7 +668,7 @@ msgstr ""
 
 msgctxt "NetworkAnalysis|"
 msgid "Statistics"
-msgstr ""
+msgstr "Statystyki"
 
 msgctxt "NetworkAnalysis|"
 msgid "Edges"
@@ -674,55 +680,55 @@ msgstr ""
 
 msgctxt "NetworkAnalysis|"
 msgid "Graphical Options"
-msgstr ""
+msgstr "Opcje graficzne"
 
 msgctxt "NetworkAnalysis|"
 msgid "Group name"
-msgstr ""
+msgstr "Nazwa grupy"
 
 msgctxt "NetworkAnalysis|"
 msgid "Group 1"
-msgstr ""
+msgstr "Grupa 1"
 
 msgctxt "NetworkAnalysis|"
 msgid "Group 2"
-msgstr ""
+msgstr "Grupa 2"
 
 msgctxt "NetworkAnalysis|"
 msgid "New Group"
-msgstr ""
+msgstr "Nowa grupa"
 
 msgctxt "NetworkAnalysis|"
 msgid "Group color"
-msgstr ""
+msgstr "Kolor grupy"
 
 msgctxt "NetworkAnalysis|"
 msgid "red"
-msgstr ""
+msgstr "czerwony"
 
 msgctxt "NetworkAnalysis|"
 msgid "blue"
-msgstr ""
+msgstr "niebieski"
 
 msgctxt "NetworkAnalysis|"
 msgid "yellow"
-msgstr ""
+msgstr "żółty"
 
 msgctxt "NetworkAnalysis|"
 msgid "green"
-msgstr ""
+msgstr "zielony"
 
 msgctxt "NetworkAnalysis|"
 msgid "purple"
-msgstr ""
+msgstr "fioletowy"
 
 msgctxt "NetworkAnalysis|"
 msgid "orange"
-msgstr ""
+msgstr "pomarańczowy"
 
 msgctxt "NetworkAnalysis|"
 msgid "Group"
-msgstr ""
+msgstr "Grupa"
 
 msgctxt "NetworkAnalysis|"
 msgid "Manual colors"
@@ -734,7 +740,7 @@ msgstr ""
 
 msgctxt "NetworkAnalysis|"
 msgid "Rainbow"
-msgstr ""
+msgstr "Tęczowe"
 
 msgctxt "NetworkAnalysis|"
 msgid "Colorblind"
@@ -742,15 +748,15 @@ msgstr "Kontrastowy"
 
 msgctxt "NetworkAnalysis|"
 msgid "Pastel"
-msgstr ""
+msgstr "Pastelowe"
 
 msgctxt "NetworkAnalysis|"
 msgid "Gray"
-msgstr ""
+msgstr "Szare"
 
 msgctxt "NetworkAnalysis|"
 msgid "R"
-msgstr ""
+msgstr "R"
 
 msgctxt "NetworkAnalysis|"
 msgid "ggplot2"
@@ -762,15 +768,15 @@ msgstr ""
 
 msgctxt "NetworkAnalysis|"
 msgid "Edge size"
-msgstr ""
+msgstr "Rozmiar krawędzi"
 
 msgctxt "NetworkAnalysis|"
 msgid "Max edge strength"
-msgstr ""
+msgstr "Maks. grubość krawędzi"
 
 msgctxt "NetworkAnalysis|"
 msgid "Min edge strength"
-msgstr ""
+msgstr "Min. grubość krawędzi"
 
 msgctxt "NetworkAnalysis|"
 msgid "Cut"
@@ -778,43 +784,43 @@ msgstr ""
 
 msgctxt "NetworkAnalysis|"
 msgid "Show details"
-msgstr ""
+msgstr "Pokaż detale"
 
 msgctxt "NetworkAnalysis|"
 msgid "Edge labels"
-msgstr ""
+msgstr "Etykiety krawędzi"
 
 msgctxt "NetworkAnalysis|"
 msgid "Edge label size"
-msgstr ""
+msgstr "Rozmiar etykiet krawędzi"
 
 msgctxt "NetworkAnalysis|"
 msgid "Edge label position"
-msgstr ""
+msgstr "Pozycja etykiet krawędzi"
 
 msgctxt "NetworkAnalysis|"
 msgid "Edge palette"
-msgstr ""
+msgstr "Kolorystyka krawędzi"
 
 msgctxt "NetworkAnalysis|"
 msgid "Classic"
-msgstr ""
+msgstr "Klasyczna"
 
 msgctxt "NetworkAnalysis|"
 msgid "Hollywood"
-msgstr ""
+msgstr "Hollywood"
 
 msgctxt "NetworkAnalysis|"
 msgid "Borkulo"
-msgstr ""
+msgstr "Borkulo"
 
 msgctxt "NetworkAnalysis|"
 msgid "TeamFortress"
-msgstr ""
+msgstr "TeamFortress"
 
 msgctxt "NetworkAnalysis|"
 msgid "Reddit"
-msgstr ""
+msgstr "Reddit"
 
 msgctxt "NetworkAnalysis|"
 msgid "Fried"
@@ -822,11 +828,11 @@ msgstr ""
 
 msgctxt "NetworkAnalysis|"
 msgid "Labels"
-msgstr ""
+msgstr "Etykiety"
 
 msgctxt "NetworkAnalysis|"
 msgid "Label size"
-msgstr ""
+msgstr "Rozmiar etykiet"
 
 msgctxt "NetworkAnalysis|"
 msgid "Scale label size"
@@ -838,23 +844,23 @@ msgstr ""
 
 msgctxt "NetworkAnalysis|"
 msgid "Show Variable Names"
-msgstr ""
+msgstr "Pokaż nazwy zmiennych"
 
 msgctxt "NetworkAnalysis|"
 msgid "In plot"
-msgstr ""
+msgstr "W wykresie"
 
 msgctxt "NetworkAnalysis|"
 msgid "In Legend"
-msgstr ""
+msgstr "W legendzie"
 
 msgctxt "NetworkAnalysis|"
 msgid "Show Variable Type"
-msgstr ""
+msgstr "Pokaż typ zmiennych"
 
 msgctxt "NetworkAnalysis|"
 msgid "Don't show"
-msgstr ""
+msgstr "Nie pokazuj"
 
 msgctxt "NetworkAnalysis|"
 msgid "Using node color"
@@ -866,15 +872,15 @@ msgstr ""
 
 msgctxt "NetworkAnalysis|"
 msgid "Legend"
-msgstr ""
+msgstr "Legenda"
 
 msgctxt "NetworkAnalysis|"
 msgid "No legend"
-msgstr ""
+msgstr "Bez legendy"
 
 msgctxt "NetworkAnalysis|"
 msgid "All plots"
-msgstr ""
+msgstr "Wszystkie wykresy"
 
 msgctxt "NetworkAnalysis|"
 msgid "In plot number: "
@@ -886,11 +892,11 @@ msgstr ""
 
 msgctxt "NetworkAnalysis|"
 msgid "Layout"
-msgstr ""
+msgstr "Warstwa"
 
 msgctxt "NetworkAnalysis|"
 msgid "Do not update layout"
-msgstr ""
+msgstr "Nie aktualizuj warstwy"
 
 msgctxt "NetworkAnalysis|"
 msgid "Spring"
@@ -902,11 +908,11 @@ msgstr ""
 
 msgctxt "NetworkAnalysis|"
 msgid "Circle"
-msgstr ""
+msgstr "Okrąg"
 
 msgctxt "NetworkAnalysis|"
 msgid "Data"
-msgstr ""
+msgstr "Dane"
 
 msgctxt "NetworkAnalysis|"
 msgid "Measures shown in centrality plot"
@@ -926,23 +932,23 @@ msgstr ""
 
 msgctxt "NetworkAnalysis|"
 msgid "x"
-msgstr ""
+msgstr "x"
 
 msgctxt "NetworkAnalysis|"
 msgid "y"
-msgstr ""
+msgstr "y"
 
 msgctxt "NetworkAnalysis|"
 msgid "Save the layout in the data set"
-msgstr ""
+msgstr "Zapisz warstwę w pliku danych"
 
 msgctxt "NetworkAnalysis|"
 msgid "name for x-coordinates"
-msgstr ""
+msgstr "nazwy dla współrzędnych osi x"
 
 msgctxt "NetworkAnalysis|"
 msgid "name for y-coordinates"
-msgstr ""
+msgstr "nazwy dla współrzędnych osi y"
 
 msgctxt "NetworkAnalysis|"
 msgid "Strength"
@@ -950,8 +956,8 @@ msgstr ""
 
 msgctxt "Description|"
 msgid "Network Analysis"
-msgstr ""
+msgstr "Analiza sieci"
 
 msgctxt "Description|"
 msgid "Bayesian Network Analysis"
-msgstr ""
+msgstr "Bayesowska analiza sieci"
