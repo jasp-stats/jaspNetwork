@@ -1,16 +1,10 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2023-06-02 20:51+0000\n"
-"Last-Translator: Tomasz Misiuro <tomaszmisiuro@gmail.com>\n"
-"Language-Team: Polish <https://hosted.weblate.org/projects/jasp/"
-"jaspnetwork-qml/pl/>\n"
-"Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
-"|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.18-dev\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
 "X-Language: pl\n"
 "X-Qt-Contexts: true\n"
 
@@ -130,9 +124,10 @@ msgctxt "BayesianNetworkAnalysis|"
 msgid "Degrees of freedom of G-Wishart prior (df prior): "
 msgstr ""
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Graphical Options"
-msgstr ""
+msgstr "Opcje graficzne"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Group name"
@@ -178,9 +173,10 @@ msgctxt "BayesianNetworkAnalysis|"
 msgid "orange"
 msgstr "pomarańczowy"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Variables in network"
-msgstr ""
+msgstr "Zmienne w sieci"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Group"
@@ -670,9 +666,10 @@ msgctxt "NetworkAnalysis|"
 msgid "Statistics"
 msgstr "Statystyki"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Edges"
-msgstr ""
+msgstr "Krawędzie"
 
 msgctxt "NetworkAnalysis|"
 msgid "Centrality"
@@ -730,9 +727,10 @@ msgctxt "NetworkAnalysis|"
 msgid "Group"
 msgstr "Grupa"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Manual colors"
-msgstr ""
+msgstr "Ręcznie"
 
 msgctxt "NetworkAnalysis|"
 msgid "Node palette"
@@ -834,9 +832,10 @@ msgctxt "NetworkAnalysis|"
 msgid "Label size"
 msgstr "Rozmiar etykiet"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Scale label size"
-msgstr ""
+msgstr "Skaluj rozmiar etykiety"
 
 msgctxt "NetworkAnalysis|"
 msgid "Abbreviate labels to "
@@ -950,9 +949,10 @@ msgctxt "NetworkAnalysis|"
 msgid "name for y-coordinates"
 msgstr "nazwy dla współrzędnych osi y"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Strength"
-msgstr ""
+msgstr "Siła"
 
 msgctxt "Description|"
 msgid "Network Analysis"
