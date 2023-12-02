@@ -1,0 +1,956 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Language: br_FR\n"
+"X-Qt-Contexts: true\n"
+
+msgctxt "Description|"
+msgid "Network"
+msgstr ""
+
+msgctxt "Description|"
+msgid "Explore the connections between variables organized as a network"
+msgstr ""
+
+msgctxt "Description|"
+msgid "Network Analysis"
+msgstr ""
+
+msgctxt "Description|"
+msgid "Bayesian Network Analysis"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Dependent Variables"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Split"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Estimator"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Plots"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Network plot"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Edge evidence plot"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Inclusion criteria: BF₁₀ > "
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Evidence for inclusion"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Evidence for exclusion"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Absence of evidence"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Centrality plot"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Credibility interval 95%"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Tables"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Weights matrix"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Edge evidence probability table"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Edge inclusion probability"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "BF₁₀"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "BF₀₁"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Log(BF₁₀)"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Centrality table"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Sampling Options"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Burn in: "
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Iterations: "
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Prior"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Prior edge inclusion (g prior): "
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Initial configuration prior edge inclusion (g start):"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Degrees of freedom of G-Wishart prior (df prior): "
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Graphical Options"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Group name"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Group 1"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Group 2"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "New Group"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Group color"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "red"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "blue"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "yellow"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "green"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "purple"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "orange"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Variables in network"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Group"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Manual colors"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Node palette"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Rainbow"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Colorblind"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Pastel"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Gray"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "R"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "ggplot2"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Node size"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Edges"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Edge size"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Max edge strength"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Min edge strength"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Cut"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Show details"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Edge labels"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Edge label size"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Edge label position"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Edge palette"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Classic"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Hollywood"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Borkulo"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "TeamFortress"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Reddit"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Fried"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Labels"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Label size"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Scale label size"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Abbreviate labels to "
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Show Variable Names"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "In plot"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "In legend"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Legend"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "No legend"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "All plots"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "In plot number: "
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Legend to plot ratio"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Layout"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Spring"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Repulsion"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Circle"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Measures shown in centrality plot"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Betweenness"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Closeness"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Strength"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Expected influence"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Network structure selection"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Posterior structure probability plot"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Posterior complexity probability plot"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Dependent Variables"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Split"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Estimator"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Correlation"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Partial Correlation"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "huge"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Plots"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Network plot"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Centrality plot"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Clustering plot"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Tables"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Centrality table"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Clustering table"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Weights matrix"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Analysis Options - "
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Correlation Method"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Auto"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Cor"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Cov"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Npn"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Centrality Measures"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Normalized"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Relative"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Raw"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Network"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Weighted"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Signed"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Missing Values"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Exclude pairwise"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Exclude listwise"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Sample Size"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Maximum"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Minimum"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Ising Estimator"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Pseudo-likelihood"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Univariate regressions"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Bivariate regressions"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Loglinear"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Criterion"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "EBIC"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "RIC"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "STARS"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "CV"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Rule"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "AND"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "OR"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Median"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Mean"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Tuning Parameter"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Value"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Threshold"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Method"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Significant"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Cross-validation"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "nFolds"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Variables in network"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Continuous Variables"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Categorical Variables"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Count Variables"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Bootstrap Options"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Settings"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Bootstrap network"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Number of bootstraps"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Parallel Bootstrap"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Bootstrap Type"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Nonparametric"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Case"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Node"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Parametric"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Person"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Jackknife"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Statistics"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Edges"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Centrality"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Graphical Options"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Group name"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Group 1"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Group 2"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "New Group"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Group color"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "red"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "blue"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "yellow"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "green"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "purple"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "orange"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Group"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Manual colors"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Node palette"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Rainbow"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Colorblind"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Pastel"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Gray"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "R"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "ggplot2"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Node size"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Edge size"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Max edge strength"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Min edge strength"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Cut"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Show details"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Edge labels"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Edge label size"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Edge label position"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Edge palette"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Classic"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Hollywood"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Borkulo"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "TeamFortress"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Reddit"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Fried"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Labels"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Label size"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Scale label size"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Abbreviate labels to "
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Show Variable Names"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "In plot"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "In Legend"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Show Variable Type"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Don't show"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Using node color"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Using node shape"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Legend"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "No legend"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "All plots"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "In plot number: "
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Legend to plot ratio"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Layout"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Do not update layout"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Spring"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Repulsion"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Circle"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Data"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Measures shown in centrality plot"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Betweenness"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Closeness"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Strength"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Expected Influence"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "x"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "y"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "Save the layout in the data set"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "name for x-coordinates"
+msgstr ""
+
+msgctxt "NetworkAnalysis|"
+msgid "name for y-coordinates"
+msgstr ""
