@@ -1,9 +1,15 @@
 msgid ""
 msgstr ""
+"PO-Revision-Date: 2024-01-03 08:08+0000\n"
+"Last-Translator: Shun Wang <shuonwang@gmail.com>\n"
+"Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
+"jasp/jaspnetwork-qml/zh_Hans/>\n"
+"Language: zh_Hans\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 5.4-dev\n"
 "X-Language: zh_Hans\n"
 "X-Qt-Contexts: true\n"
 
@@ -621,7 +627,7 @@ msgstr ""
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Absence of evidence"
-msgstr ""
+msgstr "缺乏证据"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Centrality plot"
@@ -641,11 +647,11 @@ msgstr "权重矩阵"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge evidence probability table"
-msgstr "边缘证据概率表"
+msgstr "边证据概率表"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge inclusion probability"
-msgstr ""
+msgstr "边包含概率"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "BF₁₀"
@@ -665,7 +671,7 @@ msgstr "中心度表"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Sampling Options"
-msgstr ""
+msgstr "抽样选项"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Burn in: "
@@ -677,7 +683,7 @@ msgstr ""
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Prior"
-msgstr ""
+msgstr "先验"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Prior edge inclusion (g prior): "
@@ -685,304 +691,247 @@ msgstr ""
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Initial configuration prior edge inclusion (g start):"
-msgstr ""
+msgstr "初始配置先于边包含（g start）："
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Degrees of freedom of G-Wishart prior (df prior): "
 msgstr ""
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Graphical Options"
 msgstr "图形选项"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Group name"
 msgstr "组名"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Group 1"
 msgstr "分组 1"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Group 2"
 msgstr "分组 2"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "New Group"
 msgstr "新建组"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Group color"
 msgstr "组别颜色"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "red"
 msgstr "红色"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "blue"
 msgstr "蓝色"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "yellow"
 msgstr "黄色"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "green"
 msgstr "绿色"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "purple"
 msgstr "紫色"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "orange"
 msgstr "橙色"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Variables in network"
 msgstr "网络中的变量"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Group"
 msgstr "组"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Manual colors"
 msgstr "手动调色"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Node palette"
 msgstr "节点调色"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Rainbow"
 msgstr "彩虹"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Colorblind"
 msgstr "色盲模式"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Pastel"
 msgstr "粉彩"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Gray"
 msgstr "灰阶"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "R"
-msgstr "R风格"
+msgstr "R 风格"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "ggplot2"
 msgstr "ggplot2风格"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Node size"
 msgstr "节点大小"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edges"
 msgstr "边/连接（Edge）"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge size"
 msgstr "边大小"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Max edge strength"
 msgstr "最大边强度"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Min edge strength"
 msgstr "最小边强度"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Cut"
 msgstr "削减"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Show details"
 msgstr "显示细节"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge labels"
 msgstr "边标签"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge label size"
 msgstr "边标签尺寸"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge label position"
 msgstr "边标签位置"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge palette"
 msgstr "边调色板"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Classic"
 msgstr "经典"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Hollywood"
 msgstr "好莱坞"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Borkulo"
 msgstr "Borkulo风"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "TeamFortress"
 msgstr "军团要塞风"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Reddit"
 msgstr "Reddit风"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Fried"
 msgstr "Fried风"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Labels"
 msgstr "标签"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Label size"
 msgstr "标签大小"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Scale label size"
 msgstr "缩放标签尺寸"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Abbreviate labels to "
 msgstr "将标签缩写为 "
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Show Variable Names"
 msgstr "显示变量名称"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "In plot"
 msgstr "在绘图中"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "In legend"
-msgstr ""
+msgstr "在图例中"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Legend"
 msgstr "图例"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "No legend"
 msgstr "无图例"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "All plots"
 msgstr "在所有绘图中"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "In plot number: "
 msgstr "在指定绘图中： "
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Legend to plot ratio"
 msgstr "图例与绘图的比例"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Layout"
 msgstr "布局"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Spring"
 msgstr "弹性(Spring)"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Repulsion"
 msgstr "斥力"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Circle"
 msgstr "圆形"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Measures shown in centrality plot"
 msgstr "中心度图中显示的度量"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Betweenness"
 msgstr "介数（Betweenness ）"
 
-#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Closeness"
 msgstr "接近（Closeness）"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Strength"
-msgstr ""
+msgstr "强度"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Expected influence"
