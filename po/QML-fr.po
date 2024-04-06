@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2024-04-06 02:25+0000\n"
+"PO-Revision-Date: 2024-04-07 21:01+0000\n"
 "Last-Translator: robachowyk <kaya.robach@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/jasp/"
 "jaspnetwork-qml/fr/>\n"
@@ -63,7 +63,7 @@ msgstr ""
 
 msgctxt "NetworkAnalysis|"
 msgid "Tables"
-msgstr ""
+msgstr "Tables"
 
 msgctxt "NetworkAnalysis|"
 msgid "Centrality table"
@@ -71,7 +71,7 @@ msgstr ""
 
 msgctxt "NetworkAnalysis|"
 msgid "Clustering table"
-msgstr ""
+msgstr "Table de clustering"
 
 msgctxt "NetworkAnalysis|"
 msgid "Weights matrix"
