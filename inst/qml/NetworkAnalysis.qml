@@ -285,6 +285,7 @@ Form
 
 		AssignedVariablesList
 		{
+			preferredWidth					: (2 * form.width) / 5
 			Layout.fillWidth				: true
 			Layout.leftMargin				: 40
 			title							: qsTr("Variables in network")
