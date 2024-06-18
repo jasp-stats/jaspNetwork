@@ -27,10 +27,10 @@ Form
 	VariablesForm
 	{
 		AvailableVariablesList { name: "allVariablesList" }
-		AssignedVariablesList { name: "variables";			title: qsTr("Dependent Variables"); suggestedColumns: ["scale"]; id: networkVariables}
-		AssignedVariablesList { name: "groupingVariable";	title: qsTr("Split"); singleVariable: true; suggestedColumns: ["ordinal", "nominal"] }
+		AssignedVariablesList { name: "variables";			title: qsTr("Dependent Variables"); allowedColumns: ["scale"]; minNumericLevels: 2; id: networkVariables}
+		AssignedVariablesList { name: "groupingVariable";	title: qsTr("Split"); singleVariable: true; allowedColumns: ["nominal"]; minLevels: 2 }
 	}
-	
+
 	DropDown
 	{
 		id: estimator
@@ -47,8 +47,8 @@ Form
 	{
 		title: qsTr("Plots")
 		CheckBox { name: "networkPlot";		label: qsTr("Network plot")								}
-		CheckBox { 
-		  name: "evidencePlot";		
+		CheckBox {
+		  name: "evidencePlot";
 		  label: qsTr("Edge evidence plot")
 		  IntegerField {
 				  name:         "edgeInclusionCriteria";
@@ -61,12 +61,12 @@ Form
 				  CheckBox { name: "edgeExclusion";  label: qsTr("Evidence for exclusion"); checked: true }
 				  CheckBox { name: "edgeAbsence"; label: qsTr("Absence of evidence");   checked: true }
 		}
-		CheckBox { 
-		  name: "centralityPlot";  label: qsTr("Centrality plot") 
-		  CheckBox { 
+		CheckBox {
+		  name: "centralityPlot";  label: qsTr("Centrality plot")
+		  CheckBox {
 				    name:    "credibilityInterval";
 				    label:   qsTr("Credibility interval 95%");
-				    checked: false 
+				    checked: false
 		  }
 	  }
 	}
@@ -75,7 +75,7 @@ Form
 	{
 		title: qsTr("Tables")
 		CheckBox { name: "weightsMatrixTable";	label: qsTr("Weights matrix")	}
-		CheckBox { 
+		CheckBox {
 		    name: "edgeEvidenceTable";		label: qsTr("Edge evidence probability table")
 		    RadioButtonGroup {
 				  name: "evidenceType";
@@ -87,14 +87,14 @@ Form
 		}
 		CheckBox { name: "centralityTable"; label: qsTr("Centrality table") }
 	}
-	
-	Section 
+
+	Section
 	{
 	  title: qsTr("Sampling Options")
 	  Layout.columnSpan: 2
 	  IntegerField { name: "burnin"; label: qsTr("Burn in: "); value: "5000" ; min: 0; max: iter.value / 2; fieldWidth: 100; id: burnin }
 	  IntegerField { name: "iter"; label: qsTr("Iterations: "); value: "10000" ; min: burnin.value * 2; fieldWidth: 100; id: iter }
-		
+
 		SetSeed{}
 	}
 
@@ -103,7 +103,7 @@ Form
 		title: qsTr("Prior")
 
 		FormulaField { name: "gprior"; label: qsTr("Prior edge inclusion (g prior): "); value: "0.5" ; min: 0.001; max: 1; Layout.columnSpan: 2 }
-		
+
 		DropDown
 	  {
 		  id: initialConfiguration
@@ -245,7 +245,7 @@ Form
 			RadioButton { value: "inNodes";			label: qsTr("In plot");	 checked: true	}
 			RadioButton { value: "inLegend";		label: qsTr("In legend")					}
 		}
-		
+
 		RadioButtonGroup
 		{
 			name: "legend"
@@ -291,7 +291,7 @@ Form
 			CheckBox	{	name: "expectedInfluence";	label: qsTr("Expected influence");	checked: true	}
 		}
 	}
-	
+
 	Section
 	{
 		title:		qsTr("Network structure selection")

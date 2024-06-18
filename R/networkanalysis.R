@@ -56,10 +56,13 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   groupingVariable <- options[["groupingVariable"]]
   vars2read <- c(variables, groupingVariable)
   vars2read <- vars2read[vars2read != ""]
-  exclude    <- c()
-  if (options[["missingValues"]] == "listwise")
-    exclude <- vars2read
-  dataset <- .readDataSetToEnd(columns.as.numeric = vars2read, exclude.na.listwise = exclude)
+
+  exclude <- if (options[["missingValues"]] == "listwise")
+    c(vars2read, groupingVariable)
+  else if (groupingVariable != "")
+    exclude <- groupingVariable
+
+  dataset <- .readDataSetToEnd(columns.as.numeric = variables, columns.as.factor = if (groupingVariable != "") groupingVariable else NULL, exclude.na.listwise = exclude)
   # dataset <- .readDataSetToEnd(columns = vars2read, exclude.na.listwise = exclude) # jaspTools need this, JASP the line above
 
   if (options[["groupingVariable"]] == "") { # one network

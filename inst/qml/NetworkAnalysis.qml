@@ -27,8 +27,8 @@ Form
 	VariablesForm
 	{
 		AvailableVariablesList { name: "allVariablesList" }
-		AssignedVariablesList { name: "variables";			title: qsTr("Dependent Variables"); suggestedColumns: ["ordinal", "scale"]; id: networkVariables}
-		AssignedVariablesList { name: "groupingVariable";	title: qsTr("Split"); singleVariable: true; suggestedColumns: ["ordinal", "nominal"] }
+		AssignedVariablesList { name: "variables";			title: qsTr("Dependent Variables");			allowedColumns: ["scale"]; minNumericLevels: 2; id: networkVariables}
+		AssignedVariablesList { name: "groupingVariable";	title: qsTr("Split"); singleVariable: true; allowedColumns: ["nominal"]; minLevels: 2 }
 	}
 
 	DropDown
