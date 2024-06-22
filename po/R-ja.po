@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jaspNetwork 0.0.0\n"
 "POT-Creation-Date: 2023-04-22 02:30\n"
-"PO-Revision-Date: 2022-06-09 15:35+0000\n"
-"Last-Translator: JASP Stats <b.boutin@uva.nl>\n"
+"PO-Revision-Date: 2024-06-20 16:09+0000\n"
+"Last-Translator: Daiki Hojo <dhojo.bayes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/jasp/"
 "jaspnetwork-r/ja/>\n"
 "Language: ja\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.13-dev\n"
+"X-Generator: Weblate 5.6-rc\n"
 
 msgid "Summary of Network"
 msgstr "ネットワークの概要"
@@ -33,13 +33,15 @@ msgid ""
 "of your data is singular. For example, check for any pairs of variables with "
 "extreme correlations (> .95)."
 msgstr ""
+"事後比率行列を逆転できませんでした。データの共分散行列が特異かどうかをチェッ"
+"クしてください。例えば、極端な相関(> ."
+"95)を持つ変数のペアがないかチェックします."
 
-#, fuzzy
 msgid ""
 "BDgraph failed with the following error message:\n"
 "%s"
 msgstr ""
-"ブートネットは、次のエラー メッセージでクラッシュしました:\n"
+"BDgraphは、次のエラー メッセージでクラッシュしました:\n"
 "%s"
 
 msgid ""
@@ -66,10 +68,10 @@ msgid "Variable"
 msgstr "変数"
 
 msgid "Posterior Probability Structure Plots"
-msgstr ""
+msgstr "事後確率構造プロット"
 
 msgid "Posterior Probability Structure Plot"
-msgstr ""
+msgstr "事後確率構造プロット"
 
 msgid "Centrality measures per variable"
 msgstr "変数ごとの中心性指標"
@@ -89,31 +91,29 @@ msgstr "期待される影響"
 msgid "Centrality Plot"
 msgstr "中心性プロット"
 
-#, fuzzy
 msgid "Complexity plot"
-msgstr "中心性プロット"
+msgstr "複雑性プロット"
 
 msgid "Complexity plots"
-msgstr ""
+msgstr "複雑性プロット"
 
-#, fuzzy
 msgid "Complexity Plot"
-msgstr "中心性プロット"
+msgstr "複雑性プロット"
 
 msgid "Structure Plot"
-msgstr ""
+msgstr "構造プロット"
 
 msgid "Structure Plots"
-msgstr ""
+msgstr "構造プロット"
 
 msgid "Edge Evidence Plot"
-msgstr ""
+msgstr "エッジエビデンスプロット"
 
 msgid "Edge Evidence Plots"
-msgstr ""
+msgstr "エッジエビデンスプロット"
 
 msgid "Edge evidence probability table"
-msgstr ""
+msgstr "エッジエビデンス確率表"
 
 msgid ""
 "After binarizing the data too little variance remained in variable(s): %s."
