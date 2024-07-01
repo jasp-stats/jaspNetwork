@@ -155,6 +155,7 @@ Form
 		{
 			Layout.fillWidth				: true
 			Layout.leftMargin				: 40
+			preferredWidth					: (2 * form.width) / 5
 			title							: qsTr("Variables in network")
 			name							: "colorGroupVariables"
 			source							: ["variables"]
