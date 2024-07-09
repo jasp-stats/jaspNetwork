@@ -11,6 +11,7 @@ testthat::test_that("Analysis handles too many missing values errors", {
   options <- jaspTools::analysisOptions("BayesianNetworkAnalysis")
   options$estimator <- "gcgm"
   options$variables <- c("contNormal", "contGamma", "debMiss99")
+  options$variables.types <- rep("scale", length(options$variables))
   results <- jaspTools::runAnalysis("BayesianNetworkAnalysis", "test.csv", options)
 
   testthat::expect_true(results[["results"]][["error"]])
@@ -21,7 +22,9 @@ testthat::test_that("Analysis handles too many missing values errors with groupi
   options <- jaspTools::analysisOptions("BayesianNetworkAnalysis")
   options$estimator <- "gcgm"
   options$variables <- c("contNormal", "contGamma", "debMiss80")
+  options$variables.types <- rep("scale", length(options$variables))
   options$groupingVariable <- "facFifty"
+  options$groupingVariable.types <- "nominal"
   options$dfprior <- 3
   options$gprior  <- "0.5"
   results <- jaspTools::runAnalysis("BayesianNetworkAnalysis", "test.csv", options)
@@ -46,6 +49,7 @@ testthat::test_that("Centrality plot works with empty graphs", {
   options <- analysisOptions("BayesianNetworkAnalysis")
   options$estimator <- "gcgm"
   options$variables <- c("extra", "group", "ID")
+  options$variables.types <- rep("scale", length(options$variables))
   options$dfprior <- 3
   options$gprior  <- "0.5"
   options$manualColorGroups <- list(list(color = "red", name = "Group 1"), list(color = "red", name = "Group 2"))
