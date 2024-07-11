@@ -52,15 +52,12 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   if (!is.null(dataset))
     return(dataset)
 
-  variables <- unlist(options[["variables"]])
-  groupingVariable <- options[["groupingVariable"]]
-  vars2read <- c(variables, groupingVariable)
-  vars2read <- vars2read[vars2read != ""]
+  vars2read <- c("variables", "groupingVariable")
   exclude    <- c()
   if (options[["missingValues"]] == "listwise")
     exclude <- vars2read
-  dataset <- .readDataSetToEnd(columns.as.numeric = vars2read, exclude.na.listwise = exclude)
-  # dataset <- .readDataSetToEnd(columns = vars2read, exclude.na.listwise = exclude) # jaspTools need this, JASP the line above
+
+  dataset <- jaspBase::readDataSetByVariableTypes(options, vars2read, exclude.na.listwise = exclude)
 
   if (options[["groupingVariable"]] == "") { # one network
     dataset <- list(dataset) # for compatability with the split behaviour

@@ -8,6 +8,7 @@ context("Network Analysis")
 options <- jaspTools::analysisOptions("NetworkAnalysis")
 options$estimator <- "ebicGlasso"
 options$variables <- c("contNormal", "contcor1", "contcor2")
+options$variables.types <- rep("scale", length(options$variables))
 options$centralityTable <- TRUE
 options$clusteringTable <- TRUE
 options$weightsMatrixTable <- TRUE
@@ -60,6 +61,7 @@ options$centralityTable <- TRUE
 options$clusteringTable <- TRUE
 options$weightsMatrixTable <- TRUE
 options$variables <- list("A1", "A2", "A3", "A4", "A5")
+options$variables.types <- rep("scale", length(options$variables))
 estimators <- c("ebicGlasso","cor","pcor","isingFit","isingSampler","huge","adalasso")
 file <- testthat::test_path("networkResults.rds")
 
@@ -177,6 +179,7 @@ dataset <- as.data.frame(dataset)
 options <- jaspTools::analysisOptions("NetworkAnalysis")
 options$estimator <- "ebicGlasso"
 options$variables <- c("V1", "V2", "V3")
+options$variables.types <- rep("scale", length(options$variables))
 results <- jaspTools::runAnalysis("NetworkAnalysis", dataset, options)
 
 test_that("Too many missing rows returns an error", {
@@ -198,6 +201,7 @@ dataset$layoutY <- c("V1 = 1", "V2 = 0")
 options <- jaspTools::analysisOptions("NetworkAnalysis")
 options$estimator <- "ebicGlasso"
 options$variables <- c("V1", "V2", "V3")
+options$variables.types <- rep("scale", length(options$variables))
 options$layoutX <- "layoutX"
 options$layoutY <- "layoutY"
 options$networkPlot <- TRUE
@@ -215,6 +219,7 @@ test_that("Incorrect user layout shows a warning", {
 options <- analysisOptions("NetworkAnalysis")
 options$estimator <- "pcor"
 options$variables <- c(paste0("A", 1:5), paste0("O", 1:5), paste0("E", 1:5))
+options$variables.types <- rep("ordinal", length(options$variables))
 options$networkPlot <- TRUE
 options$weightsMatrixTable <- TRUE
 options$thresholdBox <- "method"
