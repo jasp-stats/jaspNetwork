@@ -213,9 +213,9 @@ Form
 				source: ["variables"]
 			}
 
-			AssignedVariablesList { name: "mgmContinuousVariables";		title: qsTr("Continuous Variables");	suggestedColumns: ["scale"]}
-			AssignedVariablesList { name: "mgmCategoricalVariables";	title: qsTr("Categorical Variables");	suggestedColumns: ["ordinal"]}
-			AssignedVariablesList { name: "mgmCountVariables";			title: qsTr("Count Variables");			suggestedColumns: ["nominal"]}
+			AssignedVariablesList { name: "mgmContinuousVariables";		title: qsTr("Continuous Variables");	allowedColumns: ["scale"]}
+			AssignedVariablesList { name: "mgmCategoricalVariables";	title: qsTr("Categorical Variables");	allowedColumns: ["ordinal"]}
+			AssignedVariablesList { name: "mgmCountVariables";			title: qsTr("Count Variables");			allowedColumns: ["nominal"]}
 		}
 	}
 
@@ -441,8 +441,8 @@ Form
 			visible: dataRatioButton.checked
 			preferredHeight: jaspTheme.smallDefaultVariablesFormHeight
 			AvailableVariablesList	{ name: "allXYVariables" }
-			AssignedVariablesList	{ name: "layoutX"; title: qsTr("x"); singleVariable: true; suggestedColumns: "nominal"}
-			AssignedVariablesList	{ name: "layoutY"; title: qsTr("y"); singleVariable: true; suggestedColumns: "nominal"}
+			AssignedVariablesList	{ name: "layoutX"; title: qsTr("x"); singleVariable: true; allowedColumns: "nominal"}
+			AssignedVariablesList	{ name: "layoutY"; title: qsTr("y"); singleVariable: true; allowedColumns: "nominal"}
 		}
 
 		CheckBox
