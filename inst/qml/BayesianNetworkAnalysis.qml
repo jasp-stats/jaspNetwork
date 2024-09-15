@@ -62,7 +62,7 @@ Form
 				  CheckBox { name: "edgeAbsence"; label: qsTr("Absence of evidence");   checked: true }
 		}
 		CheckBox { 
-		  name: "centralityPlot";  label: qsTr("Centrality plot") 
+		  name: "centralityPlot"; id: centralityPlot;  label: qsTr("Centrality plot") 
 		  CheckBox { 
 				    name:    "credibilityInterval";
 				    label:   qsTr("Credibility interval 95%");
@@ -175,7 +175,7 @@ Form
 			CheckBox	{ name: "manualColor";	label: qsTr("Manual colors");	id: manualColor	}
 			DropDown
 			{
-				enabled: !manualColors.checked
+				enabled: !manualColor.checked
 				id: paletteSelector
 				name: "nodePalette"
 				label: qsTr("Node palette")
@@ -285,7 +285,7 @@ Form
 		Group
 		{
 			title: qsTr("Measures shown in centrality plot")
-			enabled: plotCentrality.checked
+			enabled: centralityPlot.checked
 			CheckBox	{	name: "betweenness";		    label: qsTr("Betweenness");			    checked: true	}
 			CheckBox	{	name: "closeness";			    label: qsTr("Closeness");			      checked: true	}
 			CheckBox	{	name: "strength";				    label: qsTr("Strength");			      checked: true	}
