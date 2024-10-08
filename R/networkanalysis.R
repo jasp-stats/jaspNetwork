@@ -49,15 +49,20 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
 .networkAnalysisReadData <- function(dataset, options) {
 
-  if (!is.null(dataset))
-    return(dataset)
+  layoutVariables <- c(options[["layoutX"]], options[["layoutY"]])
+  layoutVariables <- layoutVariables[layoutVariables != ""]
+  hasLayoutData <- length(layoutVariables) > 0L
+  if (hasLayoutData) {
+    layoutData <- dataset[layoutVariables]
+    layoutData <- jaspBase::excludeNaListwise(layoutData, layoutVariables)
+    # remove the two layout columns
+    dataset[layoutVariables] <- list(NULL)
+  }
 
-  vars2read <- c("variables", "groupingVariable")
-  exclude    <- c()
-  if (options[["missingValues"]] == "listwise")
-    exclude <- vars2read
-
-  dataset <- jaspBase::readDataSetByVariableTypes(options, vars2read, exclude.na.listwise = exclude)
+  if (options[["missingValues"]] == "listwise") {
+    exclude <- c(options[["variables"]], options[["groupingVariable"]])
+    dataset <- jaspBase::excludeNaListwise(dataset, exclude[exclude != ""])
+  }
 
   if (options[["groupingVariable"]] == "") { # one network
     dataset <- list(dataset) # for compatability with the split behaviour
@@ -68,6 +73,10 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     dataset <- split(dataset, groupingVariableData, drop = TRUE)
     attr(dataset, "groupingVariableData") <- groupingVariableData
   }
+
+  if (hasLayoutData)
+    attr(dataset, "layoutData") <- layoutData
+
   return(dataset)
 
 }
@@ -1289,8 +1298,9 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   # it turns out that we must save the layout in the A1 = ... style.
   if (options[["layoutX"]] != "" && options[["layoutY"]] != "") {
 
-    layoutXData <- .readDataSetToEnd(columns = options[["layoutX"]], exclude.na.listwise = options[["layoutX"]])[[1L]]
-    layoutYData <- .readDataSetToEnd(columns = options[["layoutY"]], exclude.na.listwise = options[["layoutY"]])[[1L]]
+    layoutData <- attr(dataset, "layoutData")
+    layoutXData <- layoutData[[1L]]
+    layoutYData <- layoutData[[2L]]
     variables <- unlist(options[["variables"]])
     layoutInfo <- .networkAnalysisSanitizeLayoutData(variables, layoutXData, layoutYData, options[["layoutX"]], options[["layoutY"]])
 

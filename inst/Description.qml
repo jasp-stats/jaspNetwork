@@ -12,7 +12,13 @@ Description
 	maintainer:		"JASP Team <info@jasp-stats.org>"
 	website:		"jasp-stats.org"
 	license:		"GPL (>= 2)"
+	preloadData:	true
 
+	GroupTitle
+	{
+		title:	"Classical"
+		icon:	"analysis-network.svg"
+	}
 
   GroupTitle
   {

@@ -196,8 +196,8 @@ n <- 50
 p <- 3
 dataset <- as.data.frame(matrix(rnorm(n * (p-1)), n, p-1))
 dataset$V3 <- dataset$V1 + dataset$V2 + rnorm(n)
-dataset$layoutX <- c("V1 = 1", "V2 = 0")
-dataset$layoutY <- c("V1 = 1", "V2 = 0")
+dataset$layoutX <- factor(c("V1 = 1", "V2 = 0"))
+dataset$layoutY <- factor(c("V1 = 1", "V2 = 0"))
 options <- jaspTools::analysisOptions("NetworkAnalysis")
 options$estimator <- "ebicGlasso"
 options$variables <- c("V1", "V2", "V3")
