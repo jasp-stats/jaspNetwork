@@ -20,31 +20,25 @@ Description
 		icon:	"analysis-network.svg"
 	}
 
-  GroupTitle
-  {
-  	title:	"Classical"
-  	icon:			"analysis-network.svg"
-  }
-  
 	Analysis
 	{
 		title:	qsTr("Network Analysis")
-		qml:    "NetworkAnalysis.qml"
-		func:	  "NetworkAnalysis"
+		qml:	"NetworkAnalysis.qml"
+		func:	"NetworkAnalysis"
 	}
-	
+
 	Separator {}
-	
+
 	GroupTitle
-  {
-  	title:	"Bayesian"
-  	icon:		"bayesian-analysis-network.svg"
-  }
-	
+	{
+		title:	"Bayesian"
+		icon:		"bayesian-analysis-network.svg"
+	}
+
 	Analysis
 	{
 		title:	qsTr("Bayesian Network Analysis")
-		qml:    "BayesianNetworkAnalysis.qml"
-		func:	  "BayesianNetworkAnalysis"
+		qml:	"BayesianNetworkAnalysis.qml"
+		func:	"BayesianNetworkAnalysis"
 	}
 }
