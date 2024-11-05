@@ -27,10 +27,10 @@ Form
 	VariablesForm
 	{
 		AvailableVariablesList { name: "allVariablesList" }
-		AssignedVariablesList { name: "variables";			title: qsTr("Dependent Variables"); allowedColumns: ["scale"]; id: networkVariables}
+		AssignedVariablesList { name: "variables";			title: qsTr("Dependent Variables"); allowedColumns: ["ordinal", "scale"]; allowTypeChange: true; id: networkVariables}
 		AssignedVariablesList { name: "groupingVariable";	title: qsTr("Split"); singleVariable: true; allowedColumns: ["nominal"] }
 	}
-	
+
 	DropDown
 	{
 		id: estimator
@@ -39,7 +39,8 @@ Form
 		Layout.columnSpan: 2
 		values: [
 			{ value: "ggm",		        label: "ggm"			},
-			{ value: "gcgm",				  label: "gcgm"			}
+			{ value: "gcgm",				  label: "gcgm"			},
+			{ value: "omrf",				  label: "omrf"			}
 		]
 	}
 
@@ -47,8 +48,8 @@ Form
 	{
 		title: qsTr("Plots")
 		CheckBox { name: "networkPlot";		label: qsTr("Network plot")								}
-		CheckBox { 
-		  name: "evidencePlot";		
+		CheckBox {
+		  name: "evidencePlot";
 		  label: qsTr("Edge evidence plot")
 		  IntegerField {
 				  name:         "edgeInclusionCriteria";
@@ -61,12 +62,12 @@ Form
 				  CheckBox { name: "edgeExclusion";  label: qsTr("Evidence for exclusion"); checked: true }
 				  CheckBox { name: "edgeAbsence"; label: qsTr("Absence of evidence");   checked: true }
 		}
-		CheckBox { 
-		  name: "centralityPlot";  label: qsTr("Centrality plot") 
-		  CheckBox { 
+		CheckBox {
+		  name: "centralityPlot";  label: qsTr("Centrality plot")
+		  CheckBox {
 				    name:    "credibilityInterval";
 				    label:   qsTr("Credibility interval 95%");
-				    checked: false 
+				    checked: false
 		  }
 	  }
 	}
@@ -75,7 +76,7 @@ Form
 	{
 		title: qsTr("Tables")
 		CheckBox { name: "weightsMatrixTable";	label: qsTr("Weights matrix")	}
-		CheckBox { 
+		CheckBox {
 		    name: "edgeEvidenceTable";		label: qsTr("Edge evidence probability table")
 		    RadioButtonGroup {
 				  name: "evidenceType";
@@ -87,38 +88,100 @@ Form
 		}
 		CheckBox { name: "centralityTable"; label: qsTr("Centrality table") }
 	}
-	
-	Section 
+
+	Section
 	{
 	  title: qsTr("Sampling Options")
 	  Layout.columnSpan: 2
 	  IntegerField { name: "burnin"; label: qsTr("Burn in: "); value: "5000" ; min: 0; max: iter.value / 2; fieldWidth: 100; id: burnin }
 	  IntegerField { name: "iter"; label: qsTr("Iterations: "); value: "10000" ; min: burnin.value * 2; fieldWidth: 100; id: iter }
-		
+
 		SetSeed{}
 	}
 
-	Section
-	{
-		title: qsTr("Prior")
+Section {
+    title: qsTr("Prior Specification")
+    Layout.fillWidth: true
 
-		FormulaField { name: "gprior"; label: qsTr("Prior edge inclusion (g prior): "); value: "0.5" ; min: 0.001; max: 1; Layout.columnSpan: 2 }
-		
-		DropDown
-	  {
-		  id: initialConfiguration
-		  name: "initialConfiguration"
-		  label: qsTr("Initial configuration prior edge inclusion (g start):")
-		  Layout.columnSpan: 2
-		  values: [
-			  { value: "empty",		      label: "empty"			  },
-			  { value: "full",				  label: "full"				  }
-		  ]
-	  }
+    Column {
+        spacing: 15
+        anchors.fill: parent
 
-		IntegerField { name: "dfprior"; label: qsTr("Degrees of freedom of G-Wishart prior (df prior): "); value: "3" ; min: 3; Layout.columnSpan: 2 }
+        Group {
+            title: qsTr("Network/Edge Priors")
+            Layout.fillWidth: true
 
-	}
+            Column {
+                spacing: 10
+                Layout.fillWidth: true
+
+                FormulaField {
+                    name: "gprior"
+                    label: qsTr("Prior edge inclusion probability:")
+                    value: "0.5"
+                    min: 0.001
+                    max: 1
+                    Layout.fillWidth: true
+                    preferredWidth: 300
+                }
+
+                DropDown {
+                    id: edgePrior
+                    name: "edgePrior"
+                    label: qsTr("Edge prior for the omrf:")
+                    Layout.fillWidth: true
+                    preferredWidth: 300
+                    values: [
+                        { value: "Bernoulli", label: "Bernoulli" },
+                        { value: "Beta-Bernoulli", label: "Beta-Bernoulli" },
+                        { value: "Stochastic-Block", label: "Stochastic-Block" }
+                    ]
+                }
+
+                DropDown {
+                    id: initialConfiguration
+                    name: "initialConfiguration"
+                    label: qsTr("Initial configuration prior edge inclusion (for ggm and gcgm):")
+                    Layout.fillWidth: true
+                    preferredWidth: 300
+                    values: [
+                        { value: "empty", label: "empty" },
+                        { value: "full", label: "full" }
+                    ]
+                }
+            }
+        }
+
+        Group {
+            title: qsTr("Edge Weight Priors")
+            Layout.fillWidth: true
+
+            Column {
+                spacing: 10
+                Layout.fillWidth: true
+
+                IntegerField {
+                    name: "dfprior"
+                    label: qsTr("Degrees of freedom of G-Wishart prior (for ggm and gcgm):")
+                    value: 3
+                    min: 3
+                    Layout.fillWidth: true
+                    preferredWidth: 300
+                }
+
+                FormulaField {
+                    name: "interactionScale"
+                    label: qsTr("Scale of the Cauchy distribution (for omrf):")
+                    value: "2.5"
+                    min: 0.1
+                    max: 10
+                    Layout.fillWidth: true
+                    preferredWidth: 300
+                }
+            }
+        }
+    }
+}
 
 
   Section
@@ -246,7 +309,7 @@ Form
 			RadioButton { value: "inNodes";			label: qsTr("In plot");	 checked: true	}
 			RadioButton { value: "inLegend";		label: qsTr("In legend")					}
 		}
-		
+
 		RadioButtonGroup
 		{
 			name: "legend"
@@ -292,7 +355,7 @@ Form
 			CheckBox	{	name: "expectedInfluence";	label: qsTr("Expected influence");	checked: true	}
 		}
 	}
-	
+
 	Section
 	{
 		title:		qsTr("Network structure selection")
