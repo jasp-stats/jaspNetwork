@@ -33,9 +33,9 @@ Form
 
 	DropDown
 	{
-		id: estimator
-		name: "estimator"
-		label: qsTr("Estimator")
+		id: model
+		name: "model"
+		label: qsTr("Model")
 		Layout.columnSpan: 2
 		values: [
 			{ value: "ggm",		        label: "ggm"			},
