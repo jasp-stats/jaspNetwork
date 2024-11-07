@@ -108,7 +108,7 @@ Section {
         anchors.fill: parent
 
         Group {
-            title: qsTr("Network/Edge Priors")
+            title: qsTr("Network Structure (Edge) Priors")
             Layout.fillWidth: true
 
             Column {
@@ -138,6 +138,33 @@ Section {
                     ]
                 }
 
+                FormulaField {
+                    name:  "beta_alpha"
+                    label: qsTr("Shape parameter 1:")
+                    value: "1"
+                    min: 0.001
+                    Layout.fillWidth: true
+                    preferredWidth: 300
+                }
+
+                FormulaField {
+                    name: "beta_beta"
+                    label: qsTr("Shape parameter 2:")
+                    value: "1"
+                    min: 0.001
+                    Layout.fillWidth: true
+                    preferredWidth: 300
+                }
+
+                FormulaField {
+                    name: "dirichlet_alpha"
+                    label: qsTr("Concentration parameter:")
+                    value: "1"
+                    min: 0.001
+                    Layout.fillWidth: true
+                    preferredWidth: 300
+                }
+
                 DropDown {
                     id: initialConfiguration
                     name: "initialConfiguration"
@@ -149,11 +176,30 @@ Section {
                         { value: "full", label: "full" }
                     ]
                 }
+
+
+                FormulaField {
+                    name: "beta_bernoulli_alpha"
+                    label: qsTr("Shape parameter 1:")
+                    value: "1"
+                    min: 0.001
+                    Layout.fillWidth: true
+                    preferredWidth: 300
+                }
+
+                FormulaField {
+                    name: "beta_bernoulli_beta"
+                    label: qsTr("Shape parameter 2:")
+                    value: "1"
+                    min: 0.001
+                    Layout.fillWidth: true
+                    preferredWidth: 300
+                }
             }
         }
 
         Group {
-            title: qsTr("Edge Weight Priors")
+            title: qsTr("Parameter Priors")
             Layout.fillWidth: true
 
             Column {
@@ -171,10 +217,28 @@ Section {
 
                 FormulaField {
                     name: "interactionScale"
-                    label: qsTr("Scale of the Cauchy distribution (for omrf):")
+                    label: qsTr("Scale of the Cauchy distribution for the edge weights (for omrf):")
                     value: "2.5"
                     min: 0.1
-                    max: 10
+                    Layout.fillWidth: true
+                    preferredWidth: 300
+                }
+
+
+                FormulaField {
+                    name: "threshold_alpha"
+                    label: qsTr("Threshold Shape parameter 1:")
+                    value: "1"
+                    min: 0.001
+                    Layout.fillWidth: true
+                    preferredWidth: 300
+                }
+
+                FormulaField {
+                    name: "threshold_beta"
+                    label: qsTr("Threshold shape parameter 2:")
+                    value: "1"
+                    min: 0.001
                     Layout.fillWidth: true
                     preferredWidth: 300
                 }

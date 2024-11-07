@@ -41,7 +41,9 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   mainContainer <- jaspResults[["mainContainer"]]
   if (is.null(mainContainer)) {
     mainContainer <- createJaspContainer(dependencies = c("variables", "groupingVariable", "model",
-                                                          "burnin", "iter", "gprior", "dfprior"))
+                                                          "burnin", "iter", "gprior", "dfprior", "initialConfiguration",
+                                                          "edgePrior", "interactionScale", "beta_alpha", "beta_beta",
+                                                          "dirichlet_alpha", "threshold_alpha", "threshold_beta"))
     jaspResults[["mainContainer"]] <- mainContainer
   }
   .bayesianNetworkAnalysisMainTableMeta(mainContainer, dataset, options)
@@ -303,7 +305,12 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
                                              burnin     = as.numeric(options[["burnin"]]),
                                              inclusion_probability = as.numeric(options[["gprior"]]),
                                              interaction_scale = as.numeric(options[["interactionScale"]]),
-                                             edge_prior = as.character(options[["edgePrior"]])))
+                                             edge_prior = as.character(options[["edgePrior"]]),
+                                             threshold_alpha = as.numeric(options[["threshold_alpha"]]),
+                                             threshold_beta = as.numeric(options[["threshold_beta"]]),
+                                             beta_bernoulli_alpha = as.numeric(options[["beta_alpha"]]),
+                                             beta_bernoulli_beta = as.numeric(options[["beta_beta"]]),
+                                             dirichlet_alpha = as.numeric(options[["dirichlet_alpha"]])))
 
         }
       }
