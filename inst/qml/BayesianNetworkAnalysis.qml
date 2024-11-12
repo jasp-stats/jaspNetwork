@@ -62,14 +62,16 @@ Form
 				  CheckBox { name: "edgeExclusion";  label: qsTr("Evidence for exclusion"); checked: true }
 				  CheckBox { name: "edgeAbsence"; label: qsTr("Absence of evidence");   checked: true }
 		}
-		CheckBox {
-		  name: "centralityPlot";  label: qsTr("Centrality plot")
-		  CheckBox {
-				    name:    "credibilityInterval";
-				    label:   qsTr("Credibility interval 95%");
-				    checked: false
-		  }
-	  }
+ CheckBox {
+    name: "centralityPlot"
+    label: qsTr("Centrality plot")
+    CheckBox {
+        name: "credibilityInterval"
+        label: qsTr("Credibility interval 95%")
+        checked: false
+        visible: model.currentValue === "omrf"  // Show only when model is "omrf"
+    }
+}
 	}
 
 	Group
@@ -115,6 +117,20 @@ Section {
                 spacing: 10
                 Layout.fillWidth: true
 
+               DropDown {
+                    id: edgePrior
+                    name: "edgePrior"
+                    label: qsTr("Edge prior:")
+                    Layout.fillWidth: true
+                    preferredWidth: 300
+                    values: [
+                        { value: "Bernoulli", label: "Bernoulli" },
+                        { value: "Beta-Bernoulli", label: "Beta-Bernoulli" },
+                        { value: "Stochastic-Block", label: "Stochastic-Block" }
+                    ]
+                    visible: model.currentValue === "omrf"
+                }
+
                 FormulaField {
                     name: "gprior"
                     label: qsTr("Prior edge inclusion probability:")
@@ -123,19 +139,7 @@ Section {
                     max: 1
                     Layout.fillWidth: true
                     preferredWidth: 300
-                }
-
-                DropDown {
-                    id: edgePrior
-                    name: "edgePrior"
-                    label: qsTr("Edge prior for the omrf:")
-                    Layout.fillWidth: true
-                    preferredWidth: 300
-                    values: [
-                        { value: "Bernoulli", label: "Bernoulli" },
-                        { value: "Beta-Bernoulli", label: "Beta-Bernoulli" },
-                        { value: "Stochastic-Block", label: "Stochastic-Block" }
-                    ]
+                    visible: (model.currentValue === "ggm" || model.currentValue === "gcgm") || (model.currentValue === "omrf" && edgePrior.currentValue === "Bernoulli")
                 }
 
                 FormulaField {
@@ -145,6 +149,7 @@ Section {
                     min: 0.001
                     Layout.fillWidth: true
                     preferredWidth: 300
+                    visible: (model.currentValue === "omrf") && (edgePrior.currentValue === "Beta-Bernoulli" || edgePrior.currentValue === "Stochastic-Block")
                 }
 
                 FormulaField {
@@ -154,6 +159,7 @@ Section {
                     min: 0.001
                     Layout.fillWidth: true
                     preferredWidth: 300
+                    visible: (model.currentValue === "omrf") && (edgePrior.currentValue === "Beta-Bernoulli" || edgePrior.currentValue === "Stochastic-Block")
                 }
 
                 FormulaField {
@@ -163,37 +169,20 @@ Section {
                     min: 0.001
                     Layout.fillWidth: true
                     preferredWidth: 300
+                    visible: (model.currentValue === "omrf") && (edgePrior.currentValue === "Stochastic-Block")
                 }
 
                 DropDown {
                     id: initialConfiguration
                     name: "initialConfiguration"
-                    label: qsTr("Initial configuration prior edge inclusion (for ggm and gcgm):")
+                    label: qsTr("Initial configuration prior edge inclusion:")
                     Layout.fillWidth: true
                     preferredWidth: 300
                     values: [
                         { value: "empty", label: "empty" },
                         { value: "full", label: "full" }
                     ]
-                }
-
-
-                FormulaField {
-                    name: "beta_bernoulli_alpha"
-                    label: qsTr("Shape parameter 1:")
-                    value: "1"
-                    min: 0.001
-                    Layout.fillWidth: true
-                    preferredWidth: 300
-                }
-
-                FormulaField {
-                    name: "beta_bernoulli_beta"
-                    label: qsTr("Shape parameter 2:")
-                    value: "1"
-                    min: 0.001
-                    Layout.fillWidth: true
-                    preferredWidth: 300
+                   visible: model.currentValue === "ggm" || model.currentValue === "gcgm"
                 }
             }
         }
@@ -208,20 +197,22 @@ Section {
 
                 IntegerField {
                     name: "dfprior"
-                    label: qsTr("Degrees of freedom of G-Wishart prior (for ggm and gcgm):")
+                    label: qsTr("Degrees of freedom of G-Wishart prior:")
                     value: 3
                     min: 3
                     Layout.fillWidth: true
                     preferredWidth: 300
+                    visible: model.currentValue === "ggm" || model.currentValue === "gcgm"
                 }
 
                 FormulaField {
                     name: "interactionScale"
-                    label: qsTr("Scale of the Cauchy distribution for the edge weights (for omrf):")
+                    label: qsTr("Scale of the Cauchy distribution for the edge weights:")
                     value: "2.5"
                     min: 0.1
                     Layout.fillWidth: true
                     preferredWidth: 300
+                    visible: model.currentValue === "omrf"
                 }
 
 
@@ -232,6 +223,7 @@ Section {
                     min: 0.001
                     Layout.fillWidth: true
                     preferredWidth: 300
+                    visible: model.currentValue === "omrf"
                 }
 
                 FormulaField {
@@ -241,6 +233,7 @@ Section {
                     min: 0.001
                     Layout.fillWidth: true
                     preferredWidth: 300
+                    visible: model.currentValue === "omrf"
                 }
             }
         }

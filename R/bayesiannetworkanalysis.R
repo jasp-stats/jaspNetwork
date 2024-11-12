@@ -63,6 +63,13 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     tb$addColumnInfo(name = "nonZero",  title = gettext("Number of non-zero edges"), type = "string")
     tb$addColumnInfo(name = "Sparsity", title = gettext("Sparsity"),                 type = "number")
 
+
+    if (options[["model"]] == "omrf") {
+
+      # add footnote
+      tb$addFootnote("The omrf model may require a substantial amount of time to complete. This time increases with the number of variables and the number of iterations.")
+    }
+
     mainContainer[["generalTable"]] <- tb
   }
   return()
