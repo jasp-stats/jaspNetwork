@@ -67,7 +67,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     if (options[["model"]] == "omrf") {
 
       # add footnote
-      tb$addFootnote("The omrf model may require a substantial amount of time to complete. This time increases with the number of variables and the number of iterations.")
+      tb$addFootnote(gettext("The Ordinal Markov Random Field may require a substantial amount of time to complete. This time increases with the number of variables and the number of iterations."))
     }
 
     mainContainer[["generalTable"]] <- tb
@@ -187,7 +187,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
 .bayesianNetworkAnalysisComputeLayout <- function(networks, dataset, options) {
 
-  # Reformat networks to fit averageLayout: #CHANGES THE LAYOUT DEPENDING HOW MANY NETWORKS ARE ESIMTATED BASED ON SPLIT
+  # Reformat networks to fit averageLayout:
   weightMatrices <- list()
   for (i in seq_along(networks)) {
     weightMatrices[[i]] <- networks[[i]]$graph
@@ -202,11 +202,8 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
   networks <- vector("list", length(dataset))
 
-  # For every dataset (given the splitting variable) estimate a network: KEEP THIS AS IS FOR NOW
   for (nw in seq_along(dataset)) {
-    #ADD CONDITIONAL STATEMENTS HERE FOR EACH OF THE THREE OPTIONS
     # When method = "gcgm" a vector with binary values is needed:
-    # if model is gcgm
     if (options[["model"]] == "ggm") {
 
       # Estimate mixed network
@@ -300,27 +297,27 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
         # Check if variables are binary or ordinal:
         if (!is.factor(dataset[[nw]][[var]])) {
           .quitAnalysis(gettext("Some of the variables you have entered for analysis are not binary or ordinal. Please make sure that all variables are binary or ordinal or change the model to gcgm."))
-        } else {
-          # Estimate mixed network
-          jaspBase::.setSeedJASP(options)
-          easybgmFit <- try(easybgm::easybgm(data       = as.data.frame(dataset[[nw]]),
-                                             type       = "ordinal",
-                                             package    = "bgms",
-                                             iter       = as.numeric(options[["iter"]]),
-                                             save       = TRUE,
-                                             centrality = FALSE,
-                                             burnin     = as.numeric(options[["burnin"]]),
-                                             inclusion_probability = as.numeric(options[["gprior"]]),
-                                             interaction_scale = as.numeric(options[["interactionScale"]]),
-                                             edge_prior = as.character(options[["edgePrior"]]),
-                                             threshold_alpha = as.numeric(options[["threshold_alpha"]]),
-                                             threshold_beta = as.numeric(options[["threshold_beta"]]),
-                                             beta_bernoulli_alpha = as.numeric(options[["beta_alpha"]]),
-                                             beta_bernoulli_beta = as.numeric(options[["beta_beta"]]),
-                                             dirichlet_alpha = as.numeric(options[["dirichlet_alpha"]])))
-
         }
       }
+      # Estimate mixed network
+      jaspBase::.setSeedJASP(options)
+      easybgmFit <- try(easybgm::easybgm(data       = as.data.frame(dataset[[nw]]),
+                                         type       = "ordinal",
+                                         package    = "bgms",
+                                         iter       = as.numeric(options[["iter"]]),
+                                         save       = TRUE,
+                                         centrality = FALSE,
+                                         burnin     = as.numeric(options[["burnin"]]),
+                                         inclusion_probability = as.numeric(options[["gprior"]]),
+                                         interaction_scale = as.numeric(options[["interactionScale"]]),
+                                         edge_prior = as.character(options[["edgePrior"]]),
+                                         threshold_alpha = as.numeric(options[["threshold_alpha"]]),
+                                         threshold_beta = as.numeric(options[["threshold_beta"]]),
+                                         beta_bernoulli_alpha = as.numeric(options[["beta_alpha"]]),
+                                         beta_bernoulli_beta = as.numeric(options[["beta_beta"]]),
+                                         dirichlet_alpha = as.numeric(options[["dirichlet_alpha"]])))
+
+
 
       if (isTryError(easybgmFit)) {
         message <- .extractErrorMessage(easybgmFit)
@@ -419,7 +416,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     mainContainer[["plotContainer"]] <- plotContainer
   }
 
-  .bayesianNetworkAnalysisNetworkPlot            (plotContainer, network, options, method = "Bayesian")
+  .networkAnalysisNetworkPlot                    (plotContainer, network, options, method = "Bayesian")
   .bayesianNetworkAnalysisEvidencePlot           (plotContainer, network, options)
   .bayesianNetworkAnalysisPosteriorStructurePlot (plotContainer, network, options)
   .bayesianNetworkAnalysisCentralityPlot         (plotContainer, network, options)
@@ -1268,209 +1265,4 @@ centrality <- function(network, measures = c("closeness", "betweenness", "streng
   centralityOutput$posteriorMeans <- ifelse(is.na(centralityOutput$posteriorMeans), 0, centralityOutput$posteriorMeans)
 
   return(centralityOutput)
-}
-
-
-# A copy of .networkAnalysisNetworkPlot since we changed "estimator" to "model"
-# for now it is the same function, but I will tidy it up later, since it makes no sense to have conditions like
-# "model === mgm"
-
-.bayesianNetworkAnalysisNetworkPlot <- function(plotContainer, network, options, method = "frequentist") {
-
-  if (!is.null(plotContainer[["networkPlotContainer"]]) || !options[["networkPlot"]])
-    return()
-
-  allNetworks <- network[["network"]]
-  nGraphs <- length(allNetworks)
-
-  # we use an empty container without a name if there is only 1 graph. This container is hidden from the output but it
-  # enables us to use the same code for a single network plot and for a collection of network plots.
-  title <- if (nGraphs == 1L) "" else gettext("Network Plots")
-
-  networkPlotContainer <- createJaspContainer(title = title, position = 51, dependencies = c(
-    "layout", "edgePalette", "layoutSpringRepulsion", "edgeSize", "nodeSize", "colorNodesBy",
-    "maxEdgeStrength", "minEdgeStrength", "cut", "details", "nodePalette",
-    "legendSpecificPlotNumber", "mgmVariableTypeShown",
-    "labelScale", "labelSize", "labelAbbreviation", "labelAbbreviationLength",
-    "layoutNotUpdated", "layoutX", "layoutY", "networkPlot",
-    "manualColorGroups", "color", "colorGroupVariables", "group", "manualColor",
-    "legendToPlotRatio", "edgeLabels", "edgeLabelSize", "edgeLabelPosition"
-  ))
-  plotContainer[["networkPlotContainer"]] <- networkPlotContainer
-
-  if (is.null(network[["network"]]) || plotContainer$getError()) {
-    networkPlotContainer[["dummyPlot"]] <- createJaspPlot(title = gettext("Network Plot"))
-    return()
-  }
-
-  if (method == "Bayesian") {
-    layout <- network[["layout"]] # calculated in .bayesianNetworkAnalysisRun()
-  } else {
-    layout <- network[["layout"]][["layout"]] # calculated in .networkAnalysisRun()
-  }
-
-  # ensure minimum/ maximum makes sense or ignore these parameters.
-  # TODO: message in general table if they have been reset.
-  minE <- options[["minEdgeStrength"]]
-  maxE <- options[["maxEdgeStrength"]]
-
-  if (minE == 0)
-    minE <- NULL
-  if (maxE == 0 || (!is.null(minE) && maxE <= minE))
-    maxE <- NULL
-
-  groups <- NULL
-  nodeColor <- NULL
-  allLegends <- rep(FALSE, nGraphs) # no legends
-
-  if (length(options[["colorGroupVariables"]]) > 1L) {
-
-    assignedGroup <- vapply(options[["colorGroupVariables"]], `[[`, character(1L), "group")
-
-    if (length(unique(assignedGroup)) > 1L) {
-
-      # user has defined groups and there are variables in the groups
-      groupNames  <- vapply(options[["manualColorGroups"]], `[[`, character(1L), "name")
-      groupColors <- vapply(options[["manualColorGroups"]], `[[`, character(1L), "color")
-
-      nGroups <- length(groupNames)
-
-      idx <- match(assignedGroup, groupNames)
-
-      groups <- vector("list", nGroups)
-      names(groups) <- groupNames
-      for (i in seq_len(nGroups))
-        groups[[i]] <- which(idx == i)
-
-      nonEmpty <- lengths(groups) > 0L
-      groups <- groups[nonEmpty]
-
-      if (options[["manualColor"]])
-        nodeColor <- groupColors[nonEmpty]
-    }
-  }
-
-  # defaults
-  shape <- "circle"
-  edgeColor <- NULL
-  if (options[["model"]] == "mgm") {
-
-    idx <- integer(length(options[["variables"]]))
-    nms <- c("mgmContinuousVariables", "mgmCategoricalVariables", "mgmCountVariables")
-    for (i in seq_along(nms))
-      idx[options[["variables"]] %in% options[[nms[[i]]]]] <- i
-    # idx[i] is 1 if variable[i] %in% mgmContinuousVariables, 2 if in mgmCategoricalVariables, etc.
-
-    ll <- lengths(options[c("mgmContinuousVariables", "mgmCategoricalVariables", "mgmCountVariables")])
-
-    if (options[["mgmVariableTypeShown"]] == "nodeShape") {
-      #         gaussian, categorical, poisson
-      opts <- c("circle", "square",    "triangle")
-      shape <- opts[idx]
-
-    } else if (options[["mgmVariableTypeShown"]] == "nodeColor") {
-      #         gaussian,  categorical, poisson
-      opts <- c("#00a9e6", "#fb8b00",   "#00ba63")
-      nodeColor <- opts[idx]
-
-    }
-  }
-
-  # TODO: footnote if legend off and nodenames used
-  if (options[["variableNamesShown"]] == "inNodes") {
-    nodeNames <- NULL
-
-    if (method == "Bayesian") {
-      if (nGraphs == 1) {
-        labels <- colnames(allNetworks$Network$graph)
-      } else {
-        labels <- .unv(colnames(allNetworks$`1`$graph))
-      }
-    } else {
-      labels <- .unv(allNetworks[[1]][["labels"]])
-    }
-
-  } else {
-
-    if (method == "Bayesian") {
-      if (nGraphs == 1) {
-        nodeNames <- .unv(colnames(allNetworks$Network$graph))
-      } else {
-        nodeNames <- .unv(colnames(allNetworks$`1`$graph))
-      }
-    } else {
-      nodeNames <- .unv(allNetworks[[1]][["labels"]])
-    }
-
-    labels <- seq_along(nodeNames)
-
-  }
-
-  if (method == "Bayesian") labels <- decodeColNames(labels)
-
-  if (options[["labelAbbreviation"]])
-    labels <- base::abbreviate(labels, options[["labelAbbreviationLength"]])
-
-  # do we need to draw legends?
-  if (!is.null(groups) || !is.null(nodeNames)) {
-    if (options[["legend"]] ==  "allPlots") {
-
-      allLegends <- rep(TRUE, nGraphs)
-
-    } else if (options[["legend"]] ==  "specificPlot") {
-
-      if (options[["legendSpecificPlotNumber"]] > nGraphs) {
-
-        allLegends[nGraphs] <- TRUE
-
-      } else if (options[["legendSpecificPlotNumber"]] < 1L) {
-
-        allLegends[1L] <- TRUE
-
-      } else {
-
-        allLegends[options[["legendSpecificPlotNumber"]]] <- TRUE
-
-      }
-    }
-  }
-
-  names(allLegends) <- names(allNetworks) # allows indexing by name
-
-  basePlotSize <- 320
-  legendMultiplier <- options[["legendToPlotRatio"]] * basePlotSize
-  height <- setNames(rep(basePlotSize, nGraphs), names(allLegends))
-  width  <- basePlotSize + allLegends * legendMultiplier
-  for (v in names(allNetworks))
-    networkPlotContainer[[v]] <- createJaspPlot(title = v, width = width[v], height = height[v])
-
-  jaspBase::.suppressGrDevice({
-
-    for (v in names(allNetworks)) {
-
-      networkToPlot <- allNetworks[[v]]
-      if (options[["model"]] == "mgm") {
-        edgeColor <- networkToPlot[["results"]][["edgecolor"]]
-        if (is.null(edgeColor)) # compatability issues
-          edgeColor <- networkToPlot[["results"]][["pairwise"]][["edgecolor"]]
-      }
-
-      legend <- allLegends[[v]]
-      networkPlotContainer[[v]]$plotObject <- .networkAnalysisOneNetworkPlot(
-        network    = networkToPlot,
-        options    = options,
-        minE       = minE,
-        maxE       = maxE,
-        layout     = layout,
-        groups     = groups,
-        labels     = labels,
-        legend     = legend,
-        shape      = shape,
-        nodeColor  = nodeColor,
-        edgeColor  = edgeColor,
-        nodeNames  = nodeNames,
-        method     = method
-      )
-    }
-  })
 }
