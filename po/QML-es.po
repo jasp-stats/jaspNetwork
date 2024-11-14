@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2024-11-13 18:38+0000\n"
+"PO-Revision-Date: 2024-11-14 16:46+0000\n"
 "Last-Translator: ecadrian <ecadrian@hotmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/jasp/"
 "jaspnetwork-qml/es/>\n"
@@ -332,27 +332,27 @@ msgstr "Color del grupo"
 
 msgctxt "NetworkAnalysis|"
 msgid "red"
-msgstr "rojo"
+msgstr "Rojo"
 
 msgctxt "NetworkAnalysis|"
 msgid "blue"
-msgstr "azul"
+msgstr "Azul"
 
 msgctxt "NetworkAnalysis|"
 msgid "yellow"
-msgstr "amarillo"
+msgstr "Amarillo"
 
 msgctxt "NetworkAnalysis|"
 msgid "green"
-msgstr "verde"
+msgstr "Verde"
 
 msgctxt "NetworkAnalysis|"
 msgid "purple"
-msgstr "violeta"
+msgstr "Violeta"
 
 msgctxt "NetworkAnalysis|"
 msgid "orange"
-msgstr "anaranjado"
+msgstr "Anaranjado"
 
 msgctxt "NetworkAnalysis|"
 msgid "Group"
@@ -724,27 +724,27 @@ msgstr "Color del grupo"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "red"
-msgstr "rojo"
+msgstr "Rojo"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "blue"
-msgstr "azul"
+msgstr "Azul"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "yellow"
-msgstr "amarillo"
+msgstr "Amarillo"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "green"
-msgstr "verde"
+msgstr "Verde"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "purple"
-msgstr "violeta"
+msgstr "Violeta"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "orange"
-msgstr "anaranjado"
+msgstr "Anaranjado"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Variables in network"
