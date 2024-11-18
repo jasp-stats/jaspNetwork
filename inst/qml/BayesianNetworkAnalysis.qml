@@ -95,16 +95,15 @@ Form
 	{
 	  title: qsTr("Sampling Options")
 	  Layout.columnSpan: 2
-	  IntegerField { name: "burnin"; label: qsTr("Burn in: "); value: "5000" ; min: 0; max: iter.value / 2; fieldWidth: 100; id: burnin }
-	  IntegerField { name: "iter"; label: qsTr("Iterations: "); value: "10000" ; min: burnin.value * 2; fieldWidth: 100; id: iter }
+	  IntegerField { name: "burnin"; label: qsTr("Burn in: "); value: 1000 ; min: 0; max: iter.value / 2; fieldWidth: 100; id: burnin }
+	  IntegerField { name: "iter"; label: qsTr("Iterations: "); value: 10000 ; min: burnin.value * 2; fieldWidth: 100; id: iter }
 
 		SetSeed{}
 	}
 
-Section {
+  Section {
     title: qsTr("Prior Specification")
     Layout.fillWidth: true
-
     Column {
         spacing: 15
         anchors.fill: parent
@@ -126,46 +125,46 @@ Section {
                     values: [
                         { value: "Bernoulli", label: "Bernoulli" },
                         { value: "Beta-Bernoulli", label: "Beta-Bernoulli" },
-                        { value: "Stochastic-Block", label: "Stochastic-Block" }
+                        { value: "Stochastic-Block", label: "Stochastic Block" }
                     ]
                     visible: model.currentValue === "omrf"
                 }
 
-                FormulaField {
-                    name: "gprior"
-                    label: qsTr("Prior edge inclusion probability:")
-                    value: "0.5"
-                    min: 0.001
-                    max: 1
-                    Layout.fillWidth: true
-                    preferredWidth: 300
-                    visible: (model.currentValue === "ggm" || model.currentValue === "gcgm") || (model.currentValue === "omrf" && edgePrior.currentValue === "Bernoulli")
-                }
+               DoubleField {
+                   name: "gPrior"
+                   label: qsTr("Prior edge inclusion probability:")
+                   value: 0.5
+                   min: 0.001
+                   max: 1
+                   Layout.fillWidth: true
+                   preferredWidth: 300
+                   visible: (model.currentValue === "ggm" || model.currentValue === "gcgm") || (model.currentValue === "omrf" && edgePrior.currentValue === "Bernoulli")
+               }
 
-                FormulaField {
-                    name:  "beta_alpha"
+                DoubleField {
+                    name:  "betaAlpha"
                     label: qsTr("Shape parameter 1:")
-                    value: "1"
+                    value: 1
                     min: 0.001
                     Layout.fillWidth: true
                     preferredWidth: 300
                     visible: (model.currentValue === "omrf") && (edgePrior.currentValue === "Beta-Bernoulli" || edgePrior.currentValue === "Stochastic-Block")
                 }
 
-                FormulaField {
-                    name: "beta_beta"
+                DoubleField {
+                    name: "betaBeta"
                     label: qsTr("Shape parameter 2:")
-                    value: "1"
+                    value: 1
                     min: 0.001
                     Layout.fillWidth: true
                     preferredWidth: 300
                     visible: (model.currentValue === "omrf") && (edgePrior.currentValue === "Beta-Bernoulli" || edgePrior.currentValue === "Stochastic-Block")
                 }
 
-                FormulaField {
-                    name: "dirichlet_alpha"
+                DoubleField {
+                    name: "dirichletAlpha"
                     label: qsTr("Concentration parameter:")
-                    value: "1"
+                    value: 1
                     min: 0.001
                     Layout.fillWidth: true
                     preferredWidth: 300
@@ -196,7 +195,7 @@ Section {
                 Layout.fillWidth: true
 
                 IntegerField {
-                    name: "dfprior"
+                    name: "dfPrior"
                     label: qsTr("Degrees of freedom of G-Wishart prior:")
                     value: 3
                     min: 3
@@ -205,10 +204,10 @@ Section {
                     visible: model.currentValue === "ggm" || model.currentValue === "gcgm"
                 }
 
-                FormulaField {
+                DoubleField {
                     name: "interactionScale"
                     label: qsTr("Scale of the Cauchy distribution for the edge weights:")
-                    value: "2.5"
+                    value: 2.5
                     min: 0.1
                     Layout.fillWidth: true
                     preferredWidth: 300
@@ -216,20 +215,20 @@ Section {
                 }
 
 
-                FormulaField {
-                    name: "threshold_alpha"
-                    label: qsTr("Threshold Shape parameter 1:")
-                    value: "1"
+                DoubleField {
+                    name: "thresholdAlpha"
+                    label: qsTr("Threshold shape parameter 1:")
+                    value: 1
                     min: 0.001
                     Layout.fillWidth: true
                     preferredWidth: 300
                     visible: model.currentValue === "omrf"
                 }
 
-                FormulaField {
-                    name: "threshold_beta"
+                DoubleField {
+                    name: "thresholdBeta"
                     label: qsTr("Threshold shape parameter 2:")
-                    value: "1"
+                    value: 1
                     min: 0.001
                     Layout.fillWidth: true
                     preferredWidth: 300

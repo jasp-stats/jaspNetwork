@@ -41,9 +41,9 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   mainContainer <- jaspResults[["mainContainer"]]
   if (is.null(mainContainer)) {
     mainContainer <- createJaspContainer(dependencies = c("variables", "groupingVariable", "model",
-                                                          "burnin", "iter", "gprior", "dfprior", "initialConfiguration",
-                                                          "edgePrior", "interactionScale", "beta_alpha", "beta_beta",
-                                                          "dirichlet_alpha", "threshold_alpha", "threshold_beta"))
+                                                          "burnin", "iter", "gPrior", "dfPrior", "initialConfiguration",
+                                                          "edgePrior", "interactionScale", "betaAlpha", "betaBeta",
+                                                          "dirichletAlpha", "thresholdAlpha", "thresholdBeta"))
     jaspResults[["mainContainer"]] <- mainContainer
   }
   .bayesianNetworkAnalysisMainTableMeta(mainContainer, dataset, options)
@@ -205,19 +205,18 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   for (nw in seq_along(dataset)) {
     # When method = "gcgm" a vector with binary values is needed:
     if (options[["model"]] == "ggm") {
-
-      # Estimate mixed network
+      # Estimate network
       jaspBase::.setSeedJASP(options)
-      easybgmFit <- try(easybgm::easybgm(data       = as.data.frame(apply(dataset[[nw]], 2, as.numeric)),
+      easybgmFit <- try(easybgm::easybgm(data       = apply(dataset[[nw]], 2, as.numeric),
                                          type       = "continuous",
                                          package    = "BDgraph" ,
-                                         iter       = as.numeric(options[["iter"]]),
+                                         iter       = options[["iter"]],
                                          save       = TRUE,
                                          centrality = FALSE,
-                                         burnin     = as.numeric(options[["burnin"]]),
+                                         burnin     = options[["burnin"]],
                                          g.start    = options[["initialConfiguration"]],
-                                         df.prior   = as.numeric(options[["dfprior"]]),
-                                         g.prior    = as.numeric(options[["gprior"]])))
+                                         df.prior   = options[["dfPrior"]],
+                                         g.prior    = options[["gPrior"]]))
 
       if (isTryError(easybgmFit)) {
         message <- .extractErrorMessage(easybgmFit)
@@ -248,25 +247,25 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       for (var in options[["variables"]]) {
 
         # A 1 indicates noncontinuous variables:
-        if (is.factor(dataset[[nw]][[var]])) {
+         if (is.factor(dataset[[nw]][[var]])) {
           nonContVariables <- c(nonContVariables, 1)
         } else {
           nonContVariables <- c(nonContVariables, 0)
         }
       }
-      # Estimate mixed network
+      # Estimate network
       jaspBase::.setSeedJASP(options)
-      easybgmFit <- try(easybgm::easybgm(data       = as.data.frame(apply(dataset[[nw]], 2, as.numeric)),
+      easybgmFit <- try(easybgm::easybgm(data       = apply(dataset[[nw]], 2, as.numeric),
                                          type       = "mixed",
                                          package    = "BDgraph",
                                          not_cont   = nonContVariables,
-                                         iter       = as.numeric(options[["iter"]]),
+                                         iter       = options[["iter"]],
                                          save       = TRUE,
                                          centrality = FALSE,
-                                         burnin     = as.numeric(options[["burnin"]]),
+                                         burnin     = options[["burnin"]],
                                          g.start    = options[["initialConfiguration"]],
-                                         df.prior   = as.numeric(options[["dfprior"]]),
-                                         g.prior    = as.numeric(options[["gprior"]])))
+                                         df.prior   = options[["dfPrior"]],
+                                         g.prior    = options[["gPrior"]]))
 
 
       if (isTryError(easybgmFit)) {
@@ -295,27 +294,27 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     if (options[["model"]] == "omrf") {
       for (var in options[["variables"]]) {
         # Check if variables are binary or ordinal:
-        if (!is.factor(dataset[[nw]][[var]])) {
+         if (!is.factor(dataset[[nw]][[var]])) {
           .quitAnalysis(gettext("Some of the variables you have entered for analysis are not binary or ordinal. Please make sure that all variables are binary or ordinal or change the model to gcgm."))
         }
       }
-      # Estimate mixed network
+      # Estimate network
       jaspBase::.setSeedJASP(options)
-      easybgmFit <- try(easybgm::easybgm(data       = as.data.frame(dataset[[nw]]),
+      easybgmFit <- try(easybgm::easybgm(data       = dataset[[nw]],
                                          type       = "ordinal",
                                          package    = "bgms",
-                                         iter       = as.numeric(options[["iter"]]),
+                                         iter       = options[["iter"]],
                                          save       = TRUE,
                                          centrality = FALSE,
-                                         burnin     = as.numeric(options[["burnin"]]),
-                                         inclusion_probability = as.numeric(options[["gprior"]]),
-                                         interaction_scale = as.numeric(options[["interactionScale"]]),
-                                         edge_prior = as.character(options[["edgePrior"]]),
-                                         threshold_alpha = as.numeric(options[["threshold_alpha"]]),
-                                         threshold_beta = as.numeric(options[["threshold_beta"]]),
-                                         beta_bernoulli_alpha = as.numeric(options[["beta_alpha"]]),
-                                         beta_bernoulli_beta = as.numeric(options[["beta_beta"]]),
-                                         dirichlet_alpha = as.numeric(options[["dirichlet_alpha"]])))
+                                         burnin     = options[["burnin"]],
+                                         inclusion_probability = options[["gPrior"]],
+                                         interaction_scale     = options[["interactionScale"]],
+                                         edge_prior            = options[["edgePrior"]],
+                                         threshold_alpha       = options[["thresholdAlpha"]],
+                                         threshold_beta        = options[["thresholdBeta"]],
+                                         beta_bernoulli_alpha  = options[["betaAlpha"]],
+                                         beta_bernoulli_beta   = options[["betaBeta"]],
+                                         dirichlet_alpha       = options[["dirichletAlpha"]]))
 
 
 
@@ -1096,7 +1095,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   # add footnote on the infinities only show this message of the evidence type is BF10 or BF01
 
   if (options$evidenceType %in% c("BF10", "BF01")){
-    table$addFootnote("Bayes factors with values of infinity indicate that the posterior inclusion probability is either 1 or 0, meaning there is overwhelming evidence for edge inclusion or exclusion, respectively.")
+    table$addFootnote("Bayes factors with values of infinity indicate that the estimated posterior inclusion probability is either 1 or 0. Please see the help file for more information.")
   }
   mainContainer[["edgeEvidenceTable"]] <- table
 }
