@@ -24,11 +24,18 @@ import JASP.Widgets 1.0
 Form
 {
 
-	VariablesForm
+VariablesForm
 	{
 		AvailableVariablesList { name: "allVariablesList" }
-		AssignedVariablesList { name: "variables";			title: qsTr("Dependent Variables"); allowedColumns: ["ordinal", "scale"]; allowTypeChange: true; id: networkVariables}
-		AssignedVariablesList { name: "groupingVariable";	title: qsTr("Split"); singleVariable: true; allowedColumns: ["nominal"] }
+		AssignedVariablesList  { name: "variables";
+		                        title: qsTr("Dependent Variables");
+		                        allowedColumns: ["ordinal", "scale"];
+		                        allowTypeChange: true;
+		                        id: networkVariables}
+		AssignedVariablesList { name: "groupingVariable";
+		                        title: qsTr("Split");
+		                        singleVariable: true;
+		                        allowedColumns: ["nominal"] }
 	}
 
 	DropDown
@@ -38,9 +45,9 @@ Form
 		label: qsTr("Model")
 		Layout.columnSpan: 2
 		values: [
-			{ value: "ggm",		        label: "ggm"			},
-			{ value: "gcgm",				  label: "gcgm"			},
-			{ value: "omrf",				  label: "omrf"			}
+			{ value: "ggm",		        label: "ggm (continuous)"	        },
+			{ value: "gcgm",				  label: "gcgm (mixed)"			        },
+			{ value: "omrf",				  label: "omrf (binary/ordinal)"		}
 		]
 	}
 
@@ -70,8 +77,8 @@ Form
         label: qsTr("Credibility interval 95%")
         checked: false
         visible: model.currentValue === "omrf"  // Show only when model is "omrf"
-    }
-}
+       }
+     }
 	}
 
 	Group
