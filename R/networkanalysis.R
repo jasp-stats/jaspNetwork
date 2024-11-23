@@ -38,7 +38,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
   .networkAnalysisCentralityTable  (mainContainer, network, options)
   .networkAnalysisClusteringTable  (mainContainer, network, options)
-  .networkAnalysisPlotContainer    (mainContainer, network, options)
+  .networkAnalysisPlotContainer    (mainContainer, network, options, dataset)
   .networkAnalysisWeightMatrixTable(mainContainer, network, options)
 
   # done last so that all other results are shown already
@@ -177,12 +177,13 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   if (is.null(mainContainer)) {
     mainContainer <- createJaspContainer(dependencies = c(
       # data
-      "variables", "groupingVariable", "mgmVariableType",
+      "variables", "groupingVariable",
       # what kind of network is estimated
       "estimator",
       # arguments for the estimator
       "correlationMethod", "tuningParameter", "criterion", "isingEstimator",
       "nFolds", "split", "rule", "sampleSize", "thresholdBox", "thresholdString", "thresholdValue",
+      "mgmContinuousVariables", "mgmCategoricalVariables", "mgmCountVariables",
       # general arguments
       "weightedNetwork", "signedNetwork", "missingValues"
     ))
@@ -199,7 +200,9 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   if (is.null(mainContainer[["generalTable"]])) {
     tb <- createJaspTable(gettext("Summary of Network"), position = 1, dependencies = c(
       # These are dependencies because specifying them incorrectly is communicated as footnotes on this table
-      "computedLayoutX", "computedLayoutY", "bootstrap", "bootstrapSamples", "minEdgeStrength"
+      "computedLayoutX", "computedLayoutY", "bootstrap", "bootstrapSamples", "minEdgeStrength",
+      # these trigger recomputation in addition to footnotes
+      "mgmContinuousVariables", "mgmCategoricalVariables", "mgmCountVariables"
     ))
     if (length(dataset) > 1L)
       tb$addColumnInfo(name = "info", title = gettext("Network"), type = "string")
@@ -462,7 +465,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 }
 
 # plots ----
-.networkAnalysisPlotContainer <- function(mainContainer, network, options) {
+.networkAnalysisPlotContainer <- function(mainContainer, network, options, dataset) {
 
   plotContainer <- mainContainer[["plotContainer"]]
   if (is.null(plotContainer)) {
@@ -471,7 +474,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     mainContainer[["plotContainer"]] <- plotContainer
   }
 
-  .networkAnalysisNetworkPlot   (plotContainer, network, options)
+  .networkAnalysisNetworkPlot   (plotContainer, network, options, dataset = dataset)
   .networkAnalysisCentralityPlot(plotContainer, network, options)
   .networkAnalysisClusteringPlot(plotContainer, network, options)
 }
@@ -669,7 +672,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     ))
 }
 
-.networkAnalysisNetworkPlot <- function(plotContainer, network, options, method = "frequentist") {
+.networkAnalysisNetworkPlot <- function(plotContainer, network, options, method = "frequentist", dataset = NULL) {
 
   if (!is.null(plotContainer[["networkPlotContainer"]]) || !options[["networkPlot"]])
     return()
@@ -755,7 +758,10 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
       idx[options[["variables"]] %in% options[[nms[[i]]]]] <- i
     # idx[i] is 1 if variable[i] %in% mgmContinuousVariables, 2 if in mgmCategoricalVariables, etc.
 
-    ll <- lengths(options[c("mgmContinuousVariables", "mgmCategoricalVariables", "mgmCountVariables")])
+    # order of variables need not match dataset, and thus the order of types may be wrong
+    newOrder <- match(colnames(dataset[[1L]]), options[["variables"]])
+    # now we have variables[newOrder] == colnames(dataset[[1L]])
+    idx <- idx[newOrder]
 
     if (options[["mgmVariableTypeShown"]] == "nodeShape") {
       #         gaussian, categorical, poisson
@@ -1002,6 +1008,11 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
       }
     }
 
+    # order of variables need not match dataset, and thus the order of types may be wrong
+    newOrder <- match(colnames(dataset[[1L]]), variables)
+    # now we have variables[newOrder] == colnames(dataset[[1L]])
+    type <- type[newOrder]
+
     if (any(type == "")) {
       message <- gettext("Please drag all variables to a particular type under \"Analysis options\".")
       e <- structure(class = c("mgmError", "error", "condition"), list(message = message, call = sys.call(-1)))
@@ -1104,10 +1115,19 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   # for every dataset do the analysis
   for (nw in seq_along(dataset)) {
 
+    data <- dataset[[nw]]
+
+    # mgm requires integer instead of factor
+    if (options[["estimator"]] == "mgm") {
+      for (i in seq_along(data))
+        if (!is.numeric(data[[i]]))
+          data[[i]] <- as.integer(data[[i]])
+    }
+
     jaspBase::.suppressGrDevice(
       msg <- capture.output(
         network <- bootnet::estimateNetwork(
-          data    = dataset[[nw]],
+          data    = data,
           default = .networkAnalysisJaspToBootnetEstimator(options[["estimator"]]),
           .dots   = .dots
         )

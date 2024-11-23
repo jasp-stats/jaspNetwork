@@ -213,9 +213,9 @@ Form
 				source: ["variables"]
 			}
 
-			AssignedVariablesList { name: "mgmContinuousVariables";		title: qsTr("Continuous Variables");	allowedColumns: ["scale"]}
-			AssignedVariablesList { name: "mgmCategoricalVariables";	title: qsTr("Categorical Variables");	allowedColumns: ["ordinal"]}
-			AssignedVariablesList { name: "mgmCountVariables";			title: qsTr("Count Variables");			allowedColumns: ["nominal"]}
+			AssignedVariablesList { name: "mgmContinuousVariables";		title: qsTr("Continuous Variables");	}
+			AssignedVariablesList { name: "mgmCategoricalVariables";	title: qsTr("Categorical Variables");	}
+			AssignedVariablesList { name: "mgmCountVariables";			title: qsTr("Count Variables");			}
 		}
 	}
 
@@ -383,7 +383,7 @@ Form
 		{
 			name: "mgmVariableTypeShown";
 			title: qsTr("Show Variable Type")
-			visible: [7].includes(estimator.currentIndex)
+			visible: [6].includes(estimator.currentIndex)
 			RadioButton { value: "hide";		label: qsTr("Don't show")						}
 			RadioButton { value: "nodeColor";	label: qsTr("Using node color")					}
 			RadioButton { value: "nodeShape";	label: qsTr("Using node shape"); checked: true	}
