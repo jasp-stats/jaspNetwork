@@ -69,15 +69,15 @@ VariablesForm
 				  CheckBox { name: "edgeExclusion";  label: qsTr("Evidence for exclusion"); checked: true }
 				  CheckBox { name: "edgeAbsence"; label: qsTr("Absence of evidence");   checked: true }
 		}
- CheckBox {
-		  name: "centralityPlot"; id: centralityPlot;  label: qsTr("Centrality plot")
-    CheckBox {
-        name: "credibilityInterval"
-        label: qsTr("Credibility interval 95%")
-        checked: false
-        visible: model.currentValue === "omrf"  // Show only when model is "omrf"
+   CheckBox {
+       name: "centralityPlot"; id: centralityPlot; label: qsTr("Centrality plot")
+       CheckBox {
+           name: "credibilityInterval";
+           label: qsTr("Credibility interval 95%");
+           checked: false;
+           visible: model.currentValue === "omrf"; // Show only when model is "omrf"
        }
-     }
+   }
 	}
 
 	Group
