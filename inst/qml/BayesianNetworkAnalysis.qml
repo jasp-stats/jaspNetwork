@@ -70,8 +70,7 @@ VariablesForm
 				  CheckBox { name: "edgeAbsence"; label: qsTr("Absence of evidence");   checked: true }
 		}
  CheckBox {
-    name: "centralityPlot"
-    label: qsTr("Centrality plot")
+		  name: "centralityPlot"; id: centralityPlot;  label: qsTr("Centrality plot")
     CheckBox {
         name: "credibilityInterval"
         label: qsTr("Credibility interval 95%")
