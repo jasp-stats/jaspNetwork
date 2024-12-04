@@ -95,8 +95,11 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
     # check if data must be binarized
     if (options[["estimator"]] %in% c("isingFit", "isingSampler")) {
-      idx <- colnames(dataset) != options[["groupingVariable"]]
-      dataset[idx] <- bootnet::binarize(dataset[idx], split = options[["split"]], verbose = FALSE, removeNArows = FALSE)
+
+      for (i in seq_along(dataset)) {
+        idx <- colnames(dataset[[i]]) != options[["groupingVariable"]]
+        dataset[[i]][idx] <- bootnet::binarize(dataset[[i]][idx], split = options[["split"]], verbose = FALSE, removeNArows = FALSE)
+      }
 
       if (options[["estimator"]] == "isingFit") {
         # required check since isingFit removes these variables from the analyses

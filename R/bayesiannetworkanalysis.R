@@ -41,7 +41,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   mainContainer <- jaspResults[["mainContainer"]]
   if (is.null(mainContainer)) {
     mainContainer <- createJaspContainer(dependencies = c("variables", "groupingVariable", "estimator",
-                                                          "burnin", "iter", "gprior", "dfprior"))
+                                                          "burnin", "iter", "gprior", "dfprior", "setSeed", "seed"))
     jaspResults[["mainContainer"]] <- mainContainer
   }
   .bayesianNetworkAnalysisMainTableMeta(mainContainer, dataset, options)
