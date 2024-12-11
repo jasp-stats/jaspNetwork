@@ -300,7 +300,7 @@ VariablesForm
 			CheckBox	{ name: "manualColor";	label: qsTr("Manual colors");	id: manualColor	}
 			DropDown
 			{
-				enabled: !manualColors.checked
+				enabled: !manualColor.checked
 				id: paletteSelector
 				name: "nodePalette"
 				label: qsTr("Node palette")
@@ -410,7 +410,7 @@ VariablesForm
 		Group
 		{
 			title: qsTr("Measures shown in centrality plot")
-			enabled: plotCentrality.checked
+			enabled: centralityPlot.checked
 			CheckBox	{	name: "betweenness";		    label: qsTr("Betweenness");			    checked: true	}
 			CheckBox	{	name: "closeness";			    label: qsTr("Closeness");			      checked: true	}
 			CheckBox	{	name: "strength";				    label: qsTr("Strength");			      checked: true	}

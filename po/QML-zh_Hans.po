@@ -669,7 +669,7 @@ msgstr "抽样选项"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Burn in: "
-msgstr ""
+msgstr "预热期 "
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Iterations: "
@@ -681,7 +681,7 @@ msgstr "先验"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Prior edge inclusion (g prior): "
-msgstr ""
+msgstr "边缘包含的先验( g 先验): "
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Initial configuration prior edge inclusion (g start):"
@@ -689,7 +689,7 @@ msgstr "初始配置先于边包含（g start）："
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Degrees of freedom of G-Wishart prior (df prior): "
-msgstr ""
+msgstr "G-Wishart先验的自由度( df 先验) "
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Graphical Options"
@@ -929,21 +929,20 @@ msgstr "强度"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Expected influence"
-msgstr ""
+msgstr "期望影响"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Network structure selection"
-msgstr ""
+msgstr "网络结构选择"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Posterior structure probability plot"
-msgstr ""
+msgstr "后验结构概率图"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Posterior complexity probability plot"
-msgstr ""
+msgstr "后验复杂度概率图"
 
-#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Strength"
 msgstr "强度"

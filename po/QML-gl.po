@@ -54,7 +54,7 @@ msgstr "CIR"
 
 msgctxt "NetworkAnalysis|"
 msgid "red"
-msgstr "vermello"
+msgstr "Vermello"
 
 msgctxt "NetworkAnalysis|"
 msgid "EBIC"
@@ -106,7 +106,7 @@ msgstr "STARS"
 
 msgctxt "NetworkAnalysis|"
 msgid "green"
-msgstr "verde"
+msgstr "Verde"
 
 msgctxt "NetworkAnalysis|"
 msgid "Min edge strength"
@@ -278,7 +278,7 @@ msgstr "Regresións univariantes"
 
 msgctxt "NetworkAnalysis|"
 msgid "orange"
-msgstr "laranxa"
+msgstr "Laranxa"
 
 msgctxt "NetworkAnalysis|"
 msgid "Edge labels"
@@ -286,7 +286,7 @@ msgstr "Etiquetas das beiras"
 
 msgctxt "NetworkAnalysis|"
 msgid "purple"
-msgstr "morado"
+msgstr "Morado"
 
 msgctxt "NetworkAnalysis|"
 msgid "name for y-coordinates"
@@ -302,7 +302,7 @@ msgstr "Medidas amosadas na gráfica de centrado"
 
 msgctxt "NetworkAnalysis|"
 msgid "yellow"
-msgstr "amarelo"
+msgstr "Amarelo"
 
 msgctxt "NetworkAnalysis|"
 msgid "Parametric"
@@ -406,7 +406,7 @@ msgstr "Opcións de Bootstrap"
 
 msgctxt "NetworkAnalysis|"
 msgid "Settings"
-msgstr "Configuracións"
+msgstr "Configuración"
 
 msgctxt "NetworkAnalysis|"
 msgid "In plot number: "
@@ -514,7 +514,7 @@ msgstr "Valores Ausentes"
 
 msgctxt "NetworkAnalysis|"
 msgid "Sample Size"
-msgstr "Tamaño da Mostra"
+msgstr "Tamaño da mostra"
 
 msgctxt "NetworkAnalysis|"
 msgid "Maximum"
@@ -718,27 +718,27 @@ msgstr "Cor do grupo"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "red"
-msgstr "vermello"
+msgstr "Vermello"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "blue"
-msgstr "azul"
+msgstr "Azul"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "yellow"
-msgstr "amarelo"
+msgstr "Amarelo"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "green"
-msgstr "verde"
+msgstr "Verde"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "purple"
-msgstr "morado"
+msgstr "Morado"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "orange"
-msgstr "laranxa"
+msgstr "Laranxa"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Variables in network"
