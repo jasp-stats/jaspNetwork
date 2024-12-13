@@ -24,22 +24,30 @@ import JASP.Widgets 1.0
 Form
 {
 
-	VariablesForm
+VariablesForm
 	{
 		AvailableVariablesList { name: "allVariablesList" }
-		AssignedVariablesList { name: "variables";			title: qsTr("Dependent Variables"); allowedColumns: ["scale"]; id: networkVariables}
-		AssignedVariablesList { name: "groupingVariable";	title: qsTr("Split"); singleVariable: true; allowedColumns: ["nominal"] }
+		AssignedVariablesList  { name: "variables";
+		                        title: qsTr("Dependent Variables");
+		                        allowedColumns: ["ordinal", "scale"];
+		                        allowTypeChange: true;
+		                        id: networkVariables}
+		AssignedVariablesList { name: "groupingVariable";
+		                        title: qsTr("Split");
+		                        singleVariable: true;
+		                        allowedColumns: ["nominal"] }
 	}
-	
+
 	DropDown
 	{
-		id: estimator
-		name: "estimator"
-		label: qsTr("Estimator")
+		id: model
+		name: "model"
+		label: qsTr("Model")
 		Layout.columnSpan: 2
 		values: [
-			{ value: "ggm",		        label: "ggm"			},
-			{ value: "gcgm",				  label: "gcgm"			}
+			{ value: "ggm",		        label: "ggm (continuous)"	        },
+			{ value: "gcgm",				  label: "gcgm (mixed)"			        },
+			{ value: "omrf",				  label: "omrf (binary/ordinal)"		}
 		]
 	}
 
@@ -47,8 +55,8 @@ Form
 	{
 		title: qsTr("Plots")
 		CheckBox { name: "networkPlot";		label: qsTr("Network plot")								}
-		CheckBox { 
-		  name: "evidencePlot";		
+		CheckBox {
+		  name: "evidencePlot";
 		  label: qsTr("Edge evidence plot")
 		  IntegerField {
 				  name:         "edgeInclusionCriteria";
@@ -61,21 +69,22 @@ Form
 				  CheckBox { name: "edgeExclusion";  label: qsTr("Evidence for exclusion"); checked: true }
 				  CheckBox { name: "edgeAbsence"; label: qsTr("Absence of evidence");   checked: true }
 		}
-		CheckBox { 
-		  name: "centralityPlot"; id: centralityPlot;  label: qsTr("Centrality plot") 
-		  CheckBox { 
-				    name:    "credibilityInterval";
-				    label:   qsTr("Credibility interval 95%");
-				    checked: false 
-		  }
-	  }
+   CheckBox {
+       name: "centralityPlot"; id: centralityPlot; label: qsTr("Centrality plot")
+       CheckBox {
+           name: "credibilityInterval";
+           label: qsTr("Credibility interval 95%");
+           checked: false;
+           visible: model.currentValue === "omrf"; // Show only when model is "omrf"
+       }
+   }
 	}
 
 	Group
 	{
 		title: qsTr("Tables")
 		CheckBox { name: "weightsMatrixTable";	label: qsTr("Weights matrix")	}
-		CheckBox { 
+		CheckBox {
 		    name: "edgeEvidenceTable";		label: qsTr("Edge evidence probability table")
 		    RadioButtonGroup {
 				  name: "evidenceType";
@@ -87,38 +96,154 @@ Form
 		}
 		CheckBox { name: "centralityTable"; label: qsTr("Centrality table") }
 	}
-	
-	Section 
-	{
-	  title: qsTr("Sampling Options")
-	  Layout.columnSpan: 2
-	  IntegerField { name: "burnin"; label: qsTr("Burn in: "); value: "5000" ; min: 0; max: iter.value / 2; fieldWidth: 100; id: burnin }
-	  IntegerField { name: "iter"; label: qsTr("Iterations: "); value: "10000" ; min: burnin.value * 2; fieldWidth: 100; id: iter }
-		
-		SetSeed{}
-	}
 
 	Section
 	{
-		title: qsTr("Prior")
+	  title: qsTr("Sampling Options")
+	  Layout.columnSpan: 2
+	  IntegerField { name: "burnin"; label: qsTr("Burn in: "); value: 1000 ; min: 0; max: iter.value / 2; fieldWidth: 100; id: burnin }
+	  IntegerField { name: "iter"; label: qsTr("Iterations: "); value: 10000 ; min: burnin.value * 2; fieldWidth: 100; id: iter }
 
-		FormulaField { name: "gprior"; label: qsTr("Prior edge inclusion (g prior): "); value: "0.5" ; min: 0.001; max: 1; Layout.columnSpan: 2 }
-		
-		DropDown
-	  {
-		  id: initialConfiguration
-		  name: "initialConfiguration"
-		  label: qsTr("Initial configuration prior edge inclusion (g start):")
-		  Layout.columnSpan: 2
-		  values: [
-			  { value: "empty",		      label: "empty"			  },
-			  { value: "full",				  label: "full"				  }
-		  ]
-	  }
-
-		IntegerField { name: "dfprior"; label: qsTr("Degrees of freedom of G-Wishart prior (df prior): "); value: "3" ; min: 3; Layout.columnSpan: 2 }
-
+		SetSeed{}
 	}
+
+  Section {
+    title: qsTr("Prior Specification")
+    Layout.fillWidth: true
+    Column {
+        spacing: 15
+        anchors.fill: parent
+
+        Group {
+            title: qsTr("Network Structure (Edge) Priors")
+            Layout.fillWidth: true
+
+            Column {
+                spacing: 10
+                Layout.fillWidth: true
+
+               DropDown {
+                    id: edgePrior
+                    name: "edgePrior"
+                    label: qsTr("Edge prior:")
+                    Layout.fillWidth: true
+                    preferredWidth: 300
+                    values: [
+                        { value: "Bernoulli", label: "Bernoulli" },
+                        { value: "Beta-Bernoulli", label: "Beta-Bernoulli" },
+                        { value: "Stochastic-Block", label: "Stochastic Block" }
+                    ]
+                    visible: model.currentValue === "omrf"
+                }
+
+               DoubleField {
+                   name: "gPrior"
+                   label: qsTr("Prior edge inclusion probability:")
+                   value: 0.5
+                   min: 0.001
+                   max: 1
+                   Layout.fillWidth: true
+                   preferredWidth: 300
+                   visible: (model.currentValue === "ggm" || model.currentValue === "gcgm") || (model.currentValue === "omrf" && edgePrior.currentValue === "Bernoulli")
+               }
+
+                DoubleField {
+                    name:  "betaAlpha"
+                    label: qsTr("Shape parameter 1:")
+                    value: 1
+                    min: 0.001
+                    Layout.fillWidth: true
+                    preferredWidth: 300
+                    visible: (model.currentValue === "omrf") && (edgePrior.currentValue === "Beta-Bernoulli" || edgePrior.currentValue === "Stochastic-Block")
+                }
+
+                DoubleField {
+                    name: "betaBeta"
+                    label: qsTr("Shape parameter 2:")
+                    value: 1
+                    min: 0.001
+                    Layout.fillWidth: true
+                    preferredWidth: 300
+                    visible: (model.currentValue === "omrf") && (edgePrior.currentValue === "Beta-Bernoulli" || edgePrior.currentValue === "Stochastic-Block")
+                }
+
+                DoubleField {
+                    name: "dirichletAlpha"
+                    label: qsTr("Concentration parameter:")
+                    value: 1
+                    min: 0.001
+                    Layout.fillWidth: true
+                    preferredWidth: 300
+                    visible: (model.currentValue === "omrf") && (edgePrior.currentValue === "Stochastic-Block")
+                }
+
+                DropDown {
+                    id: initialConfiguration
+                    name: "initialConfiguration"
+                    label: qsTr("Initial configuration prior edge inclusion:")
+                    Layout.fillWidth: true
+                    preferredWidth: 300
+                    values: [
+                        { value: "empty", label: "empty" },
+                        { value: "full", label: "full" }
+                    ]
+                   visible: model.currentValue === "ggm" || model.currentValue === "gcgm"
+                }
+            }
+        }
+
+        Group {
+            title: qsTr("Parameter Priors")
+            Layout.fillWidth: true
+
+            Column {
+                spacing: 10
+                Layout.fillWidth: true
+
+                IntegerField {
+                    name: "dfPrior"
+                    label: qsTr("Degrees of freedom of G-Wishart prior:")
+                    value: 3
+                    min: 3
+                    Layout.fillWidth: true
+                    preferredWidth: 300
+                    visible: model.currentValue === "ggm" || model.currentValue === "gcgm"
+                }
+
+                DoubleField {
+                    name: "interactionScale"
+                    label: qsTr("Scale of the Cauchy distribution for the edge weights:")
+                    value: 2.5
+                    min: 0.1
+                    Layout.fillWidth: true
+                    preferredWidth: 300
+                    visible: model.currentValue === "omrf"
+                }
+
+
+                DoubleField {
+                    name: "thresholdAlpha"
+                    label: qsTr("Threshold shape parameter 1:")
+                    value: 1
+                    min: 0.001
+                    Layout.fillWidth: true
+                    preferredWidth: 300
+                    visible: model.currentValue === "omrf"
+                }
+
+                DoubleField {
+                    name: "thresholdBeta"
+                    label: qsTr("Threshold shape parameter 2:")
+                    value: 1
+                    min: 0.001
+                    Layout.fillWidth: true
+                    preferredWidth: 300
+                    visible: model.currentValue === "omrf"
+                }
+            }
+        }
+    }
+}
 
 
   Section
@@ -246,7 +371,7 @@ Form
 			RadioButton { value: "inNodes";			label: qsTr("In plot");	 checked: true	}
 			RadioButton { value: "inLegend";		label: qsTr("In legend")					}
 		}
-		
+
 		RadioButtonGroup
 		{
 			name: "legend"
@@ -292,7 +417,7 @@ Form
 			CheckBox	{	name: "expectedInfluence";	label: qsTr("Expected influence");	checked: true	}
 		}
 	}
-	
+
 	Section
 	{
 		title:		qsTr("Network structure selection")
