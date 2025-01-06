@@ -2,192 +2,224 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jaspNetwork 0.19.2\n"
 "POT-Creation-Date: 2024-10-19 02:39\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2025-01-06 12:24+0000\n"
+"Last-Translator: தமிழ்நேரம் <anishprabu.t@gmail.com>\n"
+"Language-Team: Tamil <https://hosted.weblate.org/projects/jasp/jaspnetwork-r/"
+"ta/>\n"
 "Language: ta\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.10-dev\n"
 
 msgid "Summary of Network"
-msgstr ""
+msgstr "நெட்வொர்க்கின் சுருக்கம்"
 
 msgid "Network"
-msgstr ""
+msgstr "பிணையம்"
 
 msgid "Number of nodes"
-msgstr ""
+msgstr "முனைகளின் எண்ணிக்கை"
 
 msgid "Number of non-zero edges"
-msgstr ""
+msgstr "பூச்சியமற்ற விளிம்புகளின் எண்ணிக்கை"
 
 msgid "Sparsity"
-msgstr ""
+msgstr "ச்பார்சிட்டி"
 
 msgid "Could not invert the posterior rate matrix. Check if the covariance matrix of your data is singular. For example, check for any pairs of variables with extreme correlations (> .95)."
 msgstr ""
+"பின்புற விகித மேட்ரிக்சை தலைகீழாக மாற்ற முடியவில்லை. உங்கள் தரவின் கோவாரன்ச் மேட்ரிக்ச் "
+"ஒருமை என்பதை சரிபார்க்கவும். எடுத்துக்காட்டாக, தீவிர தொடர்புகளுடன் (> .95) எந்த இணை "
+"மாறிகள் சரிபார்க்கவும்."
 
 msgid "BDgraph failed with the following error message:\n%s"
 msgstr ""
+"பின்வரும் பிழை செய்தியுடன் Bdgraph தோல்வியடைந்தது:\n"
+" %s"
 
 msgid "Minimum edge strength ignored in the network plot because it was larger than the absolute value of the strongest edge."
 msgstr ""
+"பிணையம் சதித்திட்டத்தில் குறைந்தபட்ச விளிம்பு வலிமை புறக்கணிக்கப்பட்டது, ஏனெனில் இது வலுவா"
+"ன விளிம்பின் முழுமையான மதிப்பை விட பெரியது."
 
 msgid "Minimum edge strength ignored in the network plot of group%1$s %2$s because it was larger than the absolute value of the strongest edge."
 msgstr ""
+"குழு %1$s %2$s இன் பிணைய சதித்திட்டத்தில் குறைந்தபட்ச விளிம்பு வலிமை "
+"புறக்கணிக்கப்படுகிறது, ஏனெனில் இது வலுவான விளிம்பின் முழுமையான மதிப்பை விட பெரியது."
 
 msgid "<em>Warning: </em>"
-msgstr ""
+msgstr "<em> எச்சரிக்கை: </em>"
 
 msgid "Weights matrix"
-msgstr ""
+msgstr "எடை அணி"
 
 msgid "Variable"
 msgstr ""
 
 msgid "Posterior Probability Structure Plots"
-msgstr ""
+msgstr "பின்புற நிகழ்தகவு கட்டமைப்பு அடுக்கு"
 
 msgid "Posterior Probability Structure Plot"
-msgstr ""
+msgstr "பின்புற நிகழ்தகவு கட்டமைப்பு சூழ்ச்சி"
 
 msgid "Centrality measures per variable"
-msgstr ""
+msgstr "ஒரு மாறிக்கு மைய நடவடிக்கைகள்"
 
 msgid "Betweenness"
-msgstr ""
+msgstr "இடையில்"
 
 msgid "Closeness"
-msgstr ""
+msgstr "நெருக்கம்"
 
 msgid "Strength"
-msgstr ""
+msgstr "வலிமை"
 
 msgid "Expected influence"
-msgstr ""
+msgstr "எதிர்பார்க்கப்படும் செல்வாக்கு"
 
 msgid "Centrality Plot"
-msgstr ""
+msgstr "மைய சூழ்ச்சி"
 
 msgid "Complexity plot"
-msgstr ""
+msgstr "சிக்கலான சூழ்ச்சி"
 
 msgid "Complexity plots"
-msgstr ""
+msgstr "சிக்கலான அடுக்குகள்"
 
 msgid "Complexity Plot"
-msgstr ""
+msgstr "சிக்கலான சூழ்ச்சி"
 
 msgid "Structure Plot"
-msgstr ""
+msgstr "கட்டமைப்பு சூழ்ச்சி"
 
 msgid "Structure Plots"
-msgstr ""
+msgstr "கட்டமைப்பு அடுக்கு"
 
 msgid "Edge Evidence Plot"
-msgstr ""
+msgstr "விளிம்பு ஆதார சூழ்ச்சி"
 
 msgid "Edge Evidence Plots"
-msgstr ""
+msgstr "விளிம்பு சான்றுகள் அடுக்கு"
 
 msgid "Edge evidence probability table"
-msgstr ""
+msgstr "விளிம்பு சான்றுகள் நிகழ்தகவு அட்டவணை"
 
 msgid "After binarizing the data too little variance remained in variable(s): %s."
 msgstr ""
+"தரவை இருமியாக்கிய பிறகு மிகக் குறைந்த மாறுபாடு மாறி (கள்) இல் இருந்தது: %s."
 
 msgid "Data was binarized using %s."
-msgstr ""
+msgstr "%s ஐப் பயன்படுத்தி தரவு பைனரைச் செய்யப்பட்டது."
 
 msgid "Only the first %1$d values of %2$s were used to color nodes (%3$d provided)."
 msgstr ""
+"%2$s இன் முதல் %1$d மதிப்புகள் மட்டுமே வண்ண முனைகளுக்கு பயன்படுத்தப்பட்டன ( %3$d "
+"வழங்கப்பட்டது)."
 
 msgid "Bootstrapping is only done when 'Bootstrap network' is ticked and 'Number of Bootstraps' is larger than 0."
 msgstr ""
+"'தொடக்கவார் பிணையம்' தேர்வுசெய்யப்பட்டு, 'பூட்ச்ட்ராப்களின் எண்ணிக்கை' 0 ஐ விட பெரியதாக "
+"இருக்கும்போது மட்டுமே பூட்ச்ட்ராப்பிங் செய்யப்படுகிறது."
 
 msgid "Barrat"
-msgstr ""
+msgstr "தடை"
 
 msgid "Onnela"
-msgstr ""
+msgstr "கற்பனாவாதம்"
 
 msgid "WS"
-msgstr ""
+msgstr "Ws"
 
 msgid "Zhang"
-msgstr ""
+msgstr "சாங்"
 
 msgid "Clustering measures per variable"
-msgstr ""
+msgstr "ஒரு மாறிக்கு கிளச்டரிங் நடவடிக்கைகள்"
 
 msgid "Clustering measures could not be computed for network%1$s: %2$s"
-msgstr ""
+msgstr "பிணையம் %1$s: %2$s க்கு கிளச்டரிங் நடவடிக்கைகளை கணக்கிட முடியவில்லை"
 
 msgid "Bootstrap summary of Network"
-msgstr ""
+msgstr "நெட்வொர்க்கின் தொடக்கவார் சுருக்கம்"
 
 msgid "Type"
-msgstr ""
+msgstr "வகை"
 
 msgid "Number of bootstraps"
-msgstr ""
+msgstr "பூட்ச்ட்ராப்பின் எண்ணிக்கை"
 
 msgid "Clustering Plot"
-msgstr ""
+msgstr "கிளச்டரிங் சூழ்ச்சி"
 
 msgid "Network Plots"
-msgstr ""
+msgstr "பிணையம் அடுக்கு"
 
 msgid "Network Plot"
-msgstr ""
+msgstr "பிணையம் சூழ்ச்சி"
 
 msgid "Edge Stability"
-msgstr ""
+msgstr "விளிம்பு நிலைத்தன்மை"
 
 msgid "Centrality Stability"
-msgstr ""
+msgstr "மைய நிலைத்தன்மை"
 
 msgid "bootnet crashed with the following error message:\n%s"
 msgstr ""
+"பின்வரும் பிழை செய்தியுடன் பூட்நெட் செயலிழந்தது:\n"
+" %s"
 
 msgid "Please drag all variables to a particular type under \"Analysis options\"."
 msgstr ""
+"\"பகுப்பாய்வு விருப்பங்கள்\" கீழ் அனைத்து மாறிகளையும் ஒரு குறிப்பிட்ட வகைக்கு இழுக்கவும்."
 
 msgid "Coefficient could not be standardized because the variance is too small."
-msgstr ""
+msgstr "மாறுபாடு மிகவும் சிறியதாக இருப்பதால் குணகத்தை தரப்படுத்த முடியவில்லை."
 
 msgid "Please supply a name for both the x and y-coordinates of the layout."
 msgstr ""
+"தளவமைப்பின் ஃச் மற்றும் ஒய்-ஒருங்கிணைப்புகள் இரண்டிற்கும் ஒரு பெயரை வழங்கவும்."
 
 msgid "Some variables did not contain char (%s)"
-msgstr ""
+msgstr "சில மாறிகள் சார் (%s) ஐக் கொண்டிருக்கவில்லை"
 
 msgid "Some variables were not matched in the column names of the dataset."
-msgstr ""
+msgstr "தரவுத்தொகுப்பின் நெடுவரிசை பெயர்களில் சில மாறிகள் பொருந்தவில்லை."
 
 msgid "Supplied data for layout was not understood and instead a circle layout was used."
 msgstr ""
+"தளவமைப்புக்கான வழங்கப்பட்ட தரவு புரிந்து கொள்ளப்படவில்லை, அதற்கு பதிலாக ஒரு வட்டம் "
+"தளவமைப்பு பயன்படுத்தப்பட்டது."
 
 msgid "Data supplied in %1$s AND %2$s could not be used to determine node locations."
 msgstr ""
+"முனை இருப்பிடங்களைத் தீர்மானிக்க %1$s மற்றும் %2$s இல் வழங்கப்பட்ட தரவை பயன்படுத்த "
+"முடியாது."
 
 msgid "Data supplied in %s could not be used to determine node locations."
 msgstr ""
+"முனை இருப்பிடங்களைத் தீர்மானிக்க %s இல் வழங்கப்பட்ட தரவை பயன்படுத்த முடியாது."
 
 msgid "%1$s %2$s Data should only contain numeric:\n                 -start with the column name of the variable.\n                 -contain an '=' to distinguish between column name and coordinate."
 msgstr ""
+"%1$s %2$s தரவுகளில் எண் மட்டுமே இருக்க வேண்டும்:\n"
+" மாறியின் நெடுவரிசை பெயருடன் தொடங்கவும்.\n"
+" நெடுவரிசை பெயருக்கும் ஒருங்கிணைப்புக்கும் இடையில் வேறுபடுத்துவதற்கு ஒரு '=' ஐக் "
+"கொள்ளுங்கள்."
 
 msgid "bootnet crashed with the following error message:\n%s. <ul><li>Please check if there are variables in the network with little variance or few distinct observations.</li></ul>"
 msgstr ""
+"பின்வரும் பிழை செய்தியுடன் பூட்நெட் செயலிழந்தது:\n"
+" %s. <ul> <li> சிறிய மாறுபாடு அல்லது சில தனித்துவமான அவதானிப்புகள் கொண்ட "
+"நெட்வொர்க்கில் மாறிகள் இருக்கிறதா என்று சரிபார்க்கவும். </li> </ul>"
 
 msgid "%1$s X-Coordinates for variable %2$s was not understood."
 msgid_plural "%1$s X-Coordinates for variables %2$s were not understood."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "மாறி %2$s க்கான %1$s x- ஒருங்கிணைப்புகள் புரிந்து கொள்ளப்படவில்லை."
+msgstr[1] "%2$s மாறிகள் 1 $ s x- ஒருங்கிணைப்புகள் புரிந்து கொள்ளப்படவில்லை."
 
 msgid "%1$s Y-Coordinates for variable %2$s was not understood."
 msgid_plural "%1$s Y-Coordinates for variables %2$s were not understood."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "மாறி %2$s க்கான %1$s y- ஒருங்கிணைப்புகள் புரிந்து கொள்ளப்படவில்லை."
+msgstr[1] "%2$s மாறிகளுக்கு %1$s y- ஒருங்கிணைப்புகள் புரிந்து கொள்ளப்படவில்லை."
