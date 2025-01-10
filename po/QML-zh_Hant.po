@@ -1,9 +1,15 @@
 msgid ""
 msgstr ""
+"PO-Revision-Date: 2025-01-11 02:39+0000\n"
+"Last-Translator: 陳寬裕 <pf.kuan.yu.chen@gmail.com>\n"
+"Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
+"projects/jasp/jaspnetwork-qml/zh_Hant/>\n"
+"Language: zh_Hant\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 5.10-dev\n"
 "X-Language: zh_Hant\n"
 "X-Qt-Contexts: true\n"
 
@@ -25,7 +31,7 @@ msgstr ""
 
 msgctxt "NetworkAnalysis|"
 msgid "Estimator"
-msgstr ""
+msgstr "估計方法"
 
 msgctxt "NetworkAnalysis|"
 msgid "Correlation"
@@ -217,7 +223,7 @@ msgstr ""
 
 msgctxt "NetworkAnalysis|"
 msgid "Threshold"
-msgstr ""
+msgstr "臨界值"
 
 msgctxt "NetworkAnalysis|"
 msgid "Method"
@@ -586,7 +592,7 @@ msgstr ""
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Estimator"
-msgstr ""
+msgstr "估計方法"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Plots"
