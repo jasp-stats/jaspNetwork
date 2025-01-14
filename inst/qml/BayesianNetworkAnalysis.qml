@@ -77,7 +77,22 @@ VariablesForm
            visible: model.currentValue === "omrf"; // Show only when model is "omrf"
        }
    }
-	}
+   Column {
+      spacing: 10
+      Text {
+          text: qsTr("Network structure selection")
+          font.bold: false
+      }
+      CheckBox {
+          name: "posteriorStructurePlot"
+          label: qsTr("Posterior structure probability plot")
+      }
+      CheckBox {
+          name: "complexityPlot"
+          label: qsTr("Posterior complexity probability plot")
+      }
+   }
+}
 
 	Group
 	{
@@ -108,29 +123,23 @@ VariablesForm
 
   Section {
     title: qsTr("Prior Specification")
-    Layout.fillWidth: true
     Column {
         spacing: 15
         anchors.fill: parent
 
         Group {
             title: qsTr("Network Structure (Edge) Priors")
-            Layout.fillWidth: true
-
             Column {
                 spacing: 10
-                Layout.fillWidth: true
-
                DropDown {
                     id: edgePrior
                     name: "edgePrior"
                     label: qsTr("Edge prior:")
-                    Layout.fillWidth: true
                     preferredWidth: 300
                     values: [
-                        { value: "Bernoulli", label: "Bernoulli" },
-                        { value: "Beta-Bernoulli", label: "Beta-Bernoulli" },
-                        { value: "Stochastic-Block", label: "Stochastic Block" }
+                        { value: "Bernoulli", label: qsTr("Bernoulli") },
+                        { value: "Beta-Bernoulli", label: qsTr("Beta-binomial") },
+                        { value: "Stochastic-Block", label: qsTr("Stochastic block model") }
                     ]
                     visible: model.currentValue === "omrf"
                 }
@@ -139,9 +148,9 @@ VariablesForm
                    name: "gPrior"
                    label: qsTr("Prior edge inclusion probability:")
                    value: 0.5
-                   min: 0.001
+                   min: 0
                    max: 1
-                   Layout.fillWidth: true
+                   inclusive: JASP.MaxOnly
                    preferredWidth: 300
                    visible: (model.currentValue === "ggm" || model.currentValue === "gcgm") || (model.currentValue === "omrf" && edgePrior.currentValue === "Bernoulli")
                }
@@ -150,8 +159,8 @@ VariablesForm
                     name:  "betaAlpha"
                     label: qsTr("Shape parameter 1:")
                     value: 1
-                    min: 0.001
-                    Layout.fillWidth: true
+                    min: 0
+                    inclusive: JASP.None
                     preferredWidth: 300
                     visible: (model.currentValue === "omrf") && (edgePrior.currentValue === "Beta-Bernoulli" || edgePrior.currentValue === "Stochastic-Block")
                 }
@@ -160,8 +169,8 @@ VariablesForm
                     name: "betaBeta"
                     label: qsTr("Shape parameter 2:")
                     value: 1
-                    min: 0.001
-                    Layout.fillWidth: true
+                    min: 0
+                    inclusive: JASP.None
                     preferredWidth: 300
                     visible: (model.currentValue === "omrf") && (edgePrior.currentValue === "Beta-Bernoulli" || edgePrior.currentValue === "Stochastic-Block")
                 }
@@ -170,8 +179,8 @@ VariablesForm
                     name: "dirichletAlpha"
                     label: qsTr("Concentration parameter:")
                     value: 1
-                    min: 0.001
-                    Layout.fillWidth: true
+                    min: 0
+                    inclusive: JASP.None
                     preferredWidth: 300
                     visible: (model.currentValue === "omrf") && (edgePrior.currentValue === "Stochastic-Block")
                 }
@@ -180,7 +189,6 @@ VariablesForm
                     id: initialConfiguration
                     name: "initialConfiguration"
                     label: qsTr("Initial configuration prior edge inclusion:")
-                    Layout.fillWidth: true
                     preferredWidth: 300
                     values: [
                         { value: "empty", label: "empty" },
@@ -193,18 +201,16 @@ VariablesForm
 
         Group {
             title: qsTr("Parameter Priors")
-            Layout.fillWidth: true
+
 
             Column {
                 spacing: 10
-                Layout.fillWidth: true
-
                 IntegerField {
                     name: "dfPrior"
                     label: qsTr("Degrees of freedom of G-Wishart prior:")
                     value: 3
                     min: 3
-                    Layout.fillWidth: true
+
                     preferredWidth: 300
                     visible: model.currentValue === "ggm" || model.currentValue === "gcgm"
                 }
@@ -213,8 +219,8 @@ VariablesForm
                     name: "interactionScale"
                     label: qsTr("Scale of the Cauchy distribution for the edge weights:")
                     value: 2.5
-                    min: 0.1
-                    Layout.fillWidth: true
+                    min: 0
+                    inclusive: JASP.None
                     preferredWidth: 300
                     visible: model.currentValue === "omrf"
                 }
@@ -223,9 +229,9 @@ VariablesForm
                 DoubleField {
                     name: "thresholdAlpha"
                     label: qsTr("Threshold shape parameter 1:")
-                    value: 1
-                    min: 0.001
-                    Layout.fillWidth: true
+                    value: 0.5
+                    min: 0
+                    inclusive: JASP.None
                     preferredWidth: 300
                     visible: model.currentValue === "omrf"
                 }
@@ -233,9 +239,9 @@ VariablesForm
                 DoubleField {
                     name: "thresholdBeta"
                     label: qsTr("Threshold shape parameter 2:")
-                    value: 1
-                    min: 0.001
-                    Layout.fillWidth: true
+                    value: 0.5
+                    min: 0
+                    inclusive: JASP.None
                     preferredWidth: 300
                     visible: model.currentValue === "omrf"
                 }
@@ -415,13 +421,5 @@ VariablesForm
 			CheckBox	{	name: "strength";				    label: qsTr("Strength");			      checked: true	}
 			CheckBox	{	name: "expectedInfluence";	label: qsTr("Expected influence");	checked: true	}
 		}
-	}
-
-	Section
-	{
-		title:		qsTr("Network structure selection")
-		expanded:	false
-		CheckBox { name: "posteriorStructurePlot";		label: qsTr("Posterior structure probability plot")	}
-		CheckBox { name: "complexityPlot";		        label: qsTr("Posterior complexity probability plot")	}
 	}
 }

@@ -164,7 +164,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       centralitySamples <- centrality(network = network, options = options)
 
       # Compute centrality measures for each posterior sample:
-      nSamples <- nrow(network$samplesPosterior[[1]])
+      nSamples <- nrow(network$samplesPosterior)
 
       # centralitySamples is in wide format, so to select all samples (without cols representing the variables) we need 3:(nSamples+2)
       posteriorMeans <- apply(centralitySamples[, 3:(nSamples+2)], MARGIN = 1, mean)
@@ -235,7 +235,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       easybgmResult$estimates              <- as.matrix(easybgmFit$parameters)
       easybgmResult$graph                  <- easybgmResult$estimates*easybgmResult$structure
       easybgmResult$sampleGraphs           <- easybgmFit$sample_graph
-      easybgmResult$samplesPosterior       <- list(easybgmFit$samples_posterior)
+      easybgmResult$samplesPosterior       <- easybgmFit$samples_posterior
 
       networks[[nw]] <- easybgmResult
 
@@ -284,7 +284,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       easybgmResult$estimates              <- as.matrix(easybgmFit$parameters)
       easybgmResult$graph                  <- easybgmResult$estimates*easybgmResult$structure
       easybgmResult$sampleGraphs           <- easybgmFit$sample_graph
-      easybgmResult$samplesPosterior       <- list(easybgmFit$samples_posterior)
+      easybgmResult$samplesPosterior       <- easybgmFit$samples_posterior
 
       networks[[nw]] <- easybgmResult
     }
@@ -334,7 +334,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       easybgmResult$estimates              <- as.matrix(easybgmFit$parameters)
       easybgmResult$graph                  <- easybgmResult$estimates*easybgmResult$structure
       easybgmResult$sampleGraphs           <- easybgmFit$sample_graph
-      easybgmResult$samplesPosterior       <- list(easybgmFit$samples_posterior)
+      easybgmResult$samplesPosterior       <- easybgmFit$samples_posterior
 
       networks[[nw]] <- easybgmResult
     }
@@ -655,8 +655,8 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
       plot <- ggplot2::ggplot(dataComplexity, ggplot2::aes(x = complexity, y = complexityWeight)) +
         jaspGraphs::geom_point() +
-        ggplot2::ylab("Posterior Probability") +
-        ggplot2::xlab("Number of edges")  +
+        ggplot2::ylab(gettext("Posterior Probability")) +
+        ggplot2::xlab(gettext("Number of edges"))  +
         jaspGraphs::geom_rangeframe() +
         jaspGraphs::themeJaspRaw(legend.position = c(.85, 0.25))
 
@@ -1095,7 +1095,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   # add footnote on the infinities only show this message of the evidence type is BF10 or BF01
 
   if (options$evidenceType %in% c("BF10", "BF01")){
-    table$addFootnote("Bayes factors with values of infinity indicate that the estimated posterior inclusion probability is either 1 or 0. Please see the help file for more information.")
+    table$addFootnote(gettext("Bayes factors with values of infinity indicate that the estimated posterior inclusion probability is either 1 or 0. Please see the help file for more information."))
   }
   mainContainer[["edgeEvidenceTable"]] <- table
 }
@@ -1235,10 +1235,9 @@ centrality <- function(network, measures = c("closeness", "betweenness", "streng
   if (options[["credibilityInterval"]]) {
 
     # Compute centrality for each posterior sample:
-    for (i in seq_len(nrow(network$samplesPosterior[[1]]))) {
+    for (i in seq_len(nrow(network$samplesPosterior))) {
 
-      # TODO: this should call centralityTable rather than centralityPlot
-      graph <- qgraph::centralityPlot(vectorToMatrix(network$samplesPosterior[[1]][i, ], as.numeric(nrow(network$estimates)), bycolumn = TRUE),
+      graph <- qgraph::centralityPlot(vectorToMatrix(network$samplesPosterior[i, ], as.numeric(nrow(network$estimates)), bycolumn = TRUE),
                                       include = measures,
                                       verbose = FALSE,
                                       print = FALSE,
@@ -1249,7 +1248,7 @@ centrality <- function(network, measures = c("closeness", "betweenness", "streng
       # see https://github.com/jasp-stats/jasp-test-release/issues/2298
       if (nrow(graph$data) != nrow(centralityOutput) &&
           "Strength" %in% measures &&
-          all(abs(network$samplesPosterior[[1]][i, ]) <= .Machine$double.eps)) {
+          all(abs(network$samplesPosterior[i, ]) <= .Machine$double.eps)) {
 
         idx <- centralityOutput$measure %in% graph$data$measure
         value <- numeric(nrow(centralityOutput))
