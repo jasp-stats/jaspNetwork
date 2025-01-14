@@ -1,957 +1,962 @@
 msgid ""
 msgstr ""
+"PO-Revision-Date: 2025-01-05 12:56+0000\n"
+"Last-Translator: தமிழ்நேரம் <anishprabu.t@gmail.com>\n"
+"Language-Team: Tamil <https://hosted.weblate.org/projects/jasp/"
+"jaspnetwork-qml/ta/>\n"
+"Language: ta\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Language: zh_Hant\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.10-dev\n"
 "X-Qt-Contexts: true\n"
 
 msgctxt "Description|"
 msgid "Network"
-msgstr ""
+msgstr "பிணையம்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Dependent Variables"
+msgstr "சார்பு மாறிகள்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Split"
+msgstr "பிளவு"
+
+msgctxt "NetworkAnalysis|"
+msgid "Estimator"
+msgstr "மதிப்பீட்டாளர்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Correlation"
+msgstr "ஒட்டுறவு"
+
+msgctxt "NetworkAnalysis|"
+msgid "Partial Correlation"
+msgstr "பகுதி தொடர்பு"
+
+msgctxt "NetworkAnalysis|"
+msgid "huge"
+msgstr "பெரிய"
+
+msgctxt "NetworkAnalysis|"
+msgid "Plots"
+msgstr "அடுக்கு"
+
+msgctxt "NetworkAnalysis|"
+msgid "Network plot"
+msgstr "பிணையம் சூழ்ச்சி"
+
+msgctxt "NetworkAnalysis|"
+msgid "Centrality plot"
+msgstr "மைய சூழ்ச்சி"
+
+msgctxt "NetworkAnalysis|"
+msgid "Clustering plot"
+msgstr "கிளச்டரிங் சூழ்ச்சி"
+
+msgctxt "NetworkAnalysis|"
+msgid "Tables"
+msgstr "அட்டவணைகள்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Centrality table"
+msgstr "மைய அட்டவணை"
+
+msgctxt "NetworkAnalysis|"
+msgid "Clustering table"
+msgstr "கிளச்டரிங் அட்டவணை"
+
+msgctxt "NetworkAnalysis|"
+msgid "Weights matrix"
+msgstr "எடை அணி"
+
+msgctxt "NetworkAnalysis|"
+msgid "Analysis Options - "
+msgstr "பகுப்பாய்வு விருப்பங்கள் - "
+
+msgctxt "NetworkAnalysis|"
+msgid "Correlation Method"
+msgstr "தொடர்பு முறை"
+
+msgctxt "NetworkAnalysis|"
+msgid "Auto"
+msgstr "தானி"
+
+msgctxt "NetworkAnalysis|"
+msgid "Cor"
+msgstr "கோர்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Cov"
+msgstr "தி"
+
+msgctxt "NetworkAnalysis|"
+msgid "Npn"
+msgstr "எதிர்நேரெதிரி"
+
+msgctxt "NetworkAnalysis|"
+msgid "Centrality Measures"
+msgstr "மைய நடவடிக்கைகள்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Normalized"
+msgstr "இயல்பாக்கப்பட்டது"
+
+msgctxt "NetworkAnalysis|"
+msgid "Relative"
+msgstr "உறவினர்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Raw"
+msgstr "மூல"
+
+msgctxt "NetworkAnalysis|"
+msgid "Network"
+msgstr "பிணையம்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Weighted"
+msgstr "வெயிட்டட்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Signed"
+msgstr "கையொப்பமிடப்பட்டது"
+
+msgctxt "NetworkAnalysis|"
+msgid "Missing Values"
+msgstr "மதிப்புகள் இல்லை"
+
+msgctxt "NetworkAnalysis|"
+msgid "Exclude pairwise"
+msgstr "சோடிவரிசை விலக்கு"
+
+msgctxt "NetworkAnalysis|"
+msgid "Exclude listwise"
+msgstr "பட்டியல்களை விலக்கு"
+
+msgctxt "NetworkAnalysis|"
+msgid "Sample Size"
+msgstr "மாதிரி அளவு"
+
+msgctxt "NetworkAnalysis|"
+msgid "Maximum"
+msgstr "பெருமம்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Minimum"
+msgstr "சிறுமம்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Ising Estimator"
+msgstr "ஐசிங் மதிப்பீட்டாளர்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Pseudo-likelihood"
+msgstr "போலி-சாத்தியக்கூறு"
+
+msgctxt "NetworkAnalysis|"
+msgid "Univariate regressions"
+msgstr "ஒற்றுமையற்ற பின்னடைவு"
+
+msgctxt "NetworkAnalysis|"
+msgid "Bivariate regressions"
+msgstr "பிவாரேட் பின்னடைவு"
+
+msgctxt "NetworkAnalysis|"
+msgid "Loglinear"
+msgstr "லோக்லினியர்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Criterion"
+msgstr "அளவுகோல்"
+
+msgctxt "NetworkAnalysis|"
+msgid "EBIC"
+msgstr "ஈபிக்"
+
+msgctxt "NetworkAnalysis|"
+msgid "RIC"
+msgstr "ரிக்"
+
+msgctxt "NetworkAnalysis|"
+msgid "STARS"
+msgstr "நட்சத்திரங்கள்"
+
+msgctxt "NetworkAnalysis|"
+msgid "CV"
+msgstr "சி.வி."
+
+msgctxt "NetworkAnalysis|"
+msgid "Rule"
+msgstr "விதி"
+
+msgctxt "NetworkAnalysis|"
+msgid "AND"
+msgstr "மற்றும்"
+
+msgctxt "NetworkAnalysis|"
+msgid "OR"
+msgstr "அல்லது"
+
+msgctxt "NetworkAnalysis|"
+msgid "Median"
+msgstr "இடைநடு"
+
+msgctxt "NetworkAnalysis|"
+msgid "Mean"
+msgstr "இடை, சராசரி"
+
+msgctxt "NetworkAnalysis|"
+msgid "Tuning Parameter"
+msgstr "ட்யூனிங் அளவுரு"
+
+msgctxt "NetworkAnalysis|"
+msgid "Value"
+msgstr "மதிப்பு"
+
+msgctxt "NetworkAnalysis|"
+msgid "Threshold"
+msgstr "வாசல்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Method"
+msgstr "முறை"
+
+msgctxt "NetworkAnalysis|"
+msgid "Significant"
+msgstr "குறிப்பிடத்தக்க"
+
+msgctxt "NetworkAnalysis|"
+msgid "Cross-validation"
+msgstr "குறுக்கு சரிபார்ப்பு"
+
+msgctxt "NetworkAnalysis|"
+msgid "nFolds"
+msgstr "nfolds"
+
+msgctxt "NetworkAnalysis|"
+msgid "Variables in network"
+msgstr "நெட்வொர்க்கில் மாறிகள்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Continuous Variables"
+msgstr "தொடர்ச்சியான மாறிகள்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Categorical Variables"
+msgstr "வகைப்படுத்தப்பட்ட மாறிகள்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Count Variables"
+msgstr "மாறிகள் எண்ணுங்கள்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Bootstrap Options"
+msgstr "தொடக்கவார் விருப்பங்கள்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Settings"
+msgstr "அமைப்புகள்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Bootstrap network"
+msgstr "தொடக்கவார் பிணையம்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Number of bootstraps"
+msgstr "பூட்ச்ட்ராப்பின் எண்ணிக்கை"
+
+msgctxt "NetworkAnalysis|"
+msgid "Parallel Bootstrap"
+msgstr "இணை தொடக்கவார்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Bootstrap Type"
+msgstr "தொடக்கவார் வகை"
+
+msgctxt "NetworkAnalysis|"
+msgid "Nonparametric"
+msgstr "ஒப்பற்ற"
+
+msgctxt "NetworkAnalysis|"
+msgid "Case"
+msgstr "வழக்கு"
+
+msgctxt "NetworkAnalysis|"
+msgid "Node"
+msgstr "கணு"
+
+msgctxt "NetworkAnalysis|"
+msgid "Parametric"
+msgstr "அளவுரு"
+
+msgctxt "NetworkAnalysis|"
+msgid "Person"
+msgstr "ஆள்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Jackknife"
+msgstr "சாக்நைஃப்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Statistics"
+msgstr "புள்ளிவிவரங்கள்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Edges"
+msgstr "விளிம்புகள்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Centrality"
+msgstr "மையத்தன்மை"
+
+msgctxt "NetworkAnalysis|"
+msgid "Graphical Options"
+msgstr "வரைகலை விருப்பங்கள்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Group name"
+msgstr "குழு பெயர்"
+
+msgctxt "NetworkAnalysis|"
+msgid "New Group"
+msgstr "புதிய குழு"
+
+msgctxt "NetworkAnalysis|"
+msgid "Group color"
+msgstr "குழு நிறம்"
+
+msgctxt "NetworkAnalysis|"
+msgid "red"
+msgstr "சிவப்பு"
+
+msgctxt "NetworkAnalysis|"
+msgid "blue"
+msgstr "நீலம்"
+
+msgctxt "NetworkAnalysis|"
+msgid "yellow"
+msgstr "மஞ்சள்"
+
+msgctxt "NetworkAnalysis|"
+msgid "green"
+msgstr "பச்சை"
+
+msgctxt "NetworkAnalysis|"
+msgid "purple"
+msgstr "ஊதா"
+
+msgctxt "NetworkAnalysis|"
+msgid "orange"
+msgstr "ஆரஞ்சு"
+
+msgctxt "NetworkAnalysis|"
+msgid "Group"
+msgstr "குழு"
+
+msgctxt "NetworkAnalysis|"
+msgid "Manual colors"
+msgstr "கையேடு வண்ணங்கள்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Node palette"
+msgstr "முனை தட்டு"
+
+msgctxt "NetworkAnalysis|"
+msgid "Rainbow"
+msgstr "ரெயின்போ"
+
+msgctxt "NetworkAnalysis|"
+msgid "Colorblind"
+msgstr "வண்ணமயமாக்கல்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Pastel"
+msgstr "பாச்டல்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Gray"
+msgstr "சாம்பல்"
+
+msgctxt "NetworkAnalysis|"
+msgid "R"
+msgstr "R"
+
+msgctxt "NetworkAnalysis|"
+msgid "ggplot2"
+msgstr "ggplot2"
+
+msgctxt "NetworkAnalysis|"
+msgid "Node size"
+msgstr "முனை அளவு"
+
+msgctxt "NetworkAnalysis|"
+msgid "Edge size"
+msgstr "விளிம்பு அளவு"
+
+msgctxt "NetworkAnalysis|"
+msgid "Max edge strength"
+msgstr "அதிகபட்ச விளிம்பு வலிமை"
+
+msgctxt "NetworkAnalysis|"
+msgid "Min edge strength"
+msgstr "குறைந்தபட்ச விளிம்பு வலிமை"
+
+msgctxt "NetworkAnalysis|"
+msgid "Cut"
+msgstr "வெட்டு"
+
+msgctxt "NetworkAnalysis|"
+msgid "Show details"
+msgstr "விவரங்களைக் காட்டு"
+
+msgctxt "NetworkAnalysis|"
+msgid "Edge labels"
+msgstr "விளிம்பு லேபிள்கள்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Edge label size"
+msgstr "எட்ச் சிட்டை அளவு"
+
+msgctxt "NetworkAnalysis|"
+msgid "Edge label position"
+msgstr "எட்ச் சிட்டை நிலை"
+
+msgctxt "NetworkAnalysis|"
+msgid "Edge palette"
+msgstr "விளிம்பு தட்டு"
+
+msgctxt "NetworkAnalysis|"
+msgid "Classic"
+msgstr "கிளாசிக்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Hollywood"
+msgstr "ஆலிவுட்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Borkulo"
+msgstr "போர்கர்"
+
+msgctxt "NetworkAnalysis|"
+msgid "TeamFortress"
+msgstr "அணிவகுப்பு"
+
+msgctxt "NetworkAnalysis|"
+msgid "Reddit"
+msgstr "ரெடிட்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Fried"
+msgstr "வறுத்த"
+
+msgctxt "NetworkAnalysis|"
+msgid "Labels"
+msgstr "சிட்டைகள்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Label size"
+msgstr "சிட்டை அளவு"
+
+msgctxt "NetworkAnalysis|"
+msgid "Scale label size"
+msgstr "அளவிலான சிட்டை அளவு"
+
+msgctxt "NetworkAnalysis|"
+msgid "Abbreviate labels to "
+msgstr "சுருக்கமான லேபிள்கள் "
+
+msgctxt "NetworkAnalysis|"
+msgid "Show Variable Names"
+msgstr "மாறி பெயர்களைக் காட்டு"
+
+msgctxt "NetworkAnalysis|"
+msgid "In plot"
+msgstr "சதித்திட்டத்தில்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Show Variable Type"
+msgstr "மாறி வகையைக் காட்டு"
+
+msgctxt "NetworkAnalysis|"
+msgid "Don't show"
+msgstr "காட்ட வேண்டாம்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Using node color"
+msgstr "முனை நிறத்தைப் பயன்படுத்துதல்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Using node shape"
+msgstr "முனை வடிவத்தைப் பயன்படுத்துதல்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Legend"
+msgstr "புராணக்கதை"
+
+msgctxt "NetworkAnalysis|"
+msgid "No legend"
+msgstr "புராணக்கதை இல்லை"
+
+msgctxt "NetworkAnalysis|"
+msgid "All plots"
+msgstr "அனைத்து அடுக்குகளும்"
+
+msgctxt "NetworkAnalysis|"
+msgid "In plot number: "
+msgstr "சூழ்ச்சி எண்ணில்: "
+
+msgctxt "NetworkAnalysis|"
+msgid "Legend to plot ratio"
+msgstr "சூழ்ச்சி விகிதத்திற்கு புராணக்கதை"
+
+msgctxt "NetworkAnalysis|"
+msgid "Layout"
+msgstr "மனையமைவு"
+
+msgctxt "NetworkAnalysis|"
+msgid "Do not update layout"
+msgstr "தளவமைப்பைப் புதுப்பிக்க வேண்டாம்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Spring"
+msgstr "வேனில்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Repulsion"
+msgstr "தள்ளுகை, எதிர்த்தல்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Circle"
+msgstr "வட்டம்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Data"
+msgstr "தகவல்கள்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Measures shown in centrality plot"
+msgstr "மைய சதித்திட்டத்தில் காட்டப்பட்டுள்ள நடவடிக்கைகள்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Betweenness"
+msgstr "இடையில்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Closeness"
+msgstr "நெருக்கம்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Expected Influence"
+msgstr "எதிர்பார்க்கப்படும் செல்வாக்கு"
+
+msgctxt "NetworkAnalysis|"
+msgid "x"
+msgstr "ஃச்"
+
+msgctxt "NetworkAnalysis|"
+msgid "y"
+msgstr "ஒய்"
+
+msgctxt "NetworkAnalysis|"
+msgid "Save the layout in the data set"
+msgstr "தரவு தொகுப்பில் தளவமைப்பைச் சேமிக்கவும்"
+
+msgctxt "NetworkAnalysis|"
+msgid "name for x-coordinates"
+msgstr "எக்ச்-ஒருங்கிணைப்புகளுக்கான பெயர்"
+
+msgctxt "NetworkAnalysis|"
+msgid "name for y-coordinates"
+msgstr "Y- ஒருங்கிணைப்புகளுக்கான பெயர்"
 
 msgctxt "Description|"
 msgid "Explore the connections between variables organized as a network"
 msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Dependent Variables"
-msgstr "依變數"
-
-msgctxt "NetworkAnalysis|"
-msgid "Split"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Estimator"
-msgstr "估計方法"
-
-msgctxt "NetworkAnalysis|"
-msgid "Correlation"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Partial Correlation"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "huge"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Plots"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Network plot"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Centrality plot"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Clustering plot"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Tables"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Centrality table"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Clustering table"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Weights matrix"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Analysis Options - "
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Correlation Method"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Auto"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Cor"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Cov"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Npn"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Centrality Measures"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Normalized"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Relative"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Raw"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Network"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Weighted"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Signed"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Missing Values"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Exclude pairwise"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Exclude listwise"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Sample Size"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Maximum"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Minimum"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Ising Estimator"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Pseudo-likelihood"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Univariate regressions"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Bivariate regressions"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Loglinear"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Criterion"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "EBIC"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "RIC"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "STARS"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "CV"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Rule"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "AND"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "OR"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Median"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Mean"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Tuning Parameter"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Value"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Threshold"
-msgstr "臨界值"
-
-msgctxt "NetworkAnalysis|"
-msgid "Method"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Significant"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Cross-validation"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "nFolds"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Variables in network"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Continuous Variables"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Categorical Variables"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Count Variables"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Bootstrap Options"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Settings"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Bootstrap network"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Number of bootstraps"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Parallel Bootstrap"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Bootstrap Type"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Nonparametric"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Case"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Node"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Parametric"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Person"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Jackknife"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Statistics"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Edges"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Centrality"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Graphical Options"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Group name"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "New Group"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Group color"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "red"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "blue"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "yellow"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "green"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "purple"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "orange"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Group"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Manual colors"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Node palette"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Rainbow"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Colorblind"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Pastel"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Gray"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "R"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "ggplot2"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Node size"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Edge size"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Max edge strength"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Min edge strength"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Cut"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Show details"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Edge labels"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Edge label size"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Edge label position"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Edge palette"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Classic"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Hollywood"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Borkulo"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "TeamFortress"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Reddit"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Fried"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Labels"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Label size"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Scale label size"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Abbreviate labels to "
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Show Variable Names"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "In plot"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Show Variable Type"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Don't show"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Using node color"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Using node shape"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Legend"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "No legend"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "All plots"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "In plot number: "
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Legend to plot ratio"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Layout"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Do not update layout"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Spring"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Repulsion"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Circle"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Data"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Measures shown in centrality plot"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Betweenness"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Closeness"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Expected Influence"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "x"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "y"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Save the layout in the data set"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "name for x-coordinates"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "name for y-coordinates"
-msgstr ""
+"நெட்வொர்க்காக ஒழுங்கமைக்கப்பட்ட மாறிகளுக்கு இடையிலான இணைப்புகளை ஆராயுங்கள்"
 
 msgctxt "NetworkAnalysis|"
 msgid "In Legend"
-msgstr ""
+msgstr "புராணத்தில்"
 
-#, fuzzy
+msgctxt "NetworkAnalysis|"
+msgid "Group 1"
+msgstr "குழு 1"
+
+msgctxt "NetworkAnalysis|"
+msgid "Group 2"
+msgstr "குழு 2"
+
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Dependent Variables"
-msgstr "依變數"
+msgstr "சார்பு மாறிகள்"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Split"
-msgstr ""
+msgstr "பிளவு"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Estimator"
-msgstr "估計方法"
+msgstr "மதிப்பீட்டாளர்"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Plots"
-msgstr ""
+msgstr "அடுக்கு"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Network plot"
-msgstr ""
+msgstr "பிணையம் சூழ்ச்சி"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge evidence plot"
-msgstr ""
+msgstr "விளிம்பு ஆதார சூழ்ச்சி"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Evidence for inclusion"
-msgstr ""
+msgstr "சேர்ப்பதற்கான சான்றுகள்"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Inclusion criteria: BF₁₀ > "
-msgstr ""
+msgstr "சேர்த்தல் அளவுகோல்கள்: BF₁₀> "
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Evidence for exclusion"
-msgstr ""
+msgstr "விலக்குவதற்கான சான்றுகள்"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Absence of evidence"
-msgstr ""
+msgstr "ஆதாரங்கள் இல்லாதது"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Centrality plot"
-msgstr ""
+msgstr "மைய சூழ்ச்சி"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Credibility interval 95%"
-msgstr ""
+msgstr "நம்பகத்தன்மை இடைவெளி 95%"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Tables"
-msgstr ""
+msgstr "அட்டவணைகள்"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Weights matrix"
-msgstr ""
+msgstr "எடை அணி"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge evidence probability table"
-msgstr ""
+msgstr "விளிம்பு சான்றுகள் நிகழ்தகவு அட்டவணை"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge inclusion probability"
-msgstr ""
+msgstr "விளிம்பு சேர்க்கை நிகழ்தகவு"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "BF₁₀"
-msgstr ""
+msgstr "Bf₁₀"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "BF₀₁"
-msgstr ""
+msgstr "Bf₀₁"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Log(BF₁₀)"
-msgstr ""
+msgstr "பதிவு (BF₁₀)"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Centrality table"
-msgstr ""
+msgstr "மைய அட்டவணை"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Sampling Options"
-msgstr ""
+msgstr "மாதிரி விருப்பங்கள்"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Burn in: "
-msgstr ""
+msgstr "எரியும்: "
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Iterations: "
-msgstr ""
+msgstr "மறு செய்கைகள்: "
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Prior"
-msgstr ""
+msgstr "முன்"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Prior edge inclusion (g prior): "
-msgstr ""
+msgstr "முன் விளிம்பு சேர்த்தல் (சி முன்): "
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Initial configuration prior edge inclusion (g start):"
-msgstr ""
+msgstr "ஆரம்ப உள்ளமைவு முன் விளிம்பு சேர்க்கை (சி தொடக்க):"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Degrees of freedom of G-Wishart prior (df prior): "
-msgstr ""
+msgstr "சி-விசார்ட் முன் சுதந்திரத்தின் பட்டங்கள் முன் (டி.எஃப் முன்): "
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Graphical Options"
-msgstr ""
+msgstr "வரைகலை விருப்பங்கள்"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Group name"
-msgstr ""
+msgstr "குழு பெயர்"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Group 1"
-msgstr ""
+msgstr "குழு 1"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Group 2"
-msgstr ""
+msgstr "குழு 2"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "New Group"
-msgstr ""
+msgstr "புதிய குழு"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Group color"
-msgstr ""
+msgstr "குழு நிறம்"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "red"
-msgstr ""
+msgstr "சிவப்பு"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "blue"
-msgstr ""
+msgstr "நீலம்"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "yellow"
-msgstr ""
+msgstr "மஞ்சள்"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "green"
-msgstr ""
+msgstr "பச்சை"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "purple"
-msgstr ""
+msgstr "ஊதா"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "orange"
-msgstr ""
+msgstr "ஆரஞ்சு"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Variables in network"
-msgstr ""
+msgstr "நெட்வொர்க்கில் மாறிகள்"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Group"
-msgstr ""
+msgstr "குழு"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Manual colors"
-msgstr ""
+msgstr "கையேடு வண்ணங்கள்"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Node palette"
-msgstr ""
+msgstr "முனை தட்டு"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Rainbow"
-msgstr ""
+msgstr "ரெயின்போ"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Colorblind"
-msgstr ""
+msgstr "வண்ணமயமாக்கல்"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Pastel"
-msgstr ""
+msgstr "பாச்டல்"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Gray"
-msgstr ""
+msgstr "சாம்பல்"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "R"
-msgstr ""
+msgstr "R"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "ggplot2"
-msgstr ""
+msgstr "ggplot2"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Node size"
-msgstr ""
+msgstr "முனை அளவு"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edges"
-msgstr ""
+msgstr "விளிம்புகள்"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge size"
-msgstr ""
+msgstr "விளிம்பு அளவு"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Max edge strength"
-msgstr ""
+msgstr "அதிகபட்ச விளிம்பு வலிமை"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Min edge strength"
-msgstr ""
+msgstr "குறைந்தபட்ச விளிம்பு வலிமை"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Cut"
-msgstr ""
+msgstr "வெட்டு"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Show details"
-msgstr ""
+msgstr "விவரங்களைக் காட்டு"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge labels"
-msgstr ""
+msgstr "விளிம்பு லேபிள்கள்"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge label size"
-msgstr ""
+msgstr "எட்ச் சிட்டை அளவு"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge label position"
-msgstr ""
+msgstr "எட்ச் சிட்டை நிலை"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge palette"
-msgstr ""
+msgstr "விளிம்பு தட்டு"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Classic"
-msgstr ""
+msgstr "கிளாசிக்"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Hollywood"
-msgstr ""
+msgstr "ஆலிவுட்"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Borkulo"
-msgstr ""
+msgstr "போர்கர்"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "TeamFortress"
-msgstr ""
+msgstr "அணிவகுப்பு"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Reddit"
-msgstr ""
+msgstr "ரெடிட்"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Fried"
-msgstr ""
+msgstr "வறுத்த"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Labels"
-msgstr ""
+msgstr "சிட்டைகள்"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Label size"
-msgstr ""
+msgstr "சிட்டை அளவு"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Scale label size"
-msgstr ""
+msgstr "அளவிலான சிட்டை அளவு"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Abbreviate labels to "
-msgstr ""
+msgstr "சுருக்கமான லேபிள்கள் "
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Show Variable Names"
-msgstr ""
+msgstr "மாறி பெயர்களைக் காட்டு"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "In plot"
-msgstr ""
+msgstr "சதித்திட்டத்தில்"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "In legend"
-msgstr ""
+msgstr "புராணத்தில்"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Legend"
-msgstr ""
+msgstr "புராணக்கதை"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "No legend"
-msgstr ""
+msgstr "புராணக்கதை இல்லை"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "All plots"
-msgstr ""
+msgstr "அனைத்து அடுக்குகளும்"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "In plot number: "
-msgstr ""
+msgstr "சூழ்ச்சி எண்ணில்: "
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Legend to plot ratio"
-msgstr ""
+msgstr "சூழ்ச்சி விகிதத்திற்கு புராணக்கதை"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Layout"
-msgstr ""
+msgstr "மனையமைவு"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Spring"
-msgstr ""
+msgstr "வேனில்"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Repulsion"
-msgstr ""
+msgstr "தள்ளுகை, எதிர்த்தல்"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Circle"
-msgstr ""
+msgstr "வட்டம்"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Measures shown in centrality plot"
-msgstr ""
+msgstr "மைய சதித்திட்டத்தில் காட்டப்பட்டுள்ள நடவடிக்கைகள்"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Betweenness"
-msgstr ""
+msgstr "இடையில்"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Closeness"
-msgstr ""
+msgstr "நெருக்கம்"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Strength"
-msgstr ""
+msgstr "வலிமை"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Expected influence"
-msgstr ""
+msgstr "எதிர்பார்க்கப்படும் செல்வாக்கு"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Network structure selection"
-msgstr ""
+msgstr "பிணைய அமைப்பு தேர்வு"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Posterior structure probability plot"
-msgstr ""
+msgstr "பின்புற கட்டமைப்பு நிகழ்தகவு சூழ்ச்சி"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Posterior complexity probability plot"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Group 1"
-msgstr ""
-
-msgctxt "NetworkAnalysis|"
-msgid "Group 2"
-msgstr ""
+msgstr "பின்புற சிக்கலான நிகழ்தகவு சூழ்ச்சி"
 
 msgctxt "NetworkAnalysis|"
 msgid "Strength"
-msgstr ""
+msgstr "வலிமை"
 
 msgctxt "Description|"
 msgid "Network Analysis"
-msgstr ""
+msgstr "பிணையப் பகுப்பாய்வு"
 
 msgctxt "Description|"
 msgid "Bayesian Network Analysis"
-msgstr ""
+msgstr "பேய்சியன் பிணையம் பகுப்பாய்வு"
