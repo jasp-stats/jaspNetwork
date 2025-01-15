@@ -677,6 +677,14 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
 .networkAnalysisNetworkPlot <- function(plotContainer, network, options, method = "frequentist", dataset = NULL) {
 
+
+  # Adjust options based on method
+  if (method == "frequentist") {
+    estimator <- options[["estimator"]]
+  } else if (method == "Bayesian") {
+    model <- options[["model"]]
+  }
+
   if (!is.null(plotContainer[["networkPlotContainer"]]) || !options[["networkPlot"]])
     return()
 
@@ -753,7 +761,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   # defaults
   shape <- "circle"
   edgeColor <- NULL
-  if (options[["estimator"]] == "mgm") {
+  if (method == "frequentist" && estimator == "mgm") {
 
     idx <- integer(length(options[["variables"]]))
     nms <- c("mgmContinuousVariables", "mgmCategoricalVariables", "mgmCountVariables")
@@ -852,7 +860,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     for (v in names(allNetworks)) {
 
       networkToPlot <- allNetworks[[v]]
-      if (options[["estimator"]] == "mgm") {
+      if (method == "frequentist" && estimator == "mgm") {
         edgeColor <- networkToPlot[["results"]][["edgecolor"]]
         if (is.null(edgeColor)) # compatability issues
           edgeColor <- networkToPlot[["results"]][["pairwise"]][["edgecolor"]]
