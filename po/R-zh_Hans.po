@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: jaspNetwork 0.15\n"
-"POT-Creation-Date: 2023-04-22 02:30\n"
+"POT-Creation-Date: 2025-01-18 02:34\n"
 "PO-Revision-Date: 2024-12-05 02:55+0000\n"
 "Last-Translator: tao guo <guotao3s@163.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -29,18 +29,24 @@ msgid "Sparsity"
 msgstr "稀缺性"
 
 msgid ""
-"Could not invert the posterior rate matrix. Check if the covariance matrix "
-"of your data is singular. For example, check for any pairs of variables with "
-"extreme correlations (> .95)."
-msgstr "无法对后验速率矩阵进行求逆。请检查你的数据的协方差矩阵是否是奇异的. "
-"例如，检查是否存在任意变量对之间的极端相关性（ > 0.95 ）."
+"The Ordinal Markov Random Field may require a substantial amount of time to "
+"complete. This time increases with the number of variables and the number of "
+"iterations."
+msgstr ""
 
+#, fuzzy
 msgid ""
-"BDgraph failed with the following error message:\n"
+"The analysis failed with the following error message:\n"
 "%s"
 msgstr ""
 "bootnet 崩溃，错误信息如下：\n"
 "%s"
+
+msgid ""
+"Some of the variables you have entered for analysis are not binary or "
+"ordinal. Please make sure that all variables are binary or ordinal or change "
+"the model to gcgm."
+msgstr ""
 
 msgid ""
 "Minimum edge strength ignored in the network plot because it was larger than "
@@ -94,6 +100,14 @@ msgstr "复杂性图"
 msgid "Complexity Plot"
 msgstr "复杂性图"
 
+#, fuzzy
+msgid "Posterior Probability"
+msgstr "后验概率结构图"
+
+#, fuzzy
+msgid "Number of edges"
+msgstr "节点数"
+
 msgid "Structure Plot"
 msgstr "结构图"
 
@@ -108,6 +122,12 @@ msgstr "边证据图"
 
 msgid "Edge evidence probability table"
 msgstr "边证据概率表"
+
+msgid ""
+"Bayes factors with values of infinity indicate that the estimated posterior "
+"inclusion probability is either 1 or 0. Please see the help file for more "
+"information."
+msgstr ""
 
 msgid ""
 "After binarizing the data too little variance remained in variable(s): %s."
@@ -230,3 +250,11 @@ msgstr[0] "无法解析变量 %2$s 的 %1$s X 坐标。"
 msgid "%1$s Y-Coordinates for variable %2$s was not understood."
 msgid_plural "%1$s Y-Coordinates for variables %2$s were not understood."
 msgstr[0] "无法解析变量 %2$s 的 %1$s Y 坐标。"
+
+#~ msgid ""
+#~ "Could not invert the posterior rate matrix. Check if the covariance "
+#~ "matrix of your data is singular. For example, check for any pairs of "
+#~ "variables with extreme correlations (> .95)."
+#~ msgstr ""
+#~ "无法对后验速率矩阵进行求逆。请检查你的数据的协方差矩阵是否是奇异的. 例如，"
+#~ "检查是否存在任意变量对之间的极端相关性（ > 0.95 ）."

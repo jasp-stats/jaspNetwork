@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: jaspNetwork 0.19.2\n"
-"POT-Creation-Date: 2024-10-19 02:39\n"
+"POT-Creation-Date: 2025-01-18 02:34\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,10 +26,13 @@ msgstr ""
 msgid "Sparsity"
 msgstr ""
 
-msgid "Could not invert the posterior rate matrix. Check if the covariance matrix of your data is singular. For example, check for any pairs of variables with extreme correlations (> .95)."
+msgid "The Ordinal Markov Random Field may require a substantial amount of time to complete. This time increases with the number of variables and the number of iterations."
 msgstr ""
 
-msgid "BDgraph failed with the following error message:\n%s"
+msgid "The analysis failed with the following error message:\n%s"
+msgstr ""
+
+msgid "Some of the variables you have entered for analysis are not binary or ordinal. Please make sure that all variables are binary or ordinal or change the model to gcgm."
 msgstr ""
 
 msgid "Minimum edge strength ignored in the network plot because it was larger than the absolute value of the strongest edge."
@@ -80,6 +83,12 @@ msgstr ""
 msgid "Complexity Plot"
 msgstr ""
 
+msgid "Posterior Probability"
+msgstr ""
+
+msgid "Number of edges"
+msgstr ""
+
 msgid "Structure Plot"
 msgstr ""
 
@@ -93,6 +102,9 @@ msgid "Edge Evidence Plots"
 msgstr ""
 
 msgid "Edge evidence probability table"
+msgstr ""
+
+msgid "Bayes factors with values of infinity indicate that the estimated posterior inclusion probability is either 1 or 0. Please see the help file for more information."
 msgstr ""
 
 msgid "After binarizing the data too little variance remained in variable(s): %s."

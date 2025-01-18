@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: R 3.6.1\n"
 "Report-Msgid-Bugs-To: github.com/jasp-stats/jasp-issues/issues\n"
-"POT-Creation-Date: 2023-04-22 02:30\n"
+"POT-Creation-Date: 2025-01-18 02:34\n"
 "PO-Revision-Date: 2021-10-29 10:56+0000\n"
 "Last-Translator: JASP Stats <b.boutin@uva.nl>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/jasp/"
@@ -33,14 +33,20 @@ msgid "Sparsity"
 msgstr "Esparsidade"
 
 msgid ""
-"Could not invert the posterior rate matrix. Check if the covariance matrix "
-"of your data is singular. For example, check for any pairs of variables with "
-"extreme correlations (> .95)."
+"The Ordinal Markov Random Field may require a substantial amount of time to "
+"complete. This time increases with the number of variables and the number of "
+"iterations."
 msgstr ""
 
 msgid ""
-"BDgraph failed with the following error message:\n"
+"The analysis failed with the following error message:\n"
 "%s"
+msgstr ""
+
+msgid ""
+"Some of the variables you have entered for analysis are not binary or "
+"ordinal. Please make sure that all variables are binary or ordinal or change "
+"the model to gcgm."
 msgstr ""
 
 msgid ""
@@ -97,6 +103,13 @@ msgstr ""
 msgid "Complexity Plot"
 msgstr "Gráfico de centralidade"
 
+msgid "Posterior Probability"
+msgstr ""
+
+#, fuzzy
+msgid "Number of edges"
+msgstr "Número de nós"
+
 msgid "Structure Plot"
 msgstr ""
 
@@ -110,6 +123,12 @@ msgid "Edge Evidence Plots"
 msgstr ""
 
 msgid "Edge evidence probability table"
+msgstr ""
+
+msgid ""
+"Bayes factors with values of infinity indicate that the estimated posterior "
+"inclusion probability is either 1 or 0. Please see the help file for more "
+"information."
 msgstr ""
 
 msgid ""

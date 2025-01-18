@@ -593,10 +593,6 @@ msgid "Split"
 msgstr "Dividir"
 
 msgctxt "BayesianNetworkAnalysis|"
-msgid "Estimator"
-msgstr "Estimador"
-
-msgctxt "BayesianNetworkAnalysis|"
 msgid "Plots"
 msgstr "Gráficos"
 
@@ -675,22 +671,6 @@ msgstr "Calentamiento: "
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Iterations: "
 msgstr "Iteraciones: "
-
-msgctxt "BayesianNetworkAnalysis|"
-msgid "Prior"
-msgstr "Previo"
-
-msgctxt "BayesianNetworkAnalysis|"
-msgid "Prior edge inclusion (g prior): "
-msgstr "Inclusión previa del borde (g previa): "
-
-msgctxt "BayesianNetworkAnalysis|"
-msgid "Initial configuration prior edge inclusion (g start):"
-msgstr "Configuración inicial de inclusión previa del borde (g inicial):"
-
-msgctxt "BayesianNetworkAnalysis|"
-msgid "Degrees of freedom of G-Wishart prior (df prior): "
-msgstr "Grados de libertad de G-Wishart previa (gl previa): "
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Graphical Options"
@@ -955,3 +935,71 @@ msgstr "Análisis de Red"
 msgctxt "Description|"
 msgid "Bayesian Network Analysis"
 msgstr "Análisis Bayesiano de Red"
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Model"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Prior Specification"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Network Structure (Edge) Priors"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Edge prior:"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Bernoulli"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Beta-binomial"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Stochastic block model"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Prior edge inclusion probability:"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Shape parameter 1:"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Shape parameter 2:"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Concentration parameter:"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Initial configuration prior edge inclusion:"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Parameter Priors"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Degrees of freedom of G-Wishart prior:"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Scale of the Cauchy distribution for the edge weights:"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Threshold shape parameter 1:"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Threshold shape parameter 2:"
+msgstr ""

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2023-04-22 02:30\n"
+"POT-Creation-Date: 2025-01-18 02:34\n"
 "PO-Revision-Date: 2023-10-11 15:42+0000\n"
 "Last-Translator: ecadrian <ecadrian@hotmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/jasp/"
@@ -37,20 +37,24 @@ msgid "Sparsity"
 msgstr "Exigüidade"
 
 msgid ""
-"Could not invert the posterior rate matrix. Check if the covariance matrix "
-"of your data is singular. For example, check for any pairs of variables with "
-"extreme correlations (> .95)."
+"The Ordinal Markov Random Field may require a substantial amount of time to "
+"complete. This time increases with the number of variables and the number of "
+"iterations."
 msgstr ""
-"Non pode inverterse a matriz de taxas posterior. Comproba se é singular a "
-"matriz de covarianzas dos teus datos. Por exemplo, comproba calquera par de "
-"variables con correlacións extremas (> .95)."
 
+#, fuzzy
 msgid ""
-"BDgraph failed with the following error message:\n"
+"The analysis failed with the following error message:\n"
 "%s"
 msgstr ""
 "BDgraph rachou coa seguinte mensaxe de fallo:\n"
 "%s"
+
+msgid ""
+"Some of the variables you have entered for analysis are not binary or "
+"ordinal. Please make sure that all variables are binary or ordinal or change "
+"the model to gcgm."
+msgstr ""
 
 msgid ""
 "Minimum edge strength ignored in the network plot because it was larger than "
@@ -108,6 +112,14 @@ msgstr "Gráficas de Complexidade"
 msgid "Complexity Plot"
 msgstr "Gráfica de Complexidade"
 
+#, fuzzy
+msgid "Posterior Probability"
+msgstr "Gráfica de Estrutura da Probabilidade Posterior"
+
+#, fuzzy
+msgid "Number of edges"
+msgstr "Número de nodos"
+
 msgid "Structure Plot"
 msgstr "Gráfica de Estrutura"
 
@@ -122,6 +134,12 @@ msgstr "Gráficas de Evidencia da Beira"
 
 msgid "Edge evidence probability table"
 msgstr "Táboa de probabilidade de evidencia da beira"
+
+msgid ""
+"Bayes factors with values of infinity indicate that the estimated posterior "
+"inclusion probability is either 1 or 0. Please see the help file for more "
+"information."
+msgstr ""
 
 msgid ""
 "After binarizing the data too little variance remained in variable(s): %s."
@@ -265,6 +283,15 @@ msgid "%1$s Y-Coordinates for variable %2$s was not understood."
 msgid_plural "%1$s Y-Coordinates for variables %2$s were not understood."
 msgstr[0] "%1$s A coordenada Y para a variable %2$s non se entendeu."
 msgstr[1] "%1$s As coordenadas X para as variables %2$s non se entenderon."
+
+#~ msgid ""
+#~ "Could not invert the posterior rate matrix. Check if the covariance "
+#~ "matrix of your data is singular. For example, check for any pairs of "
+#~ "variables with extreme correlations (> .95)."
+#~ msgstr ""
+#~ "Non pode inverterse a matriz de taxas posterior. Comproba se é singular a "
+#~ "matriz de covarianzas dos teus datos. Por exemplo, comproba calquera par "
+#~ "de variables con correlacións extremas (> .95)."
 
 #~ msgid ""
 #~ "Data supplied in %s cannot be used to determine variables types. Data "

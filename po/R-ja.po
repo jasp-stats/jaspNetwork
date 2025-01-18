@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: jaspNetwork 0.0.0\n"
-"POT-Creation-Date: 2023-04-22 02:30\n"
+"POT-Creation-Date: 2025-01-18 02:34\n"
 "PO-Revision-Date: 2024-06-20 16:09+0000\n"
 "Last-Translator: Daiki Hojo <dhojo.bayes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/jasp/"
@@ -29,20 +29,24 @@ msgid "Sparsity"
 msgstr "スパース性"
 
 msgid ""
-"Could not invert the posterior rate matrix. Check if the covariance matrix "
-"of your data is singular. For example, check for any pairs of variables with "
-"extreme correlations (> .95)."
+"The Ordinal Markov Random Field may require a substantial amount of time to "
+"complete. This time increases with the number of variables and the number of "
+"iterations."
 msgstr ""
-"事後比率行列を逆転できませんでした。データの共分散行列が特異かどうかをチェッ"
-"クしてください。例えば、極端な相関(> ."
-"95)を持つ変数のペアがないかチェックします."
 
+#, fuzzy
 msgid ""
-"BDgraph failed with the following error message:\n"
+"The analysis failed with the following error message:\n"
 "%s"
 msgstr ""
 "BDgraphは、次のエラー メッセージでクラッシュしました:\n"
 "%s"
+
+msgid ""
+"Some of the variables you have entered for analysis are not binary or "
+"ordinal. Please make sure that all variables are binary or ordinal or change "
+"the model to gcgm."
+msgstr ""
 
 msgid ""
 "Minimum edge strength ignored in the network plot because it was larger than "
@@ -100,6 +104,14 @@ msgstr "複雑性プロット"
 msgid "Complexity Plot"
 msgstr "複雑性プロット"
 
+#, fuzzy
+msgid "Posterior Probability"
+msgstr "事後確率構造プロット"
+
+#, fuzzy
+msgid "Number of edges"
+msgstr "ノード数"
+
 msgid "Structure Plot"
 msgstr "構造プロット"
 
@@ -114,6 +126,12 @@ msgstr "エッジエビデンスプロット"
 
 msgid "Edge evidence probability table"
 msgstr "エッジエビデンス確率表"
+
+msgid ""
+"Bayes factors with values of infinity indicate that the estimated posterior "
+"inclusion probability is either 1 or 0. Please see the help file for more "
+"information."
+msgstr ""
 
 msgid ""
 "After binarizing the data too little variance remained in variable(s): %s."
@@ -244,3 +262,12 @@ msgstr[0] "変数 %2$s のX座標 %1$sは理解できませんでした."
 msgid "%1$s Y-Coordinates for variable %2$s was not understood."
 msgid_plural "%1$s Y-Coordinates for variables %2$s were not understood."
 msgstr[0] "変数 %2$s の Y 座標 %1$s は理解できませんでした."
+
+#~ msgid ""
+#~ "Could not invert the posterior rate matrix. Check if the covariance "
+#~ "matrix of your data is singular. For example, check for any pairs of "
+#~ "variables with extreme correlations (> .95)."
+#~ msgstr ""
+#~ "事後比率行列を逆転できませんでした。データの共分散行列が特異かどうかを"
+#~ "チェックしてください。例えば、極端な相関(> .95)を持つ変数のペアがないか"
+#~ "チェックします."

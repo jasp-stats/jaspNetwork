@@ -596,11 +596,6 @@ msgstr "Dividir"
 
 #, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
-msgid "Estimator"
-msgstr "Estimador"
-
-#, fuzzy
-msgctxt "BayesianNetworkAnalysis|"
 msgid "Plots"
 msgstr "Diagramas"
 
@@ -683,22 +678,6 @@ msgstr ""
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Iterations: "
-msgstr ""
-
-msgctxt "BayesianNetworkAnalysis|"
-msgid "Prior"
-msgstr ""
-
-msgctxt "BayesianNetworkAnalysis|"
-msgid "Prior edge inclusion (g prior): "
-msgstr ""
-
-msgctxt "BayesianNetworkAnalysis|"
-msgid "Initial configuration prior edge inclusion (g start):"
-msgstr ""
-
-msgctxt "BayesianNetworkAnalysis|"
-msgid "Degrees of freedom of G-Wishart prior (df prior): "
 msgstr ""
 
 #, fuzzy
@@ -1011,4 +990,72 @@ msgstr ""
 
 msgctxt "Description|"
 msgid "Bayesian Network Analysis"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Model"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Prior Specification"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Network Structure (Edge) Priors"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Edge prior:"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Bernoulli"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Beta-binomial"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Stochastic block model"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Prior edge inclusion probability:"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Shape parameter 1:"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Shape parameter 2:"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Concentration parameter:"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Initial configuration prior edge inclusion:"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Parameter Priors"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Degrees of freedom of G-Wishart prior:"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Scale of the Cauchy distribution for the edge weights:"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Threshold shape parameter 1:"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Threshold shape parameter 2:"
 msgstr ""
