@@ -1,0 +1,206 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: jaspNetwork 0.19.2\n"
+"POT-Creation-Date: 2025-01-18 02:34\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: sr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+
+msgid "Summary of Network"
+msgstr ""
+
+msgid "Network"
+msgstr ""
+
+msgid "Number of nodes"
+msgstr ""
+
+msgid "Number of non-zero edges"
+msgstr ""
+
+msgid "Sparsity"
+msgstr ""
+
+msgid "The Ordinal Markov Random Field may require a substantial amount of time to complete. This time increases with the number of variables and the number of iterations."
+msgstr ""
+
+msgid "The analysis failed with the following error message:\n%s"
+msgstr ""
+
+msgid "Some of the variables you have entered for analysis are not binary or ordinal. Please make sure that all variables are binary or ordinal or change the model to gcgm."
+msgstr ""
+
+msgid "Minimum edge strength ignored in the network plot because it was larger than the absolute value of the strongest edge."
+msgstr ""
+
+msgid "Minimum edge strength ignored in the network plot of group%1$s %2$s because it was larger than the absolute value of the strongest edge."
+msgstr ""
+
+msgid "<em>Warning: </em>"
+msgstr ""
+
+msgid "Weights matrix"
+msgstr ""
+
+msgid "Variable"
+msgstr ""
+
+msgid "Posterior Probability Structure Plots"
+msgstr ""
+
+msgid "Posterior Probability Structure Plot"
+msgstr ""
+
+msgid "Centrality measures per variable"
+msgstr ""
+
+msgid "Betweenness"
+msgstr ""
+
+msgid "Closeness"
+msgstr ""
+
+msgid "Strength"
+msgstr ""
+
+msgid "Expected influence"
+msgstr ""
+
+msgid "Centrality Plot"
+msgstr ""
+
+msgid "Complexity plot"
+msgstr ""
+
+msgid "Complexity plots"
+msgstr ""
+
+msgid "Complexity Plot"
+msgstr ""
+
+msgid "Posterior Probability"
+msgstr ""
+
+msgid "Number of edges"
+msgstr ""
+
+msgid "Structure Plot"
+msgstr ""
+
+msgid "Structure Plots"
+msgstr ""
+
+msgid "Edge Evidence Plot"
+msgstr ""
+
+msgid "Edge Evidence Plots"
+msgstr ""
+
+msgid "Edge evidence probability table"
+msgstr ""
+
+msgid "Bayes factors with values of infinity indicate that the estimated posterior inclusion probability is either 1 or 0. Please see the help file for more information."
+msgstr ""
+
+msgid "After binarizing the data too little variance remained in variable(s): %s."
+msgstr ""
+
+msgid "Data was binarized using %s."
+msgstr ""
+
+msgid "Only the first %1$d values of %2$s were used to color nodes (%3$d provided)."
+msgstr ""
+
+msgid "Bootstrapping is only done when 'Bootstrap network' is ticked and 'Number of Bootstraps' is larger than 0."
+msgstr ""
+
+msgid "Barrat"
+msgstr ""
+
+msgid "Onnela"
+msgstr ""
+
+msgid "WS"
+msgstr ""
+
+msgid "Zhang"
+msgstr ""
+
+msgid "Clustering measures per variable"
+msgstr ""
+
+msgid "Clustering measures could not be computed for network%1$s: %2$s"
+msgstr ""
+
+msgid "Bootstrap summary of Network"
+msgstr ""
+
+msgid "Type"
+msgstr ""
+
+msgid "Number of bootstraps"
+msgstr ""
+
+msgid "Clustering Plot"
+msgstr ""
+
+msgid "Network Plots"
+msgstr ""
+
+msgid "Network Plot"
+msgstr ""
+
+msgid "Edge Stability"
+msgstr ""
+
+msgid "Centrality Stability"
+msgstr ""
+
+msgid "bootnet crashed with the following error message:\n%s"
+msgstr ""
+
+msgid "Please drag all variables to a particular type under \"Analysis options\"."
+msgstr ""
+
+msgid "Coefficient could not be standardized because the variance is too small."
+msgstr ""
+
+msgid "Please supply a name for both the x and y-coordinates of the layout."
+msgstr ""
+
+msgid "Some variables did not contain char (%s)"
+msgstr ""
+
+msgid "Some variables were not matched in the column names of the dataset."
+msgstr ""
+
+msgid "Supplied data for layout was not understood and instead a circle layout was used."
+msgstr ""
+
+msgid "Data supplied in %1$s AND %2$s could not be used to determine node locations."
+msgstr ""
+
+msgid "Data supplied in %s could not be used to determine node locations."
+msgstr ""
+
+msgid "%1$s %2$s Data should only contain numeric:\n                 -start with the column name of the variable.\n                 -contain an '=' to distinguish between column name and coordinate."
+msgstr ""
+
+msgid "bootnet crashed with the following error message:\n%s. <ul><li>Please check if there are variables in the network with little variance or few distinct observations.</li></ul>"
+msgstr ""
+
+msgid "%1$s X-Coordinates for variable %2$s was not understood."
+msgid_plural "%1$s X-Coordinates for variables %2$s were not understood."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "%1$s Y-Coordinates for variable %2$s was not understood."
+msgid_plural "%1$s Y-Coordinates for variables %2$s were not understood."
+msgstr[0] ""
+msgstr[1] ""
