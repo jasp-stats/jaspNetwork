@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jaspNetwork 0.19.2\n"
 "POT-Creation-Date: 2025-01-18 02:34\n"
-"PO-Revision-Date: 2025-03-23 18:29+0000\n"
+"PO-Revision-Date: 2025-03-24 01:54+0000\n"
 "Last-Translator: Marko Bojović <bojovicmarko@outlook.com>\n"
 "Language-Team: Serbian <https://hosted.weblate.org/projects/jasp/"
 "jaspnetwork-r/sr/>\n"
@@ -15,73 +15,84 @@ msgstr ""
 "X-Generator: Weblate 5.11-dev\n"
 
 msgid "Summary of Network"
-msgstr ""
+msgstr "Сажетак Мреже"
 
 msgid "Network"
-msgstr ""
+msgstr "Мрежа"
 
 msgid "Number of nodes"
-msgstr ""
+msgstr "Број чворова"
 
 msgid "Number of non-zero edges"
-msgstr ""
+msgstr "Број ивица које нису нула"
 
 msgid "Sparsity"
-msgstr ""
+msgstr "Реткост"
 
 msgid "The Ordinal Markov Random Field may require a substantial amount of time to complete. This time increases with the number of variables and the number of iterations."
 msgstr ""
+"Ординално Марковљево случајно поље може захтевати значајну количину времена "
+"за завршетак. Ово време се повећава са бројем променљивих и бројем понављања."
 
 msgid "The analysis failed with the following error message:\n%s"
 msgstr ""
+"Анализа није успела са следећом поруком о грешци:\n"
+"%s"
 
 msgid "Some of the variables you have entered for analysis are not binary or ordinal. Please make sure that all variables are binary or ordinal or change the model to gcgm."
 msgstr ""
+"Неке од променљивих које сте унели за анализу нису бинарне или ординалне. "
+"Молимо осигурајте да су све променљиве бинарне или ординалне или промените "
+"модел у gcgm."
 
 msgid "Minimum edge strength ignored in the network plot because it was larger than the absolute value of the strongest edge."
 msgstr ""
+"Минимална јачина везе је игнорисана на мрежном графикону јер је била већа од "
+"апсолутне вредности најјаче везе."
 
 msgid "Minimum edge strength ignored in the network plot of group%1$s %2$s because it was larger than the absolute value of the strongest edge."
 msgstr ""
+"Минимална јачина везе је игнорисана на мрежном графикону групе%1$s %2$s јер "
+"је била већа од апсолутне вредности најјаче везе."
 
 msgid "<em>Warning: </em>"
-msgstr ""
+msgstr "<em>Упозорење: </em>"
 
 msgid "Weights matrix"
-msgstr ""
+msgstr "Тежинска матрица"
 
 msgid "Variable"
 msgstr "Променљива"
 
 msgid "Posterior Probability Structure Plots"
-msgstr ""
+msgstr "Графикони структуре постпериорне вероватноће"
 
 msgid "Posterior Probability Structure Plot"
-msgstr ""
+msgstr "Графикон структуре постпериорне вероватноће"
 
 msgid "Centrality measures per variable"
-msgstr ""
+msgstr "Мере централитета по варијабли"
 
 msgid "Betweenness"
-msgstr ""
+msgstr "Између"
 
 msgid "Closeness"
-msgstr ""
+msgstr "Блискост"
 
 msgid "Strength"
-msgstr ""
+msgstr "Снага"
 
 msgid "Expected influence"
-msgstr ""
+msgstr "Очекивани утицај"
 
 msgid "Centrality Plot"
-msgstr ""
+msgstr "Графикон централности"
 
 msgid "Complexity plot"
-msgstr ""
+msgstr "Сложеност графикона"
 
 msgid "Complexity plots"
-msgstr ""
+msgstr "Сложеност графикона"
 
 msgid "Complexity Plot"
 msgstr ""
