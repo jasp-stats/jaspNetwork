@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jaspNetwork 0.19.2\n"
 "POT-Creation-Date: 2025-01-18 02:34\n"
-"PO-Revision-Date: 2025-03-24 01:54+0000\n"
+"PO-Revision-Date: 2025-03-24 17:05+0000\n"
 "Last-Translator: Marko Bojović <bojovicmarko@outlook.com>\n"
 "Language-Team: Serbian <https://hosted.weblate.org/projects/jasp/"
 "jaspnetwork-r/sr/>\n"
@@ -95,52 +95,59 @@ msgid "Complexity plots"
 msgstr "Сложеност графикона"
 
 msgid "Complexity Plot"
-msgstr ""
+msgstr "Сложеност графикона"
 
 msgid "Posterior Probability"
-msgstr ""
+msgstr "Постериорна вероватноћа"
 
 msgid "Number of edges"
 msgstr "Број ивица"
 
 msgid "Structure Plot"
-msgstr ""
+msgstr "Графикон структуре"
 
 msgid "Structure Plots"
-msgstr ""
+msgstr "Графикони структуре"
 
 msgid "Edge Evidence Plot"
-msgstr ""
+msgstr "Графикон доказа везе"
 
 msgid "Edge Evidence Plots"
-msgstr ""
+msgstr "Графикони доказа везе"
 
 msgid "Edge evidence probability table"
-msgstr ""
+msgstr "Таблица вероватноће доказа везе"
 
 msgid "Bayes factors with values of infinity indicate that the estimated posterior inclusion probability is either 1 or 0. Please see the help file for more information."
 msgstr ""
+"Бајесови фактори са вредностима бесконачности указују да је процењена "
+"постериорна вероватноћа укључивања 1 или 0. Додатне информације можете "
+"погледати у документацији (help file)."
 
 msgid "After binarizing the data too little variance remained in variable(s): %s."
 msgstr ""
+"Након бинаризације података, преостала варијанса у следећим променљивама је "
+"премала: %s."
 
 msgid "Data was binarized using %s."
-msgstr ""
+msgstr "Подаци су бинаризовани коришћењем %s."
 
 msgid "Only the first %1$d values of %2$s were used to color nodes (%3$d provided)."
 msgstr ""
 
 msgid "Bootstrapping is only done when 'Bootstrap network' is ticked and 'Number of Bootstraps' is larger than 0."
 msgstr ""
+"Бустраповање се врши само када је означено 'Bootstrap network' и када је "
+"'Number of Bootstraps' веће од 0."
 
 msgid "Barrat"
-msgstr ""
+msgstr "Barrat"
 
 msgid "Onnela"
-msgstr ""
+msgstr "Onnela"
 
 msgid "WS"
-msgstr ""
+msgstr "WS"
 
 msgid "Zhang"
 msgstr "Zhang"
@@ -149,10 +156,10 @@ msgid "Clustering measures per variable"
 msgstr "Груписање мера по варијабли"
 
 msgid "Clustering measures could not be computed for network%1$s: %2$s"
-msgstr ""
+msgstr "Мере кластеризације нису могле бити израчунате за мрежу%1$s: %2$s"
 
 msgid "Bootstrap summary of Network"
-msgstr ""
+msgstr "Сажетак бутстраповања мреже"
 
 msgid "Type"
 msgstr "Тип"
@@ -177,30 +184,39 @@ msgstr "Стабилност централности"
 
 msgid "bootnet crashed with the following error message:\n%s"
 msgstr ""
+"bootnet се срушио са следећом поруком о грешци:\n"
+"%s"
 
 msgid "Please drag all variables to a particular type under \"Analysis options\"."
 msgstr ""
+"Молимо вас да превучете све променљиве у одговарајућу врсту под „Опције "
+"анализе“."
 
 msgid "Coefficient could not be standardized because the variance is too small."
-msgstr ""
+msgstr "Коефицијент није могао бити стандардизован јер је варијанса премала."
 
 msgid "Please supply a name for both the x and y-coordinates of the layout."
-msgstr ""
+msgstr "Молимо вас да унесете називе за обе координате (x и y) распореда."
 
 msgid "Some variables did not contain char (%s)"
-msgstr ""
+msgstr "Неке променљиве нису садржале знак (%s)"
 
 msgid "Some variables were not matched in the column names of the dataset."
-msgstr ""
+msgstr "Неке променљиве нису пронађене у називима колона скупа података."
 
 msgid "Supplied data for layout was not understood and instead a circle layout was used."
 msgstr ""
+"Послати подаци за распоред нису разумљиви, па је уместо тога коришћен кружни "
+"распоред."
 
 msgid "Data supplied in %1$s AND %2$s could not be used to determine node locations."
 msgstr ""
+"Подаци дати у %1$s И %2$s нису могли бити искоришћени за одређивање локација "
+"чворова."
 
 msgid "Data supplied in %s could not be used to determine node locations."
 msgstr ""
+"Подаци дати у %s нису могли бити искоришћени за одређивање локација чворова."
 
 msgid "%1$s %2$s Data should only contain numeric:\n                 -start with the column name of the variable.\n                 -contain an '=' to distinguish between column name and coordinate."
 msgstr ""
