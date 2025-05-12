@@ -250,6 +250,8 @@ parcorFile <- testthat::test_path("networkResultsParCorThresholds.rds")
 
 tbls <- readRDS(file = parcorFile)
 
+# some failures occur on macOS only complaining about a difference of 1e-8
+tolerance <- 1e-6
 set.seed(147)
 thresholdMethods <- c("sig", "bonferroni", "locfdr", "holm", "hochberg", "hommel", "BH", "BY", "fdr")
 for (thresholdMethod in thresholdMethods) {
@@ -260,7 +262,7 @@ for (thresholdMethod in thresholdMethods) {
   test_that(paste0("parcor-threshold-", thresholdMethod, ": Weights matrix matches"), {
     df <- table2df(results[["results"]][["mainContainer"]][["collection"]][["mainContainer_weightsTable"]][["data"]], options$variables)
     expected <- tbls[[thresholdMethod]]
-    testthat::expect_equal(df, expected, label = paste0("parcor-threshold-", thresholdMethod))
+    testthat::expect_equal(df, expected, tolerance = tolerance, label = paste0("parcor-threshold-", thresholdMethod))
   })
 
   plotName <- results[["results"]][["mainContainer"]][["collection"]][["mainContainer_plotContainer"]][["collection"]][["mainContainer_plotContainer_networkPlotContainer"]][["collection"]][["mainContainer_plotContainer_networkPlotContainer_Network"]][["data"]]
