@@ -92,7 +92,7 @@ skip_if_adalasso <- function(estimator) {
   skip_if(estimator == "adalasso", r"(dependency "parcor" was removed from CRAN so this test is skipped)")
 }
 
-options("jaspRoundToPrecision" = 3)
+options("jaspRoundToPrecision" = function(x) signif(round(x, digits = 3), digits = 3))
 for (estimator in estimators) {
 
 
