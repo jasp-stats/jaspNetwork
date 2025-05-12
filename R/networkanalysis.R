@@ -1413,7 +1413,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   jaspBase:::assignFunctionInPackage(replacement,      "bootnet", "bootnet")
   on.exit(jaspBase:::assignFunctionInPackage(original, "bootnet", "bootnet"))
 
-  # tryCatch({
+  tryCatch({
     jaspBase::.suppressGrDevice({
       for (nm in names(allNetworks)) {
         bootstrapResult[[nm]] <- bootnet::bootnet(
@@ -1426,8 +1426,8 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
         )
       }
     })
-  # }, error = function(e) bootstrapContainer$setError(.extractErrorMessage(e))
-  # )
+  }, error = function(e) bootstrapContainer$setError(.extractErrorMessage(e))
+  )
   return(bootstrapResult)
 }
 
