@@ -401,7 +401,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
 .networkAnalysisWeightMatrixTable <- function(mainContainer, network, options) {
 
-  if (!is.null(mainContainer[["weightsTable"]]) || ! options[["weightsMatrixTable"]])
+  if (!is.null(mainContainer[["weightsTable"]]) || !options[["weightsMatrixTable"]])
     return()
 
   variables <- unlist(options[["variables"]])
@@ -432,7 +432,11 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     TBcolumns <- data.frame(Variable = variables)
     for (i in seq_len(nGraphs)) {
 
-      toAdd <- allNetworks[[i]][["graph"]]
+      # we show by the order of the variables in options, but this need not correspond to the order
+      # of the data passed to qgraph. So we need to reorder
+      neworder <- match(variables, allNetworks[[i]][["labels"]])
+      toAdd <- allNetworks[[i]][["graph"]][neworder, neworder]
+
       if (!options[["weightedNetwork"]])
         toAdd <- sign(toAdd)
       if (!options[["signedNetwork"]])
