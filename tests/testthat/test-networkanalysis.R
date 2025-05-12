@@ -92,6 +92,7 @@ skip_if_adalasso <- function(estimator) {
   skip_if(estimator == "adalasso", r"(dependency "parcor" was removed from CRAN so this test is skipped)")
 }
 
+options("jaspRoundToPrecision" = 3)
 for (estimator in estimators) {
 
 
@@ -168,6 +169,7 @@ for (estimator in estimators) {
     jaspTools::expect_equal_plots(testPlot, paste0(estimator, "-network-plot"))
   })
 }
+options("jaspRoundToPrecision" = NULL)
 
 # test error check
 
