@@ -799,22 +799,22 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
       if (nGraphs == 1) {
         labels <- colnames(allNetworks$Network$graph)
       } else {
-        labels <- .unv(colnames(allNetworks$`1`$graph))
+        labels <- colnames(allNetworks$`1`$graph)
       }
     } else {
-      labels <- .unv(allNetworks[[1]][["labels"]])
+      labels <- allNetworks[[1]][["labels"]]
     }
 
   } else {
 
     if (method == "Bayesian") {
       if (nGraphs == 1) {
-        nodeNames <- .unv(colnames(allNetworks$Network$graph))
+        nodeNames <- colnames(allNetworks$Network$graph)
       } else {
-        nodeNames <- .unv(colnames(allNetworks$`1`$graph))
+        nodeNames <- colnames(allNetworks$`1`$graph)
       }
     } else {
-      nodeNames <- .unv(allNetworks[[1]][["labels"]])
+      nodeNames <- allNetworks[[1]][["labels"]]
     }
 
     labels <- seq_along(nodeNames)
@@ -1410,10 +1410,10 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   replacement <- bootnet::bootnet
   body(replacement) <- expr1
 
-  jaspBase:::assignFunctionInPackage(replacement,      "bootnet", "bootnet")
-  on.exit(jaspBase:::assignFunctionInPackage(original, "bootnet", "bootnet"))
+  # jaspBase:::assignFunctionInPackage(replacement,      "bootnet", "bootnet")
+  # on.exit(jaspBase:::assignFunctionInPackage(original, "bootnet", "bootnet"))
 
-  tryCatch({
+  # tryCatch({
     jaspBase::.suppressGrDevice({
       for (nm in names(allNetworks)) {
         bootstrapResult[[nm]] <- bootnet::bootnet(
@@ -1426,8 +1426,8 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
         )
       }
     })
-  }, error = function(e) bootstrapContainer$setError(.extractErrorMessage(e))
-  )
+  # }, error = function(e) bootstrapContainer$setError(.extractErrorMessage(e))
+  # )
   return(bootstrapResult)
 }
 
