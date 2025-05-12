@@ -1410,8 +1410,8 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   replacement <- bootnet::bootnet
   body(replacement) <- expr1
 
-  # jaspBase:::assignFunctionInPackage(replacement,      "bootnet", "bootnet")
-  # on.exit(jaspBase:::assignFunctionInPackage(original, "bootnet", "bootnet"))
+  jaspBase:::assignFunctionInPackage(replacement,      "bootnet", "bootnet")
+  on.exit(jaspBase:::assignFunctionInPackage(original, "bootnet", "bootnet"))
 
   # tryCatch({
     jaspBase::.suppressGrDevice({

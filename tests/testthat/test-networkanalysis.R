@@ -60,7 +60,7 @@ options$variableNamesShown <- "inNodes"
 options$centralityTable <- TRUE
 options$clusteringTable <- TRUE
 options$weightsMatrixTable <- TRUE
-options$variables <- list("A1", "A2", "A3", "A4", "A5")
+options$variables <- c("A1", "A2", "A3", "A4", "A5")
 options$variables.types <- rep("scale", length(options$variables))
 estimators <- c("ebicGlasso","cor","pcor","isingFit","isingSampler","huge","adalasso")
 file <- testthat::test_path("networkResults.rds")
@@ -81,8 +81,9 @@ file <- testthat::test_path("networkResults.rds")
 # for (e in estimators) {
 #   options$estimator <- e
 #   set.seed(1)
-#   results[[e]] <- jaspTools::runAnalysis(options = options, data = "BFI Network.csv", view = FALSE)["results"]
+#   results[[e]] <- jaspTools::runAnalysis(name = "NetworkAnalysis", dataset = "BFI Network.csv", options = options, view = FALSE)["results"]
 #   results[[e]] <- clearEverythingButData(results[[e]])
+#   cat(sprintf("\n\t\t\tFinished estimator %s [%2d/%2d]\n\n", e, which(estimators == e), length(estimators)))
 # }
 # saveRDS(results, file = file)
 storedResults <- readRDS(file)
