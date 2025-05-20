@@ -4,7 +4,7 @@
     "Repositories": [
       {
         "Name": "CRAN",
-        "URL": "https://cloud.r-project.org"
+        "URL": "https://cran.rstudio.com"
       }
     ]
   },
@@ -199,7 +199,7 @@
     },
     "IsingSampler": {
       "Package": "IsingSampler",
-      "Version": "0.2.3",
+      "Version": "0.2.4",
       "Source": "Repository",
       "Requirements": [
         "Rcpp",
@@ -282,24 +282,25 @@
     },
     "NetworkToolbox": {
       "Package": "NetworkToolbox",
-      "Version": "1.4.2",
+      "Version": "1.4.4",
       "Source": "Repository",
       "Requirements": [
         "R",
-        "psych",
         "corrplot",
-        "fdrtool",
-        "R.matlab",
-        "igraph",
-        "qgraph",
-        "ppcor",
-        "parallel",
-        "foreach",
         "doParallel",
-        "MASS",
-        "pwr",
+        "fdrtool",
+        "foreach",
+        "igraph",
         "IsingFit",
-        "pbapply"
+        "MASS",
+        "methods",
+        "parallel",
+        "pbapply",
+        "ppcor",
+        "psych",
+        "pwr",
+        "R.matlab",
+        "qgraph"
       ]
     },
     "QRM": {
@@ -349,7 +350,7 @@
     },
     "R.oo": {
       "Package": "R.oo",
-      "Version": "1.27.0",
+      "Version": "1.27.1",
       "Source": "Repository",
       "Requirements": [
         "R",
@@ -800,7 +801,7 @@
     },
     "data.table": {
       "Package": "data.table",
-      "Version": "1.17.0",
+      "Version": "1.17.2",
       "Source": "Repository",
       "Requirements": [
         "R",
@@ -1102,7 +1103,7 @@
     },
     "generics": {
       "Package": "generics",
-      "Version": "0.1.3",
+      "Version": "0.1.4",
       "Source": "Repository",
       "Requirements": [
         "R",
@@ -1427,7 +1428,7 @@
       "RemoteHost": "api.github.com",
       "RemoteUsername": "jasp-stats",
       "RemoteRepo": "jaspBase",
-      "RemoteSha": "82b4b3fd094ac3b43e4c92bc6857da7efb7530d1"
+      "RemoteSha": "812b3eb26892da316a4bda6dc2e247f8ff194596"
     },
     "jaspGraphs": {
       "Package": "jaspGraphs",
@@ -2253,7 +2254,7 @@
     },
     "reformulas": {
       "Package": "reformulas",
-      "Version": "0.4.0",
+      "Version": "0.4.1",
       "Source": "Repository",
       "Requirements": [
         "stats",
@@ -2558,11 +2559,16 @@
     },
     "svglite": {
       "Package": "svglite",
-      "Version": "2.1.3",
+      "Version": "2.2.1",
       "Source": "Repository",
       "Requirements": [
         "R",
+        "base64enc",
+        "cli",
+        "lifecycle",
+        "rlang",
         "systemfonts",
+        "textshaping",
         "cpp11"
       ]
     },
@@ -2574,10 +2580,11 @@
     },
     "systemfonts": {
       "Package": "systemfonts",
-      "Version": "1.2.2",
+      "Version": "1.2.3",
       "Source": "Repository",
       "Requirements": [
         "R",
+        "base64enc",
         "grid",
         "jsonlite",
         "lifecycle",
@@ -2597,7 +2604,7 @@
     },
     "textshaping": {
       "Package": "textshaping",
-      "Version": "1.0.0",
+      "Version": "1.0.1",
       "Source": "Repository",
       "Requirements": [
         "R",
@@ -2723,7 +2730,7 @@
     },
     "utf8": {
       "Package": "utf8",
-      "Version": "1.2.4",
+      "Version": "1.2.5",
       "Source": "Repository",
       "Requirements": [
         "R"
@@ -2853,7 +2860,7 @@
     },
     "zip": {
       "Package": "zip",
-      "Version": "2.3.2",
+      "Version": "2.3.3",
       "Source": "Repository",
       "Requirements": []
     },
