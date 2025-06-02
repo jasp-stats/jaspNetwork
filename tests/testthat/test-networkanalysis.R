@@ -60,7 +60,7 @@ options$variableNamesShown <- "inNodes"
 options$centralityTable <- TRUE
 options$clusteringTable <- TRUE
 options$weightsMatrixTable <- TRUE
-options$variables <- list("A1", "A2", "A3", "A4", "A5")
+options$variables <- c("A1", "A2", "A3", "A4", "A5")
 options$variables.types <- rep("scale", length(options$variables))
 estimators <- c("ebicGlasso","cor","pcor","isingFit","isingSampler","huge","adalasso")
 file <- testthat::test_path("networkResults.rds")
@@ -81,8 +81,9 @@ file <- testthat::test_path("networkResults.rds")
 # for (e in estimators) {
 #   options$estimator <- e
 #   set.seed(1)
-#   results[[e]] <- jaspTools::runAnalysis(options = options, data = "BFI Network.csv", view = FALSE)["results"]
+#   results[[e]] <- jaspTools::runAnalysis(name = "NetworkAnalysis", dataset = "BFI Network.csv", options = options, view = FALSE)["results"]
 #   results[[e]] <- clearEverythingButData(results[[e]])
+#   cat(sprintf("\n\t\t\tFinished estimator %s [%2d/%2d]\n\n", e, which(estimators == e), length(estimators)))
 # }
 # saveRDS(results, file = file)
 storedResults <- readRDS(file)
@@ -91,6 +92,7 @@ skip_if_adalasso <- function(estimator) {
   skip_if(estimator == "adalasso", r"(dependency "parcor" was removed from CRAN so this test is skipped)")
 }
 
+options("jaspRoundToPrecision" = function(x) signif(round(x, digits = 3), digits = 3))
 for (estimator in estimators) {
 
 
@@ -167,6 +169,7 @@ for (estimator in estimators) {
     jaspTools::expect_equal_plots(testPlot, paste0(estimator, "-network-plot"))
   })
 }
+options("jaspRoundToPrecision" = NULL)
 
 # test error check
 
@@ -247,6 +250,8 @@ parcorFile <- testthat::test_path("networkResultsParCorThresholds.rds")
 
 tbls <- readRDS(file = parcorFile)
 
+# some failures occur on macOS only complaining about a difference of 1e-8
+tolerance <- 1e-6
 set.seed(147)
 thresholdMethods <- c("sig", "bonferroni", "locfdr", "holm", "hochberg", "hommel", "BH", "BY", "fdr")
 for (thresholdMethod in thresholdMethods) {
@@ -257,7 +262,7 @@ for (thresholdMethod in thresholdMethods) {
   test_that(paste0("parcor-threshold-", thresholdMethod, ": Weights matrix matches"), {
     df <- table2df(results[["results"]][["mainContainer"]][["collection"]][["mainContainer_weightsTable"]][["data"]], options$variables)
     expected <- tbls[[thresholdMethod]]
-    testthat::expect_equal(df, expected, label = paste0("parcor-threshold-", thresholdMethod))
+    testthat::expect_equal(df, expected, tolerance = tolerance, label = paste0("parcor-threshold-", thresholdMethod))
   })
 
   plotName <- results[["results"]][["mainContainer"]][["collection"]][["mainContainer_plotContainer"]][["collection"]][["mainContainer_plotContainer_networkPlotContainer"]][["collection"]][["mainContainer_plotContainer_networkPlotContainer_Network"]][["data"]]
