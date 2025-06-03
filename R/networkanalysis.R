@@ -737,7 +737,14 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
   if (length(options[["colorGroupVariables"]]) > 1L) {
 
-    assignedGroup <- vapply(options[["colorGroupVariables"]], `[[`, character(1L), "group")
+    fittedVariablesOrder   <- network[["network"]][[1L]]$labels
+    assignedVariablesOrder <- vapply(options[["colorGroupVariables"]], `[[`, character(1L), "variable")
+    assignedGroup          <- vapply(options[["colorGroupVariables"]], `[[`, character(1L), "group")
+
+    newOrder <- match(fittedVariablesOrder, assignedVariablesOrder)
+
+    assignedVariablesOrder <- assignedVariablesOrder[newOrder]
+    assignedGroup          <- assignedGroup[newOrder]
 
     if (length(unique(assignedGroup)) > 1L) {
 
