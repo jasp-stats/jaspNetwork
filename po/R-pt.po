@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: R 3.6.1\n"
 "Report-Msgid-Bugs-To: github.com/jasp-stats/jasp-issues/issues\n"
 "POT-Creation-Date: 2025-01-18 02:34\n"
-"PO-Revision-Date: 2025-08-04 17:01+0000\n"
+"PO-Revision-Date: 2025-08-06 01:02+0000\n"
 "Last-Translator: Wendel Paulo Silvestre <wpsilvestre@ucs.br>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/jasp/"
 "jaspnetwork-r/pt/>\n"
@@ -61,6 +61,8 @@ msgid ""
 "Minimum edge strength ignored in the network plot because it was larger than "
 "the absolute value of the strongest edge."
 msgstr ""
+"A intensidade mínima da borda foi ignorada no gráfico da rede porque era "
+"maior que o valor absoluto da borda mais forte."
 
 msgid ""
 "Minimum edge strength ignored in the network plot of group%1$s %2$s because "
@@ -107,14 +109,13 @@ msgid "Complexity plots"
 msgstr ""
 
 msgid "Complexity Plot"
-msgstr "Gráfico de complexidade"
+msgstr "Gráfico de Complexidade"
 
 msgid "Posterior Probability"
 msgstr ""
 
-#, fuzzy
 msgid "Number of edges"
-msgstr "Número de nós"
+msgstr "Número de arestas"
 
 msgid "Structure Plot"
 msgstr ""
@@ -161,9 +162,8 @@ msgstr "Barrat"
 msgid "Onnela"
 msgstr "Onnela"
 
-#, fuzzy
 msgid "WS"
-msgstr "WLS"
+msgstr "WS"
 
 msgid "Zhang"
 msgstr "Zhang"
@@ -181,9 +181,8 @@ msgstr ""
 msgid "Type"
 msgstr "Tipo"
 
-#, fuzzy
 msgid "Number of bootstraps"
-msgstr "bootstraps"
+msgstr "Número de bootstraps"
 
 msgid "Clustering Plot"
 msgstr "Gráfico de agrupamento"
