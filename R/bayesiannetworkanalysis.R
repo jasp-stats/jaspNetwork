@@ -225,17 +225,35 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
 
 
-      # Extract results
+      # Extract results with enforced variable ordering
       easybgmResult <- list()
+      variables <- options[["variables"]]
 
-      easybgmResult$graphWeights           <- easybgmFit$graph_weights
+      # Get estimates matrix and ensure proper ordering
+      estimates <- as.matrix(easybgmFit$parameters)
+      if(!identical(rownames(estimates), variables)) {
+        estimates <- estimates[variables, variables, drop = FALSE]
+      }
+
+      # Get structure matrix and ensure proper ordering
+      structure <- easybgmFit$structure
+      if(!identical(rownames(structure), variables)) {
+        structure <- structure[variables, variables, drop = FALSE]
+      }
+
+      # Create graph with enforced ordering
+      easybgmResult$graph <- estimates * structure
+      rownames(easybgmResult$graph) <- variables
+      colnames(easybgmResult$graph) <- variables
+
+      # [Rest of the assignments]
+      easybgmResult$graphWeights <- easybgmFit$graph_weights
       easybgmResult$inclusionProbabilities <- easybgmFit$inc_probs
-      easybgmResult$BF                     <- easybgmFit$inc_BF
-      easybgmResult$structure              <- easybgmFit$structure
-      easybgmResult$estimates              <- as.matrix(easybgmFit$parameters)
-      easybgmResult$graph                  <- easybgmResult$estimates*easybgmResult$structure
-      easybgmResult$sampleGraphs           <- easybgmFit$sample_graph
-      easybgmResult$samplesPosterior       <- easybgmFit$samples_posterior
+      easybgmResult$BF <- easybgmFit$inc_BF
+      easybgmResult$structure <- structure
+      easybgmResult$estimates <- estimates
+      easybgmResult$sampleGraphs <- easybgmFit$sample_graph
+      easybgmResult$samplesPosterior <- easybgmFit$samples_posterior
 
       networks[[nw]] <- easybgmResult
 
@@ -274,17 +292,35 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       }
 
 
-      # Extract results
+      # Extract results with enforced variable ordering
       easybgmResult <- list()
+      variables <- options[["variables"]]
 
-      easybgmResult$graphWeights           <- easybgmFit$graph_weights
+      # Get estimates matrix and ensure proper ordering
+      estimates <- as.matrix(easybgmFit$parameters)
+      if(!identical(rownames(estimates), variables)) {
+        estimates <- estimates[variables, variables, drop = FALSE]
+      }
+
+      # Get structure matrix and ensure proper ordering
+      structure <- easybgmFit$structure
+      if(!identical(rownames(structure), variables)) {
+        structure <- structure[variables, variables, drop = FALSE]
+      }
+
+      # Create graph with enforced ordering
+      easybgmResult$graph <- estimates * structure
+      rownames(easybgmResult$graph) <- variables
+      colnames(easybgmResult$graph) <- variables
+
+      # [Rest of the assignments]
+      easybgmResult$graphWeights <- easybgmFit$graph_weights
       easybgmResult$inclusionProbabilities <- easybgmFit$inc_probs
-      easybgmResult$BF                     <- easybgmFit$inc_BF
-      easybgmResult$structure              <- easybgmFit$structure
-      easybgmResult$estimates              <- as.matrix(easybgmFit$parameters)
-      easybgmResult$graph                  <- easybgmResult$estimates*easybgmResult$structure
-      easybgmResult$sampleGraphs           <- easybgmFit$sample_graph
-      easybgmResult$samplesPosterior       <- easybgmFit$samples_posterior
+      easybgmResult$BF <- easybgmFit$inc_BF
+      easybgmResult$structure <- structure
+      easybgmResult$estimates <- estimates
+      easybgmResult$sampleGraphs <- easybgmFit$sample_graph
+      easybgmResult$samplesPosterior <- easybgmFit$samples_posterior
 
       networks[[nw]] <- easybgmResult
     }
@@ -324,19 +360,39 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       }
 
 
-      # Extract results
-      easybgmResult <- list()
+    # Extract results with enforced variable ordering
+    easybgmResult <- list()
+    variables <- options[["variables"]]
 
-      easybgmResult$graphWeights           <- easybgmFit$graph_weights
-      easybgmResult$inclusionProbabilities <- easybgmFit$inc_probs
-      easybgmResult$BF                     <- easybgmFit$inc_BF
-      easybgmResult$structure              <- easybgmFit$structure
-      easybgmResult$estimates              <- as.matrix(easybgmFit$parameters)
-      easybgmResult$graph                  <- easybgmResult$estimates*easybgmResult$structure
-      easybgmResult$sampleGraphs           <- easybgmFit$sample_graph
-      easybgmResult$samplesPosterior       <- easybgmFit$samples_posterior
+    # parameters
+    estimates <- as.matrix(easybgmFit$parameters)
+    if (is.null(rownames(estimates))) {
+      rownames(estimates) <- colnames(estimates) <- variables
+    }
+    estimates <- estimates[variables, variables, drop = FALSE]
 
-      networks[[nw]] <- easybgmResult
+    # structure
+    structure <- easybgmFit$structure
+    if (is.null(rownames(structure))) {
+      rownames(structure) <- colnames(structure) <- variables
+    }
+    structure <- structure[variables, variables, drop = FALSE]
+
+    # Create graph with enforced ordering
+    easybgmResult$graph <- estimates * structure
+    rownames(easybgmResult$graph) <- variables
+    colnames(easybgmResult$graph) <- variables
+
+    # [Rest of the assignments]
+    easybgmResult$graphWeights <- easybgmFit$graph_weights
+    easybgmResult$inclusionProbabilities <- easybgmFit$inc_probs
+    easybgmResult$BF <- easybgmFit$inc_BF
+    easybgmResult$structure <- structure
+    easybgmResult$estimates <- estimates
+    easybgmResult$sampleGraphs <- easybgmFit$sample_graph
+    easybgmResult$samplesPosterior <- easybgmFit$samples_posterior
+
+    networks[[nw]] <- easybgmResult
     }
   }
 
@@ -1039,6 +1095,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   }
   mainContainer[["weightsTable"]] <- table
 }
+
 
 .bayesianNetworkAnalysisEdgeEvidenceTable <- function(mainContainer, network, options) {
 
