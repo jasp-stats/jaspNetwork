@@ -203,7 +203,9 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   networks <- vector("list", length(dataset))
 
   for (nw in seq_along(dataset)) {
-    # When method = "gcgm" a vector with binary values is needed:
+
+    dataset[[nw]] <- dataset[[nw]][, options[["variables"]], drop = FALSE]
+
     if (options[["model"]] == "ggm") {
       # Estimate network
       jaspBase::.setSeedJASP(options)
@@ -265,7 +267,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       for (var in options[["variables"]]) {
 
         # A 1 indicates noncontinuous variables:
-         if (is.factor(dataset[[nw]][[var]])) {
+        if (is.factor(dataset[[nw]][[var]])) {
           nonContVariables <- c(nonContVariables, 1)
         } else {
           nonContVariables <- c(nonContVariables, 0)
@@ -330,7 +332,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     if (options[["model"]] == "omrf") {
       for (var in options[["variables"]]) {
         # Check if variables are binary or ordinal:
-         if (!is.factor(dataset[[nw]][[var]])) {
+        if (!is.factor(dataset[[nw]][[var]])) {
           .quitAnalysis(gettext("Some of the variables you have entered for analysis are not binary or ordinal. Please make sure that all variables are binary or ordinal or change the model to gcgm."))
         }
       }
@@ -360,39 +362,19 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       }
 
 
-    # Extract results with enforced variable ordering
-    easybgmResult <- list()
-    variables <- options[["variables"]]
+      # Extract results
+      easybgmResult <- list()
 
-    # parameters
-    estimates <- as.matrix(easybgmFit$parameters)
-    if (is.null(rownames(estimates))) {
-      rownames(estimates) <- colnames(estimates) <- variables
-    }
-    estimates <- estimates[variables, variables, drop = FALSE]
+      easybgmResult$graphWeights           <- easybgmFit$graph_weights
+      easybgmResult$inclusionProbabilities <- easybgmFit$inc_probs
+      easybgmResult$BF                     <- easybgmFit$inc_BF
+      easybgmResult$structure              <- easybgmFit$structure
+      easybgmResult$estimates              <- as.matrix(easybgmFit$parameters)
+      easybgmResult$graph                  <- easybgmResult$estimates*easybgmResult$structure
+      easybgmResult$sampleGraphs           <- easybgmFit$sample_graph
+      easybgmResult$samplesPosterior       <- easybgmFit$samples_posterior
 
-    # structure
-    structure <- easybgmFit$structure
-    if (is.null(rownames(structure))) {
-      rownames(structure) <- colnames(structure) <- variables
-    }
-    structure <- structure[variables, variables, drop = FALSE]
-
-    # Create graph with enforced ordering
-    easybgmResult$graph <- estimates * structure
-    rownames(easybgmResult$graph) <- variables
-    colnames(easybgmResult$graph) <- variables
-
-    # [Rest of the assignments]
-    easybgmResult$graphWeights <- easybgmFit$graph_weights
-    easybgmResult$inclusionProbabilities <- easybgmFit$inc_probs
-    easybgmResult$BF <- easybgmFit$inc_BF
-    easybgmResult$structure <- structure
-    easybgmResult$estimates <- estimates
-    easybgmResult$sampleGraphs <- easybgmFit$sample_graph
-    easybgmResult$samplesPosterior <- easybgmFit$samples_posterior
-
-    networks[[nw]] <- easybgmResult
+      networks[[nw]] <- easybgmResult
     }
   }
 
