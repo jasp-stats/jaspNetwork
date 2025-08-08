@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2025-08-05 15:02+0000\n"
+"PO-Revision-Date: 2025-08-09 02:54+0000\n"
 "Last-Translator: Wendel Paulo Silvestre <wpsilvestre@ucs.br>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/jasp/"
 "jaspnetwork-qml/pt/>\n"
@@ -124,7 +124,7 @@ msgstr "Exclusão listwise"
 
 msgctxt "NetworkAnalysis|"
 msgid "Sample Size"
-msgstr "Tamanho da amostra"
+msgstr "Tamanho da Amostra"
 
 msgctxt "NetworkAnalysis|"
 msgid "Maximum"
@@ -136,43 +136,43 @@ msgstr "Mínimo"
 
 msgctxt "NetworkAnalysis|"
 msgid "Ising Estimator"
-msgstr ""
+msgstr "Estimador de Ising"
 
 msgctxt "NetworkAnalysis|"
 msgid "Pseudo-likelihood"
-msgstr ""
+msgstr "Pseudo-verossimilhança"
 
 msgctxt "NetworkAnalysis|"
 msgid "Univariate regressions"
-msgstr ""
+msgstr "Regressões univariadas"
 
 msgctxt "NetworkAnalysis|"
 msgid "Bivariate regressions"
-msgstr ""
+msgstr "Regressões bivariadas"
 
 msgctxt "NetworkAnalysis|"
 msgid "Loglinear"
-msgstr ""
+msgstr "Loglinear"
 
 msgctxt "NetworkAnalysis|"
 msgid "Criterion"
-msgstr ""
+msgstr "Critério"
 
 msgctxt "NetworkAnalysis|"
 msgid "EBIC"
-msgstr ""
+msgstr "EBIC"
 
 msgctxt "NetworkAnalysis|"
 msgid "RIC"
-msgstr ""
+msgstr "RIC"
 
 msgctxt "NetworkAnalysis|"
 msgid "STARS"
-msgstr ""
+msgstr "STARS"
 
 msgctxt "NetworkAnalysis|"
 msgid "CV"
-msgstr ""
+msgstr "CV"
 
 msgctxt "NetworkAnalysis|"
 msgid "Rule"
@@ -216,7 +216,7 @@ msgstr "Validação cruzada"
 
 msgctxt "NetworkAnalysis|"
 msgid "nFolds"
-msgstr ""
+msgstr "nFolds"
 
 msgctxt "NetworkAnalysis|"
 msgid "Bootstrap Options"
@@ -256,7 +256,7 @@ msgstr "Pessoa"
 
 msgctxt "NetworkAnalysis|"
 msgid "Jackknife"
-msgstr ""
+msgstr "Jackknife"
 
 msgctxt "NetworkAnalysis|"
 msgid "Statistics"
@@ -424,31 +424,31 @@ msgstr "Não mostrar"
 
 msgctxt "NetworkAnalysis|"
 msgid "Using node color"
-msgstr ""
+msgstr "Usando cor do nó"
 
 msgctxt "NetworkAnalysis|"
 msgid "Using node shape"
-msgstr ""
+msgstr "Usando forma do nó"
 
 msgctxt "NetworkAnalysis|"
 msgid "Legend"
-msgstr ""
+msgstr "Legenda"
 
 msgctxt "NetworkAnalysis|"
 msgid "No legend"
-msgstr ""
+msgstr "Sem legenda"
 
 msgctxt "NetworkAnalysis|"
 msgid "All plots"
-msgstr ""
+msgstr "Todos os gráficos"
 
 msgctxt "NetworkAnalysis|"
 msgid "In plot number: "
-msgstr ""
+msgstr "No gráfico número: "
 
 msgctxt "NetworkAnalysis|"
 msgid "Layout"
-msgstr ""
+msgstr "Disposição"
 
 msgctxt "NetworkAnalysis|"
 msgid "Do not update layout"
@@ -456,11 +456,11 @@ msgstr "Não atualizar layout"
 
 msgctxt "NetworkAnalysis|"
 msgid "Spring"
-msgstr ""
+msgstr "Primavera"
 
 msgctxt "NetworkAnalysis|"
 msgid "Repulsion"
-msgstr ""
+msgstr "Repulsão"
 
 msgctxt "NetworkAnalysis|"
 msgid "Circle"
@@ -472,11 +472,11 @@ msgstr "Dados"
 
 msgctxt "NetworkAnalysis|"
 msgid "x"
-msgstr ""
+msgstr "x"
 
 msgctxt "NetworkAnalysis|"
 msgid "y"
-msgstr ""
+msgstr "y"
 
 msgctxt "NetworkAnalysis|"
 msgid "Save the layout in the data set"
@@ -484,11 +484,11 @@ msgstr "Salvar layout no conjunto de dados"
 
 msgctxt "NetworkAnalysis|"
 msgid "name for x-coordinates"
-msgstr ""
+msgstr "nome para as coordenadas x"
 
 msgctxt "NetworkAnalysis|"
 msgid "name for y-coordinates"
-msgstr ""
+msgstr "nome para as coordenadas y"
 
 msgctxt "NetworkAnalysis|"
 msgid "Correlation"
@@ -580,15 +580,15 @@ msgstr "Explore conexões entre variáveis organizadas em uma rede"
 
 msgctxt "NetworkAnalysis|"
 msgid "In Legend"
-msgstr ""
+msgstr "Na Legenda"
 
 msgctxt "NetworkAnalysis|"
 msgid "Group 1"
-msgstr ""
+msgstr "Grupo 1"
 
 msgctxt "NetworkAnalysis|"
 msgid "Group 2"
-msgstr ""
+msgstr "Grupo 2"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Dependent Variables"
@@ -608,23 +608,23 @@ msgstr "Gráfico de Rede"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge evidence plot"
-msgstr ""
+msgstr "Gráfico de evidências de borda"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Evidence for inclusion"
-msgstr ""
+msgstr "Evidência para inclusão"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Inclusion criteria: BF₁₀ > "
-msgstr ""
+msgstr "Critérios de inclusão: FB₁₀ > "
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Evidence for exclusion"
-msgstr ""
+msgstr "Evidência para exclusão"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Absence of evidence"
-msgstr ""
+msgstr "Ausência de evidência"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Centrality plot"
@@ -632,7 +632,7 @@ msgstr "Gráfico de centralidade"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Credibility interval 95%"
-msgstr ""
+msgstr "Intervalo de credibilidade 95 %"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Tables"
@@ -644,23 +644,23 @@ msgstr "Matriz de pesos"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge evidence probability table"
-msgstr ""
+msgstr "Tabela de probabilidade de evidência de borda"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge inclusion probability"
-msgstr ""
+msgstr "Probabilidade de inclusão de borda"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "BF₁₀"
-msgstr ""
+msgstr "FB₁₀"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "BF₀₁"
-msgstr ""
+msgstr "FB₀₁"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Log(BF₁₀)"
-msgstr ""
+msgstr "Log(FB₁₀)"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Centrality table"
@@ -668,15 +668,15 @@ msgstr "Tabela de centralidade"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Sampling Options"
-msgstr ""
+msgstr "Opções de Amostragem"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Burn in: "
-msgstr ""
+msgstr "Burn in: "
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Iterations: "
-msgstr ""
+msgstr "Iterações: "
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Graphical Options"
@@ -688,11 +688,11 @@ msgstr "Nome do grupo"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Group 1"
-msgstr ""
+msgstr "Grupo 1"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Group 2"
-msgstr ""
+msgstr "Grupo 2"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "New Group"
@@ -860,23 +860,23 @@ msgstr "No gráfico"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "In legend"
-msgstr ""
+msgstr "Na legenda"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Legend"
-msgstr ""
+msgstr "Legenda"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "No legend"
-msgstr ""
+msgstr "Sem legenda"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "All plots"
-msgstr ""
+msgstr "Todos os gráficos"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "In plot number: "
-msgstr ""
+msgstr "No gráfico número: "
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Legend to plot ratio"
@@ -884,15 +884,15 @@ msgstr "Razão da legenda em relação ao gráfico"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Layout"
-msgstr ""
+msgstr "Disposição"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Spring"
-msgstr ""
+msgstr "Primavera"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Repulsion"
-msgstr ""
+msgstr "Repulsão"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Circle"
@@ -912,100 +912,100 @@ msgstr "Proximidade"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Strength"
-msgstr ""
+msgstr "Força"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Expected influence"
-msgstr ""
+msgstr "Influência esperada"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Network structure selection"
-msgstr ""
+msgstr "Seleção da estrutura da rede"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Posterior structure probability plot"
-msgstr ""
+msgstr "Gráfico de probabilidade de estrutura posterior"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Posterior complexity probability plot"
-msgstr ""
+msgstr "Gráfico de probabilidade de complexidade posterior"
 
 msgctxt "NetworkAnalysis|"
 msgid "Strength"
-msgstr ""
+msgstr "Força"
 
 msgctxt "Description|"
 msgid "Network Analysis"
-msgstr ""
+msgstr "Análise de Rede"
 
 msgctxt "Description|"
 msgid "Bayesian Network Analysis"
-msgstr ""
+msgstr "Análise de Rede Bayesiana"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Model"
-msgstr ""
+msgstr "Modelo"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Prior Specification"
-msgstr ""
+msgstr "Especificação Anterior"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Network Structure (Edge) Priors"
-msgstr ""
+msgstr "Prévias (Bordas) da Estrutura de Rede"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge prior:"
-msgstr ""
+msgstr "Borda anterior:"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Bernoulli"
-msgstr ""
+msgstr "Bernoulli"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Beta-binomial"
-msgstr ""
+msgstr "Beta-binomial"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Stochastic block model"
-msgstr ""
+msgstr "Modelo de blocos estocástico"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Prior edge inclusion probability:"
-msgstr ""
+msgstr "Probabilidade prévia de inclusão de borda:"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Shape parameter 1:"
-msgstr ""
+msgstr "Parâmetro de forma 1:"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Shape parameter 2:"
-msgstr ""
+msgstr "Parâmetro de forma 2:"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Concentration parameter:"
-msgstr ""
+msgstr "Parâmetro de concentração:"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Initial configuration prior edge inclusion:"
-msgstr ""
+msgstr "Configuração inicial antes da inclusão de borda:"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Parameter Priors"
-msgstr ""
+msgstr "Parâmetros Anteriores"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Degrees of freedom of G-Wishart prior:"
-msgstr ""
+msgstr "Graus de liberdade de G-Wishart anterior:"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Scale of the Cauchy distribution for the edge weights:"
-msgstr ""
+msgstr "escala da distribuição de Cauchy para as ponderações das bordas:"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Threshold shape parameter 1:"
-msgstr ""
+msgstr "Limiar do parâmetro de forma 1:"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Threshold shape parameter 2:"
-msgstr ""
+msgstr "Limiar do parâmetro de forma 2:"
