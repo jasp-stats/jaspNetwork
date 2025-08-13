@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2025-08-10 13:01+0000\n"
+"PO-Revision-Date: 2025-08-14 18:02+0000\n"
 "Last-Translator: Wendel Paulo Silvestre <wpsilvestre@ucs.br>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/jasp/"
 "jaspnetwork-qml/pt/>\n"
@@ -496,7 +496,7 @@ msgstr "Correlação"
 
 msgctxt "NetworkAnalysis|"
 msgid "Partial Correlation"
-msgstr "Correlação parcial"
+msgstr "Correlação Parcial"
 
 msgctxt "NetworkAnalysis|"
 msgid "huge"
