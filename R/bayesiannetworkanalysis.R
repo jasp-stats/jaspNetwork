@@ -204,7 +204,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
   for (nw in seq_along(dataset)) {
 
-    dataset[[nw]] <- dataset[[nw]][, options[["variables"]], drop = FALSE]
+    dataset[[nw]] <- dataset[[nw]][options[["variables"]]]
 
     if (options[["model"]] == "ggm") {
       # Estimate network
