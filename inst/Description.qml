@@ -3,17 +3,11 @@ import JASP.Module
 
 Description
 {
-	name:			"jaspNetwork"
 	title:			qsTr("Network")
 	description:	qsTr("Explore the connections between variables organized as a network")
 	icon:			"analysis-network.svg"
-	version			: "0.95.0"
-	author:			"JASP Team"
-	maintainer:		"JASP Team <info@jasp-stats.org>"
-	website:		"jasp-stats.org"
-	license:		"GPL (>= 2)"
-	preloadData:	true
-
+	hasWrappers: 	false
+	
 	GroupTitle
 	{
 		title:	"Classical"
