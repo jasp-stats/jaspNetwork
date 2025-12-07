@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2025-12-05 23:00+0000\n"
+"PO-Revision-Date: 2025-12-09 00:00+0000\n"
 "Last-Translator: Marko Bojović <bojovicmarko@outlook.com>\n"
 "Language-Team: Serbian <https://hosted.weblate.org/projects/jasp/jaspnetwork-"
 "qml/sr/>\n"
@@ -575,7 +575,7 @@ msgstr ""
 
 msgctxt "NetworkAnalysis|"
 msgid "Pseudo-likelihood"
-msgstr ""
+msgstr "Псеудо-веродостојност"
 
 msgctxt "NetworkAnalysis|"
 msgid "Univariate regressions"
