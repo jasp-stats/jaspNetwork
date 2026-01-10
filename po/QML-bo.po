@@ -1,113 +1,137 @@
 msgid ""
 msgstr ""
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2026-01-06 14:01+0000\n"
+"Last-Translator: Zev Oster <zevelijah@gmail.com>\n"
+"Language-Team: Tibetan <https://hosted.weblate.org/projects/jasp/jaspnetwork-"
+"qml/bo/>\n"
 "Language: bo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 5.15.1\n"
 "X-Qt-Contexts: true\n"
 
 msgctxt "Description|"
 msgid "Network"
 msgstr ""
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Dependent Variables"
-msgstr ""
+msgstr "ལྟོས་བཅས་འགྱུར་ཚད།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Split"
-msgstr ""
+msgstr "ཁ་འབྱེད་པ།"
 
 msgctxt "NetworkAnalysis|"
 msgid "Estimator"
 msgstr ""
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Correlation"
-msgstr ""
+msgstr "ལྟོས་འབྲེལ།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Partial Correlation"
-msgstr ""
+msgstr "ཆ་ཤས་ལྟོས་འབྲེལ།"
 
 msgctxt "NetworkAnalysis|"
 msgid "huge"
 msgstr ""
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Plots"
-msgstr ""
+msgstr "དཔེ་རིས།"
 
 msgctxt "NetworkAnalysis|"
 msgid "Network plot"
 msgstr ""
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Centrality plot"
-msgstr ""
+msgstr "Centrality དཔེ་རིས།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Clustering plot"
-msgstr ""
+msgstr "Clustering དཔེ་རིས།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Tables"
-msgstr ""
+msgstr "རེའུ་མིག"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Centrality table"
-msgstr ""
+msgstr "Centrality རེའུ་མིག"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Clustering table"
-msgstr ""
+msgstr "Clustering རེའུ་མིག"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Weights matrix"
-msgstr ""
+msgstr "Weights matrix"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Analysis Options - "
-msgstr ""
+msgstr "དབྱེ་ཞིབ་འདེམས་ཀ - "
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Correlation Method"
-msgstr ""
+msgstr "ལྟོས་འབྲེལ་ཐབས་ལམ།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Auto"
-msgstr ""
+msgstr "རང་འགུལ།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Cor"
-msgstr ""
+msgstr "Cor"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Cov"
-msgstr ""
+msgstr "Cov"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Npn"
-msgstr ""
+msgstr "Npn"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Centrality Measures"
-msgstr ""
+msgstr "Centrality Measures"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Normalized"
-msgstr ""
+msgstr "རྒྱུན་ལྡན་དུ་བསྒྱུར་བ།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Relative"
-msgstr ""
+msgstr "ལྟོས་བཅས།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Raw"
-msgstr ""
+msgstr "མ་བཅོས།"
 
 msgctxt "NetworkAnalysis|"
 msgid "Network"
@@ -117,397 +141,491 @@ msgctxt "NetworkAnalysis|"
 msgid "Weighted"
 msgstr ""
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Signed"
-msgstr ""
+msgstr "Signed"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Missing Values"
-msgstr ""
+msgstr "ཆད་པའི་རིན་ཐང་།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Exclude pairwise"
-msgstr ""
+msgstr "ཆ་སྒྲིག་ཕུད་པ།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Exclude listwise"
-msgstr ""
+msgstr "ཐོ་གཞུང་ལྟར་ཕུད་པ།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Sample Size"
-msgstr ""
+msgstr "མ་དཔེའི་ཆེ་ཆུང་།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Maximum"
-msgstr ""
+msgstr "ཆེ་ཤོས།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Minimum"
-msgstr ""
+msgstr "ཆུང་ཤོས།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Ising Estimator"
-msgstr ""
+msgstr "Ising Estimator"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Pseudo-likelihood"
-msgstr ""
+msgstr "Pseudo-likelihood"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Univariate regressions"
-msgstr ""
+msgstr "Univariate regressions"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Bivariate regressions"
-msgstr ""
+msgstr "Bivariate regressions"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Loglinear"
-msgstr ""
+msgstr "Loglinear"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Criterion"
-msgstr ""
+msgstr "Criterion"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "EBIC"
-msgstr ""
+msgstr "EBIC"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "RIC"
-msgstr ""
+msgstr "RIC"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "STARS"
-msgstr ""
+msgstr "STARS"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "CV"
-msgstr ""
+msgstr "CV"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Rule"
-msgstr ""
+msgstr "སྒྲིག་སྲོལ།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "AND"
-msgstr ""
+msgstr "AND"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "OR"
-msgstr ""
+msgstr "OR"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Median"
-msgstr ""
+msgstr "དཀྱིལ་གྲངས།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Mean"
-msgstr ""
+msgstr "ཆ་སྙོམས།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Tuning Parameter"
-msgstr ""
+msgstr "Tuning Parameter"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Value"
-msgstr ""
+msgstr "རིན་ཐང་།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Threshold"
-msgstr ""
+msgstr "Threshold"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Method"
-msgstr ""
+msgstr "ཐབས་ལམ།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Significant"
-msgstr ""
+msgstr "གལ་ཆེན།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Cross-validation"
-msgstr ""
+msgstr "Cross-validation"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "nFolds"
-msgstr ""
+msgstr "nFolds"
 
 msgctxt "NetworkAnalysis|"
 msgid "Variables in network"
 msgstr ""
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Continuous Variables"
-msgstr ""
+msgstr "རྒྱུན་མཐུད་འགྱུར་ཚད།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Categorical Variables"
-msgstr ""
+msgstr "དབྱེ་རིགས་འགྱུར་ཚད།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Count Variables"
-msgstr ""
+msgstr "གྲངས་བཤེར་འགྱུར་ཚད།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Bootstrap Options"
-msgstr ""
+msgstr "Bootstrap འདེམས་ཀ"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Settings"
-msgstr ""
+msgstr "སྒྲིག་སྟངས།"
 
 msgctxt "NetworkAnalysis|"
 msgid "Bootstrap network"
 msgstr ""
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Number of bootstraps"
-msgstr ""
+msgstr "bootstrap གྲངས།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Parallel Bootstrap"
-msgstr ""
+msgstr "Parallel Bootstrap"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Bootstrap Type"
-msgstr ""
+msgstr "Bootstrap རིགས།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Nonparametric"
-msgstr ""
+msgstr "ཚད་གཞི་མེད་པ།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Case"
-msgstr ""
+msgstr "གནས་ཚུལ།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Node"
-msgstr ""
+msgstr "Node"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Parametric"
-msgstr ""
+msgstr "Parametric"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Person"
-msgstr ""
+msgstr "མི།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Jackknife"
-msgstr ""
+msgstr "Jackknife"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Statistics"
-msgstr ""
+msgstr "སྡོམ་རྩིས།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Edges"
-msgstr ""
+msgstr "Edges"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Centrality"
-msgstr ""
+msgstr "Centrality"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Graphical Options"
-msgstr ""
+msgstr "Graphical Options"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Group name"
-msgstr ""
+msgstr "ཚོགས་པའི་མིང་།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "New Group"
-msgstr ""
+msgstr "ཚོགས་པ་གསར་པ།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Group color"
-msgstr ""
+msgstr "ཚོགས་པའི་ཚོན་མདོག"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "red"
-msgstr ""
+msgstr "དམར་པོ།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "blue"
-msgstr ""
+msgstr "སྔོན་པོ།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "yellow"
-msgstr ""
+msgstr "སེར་པོ།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "green"
-msgstr ""
+msgstr "ལྗང་ཁུ།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "purple"
-msgstr ""
+msgstr "མུ་མེན།"
 
 msgctxt "NetworkAnalysis|"
 msgid "orange"
 msgstr ""
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Group"
-msgstr ""
+msgstr "ཚོགས་པ།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Manual colors"
-msgstr ""
+msgstr "ལག་བཟོས་ཚོན་མདོག"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Node palette"
-msgstr ""
+msgstr "Node palette"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Rainbow"
-msgstr ""
+msgstr "Rainbow"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Colorblind"
-msgstr ""
+msgstr "Colorblind"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Pastel"
-msgstr ""
+msgstr "Pastel"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Gray"
-msgstr ""
+msgstr "ཐལ་མདོག"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "R"
-msgstr ""
+msgstr "R"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "ggplot2"
-msgstr ""
+msgstr "ggplot2"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Node size"
-msgstr ""
+msgstr "Node size"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Edge size"
-msgstr ""
+msgstr "Edge size"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Max edge strength"
-msgstr ""
+msgstr "Max edge strength"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Min edge strength"
-msgstr ""
+msgstr "Min edge strength"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Cut"
-msgstr ""
+msgstr "གཅོད་པ།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Show details"
-msgstr ""
+msgstr "ཞིབ་ཕྲ་སྟོན་པ།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Edge labels"
-msgstr ""
+msgstr "Edge labels"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Edge label size"
-msgstr ""
+msgstr "Edge label size"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Edge label position"
-msgstr ""
+msgstr "Edge label position"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Edge palette"
-msgstr ""
+msgstr "Edge palette"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Classic"
-msgstr ""
+msgstr "སྲོལ་རྒྱུན།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Hollywood"
-msgstr ""
+msgstr "Hollywood"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Borkulo"
-msgstr ""
+msgstr "Borkulo"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "TeamFortress"
-msgstr ""
+msgstr "TeamFortress"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Reddit"
-msgstr ""
+msgstr "Reddit"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Fried"
-msgstr ""
+msgstr "Fried"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Labels"
-msgstr ""
+msgstr "ཁ་བྱང་།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Label size"
-msgstr ""
+msgstr "ཁ་བྱང་གི་ཆེ་ཆུང་།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Scale label size"
-msgstr ""
+msgstr "ཁ་བྱང་གི་ཆེ་ཆུང་ཚད་གཞི་བཟོ་བ།"
 
 msgctxt "NetworkAnalysis|"
 msgid "Abbreviate labels to "
 msgstr ""
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Show Variable Names"
-msgstr ""
+msgstr "འགྱུར་ཚད་ཀྱི་མིང་སྟོན་པ།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "In plot"
-msgstr ""
+msgstr "དཔེ་རིས་ནང་།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Show Variable Type"
-msgstr ""
+msgstr "འགྱུར་ཚད་ཀྱི་རིགས་སྟོན་པ།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Don't show"
-msgstr ""
+msgstr "མི་སྟོན་པ།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Using node color"
-msgstr ""
+msgstr "node ཚོན་མདོག་བེད་སྤྱོད་པ།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Using node shape"
-msgstr ""
+msgstr "node དབྱིབས་བེད་སྤྱོད་པ།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Legend"
-msgstr ""
+msgstr "རྟགས་འགྲེལ།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "No legend"
-msgstr ""
+msgstr "རྟགས་འགྲེལ་མེད།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "All plots"
-msgstr ""
+msgstr "དཔེ་རིས་ཚང་མ།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "In plot number: "
-msgstr ""
+msgstr "དཔེ་རིས་ཨང་།: "
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Legend to plot ratio"
-msgstr ""
+msgstr "རྟགས་འགྲེལ་དང་དཔེ་རིས་ཀྱི་བསྡུར་ཚད།"
 
 msgctxt "NetworkAnalysis|"
 msgid "Layout"
@@ -517,13 +635,15 @@ msgctxt "NetworkAnalysis|"
 msgid "Do not update layout"
 msgstr ""
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Spring"
-msgstr ""
+msgstr "དཔྱིད་ཀ"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Repulsion"
-msgstr ""
+msgstr "Repulsion"
 
 msgctxt "NetworkAnalysis|"
 msgid "Circle"
@@ -533,189 +653,232 @@ msgctxt "NetworkAnalysis|"
 msgid "Data"
 msgstr ""
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Measures shown in centrality plot"
-msgstr ""
+msgstr "centrality དཔེ་རིས་ནང་བསྟན་པའི་ཚད་འཇལ།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Betweenness"
-msgstr ""
+msgstr "Betweenness"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Closeness"
-msgstr ""
+msgstr "Closeness"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Expected Influence"
-msgstr ""
+msgstr "སྔོན་དཔག་བྱས་པའི་ཤུགས་རྐྱེན།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "x"
-msgstr ""
+msgstr "x"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "y"
-msgstr ""
+msgstr "y"
 
 msgctxt "NetworkAnalysis|"
 msgid "Save the layout in the data set"
 msgstr ""
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "name for x-coordinates"
-msgstr ""
+msgstr "x-coordinates གི་མིང་།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "name for y-coordinates"
-msgstr ""
+msgstr "y-coordinates གི་མིང་།"
 
 msgctxt "Description|"
 msgid "Explore the connections between variables organized as a network"
 msgstr ""
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "In Legend"
-msgstr ""
+msgstr "རྟགས་འགྲེལ་ནང་།"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Group 1"
-msgstr ""
+msgstr "ཚོགས་པ་ ༡"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Group 2"
-msgstr ""
+msgstr "ཚོགས་པ་ ༢"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Dependent Variables"
-msgstr ""
+msgstr "ལྟོས་བཅས་འགྱུར་ཚད།"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Split"
-msgstr ""
+msgstr "ཁ་འབྱེད་པ།"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Plots"
-msgstr ""
+msgstr "དཔེ་རིས།"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Network plot"
 msgstr ""
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge evidence plot"
-msgstr ""
+msgstr "Edge evidence plot"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Evidence for inclusion"
-msgstr ""
+msgstr "ཚུད་པའི་དཔང་རྟགས།"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Inclusion criteria: BF₁₀ > "
-msgstr ""
+msgstr "ཚུད་པའི་ཆ་རྐྱེན།: BF₁₀ > "
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Evidence for exclusion"
-msgstr ""
+msgstr "ཕུད་པའི་དཔང་རྟགས།"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Absence of evidence"
-msgstr ""
+msgstr "དཔང་རྟགས་མེད་པ།"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Centrality plot"
-msgstr ""
+msgstr "Centrality དཔེ་རིས།"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Credibility interval 95%"
-msgstr ""
+msgstr "དད་རུང་བར་མཚམས། ༩༥%"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Tables"
-msgstr ""
+msgstr "རེའུ་མིག"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Weights matrix"
-msgstr ""
+msgstr "Weights matrix"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge evidence probability table"
-msgstr ""
+msgstr "Edge evidence probability table"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge inclusion probability"
-msgstr ""
+msgstr "Edge inclusion probability"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "BF₁₀"
-msgstr ""
+msgstr "BF₁₀"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "BF₀₁"
-msgstr ""
+msgstr "BF₀₁"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Log(BF₁₀)"
-msgstr ""
+msgstr "Log(BF₁₀)"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Centrality table"
-msgstr ""
+msgstr "Centrality རེའུ་མིག"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Sampling Options"
-msgstr ""
+msgstr "དཔེ་འདེམས་འདེམས་ཀ"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Burn in: "
-msgstr ""
+msgstr "Burn in: "
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Iterations: "
-msgstr ""
+msgstr "Iterations: "
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Graphical Options"
-msgstr ""
+msgstr "Graphical Options"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Group name"
-msgstr ""
+msgstr "ཚོགས་པའི་མིང་།"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Group 1"
-msgstr ""
+msgstr "ཚོགས་པ་ ༡"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Group 2"
-msgstr ""
+msgstr "ཚོགས་པ་ ༢"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "New Group"
-msgstr ""
+msgstr "ཚོགས་པ་གསར་པ།"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Group color"
-msgstr ""
+msgstr "ཚོགས་པའི་ཚོན་མདོག"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "red"
-msgstr ""
+msgstr "དམར་པོ།"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "blue"
-msgstr ""
+msgstr "སྔོན་པོ།"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "yellow"
-msgstr ""
+msgstr "སེར་པོ།"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "green"
-msgstr ""
+msgstr "ལྗང་ཁུ།"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "purple"
-msgstr ""
+msgstr "མུ་མེན།"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "orange"
@@ -725,189 +888,232 @@ msgctxt "BayesianNetworkAnalysis|"
 msgid "Variables in network"
 msgstr ""
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Group"
-msgstr ""
+msgstr "ཚོགས་པ།"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Manual colors"
-msgstr ""
+msgstr "ལག་བཟོས་ཚོན་མདོག"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Node palette"
-msgstr ""
+msgstr "Node palette"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Rainbow"
-msgstr ""
+msgstr "Rainbow"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Colorblind"
-msgstr ""
+msgstr "Colorblind"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Pastel"
-msgstr ""
+msgstr "Pastel"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Gray"
-msgstr ""
+msgstr "ཐལ་མདོག"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "R"
-msgstr ""
+msgstr "R"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "ggplot2"
-msgstr ""
+msgstr "ggplot2"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Node size"
-msgstr ""
+msgstr "Node size"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edges"
-msgstr ""
+msgstr "Edges"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge size"
-msgstr ""
+msgstr "Edge size"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Max edge strength"
-msgstr ""
+msgstr "Max edge strength"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Min edge strength"
-msgstr ""
+msgstr "Min edge strength"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Cut"
-msgstr ""
+msgstr "གཅོད་པ།"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Show details"
-msgstr ""
+msgstr "ཞིབ་ཕྲ་སྟོན་པ།"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge labels"
-msgstr ""
+msgstr "Edge labels"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge label size"
-msgstr ""
+msgstr "Edge label size"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge label position"
-msgstr ""
+msgstr "Edge label position"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge palette"
-msgstr ""
+msgstr "Edge palette"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Classic"
-msgstr ""
+msgstr "སྲོལ་རྒྱུན།"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Hollywood"
-msgstr ""
+msgstr "Hollywood"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Borkulo"
-msgstr ""
+msgstr "Borkulo"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "TeamFortress"
-msgstr ""
+msgstr "TeamFortress"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Reddit"
-msgstr ""
+msgstr "Reddit"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Fried"
-msgstr ""
+msgstr "Fried"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Labels"
-msgstr ""
+msgstr "ཁ་བྱང་།"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Label size"
-msgstr ""
+msgstr "ཁ་བྱང་གི་ཆེ་ཆུང་།"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Scale label size"
-msgstr ""
+msgstr "ཁ་བྱང་གི་ཆེ་ཆུང་ཚད་གཞི་བཟོ་བ།"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Abbreviate labels to "
 msgstr ""
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Show Variable Names"
-msgstr ""
+msgstr "འགྱུར་ཚད་ཀྱི་མིང་སྟོན་པ།"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "In plot"
-msgstr ""
+msgstr "དཔེ་རིས་ནང་།"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "In legend"
-msgstr ""
+msgstr "རྟགས་འགྲེལ་ནང་།"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Legend"
-msgstr ""
+msgstr "རྟགས་འགྲེལ།"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "No legend"
-msgstr ""
+msgstr "རྟགས་འགྲེལ་མེད།"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "All plots"
-msgstr ""
+msgstr "དཔེ་རིས་ཚང་མ།"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "In plot number: "
-msgstr ""
+msgstr "དཔེ་རིས་ཨང་།: "
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Legend to plot ratio"
-msgstr ""
+msgstr "རྟགས་འགྲེལ་དང་དཔེ་རིས་ཀྱི་བསྡུར་ཚད།"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Layout"
 msgstr ""
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Spring"
-msgstr ""
+msgstr "དཔྱིད་ཀ"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Repulsion"
-msgstr ""
+msgstr "Repulsion"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Circle"
 msgstr ""
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Measures shown in centrality plot"
-msgstr ""
+msgstr "centrality དཔེ་རིས་ནང་བསྟན་པའི་ཚད་འཇལ།"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Betweenness"
-msgstr ""
+msgstr "Betweenness"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Closeness"
-msgstr ""
+msgstr "Closeness"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Strength"
-msgstr ""
+msgstr "ཤུགས།"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Expected influence"
@@ -917,17 +1123,20 @@ msgctxt "BayesianNetworkAnalysis|"
 msgid "Network structure selection"
 msgstr ""
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Posterior structure probability plot"
-msgstr ""
+msgstr "Posterior structure probability plot"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Posterior complexity probability plot"
-msgstr ""
+msgstr "Posterior complexity probability plot"
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Strength"
-msgstr ""
+msgstr "ཤུགས།"
 
 msgctxt "Description|"
 msgid "Network Analysis"
@@ -941,66 +1150,80 @@ msgctxt "BayesianNetworkAnalysis|"
 msgid "Model"
 msgstr ""
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Prior Specification"
-msgstr ""
+msgstr "Prior Specification"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Network Structure (Edge) Priors"
 msgstr ""
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge prior:"
-msgstr ""
+msgstr "Edge prior:"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Bernoulli"
 msgstr ""
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Beta-binomial"
-msgstr ""
+msgstr "Beta-binomial"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Stochastic block model"
-msgstr ""
+msgstr "Stochastic block model"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Prior edge inclusion probability:"
-msgstr ""
+msgstr "Prior edge inclusion probability:"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Shape parameter 1:"
-msgstr ""
+msgstr "དབྱིབས་ཞུགས་གྲངས། ༡:"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Shape parameter 2:"
-msgstr ""
+msgstr "དབྱིབས་ཞུགས་གྲངས། ༢:"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Concentration parameter:"
-msgstr ""
+msgstr "Concentration parameter:"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Initial configuration prior edge inclusion:"
-msgstr ""
+msgstr "Initial configuration prior edge inclusion:"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Parameter Priors"
-msgstr ""
+msgstr "Parameter Priors"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Degrees of freedom of G-Wishart prior:"
-msgstr ""
+msgstr "G-Wishart prior གི་རང་དབང་གི་ཚད།:"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Scale of the Cauchy distribution for the edge weights:"
-msgstr ""
+msgstr "edge weights གི་ Cauchy ཁྱབ་ཚུལ་གྱི་ཚད་གཞི།:"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Threshold shape parameter 1:"
-msgstr ""
+msgstr "Threshold དབྱིབས་ཞུགས་གྲངས། ༡:"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Threshold shape parameter 2:"
-msgstr ""
+msgstr "Threshold དབྱིབས་ཞུགས་གྲངས། ༢:"
