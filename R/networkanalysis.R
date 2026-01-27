@@ -47,7 +47,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   return()
 }
 
-.networkAnalysisReadData <- function(dataset, options, frequentist = FALSE) {
+.networkAnalysisReadData <- function(dataset, options) {
 
   layoutVariables <- c(options[["layoutX"]], options[["layoutY"]])
   layoutVariables <- layoutVariables[layoutVariables != ""]
@@ -76,17 +76,6 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
   if (hasLayoutData)
     attr(dataset, "layoutData") <- layoutData
-
-  # if (frequentist) {
-
-    # ideally this is solved in QML by adjusting the allowedVariableType though...
-    # if (options[["estimator"]] == "ebicGlasso" && options[["correlationMethod"]] != "auto") {
-    #   for (i in seq_along(dataset))
-    #     for (col in seq_along(dataset[[i]]))
-    #       if (is.factor(dataset[[i]][[col]]))
-    #         dataset[[i]][[col]] <- as.numeric(dataset[[i]][[col]])
-    # }
-  # }
 
   return(dataset)
 
