@@ -15,6 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+#' @export
 BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
   # MissingValues needed for the .networkAnalysisReadData function in the frequentist network module:
