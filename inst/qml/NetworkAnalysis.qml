@@ -26,7 +26,19 @@ Form
 	VariablesForm
 	{
 		AvailableVariablesList { name: "allVariablesList" }
-		AssignedVariablesList { name: "variables";			title: qsTr("Dependent Variables"); allowedColumns: ["ordinal", "scale"]; allowTypeChange: true; id: networkVariables}
+		AssignedVariablesList {
+			name: "variables";			title: qsTr("Dependent Variables"); allowTypeChange: true; id: networkVariables
+			allowedColumns: {
+				// EBICglasso only allows non-continuous variables with the "automatic" correlation method
+				if ([0, 1, 2].includes(estimator.currentIndex))
+					if (automaticCorrelationMethod.checked)
+						return ["scale", "ordinal"];
+					else
+						return ["scale"];
+				else
+					return ["scale", "ordinal"];
+			}
+		}
 		AssignedVariablesList { name: "groupingVariable";	title: qsTr("Split"); singleVariable: true; allowedColumns: [ "nominal"] }
 	}
 
@@ -73,7 +85,7 @@ Form
 			name: "correlationMethod"
 			title: qsTr("Correlation Method")
 			visible: [0, 1, 2].includes(estimator.currentIndex)
-			RadioButton { value: "auto";	label: qsTr("Auto"); checked: true	}
+			RadioButton { value: "auto";	label: qsTr("Auto"); checked: true; id: automaticCorrelationMethod	}
 			RadioButton { value: "cor";		label: qsTr("Cor")					}
 			RadioButton { value: "cov";		label: qsTr("Cov")					}
 			RadioButton { value: "npn";		label: qsTr("Npn")					}
