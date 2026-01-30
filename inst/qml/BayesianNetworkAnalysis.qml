@@ -23,7 +23,7 @@ import JASP.Controls
 Form
 {
 
-VariablesForm
+	VariablesForm
 	{
 		AvailableVariablesList { name: "allVariablesList" }
 		AssignedVariablesList  { name: "variables";
@@ -44,9 +44,9 @@ VariablesForm
 		label: qsTr("Model")
 		Layout.columnSpan: 2
 		values: [
-			{ value: "ggm",		        label: "ggm (continuous)"	        },
-			{ value: "gcgm",				  label: "gcgm (mixed)"			        },
-			{ value: "omrf",				  label: "omrf (binary/ordinal)"		}
+			{ value: "ggm",		label: qsTr("ggm (continuous)"		)},
+			{ value: "gcgm",	label: qsTr("gcgm (mixed)"			)},
+			{ value: "omrf",	label: qsTr("omrf (binary/ordinal)"	)}
 		]
 	}
 
@@ -69,38 +69,38 @@ VariablesForm
 			CheckBox { name: "edgeInclusion";	label: qsTr("Evidence for inclusion");	checked: true }
 			CheckBox { name: "edgeExclusion";	label: qsTr("Evidence for exclusion");	checked: true }
 			CheckBox { name: "edgeAbsence";		label: qsTr("Absence of evidence"); 	checked: true }
-	}
-	CheckBox
-	{
-		name: "centralityPlot"; id: centralityPlot; label: qsTr("Centrality plot")
-		CheckBox
-		{
-			name: "credibilityInterval";
-			label: qsTr("Credibility interval 95%");
-			checked: false;
-			visible: model.currentValue === "omrf"; // Show only when model is "omrf"
-		}
-	}
-	Column
-	{
-		spacing: 10
-		Text
-		{
-			text: qsTr("Network structure selection")
-			font.bold: false
 		}
 		CheckBox
 		{
-			name: "posteriorStructurePlot"
-			label: qsTr("Posterior structure probability plot")
+			name: "centralityPlot"; id: centralityPlot; label: qsTr("Centrality plot")
+			CheckBox
+			{
+				name: "credibilityInterval";
+				label: qsTr("Credibility interval 95%");
+				checked: false;
+				visible: model.currentValue === "omrf"; // Show only when model is "omrf"
+			}
 		}
-		CheckBox
+		Column
 		{
-			name: "complexityPlot"
-			label: qsTr("Posterior complexity probability plot")
+			spacing: 10
+			Text
+			{
+				text: qsTr("Network structure selection")
+				font.bold: false
+			}
+			CheckBox
+			{
+				name: "posteriorStructurePlot"
+				label: qsTr("Posterior structure probability plot")
+			}
+			CheckBox
+			{
+				name: "complexityPlot"
+				label: qsTr("Posterior complexity probability plot")
+			}
 		}
 	}
-}
 
 	Group
 	{
@@ -125,10 +125,53 @@ VariablesForm
 
 	Section
 	{
+		title: qsTr("Model")
+
+		enabled: model.currentValue !== "ggm"
+		info: qsTr("Specify which variables are treated as continuous, ordinal, or Blume-Capel variables. Only available when the selected model is 'gcgm' or 'omrf'.")
+
+		VariablesForm
+		{
+			AvailableVariablesList { name: "selectedVariables"; source: ["variables"] }
+			AssignedVariablesList
+			{
+				name: "variablesContinuous";
+				title: qsTr("Continuous Variables");
+				info: qsTr("Variables treated as Gaussian.");
+				allowedColumns: ["scale"];
+				allowTypeChange: true;
+			}
+			AssignedVariablesList
+			{
+				name: "variablesOrdinal";
+				title: qsTr("Ordinal Variables");
+				info: qsTr("Variables treated as ordinal.");
+				allowedColumns: ["ordinal"];
+				allowTypeChange: true;
+			}
+			AssignedVariablesList
+			{
+				enabled: model.currentValue === "omrf"
+				name: "variablesBlumeCapel";
+				title: qsTr("Blume Capel Variables");
+				info: qsTr("Variables treated as Blume-Capel variables in the OMFR model. These are ordinal variables that have a neutral category.");
+				allowedColumns: ["ordinal"];
+				allowTypeChange: true;
+				rowComponent: DropDown
+				{
+					name: "levels"
+					source: [{values: [rowValue], use: "levels"}]
+				}
+			}
+		}
+	}
+
+	Section
+	{
 		title: qsTr("Sampling Options")
 		Layout.columnSpan: 2
 		IntegerField { name: "burnin";	label: qsTr("Burn in: ");		value: 1000;	min: 0; 				max: iter.value / 2;	fieldWidth: 100; id: burnin	}
-		IntegerField { name: "iter";		label: qsTr("Iterations: ");	value: 10000;	min: burnin.value * 2; 							fieldWidth: 100; id: iter	}
+		IntegerField { name: "iter";	label: qsTr("Iterations: ");	value: 10000;	min: burnin.value * 2; 							fieldWidth: 100; id: iter	}
 
 		SetSeed{}
 	}
