@@ -96,9 +96,10 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     # check if data must be binarized
     if (options[["estimator"]] %in% c("isingFit", "isingSampler")) {
 
+      splitFun <- .networkAnalysisGetSplitFunction(options[["split"]])
       for (i in seq_along(dataset)) {
         idx <- colnames(dataset[[i]]) != options[["groupingVariable"]]
-        dataset[[i]][idx] <- bootnet::binarize(dataset[[i]][idx], split = options[["split"]], verbose = FALSE, removeNArows = FALSE)
+        dataset[[i]][idx] <- bootnet::binarize(dataset[[i]][idx], split = splitFun, verbose = FALSE, removeNArows = FALSE)
       }
 
       if (options[["estimator"]] == "isingFit") {
@@ -1081,7 +1082,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     nFolds      = options[["nFolds"]],
     weighted    = options[["weightedNetwork"]],
     signed      = options[["signedNetwork"]],
-    split       = options[["split"]],
+    split       = .networkAnalysisGetSplitFunction(options[["split"]]),
     criterion   = options[["criterion"]],
     sampleSize  = options[["sampleSize"]],
     type        = type,
@@ -1370,6 +1371,27 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   mainContainer[["layoutXColumn"]]$setNominalText(paste(decodeColNames(variables), "=", layout[, 1L]))
   mainContainer[["layoutYColumn"]]$setNominalText(paste(decodeColNames(variables), "=", layout[, 2L]))
 
+}
+
+.networkAnalysisGetSplitFunction <- function(split = c("mean", "median")) {
+  split <- match.arg(split)
+  if (split == "median") {
+    return(function(x, na.rm) {
+      if (is.numeric(x)) {
+        stats::median(x, na.rm = na.rm)
+      } else {
+        quantile(x, probs = .5, type = 3, na.rm = na.rm)
+      }
+    })
+  }  else {
+    return(function(x, na.rm) {
+      if (is.numeric(x)) {
+        mean(x, na.rm = na.rm)
+      } else {
+        mean(as.numeric(x), na.rm = na.rm)
+      }
+    })
+  }
 }
 
 # bootstrap network functions ----
