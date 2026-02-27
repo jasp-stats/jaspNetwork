@@ -172,7 +172,7 @@ VariablesForm
 				DoubleField
 				{
 					name: "betaAlpha"
-					label: qsTr("Shape parameter 1:")
+					label: qsTr("Within cluster shape parameter 1:")
 					value: 1
 					min: 0
 					inclusive: JASP.None
@@ -183,12 +183,44 @@ VariablesForm
 				DoubleField
 				{
 					name: "betaBeta"
-					label: qsTr("Shape parameter 2:")
+					label: qsTr("Within cluster shape parameter 2:")
 					value: 1
 					min: 0
 					inclusive: JASP.None
 					preferredWidth: 300
 					visible: (model.currentValue === "omrf") && (edgePrior.currentValue === "Beta-Bernoulli" || edgePrior.currentValue === "Stochastic-Block")
+				}
+        DoubleField
+				{
+					name: "betaAlpha_between"
+					label: qsTr("Between cluster shape parameter 1:")
+					value: 1
+					min: 0
+					inclusive: JASP.None
+					preferredWidth: 300
+					visible: (model.currentValue === "omrf") && (edgePrior.currentValue === "Stochastic-Block")
+				}
+
+				DoubleField
+				{
+					name: "betaBeta_between"
+					label: qsTr("Between cluster shape parameter 2:")
+					value: 1
+					min: 0
+					inclusive: JASP.None
+					preferredWidth: 300
+					visible: (model.currentValue === "omrf") && (edgePrior.currentValue === "Stochastic-Block")
+				}
+
+				DoubleField
+				{
+					name: "lambda"
+					label: qsTr("Parameter for the number of clusters:")
+					value: 1
+					min: 0
+					inclusive: JASP.None
+					preferredWidth: 300
+					visible: (model.currentValue === "omrf") && (edgePrior.currentValue === "Stochastic-Block")
 				}
 
 				DoubleField

@@ -213,7 +213,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
                                          type       = "continuous",
                                          package    = "BDgraph" ,
                                          iter       = options[["iter"]],
-                                         save       = TRUE,
+                                         save       = FALSE,  # due to the new version
                                          centrality = FALSE,
                                          burnin     = options[["burnin"]],
                                          g.start    = options[["initialConfiguration"]],
@@ -280,7 +280,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
                                          package    = "BDgraph",
                                          not_cont   = nonContVariables,
                                          iter       = options[["iter"]],
-                                         save       = TRUE,
+                                         save       = FALSE, # due to the new version (for consistnecy)
                                          centrality = FALSE,
                                          burnin     = options[["burnin"]],
                                          g.start    = options[["initialConfiguration"]],
@@ -344,15 +344,19 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
                                          iter       = options[["iter"]],
                                          save       = TRUE,
                                          centrality = FALSE,
-                                         burnin     = options[["burnin"]],
-                                         inclusion_probability = options[["gPrior"]],
-                                         interaction_scale     = options[["interactionScale"]],
-                                         edge_prior            = options[["edgePrior"]],
-                                         threshold_alpha       = options[["thresholdAlpha"]],
-                                         threshold_beta        = options[["thresholdBeta"]],
-                                         beta_bernoulli_alpha  = options[["betaAlpha"]],
-                                         beta_bernoulli_beta   = options[["betaBeta"]],
-                                         dirichlet_alpha       = options[["dirichletAlpha"]]))
+                                         warmup     = options[["burnin"]], # changed name
+                                         chains     = 1, # fix for now (maybe add an option for the users to set this)
+                                         inclusion_probability         = options[["gPrior"]],
+                                         pairwise_scale                = options[["interactionScale"]], # changed name
+                                         edge_prior                    = options[["edgePrior"]],
+                                         main_alpha                    = options[["thresholdAlpha"]], # changed name
+                                         main_beta                     = options[["thresholdBeta"]],
+                                         beta_bernoulli_alpha          = options[["betaAlpha"]],
+                                         beta_bernoulli_beta           = options[["betaBeta"]],
+                                         beta_bernoulli_alpha_between  = options[["betaAlpha_between"]],
+                                         beta_bernoulli_beta_between   = options[["betaBeta_between"]],
+                                         lambda                        = options[["lambda"]],
+                                         dirichlet_alpha               = options[["dirichletAlpha"]]))
 
 
 
