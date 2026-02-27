@@ -1208,6 +1208,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   }
 
   table <- createJaspTable(tableTitle, dependencies = c("clusterAllocationsTable", "clusterAllocationsType", "edgePrior"))
+  table$position <- 10
   table$addColumnInfo(name = "variable",   title = gettext("Variable"),   type = "string")
   table$addColumnInfo(name = "allocation", title = gettext("Cluster"),    type = "integer")
 
@@ -1233,8 +1234,9 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   if (!is.null(mainContainer[["sbmNumBlocksTable"]]) || !options[["posteriorNumBlocksTable"]])
     return()
 
-  table <- createJaspTable(gettext("Posterior Probabilities for Number of Blocks"),
+  table <- createJaspTable(gettext("Posterior Probabilities for the Number of Blocks"),
                            dependencies = c("posteriorNumBlocksTable", "edgePrior"))
+  table$position <- 11
   table$addColumnInfo(name = "numBlocks",   title = gettext("Number of blocks"),    type = "integer")
   table$addColumnInfo(name = "probability", title = gettext("Posterior probability"), type = "number")
 
@@ -1268,6 +1270,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
   table <- createJaspTable(gettext("Posterior Co-clustering Matrix"),
                            dependencies = c("posteriorCoclusteringMatrixTable", "edgePrior"))
+  table$position <- 12
   table$addColumnInfo(name = "Variable", title = gettext("Variable"), type = "string")
   for (v in seq_len(nVar))
     table$addColumnInfo(name = variables[v], title = variables[v], type = "number")
@@ -1299,6 +1302,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   table <- createJaspTable(gettext("Cluster Bayes Factor"),
                            dependencies = c("clusterBayesFactor", "clusterBayesFactorType",
                                             "clusterBayesFactorB1", "clusterBayesFactorB2", "edgePrior"))
+  table$position <- 13
 
   if (bfType == "complement") {
     table$addColumnInfo(name = "hypothesis", title = gettext("Hypothesis"),   type = "string")
@@ -1390,7 +1394,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
                                        limits = c(0, 1),
                                        name = gettext("Probability")) +
           ggplot2::labs(x = NULL, y = NULL) +
-          ggplot2::theme_minimal() +
+          jaspGraphs::themeJaspRaw() +
           ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 1))
 
         coclusteringPlotContainer[[v]]$plotObject <- plot

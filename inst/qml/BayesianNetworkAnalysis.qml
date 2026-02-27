@@ -85,6 +85,7 @@ VariablesForm
 	{
 		name: "coclusteringPlot"
 		label: qsTr("Co-clustering matrix plot")
+		info: qsTr("Displays a heatmap of the posterior co-clustering probabilities.")
 		visible: model.currentValue === "omrf" && edgePrior.currentValue === "Stochastic-Block"
 	}
 	Column
@@ -137,6 +138,7 @@ VariablesForm
 			{
 				name: "clusterAllocationsTable"
 				label: qsTr("Cluster allocations")
+				info: qsTr("Displays the estimated allocation of nodes into clusters.")
 				DropDown
 				{
 					name: "clusterAllocationsType"
@@ -147,12 +149,13 @@ VariablesForm
 					]
 				}
 			}
-			CheckBox { name: "posteriorNumBlocksTable";			label: qsTr("Posterior probabilities for the number of blocks") }
-			CheckBox { name: "posteriorCoclusteringMatrixTable";	label: qsTr("Posterior co-clustering matrix") }
+			CheckBox { name: "posteriorNumBlocksTable";			label: qsTr("Posterior probabilities for the number of blocks"); info: qsTr("Shows the posterior probability for each possible number of blocks.") }
+			CheckBox { name: "posteriorCoclusteringMatrixTable";	label: qsTr("Posterior co-clustering matrix"); info: qsTr("Shows the posterior probability that each pair of nodes belongs to the same cluster.") }
 			CheckBox
 			{
 				name: "clusterBayesFactor"
 				label: qsTr("Cluster Bayes factor")
+				info: qsTr("Computes Bayes factors for clustering hypotheses.")
 				RadioButtonGroup
 				{
 					name: "clusterBayesFactorType"
