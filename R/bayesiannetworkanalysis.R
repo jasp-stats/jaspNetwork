@@ -33,6 +33,12 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   .bayesianNetworkAnalysisPlotContainer    (mainContainer, network, options)
   .bayesianNetworkAnalysisCentralityTable  (mainContainer, network, options)
 
+  # Stochastic Block Model output
+  .bayesianNetworkAnalysisSbmAllocationsTable    (mainContainer, network, options)
+  .bayesianNetworkAnalysisSbmNumBlocksTable      (mainContainer, network, options)
+  .bayesianNetworkAnalysisSbmCoclusteringTable   (mainContainer, network, options)
+  .bayesianNetworkAnalysisSbmClusterBayesFactor  (mainContainer, network, options)
+
   return()
 }
 
@@ -378,6 +384,17 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       easybgmResult$sampleGraphs           <- easybgmFit$sample_graph
       easybgmResult$samplesPosterior       <- easybgmFit$samples_posterior
 
+      # Store SBM-specific results if Stochastic-Block edge prior was used
+      if (options[["edgePrior"]] == "Stochastic-Block") {
+        easybgmResult$sbm <- list(
+          posterior_mean_allocations         = easybgmFit$sbm$posterior_mean_allocations,
+          posterior_mode_allocations         = easybgmFit$sbm$posterior_mode_allocations,
+          posterior_num_blocks               = easybgmFit$sbm$posterior_num_blocks,
+          posterior_mean_coclustering_matrix = easybgmFit$sbm$posterior_mean_coclustering_matrix
+        )
+        easybgmResult$easybgmFit <- easybgmFit  # keep full fit for clusterBayesfactor()
+      }
+
       networks[[nw]] <- easybgmResult
     }
   }
@@ -462,6 +479,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   .bayesianNetworkAnalysisPosteriorStructurePlot (plotContainer, network, options)
   .bayesianNetworkAnalysisCentralityPlot         (plotContainer, network, options)
   .bayesianNetworkAnalysisPosteriorComplexityPlot(plotContainer, network, options)
+  .bayesianNetworkAnalysisSbmCoclusteringPlot    (plotContainer, network, options)
 }
 
 .bayesianNetworkAnalysisPosteriorStructurePlot <- function(plotContainer, network, options) {
@@ -1169,6 +1187,216 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       edge.label.cex      = options[["edgeLabelCex"]],
       edge.label.position = options[["edgeLabelPosition"]]
     ))
+}
+
+# =========================
+#  STOCHASTIC BLOCK MODEL OUTPUT
+# =========================
+
+.bayesianNetworkAnalysisSbmAllocationsTable <- function(mainContainer, network, options) {
+
+  if (!is.null(mainContainer[["sbmAllocationsTable"]]) || !options[["clusterAllocationsTable"]])
+    return()
+
+  type <- options[["clusterAllocationsType"]]
+  if (type == "mean") {
+    tableTitle <- gettext("Cluster Allocations (Posterior Mean)")
+    sbmField   <- "posterior_mean_allocations"
+  } else {
+    tableTitle <- gettext("Cluster Allocations (Posterior Mode)")
+    sbmField   <- "posterior_mode_allocations"
+  }
+
+  table <- createJaspTable(tableTitle, dependencies = c("clusterAllocationsTable", "clusterAllocationsType", "edgePrior"))
+  table$addColumnInfo(name = "variable",   title = gettext("Variable"),   type = "string")
+  table$addColumnInfo(name = "allocation", title = gettext("Cluster"),    type = "integer")
+
+  mainContainer[["sbmAllocationsTable"]] <- table
+
+  if (is.null(network[["network"]]) || mainContainer$getError())
+    return()
+
+  allNetworks <- network[["network"]]
+  for (i in seq_along(allNetworks)) {
+    nw <- allNetworks[[i]]
+    if (!is.null(nw$sbm)) {
+      allocations <- nw$sbm[[sbmField]]
+      variables   <- colnames(nw$estimates)
+      df <- data.frame(variable = variables, allocation = as.integer(allocations))
+      table$setData(df)
+    }
+  }
+}
+
+.bayesianNetworkAnalysisSbmNumBlocksTable <- function(mainContainer, network, options) {
+
+  if (!is.null(mainContainer[["sbmNumBlocksTable"]]) || !options[["posteriorNumBlocksTable"]])
+    return()
+
+  table <- createJaspTable(gettext("Posterior Probabilities for Number of Blocks"),
+                           dependencies = c("posteriorNumBlocksTable", "edgePrior"))
+  table$addColumnInfo(name = "numBlocks",   title = gettext("Number of blocks"),    type = "integer")
+  table$addColumnInfo(name = "probability", title = gettext("Posterior probability"), type = "number")
+
+  mainContainer[["sbmNumBlocksTable"]] <- table
+
+  if (is.null(network[["network"]]) || mainContainer$getError())
+    return()
+
+  allNetworks <- network[["network"]]
+  for (i in seq_along(allNetworks)) {
+    nw <- allNetworks[[i]]
+    if (!is.null(nw$sbm)) {
+      posteriorNumBlocks <- nw$sbm$posterior_num_blocks
+      # posterior_num_blocks is a single-column data frame (list of length 1)
+      df <- data.frame(
+        numBlocks   = seq_len(nrow(posteriorNumBlocks)),
+        probability = as.numeric(posteriorNumBlocks[[1]])
+      )
+      table$setData(df)
+    }
+  }
+}
+
+.bayesianNetworkAnalysisSbmCoclusteringTable <- function(mainContainer, network, options) {
+
+  if (!is.null(mainContainer[["sbmCoclusteringTable"]]) || !options[["posteriorCoclusteringMatrixTable"]])
+    return()
+
+  variables <- unlist(options[["variables"]])
+  nVar <- length(variables)
+
+  table <- createJaspTable(gettext("Posterior Co-clustering Matrix"),
+                           dependencies = c("posteriorCoclusteringMatrixTable", "edgePrior"))
+  table$addColumnInfo(name = "Variable", title = gettext("Variable"), type = "string")
+  for (v in seq_len(nVar))
+    table$addColumnInfo(name = variables[v], title = variables[v], type = "number")
+
+  mainContainer[["sbmCoclusteringTable"]] <- table
+
+  if (is.null(network[["network"]]) || mainContainer$getError())
+    return()
+
+  allNetworks <- network[["network"]]
+  for (i in seq_along(allNetworks)) {
+    nw <- allNetworks[[i]]
+    if (!is.null(nw$sbm)) {
+      coclust <- as.data.frame(nw$sbm$posterior_mean_coclustering_matrix)
+      colnames(coclust) <- variables
+      coclust <- cbind(Variable = variables, coclust)
+      table$setData(coclust)
+    }
+  }
+}
+
+.bayesianNetworkAnalysisSbmClusterBayesFactor <- function(mainContainer, network, options) {
+
+  if (!is.null(mainContainer[["sbmClusterBayesFactorTable"]]) || !options[["clusterBayesFactor"]])
+    return()
+
+  bfType <- options[["clusterBayesFactorType"]]
+
+  table <- createJaspTable(gettext("Cluster Bayes Factor"),
+                           dependencies = c("clusterBayesFactor", "clusterBayesFactorType",
+                                            "clusterBayesFactorB1", "clusterBayesFactorB2", "edgePrior"))
+
+  if (bfType == "complement") {
+    table$addColumnInfo(name = "hypothesis", title = gettext("Hypothesis"),   type = "string")
+    table$addColumnInfo(name = "bf",         title = gettext("Bayes factor"), type = "number")
+  } else {
+    table$addColumnInfo(name = "b1",         title = "H\u2081",              type = "integer")
+    table$addColumnInfo(name = "b2",         title = "H\u2082",              type = "integer")
+    table$addColumnInfo(name = "bf",         title = "BF\u2081\u2082",      type = "number")
+  }
+
+  mainContainer[["sbmClusterBayesFactorTable"]] <- table
+
+  if (is.null(network[["network"]]) || mainContainer$getError())
+    return()
+
+  allNetworks <- network[["network"]]
+  for (i in seq_along(allNetworks)) {
+    nw <- allNetworks[[i]]
+    if (!is.null(nw$easybgmFit)) {
+
+      if (bfType == "complement") {
+        bf <- try(easybgm::clusterBayesfactor(nw$easybgmFit, type = "complement"))
+        if (isTryError(bf)) {
+          table$setError(gettextf("Could not compute the cluster Bayes factor: %s", .extractErrorMessage(bf)))
+          return()
+        }
+        df <- data.frame(hypothesis = gettext("Clustering vs. no clustering"), bf = as.numeric(bf))
+      } else {
+        b1 <- options[["clusterBayesFactorB1"]]
+        b2 <- options[["clusterBayesFactorB2"]]
+        bf <- try(easybgm::clusterBayesfactor(nw$easybgmFit, type = "point", b1 = b1, b2 = b2))
+        if (isTryError(bf)) {
+          table$setError(gettextf("Could not compute the cluster Bayes factor: %s", .extractErrorMessage(bf)))
+          return()
+        }
+        df <- data.frame(b1 = b1, b2 = b2, bf = as.numeric(bf))
+      }
+      table$setData(df)
+    }
+  }
+}
+
+.bayesianNetworkAnalysisSbmCoclusteringPlot <- function(plotContainer, network, options) {
+
+  # Accept either plotContainer or mainContainer — the function is called from
+  # .bayesianNetworkAnalysisPlotContainer (plotContainer) and also standalone.
+  # When called standalone from the main function, plotContainer == mainContainer and
+  # we nest into a plot container ourselves.
+
+  if (!is.null(plotContainer[["sbmCoclusteringPlotContainer"]]) || !options[["coclusteringPlot"]])
+    return()
+
+  allNetworks <- network[["network"]]
+  nGraphs     <- length(allNetworks)
+
+  title <- if (nGraphs == 1L) gettext("Co-clustering Matrix Plot") else gettext("Co-clustering Matrix Plots")
+
+  coclusteringPlotContainer <- createJaspContainer(title = title,
+                                                   dependencies = c("coclusteringPlot", "edgePrior"))
+  plotContainer[["sbmCoclusteringPlotContainer"]] <- coclusteringPlotContainer
+
+  if (is.null(network[["network"]]) || plotContainer$getError()) {
+    coclusteringPlotContainer[["dummyPlot"]] <- createJaspPlot(title = gettext("Co-clustering Matrix Plot"))
+    return()
+  }
+
+  for (v in names(allNetworks))
+    coclusteringPlotContainer[[v]] <- createJaspPlot(title = v, width = 480, height = 400)
+
+  jaspBase::.suppressGrDevice({
+    for (v in names(allNetworks)) {
+      nw <- allNetworks[[v]]
+      if (!is.null(nw$sbm)) {
+        coclust   <- nw$sbm$posterior_mean_coclustering_matrix
+        variables <- colnames(nw$estimates)
+        colnames(coclust) <- variables
+        rownames(coclust) <- variables
+
+        # Reshape to long format for ggplot
+        dfLong <- expand.grid(Var1 = variables, Var2 = variables)
+        dfLong$value <- as.vector(coclust)
+        # Preserve variable ordering
+        dfLong$Var1 <- factor(dfLong$Var1, levels = variables)
+        dfLong$Var2 <- factor(dfLong$Var2, levels = rev(variables))
+
+        plot <- ggplot2::ggplot(dfLong, ggplot2::aes(x = Var1, y = Var2, fill = value)) +
+          ggplot2::geom_tile(color = "white") +
+          ggplot2::scale_fill_gradient(low = "white", high = "#36648B",
+                                       limits = c(0, 1),
+                                       name = gettext("Probability")) +
+          ggplot2::labs(x = NULL, y = NULL) +
+          ggplot2::theme_minimal() +
+          ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 1))
+
+        coclusteringPlotContainer[[v]]$plotObject <- plot
+      }
+    }
+  })
 }
 
 # =========================

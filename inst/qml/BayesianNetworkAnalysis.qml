@@ -81,6 +81,12 @@ VariablesForm
 			visible: model.currentValue === "omrf"; // Show only when model is "omrf"
 		}
 	}
+	CheckBox
+	{
+		name: "coclusteringPlot"
+		label: qsTr("Co-clustering matrix plot")
+		visible: model.currentValue === "omrf" && edgePrior.currentValue === "Stochastic-Block"
+	}
 	Column
 	{
 		spacing: 10
@@ -121,6 +127,60 @@ VariablesForm
 				}
 		}
 		CheckBox { name: "centralityTable"; label: qsTr("Centrality table") }
+
+		Group
+		{
+			title: qsTr("Clustering Overview")
+			visible: model.currentValue === "omrf" && edgePrior.currentValue === "Stochastic-Block"
+
+			CheckBox
+			{
+				name: "clusterAllocationsTable"
+				label: qsTr("Cluster allocations")
+				DropDown
+				{
+					name: "clusterAllocationsType"
+					label: qsTr("Summary statistic")
+					values: [
+						{ value: "mean", label: qsTr("Posterior mean") },
+						{ value: "mode", label: qsTr("Posterior mode") }
+					]
+				}
+			}
+			CheckBox { name: "posteriorNumBlocksTable";			label: qsTr("Posterior probabilities for the number of blocks") }
+			CheckBox { name: "posteriorCoclusteringMatrixTable";	label: qsTr("Posterior co-clustering matrix") }
+			CheckBox
+			{
+				name: "clusterBayesFactor"
+				label: qsTr("Cluster Bayes factor")
+				RadioButtonGroup
+				{
+					name: "clusterBayesFactorType"
+					RadioButton { value: "complement";	label: qsTr("Clustering vs. no clustering"); checked: true }
+					RadioButton
+					{
+						value: "point"
+						label: qsTr("Point hypotheses")
+						IntegerField
+						{
+							name:			"clusterBayesFactorB1"
+							label:			qsTr("H\u2081")
+							defaultValue:	1
+							min:			1
+							max:			networkVariables.count
+						}
+						IntegerField
+						{
+							name:			"clusterBayesFactorB2"
+							label:			qsTr("H\u2082")
+							defaultValue:	2
+							min:			1
+							max:			networkVariables.count
+						}
+					}
+				}
+			}
+		}
 	}
 
 	Section
