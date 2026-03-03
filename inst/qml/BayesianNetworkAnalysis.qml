@@ -53,7 +53,19 @@ VariablesForm
 	Group
 	{
 		title: qsTr("Plots")
-		CheckBox { name: "networkPlot";		label: qsTr("Network plot")								}
+		CheckBox
+		{
+			name: "networkPlot"
+			label: qsTr("Network plot")
+			IntegerField
+			{
+				name:			"networkPlotInclusionCriteria"
+				label:			qsTr("Inclusion criteria: BF\u2081\u2080 > ")
+				min:			1
+				defaultValue:	10
+				max:			2e2
+			}
+		}
 		CheckBox
 		{
 			name: "evidencePlot";

@@ -645,6 +645,8 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     if (!options[["signedNetwork"]]) {
       wMat <- abs(wMat)
     }
+  } else if (!is.null(network[["BF"]]) && !is.null(options[["networkPlotInclusionCriteria"]])) {
+    wMat[network[["BF"]] < options[["networkPlotInclusionCriteria"]]] <- 0
   }
 
   if (all(abs(wMat) <= minE))
@@ -706,7 +708,8 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     "labelScale", "labelSize", "labelAbbreviation", "labelAbbreviationLength",
     "layoutNotUpdated", "layoutX", "layoutY", "networkPlot",
     "manualColorGroups", "color", "colorGroupVariables", "group", "manualColor",
-    "legendToPlotRatio", "edgeLabels", "edgeLabelSize", "edgeLabelPosition"
+    "legendToPlotRatio", "edgeLabels", "edgeLabelSize", "edgeLabelPosition",
+    "networkPlotInclusionCriteria"
   ))
   plotContainer[["networkPlotContainer"]] <- networkPlotContainer
 

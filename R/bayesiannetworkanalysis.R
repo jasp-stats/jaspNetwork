@@ -351,7 +351,8 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
                                          save       = TRUE,
                                          centrality = FALSE,
                                          warmup     = options[["burnin"]], # changed name
-                                         chains     = 1, # fix for now (maybe add an option for the users to set this)
+                                         chains     = 1, # fix for now (maybe add an option for the users to set this),
+                                         update_method = "adaptive-metropolis", # for now fixed to a-m
                                          inclusion_probability         = options[["gPrior"]],
                                          pairwise_scale                = options[["interactionScale"]], # changed name
                                          edge_prior                    = options[["edgePrior"]],
@@ -1023,7 +1024,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   # Select options for edges (inclusion, exclusion, absence):
   graphColor <- matrix(NA, ncol = nrow(network[["graph"]]), nrow = nrow(network[["graph"]]))
   if (options$edgeInclusion) graphColor[network[["BF"]] >= options[["edgeInclusionCriteria"]]] <- "#36648b"
-  if (options$edgeExclusion) graphColor[network[["BF"]] < (1 / options[["edgeInclusionCriteria"]])] <- "#990000"
+  if (options$edgeExclusion) graphColor[network[["BF"]] < (1 / options[["edgeInclusionCriteria"]])] <- "#eeb004"
   if (options$edgeAbsence) graphColor[network[["BF"]] < options[["edgeInclusionCriteria"]] & network[["BF"]] > (1 / options[["edgeInclusionCriteria"]])] <- "#bfbfbf"
 
 
