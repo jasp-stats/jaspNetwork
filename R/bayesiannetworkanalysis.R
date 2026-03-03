@@ -729,7 +729,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
 }
 
-.bayesianNetworkAnalysisStructurePlot <- function(plotContainer, network, options) {
+.bayesianNetworkAnalysisStructurePlot <- function(plotContsource(".claude/session_startup.R")ainer, network, options) {
 
   if (!is.null(plotContainer[["structurePlotContainer"]]) || !options[["posteriorStructurePlot"]])
     return()
