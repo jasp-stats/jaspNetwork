@@ -1099,6 +1099,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     }
     table$setData(TBcolumns)
   }
+  table$addFootnote(gettext("Estimates are based on the median probability model: edges with a posterior inclusion probability \u2264 0.5 are set to zero."))
   mainContainer[["weightsTable"]] <- table
 }
 
@@ -1223,7 +1224,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     j <- upperTriIdx[k, 2]
 
     relation[k]      <- paste0(decodedVars[j], "-", decodedVars[i])
-    estimate[k]      <- nw$estimates[i, j]
+    estimate[k]      <- nw$graph[i, j]
     inclusionProb[k] <- nw$inclusionProbabilities[i, j]
     inclusionBF[k]   <- nw$BF[i, j]
 
@@ -1257,6 +1258,10 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     df$convergence <- convergence
   }
 
+  table$addFootnote(gettext("Estimates are based on the median probability model: edges with a posterior inclusion probability \u2264 0.5 are set to zero."))
+  table$addFootnote(gettext("Bayes factors with values of infinity indicate that the estimated posterior inclusion probability is either 1 or 0. Please see the help file for more information."))
+  if (!is.null(convergence))
+    table$addFootnote(gettext("Convergence is the split-chain R-hat (Gelman-Rubin) statistic, computed post hoc by splitting the posterior samples into two halves. Values greater than about 1.01-1.05 are considered concerning, indicating potential lack of convergence for the estimates of the pairwise interactions."))
   table$setData(df)
 }
 

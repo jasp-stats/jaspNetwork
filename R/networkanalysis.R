@@ -740,7 +740,11 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
   if (length(options[["colorGroupVariables"]]) > 1L) {
 
-    fittedVariablesOrder   <- network[["network"]][[1L]]$labels
+    if (method == "Bayesian") {
+      fittedVariablesOrder <- colnames(network[["network"]][[1L]]$graph)
+    } else {
+      fittedVariablesOrder <- network[["network"]][[1L]]$labels
+    }
     assignedVariablesOrder <- vapply(options[["colorGroupVariables"]], `[[`, character(1L), "variable")
     assignedGroup          <- vapply(options[["colorGroupVariables"]], `[[`, character(1L), "group")
 
