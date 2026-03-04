@@ -27,8 +27,9 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
   network <- .bayesianNetworkAnalysisRun(mainContainer, dataset, options)
 
-  .bayesianNetworkAnalysisMainTable        (mainContainer, dataset, options, network)
-  .bayesianNetworkAnalysisWeightMatrixTable(mainContainer, network, options)
+  .bayesianNetworkAnalysisMainTable          (mainContainer, dataset, options, network)
+  .bayesianNetworkAnalysisEdgeOverviewTable  (mainContainer, network, options)
+  .bayesianNetworkAnalysisWeightMatrixTable  (mainContainer, network, options)
   .bayesianNetworkAnalysisEdgeEvidenceTable(mainContainer, network, options)
   .bayesianNetworkAnalysisPlotContainer    (mainContainer, network, options)
   .bayesianNetworkAnalysisCentralityTable  (mainContainer, network, options)
@@ -1160,6 +1161,149 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     table$addFootnote(gettext("Bayes factors with values of infinity indicate that the estimated posterior inclusion probability is either 1 or 0. Please see the help file for more information."))
   }
   mainContainer[["edgeEvidenceTable"]] <- table
+}
+
+.bayesianNetworkAnalysisEdgeOverviewTable <- function(mainContainer, network, options) {
+
+  if (!is.null(mainContainer[["edgeOverviewTable"]]) || !options[["edgeSpecificOverviewTable"]])
+    return()
+
+  threshold   <- options[["edgeSpecificOverviewInclusionCriteria"]]
+  allNetworks <- network[["network"]]
+  nGraphs     <- max(1L, length(allNetworks))
+
+  if (nGraphs > 1L) {
+    container <- createJaspContainer(gettext("Edge Specific Overview"),
+                                     dependencies = c("edgeSpecificOverviewTable",
+                                                       "edgeSpecificOverviewInclusionCriteria"))
+    container$position <- 2
+    mainContainer[["edgeOverviewTable"]] <- container
+
+    if (is.null(allNetworks) || mainContainer$getError())
+      return()
+
+    for (nwName in names(allNetworks)) {
+      table <- createJaspTable(nwName)
+      .bayesianNetworkAnalysisFillEdgeOverviewTable(table, allNetworks[[nwName]], threshold)
+      container[[nwName]] <- table
+    }
+  } else {
+    table <- createJaspTable(gettext("Edge Specific Overview"),
+                             dependencies = c("edgeSpecificOverviewTable",
+                                               "edgeSpecificOverviewInclusionCriteria"))
+    table$position <- 2
+    mainContainer[["edgeOverviewTable"]] <- table
+
+    if (is.null(allNetworks) || mainContainer$getError())
+      return()
+
+    .bayesianNetworkAnalysisFillEdgeOverviewTable(table, allNetworks[[1]], threshold)
+  }
+}
+
+.bayesianNetworkAnalysisFillEdgeOverviewTable <- function(table, nw, threshold) {
+
+  variables   <- colnames(nw$estimates)
+  nVar        <- length(variables)
+  nEdges      <- nVar * (nVar - 1L) / 2L
+  decodedVars <- decodeColNames(variables)
+
+  # Upper triangle indices in row-major order
+  upperTriIdx <- which(upper.tri(nw$estimates), arr.ind = TRUE)
+  upperTriIdx <- upperTriIdx[order(upperTriIdx[, 1], upperTriIdx[, 2]), ]
+
+  relation      <- character(nEdges)
+  estimate      <- numeric(nEdges)
+  inclusionProb <- numeric(nEdges)
+  inclusionBF   <- numeric(nEdges)
+  category      <- character(nEdges)
+
+  for (k in seq_len(nEdges)) {
+    i <- upperTriIdx[k, 1]
+    j <- upperTriIdx[k, 2]
+
+    relation[k]      <- paste0(decodedVars[j], "-", decodedVars[i])
+    estimate[k]      <- nw$estimates[i, j]
+    inclusionProb[k] <- nw$inclusionProbabilities[i, j]
+    inclusionBF[k]   <- nw$BF[i, j]
+
+    if (inclusionBF[k] >= threshold)
+      category[k] <- gettext("included")
+    else if (inclusionBF[k] <= 1 / threshold)
+      category[k] <- gettext("excluded")
+    else
+      category[k] <- gettext("inconclusive")
+  }
+
+  table$addColumnInfo(name = "relation",      title = gettext("Relation"),              type = "string")
+  table$addColumnInfo(name = "estimate",      title = gettext("Estimate"),              type = "number")
+  table$addColumnInfo(name = "inclusionProb", title = gettext("Posterior Incl. Prob."), type = "number")
+  table$addColumnInfo(name = "inclusionBF",   title = gettext("Inclusion BF"),          type = "number")
+  table$addColumnInfo(name = "category",      title = gettext("Category"),              type = "string")
+
+  df <- data.frame(
+    relation      = relation,
+    estimate      = estimate,
+    inclusionProb = inclusionProb,
+    inclusionBF   = inclusionBF,
+    category      = category,
+    stringsAsFactors = FALSE
+  )
+
+  # Try to add convergence from posterior samples
+  convergence <- .bayesianNetworkAnalysisComputeEdgeConvergence(nw, upperTriIdx, nEdges)
+  if (!is.null(convergence)) {
+    table$addColumnInfo(name = "convergence", title = gettext("Convergence"), type = "number")
+    df$convergence <- convergence
+  }
+
+  table$setData(df)
+}
+
+.bayesianNetworkAnalysisComputeEdgeConvergence <- function(nw, upperTriIdx, nEdges) {
+
+  posteriorSamples <- nw$samplesPosterior
+  if (is.null(posteriorSamples) || ncol(posteriorSamples) < nEdges || nrow(posteriorSamples) < 4L)
+    return(NULL)
+
+  # Build column-major upper triangle mapping to find the right column in samplesPosterior
+  nVar <- nrow(nw$estimates)
+  cmIdx <- which(upper.tri(matrix(NA, nVar, nVar)), arr.ind = TRUE)
+
+  cmLookup <- matrix(NA_integer_, nVar, nVar)
+  for (pos in seq_len(nrow(cmIdx)))
+    cmLookup[cmIdx[pos, 1], cmIdx[pos, 2]] <- pos
+
+  convergence <- numeric(nEdges)
+  for (k in seq_len(nEdges)) {
+    i <- upperTriIdx[k, 1]
+    j <- upperTriIdx[k, 2]
+    col <- cmLookup[i, j]
+
+    if (!is.na(col) && col <= ncol(posteriorSamples))
+      convergence[k] <- .bayesianNetworkAnalysisSplitRhat(posteriorSamples[, col])
+    else
+      convergence[k] <- NA_real_
+  }
+
+  convergence
+}
+
+.bayesianNetworkAnalysisSplitRhat <- function(chain) {
+  n <- length(chain)
+  if (n < 4L) return(NA_real_)
+
+  half   <- n %/% 2L
+  chain1 <- chain[1:half]
+  chain2 <- chain[(half + 1L):(2L * half)]
+
+  W <- (var(chain1) + var(chain2)) / 2
+  B <- half * var(c(mean(chain1), mean(chain2)))
+
+  if (W < .Machine$double.eps) return(NA_real_)
+
+  varhat <- ((half - 1) / half) * W + (1 / half) * B
+  sqrt(varhat / W)
 }
 
 .bayesianNetworkAnalysisOneStructurePlot <- function(network, options, layout,

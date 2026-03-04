@@ -124,6 +124,19 @@ VariablesForm
 	Group
 	{
 		title: qsTr("Tables")
+		CheckBox
+		{
+			name: "edgeSpecificOverviewTable"
+			label: qsTr("Edge specific overview")
+			IntegerField
+			{
+				name:			"edgeSpecificOverviewInclusionCriteria"
+				label:			qsTr("Inclusion criteria: BF\u2081\u2080 > ")
+				min:			1
+				defaultValue:	10
+				max:			2e2
+			}
+		}
 		CheckBox { name: "weightsMatrixTable";	label: qsTr("Weights matrix")	}
 		CheckBox
 		{
@@ -196,16 +209,6 @@ VariablesForm
 				}
 			}
 		}
-	}
-
-	Section
-	{
-		title: qsTr("Sampling Options")
-		Layout.columnSpan: 2
-		IntegerField { name: "burnin";	label: qsTr("Burn in: ");		value: 1000;	min: 0; 				max: iter.value / 2;	fieldWidth: 100; id: burnin	}
-		IntegerField { name: "iter";		label: qsTr("Iterations: ");	value: 10000;	min: burnin.value * 2; 							fieldWidth: 100; id: iter	}
-
-		SetSeed{}
 	}
 
   Section {
@@ -380,6 +383,15 @@ VariablesForm
 	}
 }
 
+	Section
+	{
+		title: qsTr("Sampling Options")
+		Layout.columnSpan: 2
+		IntegerField { name: "burnin";	label: qsTr("Burn in: ");		value: 1000;	min: 0; 				max: iter.value / 2;	fieldWidth: 100; id: burnin	}
+		IntegerField { name: "iter";		label: qsTr("Iterations: ");	value: 10000;	min: burnin.value * 2; 							fieldWidth: 100; id: iter	}
+
+		SetSeed{}
+	}
 
   Section
 	{
