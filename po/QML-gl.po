@@ -322,7 +322,7 @@ msgstr "Opcións de Análise - "
 
 msgctxt "NetworkAnalysis|"
 msgid "Continuous Variables"
-msgstr "Variables Continuas"
+msgstr "Variables continuas"
 
 msgctxt "NetworkAnalysis|"
 msgid "Rainbow"
@@ -558,7 +558,7 @@ msgstr "Gris"
 
 msgctxt "NetworkAnalysis|"
 msgid "ggplot2"
-msgstr "GGplot2"
+msgstr "ggplot2"
 
 msgctxt "NetworkAnalysis|"
 msgid "Labels"
@@ -758,7 +758,7 @@ msgstr "R"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "ggplot2"
-msgstr "GGplot2"
+msgstr "ggplot2"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Node size"

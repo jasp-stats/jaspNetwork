@@ -382,7 +382,7 @@ msgstr "R"
 
 msgctxt "NetworkAnalysis|"
 msgid "ggplot2"
-msgstr "GGplot2"
+msgstr "ggplot2"
 
 msgctxt "NetworkAnalysis|"
 msgid "Node size"
@@ -758,7 +758,7 @@ msgstr "R"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "ggplot2"
-msgstr "GGplot2"
+msgstr "ggplot2"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Node size"

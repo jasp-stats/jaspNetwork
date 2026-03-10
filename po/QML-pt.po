@@ -282,7 +282,7 @@ msgstr "Variáveis na rede"
 
 msgctxt "NetworkAnalysis|"
 msgid "Continuous Variables"
-msgstr "Variáveis contínuas"
+msgstr "Variáveis Contínuas"
 
 msgctxt "NetworkAnalysis|"
 msgid "Categorical Variables"
