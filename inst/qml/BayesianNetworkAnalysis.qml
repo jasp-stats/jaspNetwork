@@ -53,7 +53,19 @@ VariablesForm
 	Group
 	{
 		title: qsTr("Plots")
-		CheckBox { name: "networkPlot";		label: qsTr("Network plot")								}
+		CheckBox
+		{
+			name: "networkPlot"
+			label: qsTr("Network plot")
+			IntegerField
+			{
+				name:			"networkPlotInclusionCriteria"
+				label:			qsTr("Inclusion criteria: BF\u2081\u2080 > ")
+				min:			1
+				defaultValue:	10
+				max:			2e2
+			}
+		}
 		CheckBox
 		{
 			name: "evidencePlot";
@@ -81,6 +93,13 @@ VariablesForm
 			visible: model.currentValue === "omrf"; // Show only when model is "omrf"
 		}
 	}
+	CheckBox
+	{
+		name: "coclusteringPlot"
+		label: qsTr("Co-clustering matrix plot")
+		info: qsTr("Displays a heatmap of the posterior co-clustering probabilities.")
+		visible: model.currentValue === "omrf" && edgePrior.currentValue === "Stochastic-Block"
+	}
 	Column
 	{
 		spacing: 10
@@ -105,6 +124,19 @@ VariablesForm
 	Group
 	{
 		title: qsTr("Tables")
+		CheckBox
+		{
+			name: "edgeSpecificOverviewTable"
+			label: qsTr("Edge specific overview")
+			IntegerField
+			{
+				name:			"edgeSpecificOverviewInclusionCriteria"
+				label:			qsTr("Inclusion criteria: BF\u2081\u2080 > ")
+				min:			1
+				defaultValue:	10
+				max:			2e2
+			}
+		}
 		CheckBox { name: "weightsMatrixTable";	label: qsTr("Weights matrix")	}
 		CheckBox
 		{
@@ -121,16 +153,62 @@ VariablesForm
 				}
 		}
 		CheckBox { name: "centralityTable"; label: qsTr("Centrality table") }
-	}
 
-	Section
-	{
-		title: qsTr("Sampling Options")
-		Layout.columnSpan: 2
-		IntegerField { name: "burnin";	label: qsTr("Burn in: ");		value: 1000;	min: 0; 				max: iter.value / 2;	fieldWidth: 100; id: burnin	}
-		IntegerField { name: "iter";		label: qsTr("Iterations: ");	value: 10000;	min: burnin.value * 2; 							fieldWidth: 100; id: iter	}
+		Group
+		{
+			title: qsTr("Clustering Overview")
+			visible: model.currentValue === "omrf" && edgePrior.currentValue === "Stochastic-Block"
 
-		SetSeed{}
+			CheckBox
+			{
+				name: "clusterAllocationsTable"
+				label: qsTr("Cluster allocations")
+				info: qsTr("Displays the estimated allocation of nodes into clusters.")
+				DropDown
+				{
+					name: "clusterAllocationsType"
+					label: qsTr("Summary statistic")
+					values: [
+						{ value: "mean", label: qsTr("Posterior mean") },
+						{ value: "mode", label: qsTr("Posterior mode") }
+					]
+				}
+			}
+			CheckBox { name: "posteriorNumBlocksTable";			label: qsTr("Posterior probabilities for the number of clusters"); info: qsTr("Shows the posterior probability for each possible number of clusters.") }
+			CheckBox { name: "posteriorCoclusteringMatrixTable";	label: qsTr("Posterior co-clustering matrix"); info: qsTr("Shows the posterior probability that each pair of nodes belongs to the same cluster.") }
+			CheckBox
+			{
+				name: "clusterBayesFactor"
+				label: qsTr("Cluster Bayes factor")
+				info: qsTr("Computes Bayes factors for clustering hypotheses.")
+				RadioButtonGroup
+				{
+					name: "clusterBayesFactorType"
+					RadioButton { value: "complement";	label: qsTr("Clustering vs. no clustering"); checked: true }
+					RadioButton
+					{
+						value: "point"
+						label: qsTr("Point hypotheses")
+						IntegerField
+						{
+							name:			"clusterBayesFactorB1"
+							label:			qsTr("H\u2081")
+							defaultValue:	1
+							min:			1
+							max:			networkVariables.count
+						}
+						IntegerField
+						{
+							name:			"clusterBayesFactorB2"
+							label:			qsTr("H\u2082")
+							defaultValue:	2
+							min:			1
+							max:			networkVariables.count
+						}
+					}
+				}
+			}
+		}
 	}
 
   Section {
@@ -172,7 +250,7 @@ VariablesForm
 				DoubleField
 				{
 					name: "betaAlpha"
-					label: qsTr("Shape parameter 1:")
+					label: qsTr("Within cluster shape parameter 1:")
 					value: 1
 					min: 0
 					inclusive: JASP.None
@@ -183,12 +261,44 @@ VariablesForm
 				DoubleField
 				{
 					name: "betaBeta"
-					label: qsTr("Shape parameter 2:")
+					label: qsTr("Within cluster shape parameter 2:")
 					value: 1
 					min: 0
 					inclusive: JASP.None
 					preferredWidth: 300
 					visible: (model.currentValue === "omrf") && (edgePrior.currentValue === "Beta-Bernoulli" || edgePrior.currentValue === "Stochastic-Block")
+				}
+        DoubleField
+				{
+					name: "betaAlpha_between"
+					label: qsTr("Between cluster shape parameter 1:")
+					value: 1
+					min: 0
+					inclusive: JASP.None
+					preferredWidth: 300
+					visible: (model.currentValue === "omrf") && (edgePrior.currentValue === "Stochastic-Block")
+				}
+
+				DoubleField
+				{
+					name: "betaBeta_between"
+					label: qsTr("Between cluster shape parameter 2:")
+					value: 1
+					min: 0
+					inclusive: JASP.None
+					preferredWidth: 300
+					visible: (model.currentValue === "omrf") && (edgePrior.currentValue === "Stochastic-Block")
+				}
+
+				DoubleField
+				{
+					name: "lambda"
+					label: qsTr("Parameter for the number of clusters:")
+					value: 1
+					min: 0
+					inclusive: JASP.None
+					preferredWidth: 300
+					visible: (model.currentValue === "omrf") && (edgePrior.currentValue === "Stochastic-Block")
 				}
 
 				DoubleField
@@ -273,6 +383,43 @@ VariablesForm
 	}
 }
 
+	Section
+	{
+		title: qsTr("Sampling Options")
+		Layout.columnSpan: 2
+		IntegerField { name: "burnin";	label: qsTr("Burn in: ");		value: 1000;	min: 0; 				max: iter.value / 2;	fieldWidth: 100; id: burnin	}
+		IntegerField { name: "iter";		label: qsTr("Iterations: ");	value: 2000;	min: burnin.value * 2; 							fieldWidth: 100; id: iter	}
+
+		Group
+		{
+			title: qsTr("Advanced Options")
+			visible: model.currentValue === "omrf"
+
+			DropDown
+			{
+				name: "chains"
+				label: qsTr("Number of chains")
+				indexDefaultValue: 1
+				values: [
+					{ value: "1",	label: "1" },
+					{ value: "2",	label: "2" }
+				]
+			}
+
+			DropDown
+			{
+				name: "omrfUpdateMethod"
+				label: qsTr("Update method")
+				values: [
+					{ value: "adaptive-metropolis",	label: qsTr("Adaptive Metropolis")	},
+					{ value: "hamiltonian-mc",		label: qsTr("Hamiltonian MC")		},
+					{ value: "nuts",				label: qsTr("NUTS")				}
+				]
+			}
+		}
+
+		SetSeed{}
+	}
 
   Section
 	{
@@ -408,7 +555,7 @@ VariablesForm
 			RadioButton { value: "allPlots";	label: qsTr("All plots"); checked: true	}
 			RadioButton
 			{
-				value: "specificPlot: "; label: qsTr("In plot number: ")
+				value: "specificPlot"; label: qsTr("In plot number: ")
 				childrenOnSameRow: true
 				IntegerField { name: "legendSpecificPlotNumber"; defaultValue: 1 }
 			}
