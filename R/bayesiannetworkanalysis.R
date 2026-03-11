@@ -51,7 +51,8 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     mainContainer <- createJaspContainer(dependencies = c("variables", "groupingVariable", "model",
                                                           "burnin", "iter", "gPrior", "dfPrior", "initialConfiguration",
                                                           "edgePrior", "interactionScale", "betaAlpha", "betaBeta",
-                                                          "dirichletAlpha", "thresholdAlpha", "thresholdBeta"))
+                                                          "dirichletAlpha", "thresholdAlpha", "thresholdBeta",
+                                                          "chains", "omrfUpdateMethod"))
     jaspResults[["mainContainer"]] <- mainContainer
   }
   .bayesianNetworkAnalysisMainTableMeta(mainContainer, dataset, options)
@@ -352,9 +353,9 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
                                          iter       = options[["iter"]],
                                          save       = TRUE,
                                          centrality = FALSE,
-                                         warmup     = options[["burnin"]], # changed name
-                                         chains     = 1, # fix for now (maybe add an option for the users to set this),
-                                         update_method = "adaptive-metropolis", # for now fixed to a-m
+                                         warmup     = options[["burnin"]],
+                                         chains     = as.integer(options[["chains"]]),
+                                         update_method = options[["omrfUpdateMethod"]],
                                          inclusion_probability         = options[["gPrior"]],
                                          pairwise_scale                = options[["interactionScale"]], # changed name
                                          edge_prior                    = options[["edgePrior"]],
@@ -448,23 +449,6 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
   }
   tb$setData(df)
-}
-
-.bayesianNetworkAnalysisWeightMatrixTable <- function(mainContainer, network, options) {
-
-  if (!is.null(mainContainer[["weightsTable"]]) || !options[["weightsMatrixTable"]])
-    return()
-
-  nGraphs <- max(1L, length(network[["network"]]))
-
-  table <- createJaspTable(gettext("Weights matrix"), dependencies = "weightsMatrixTable") # position = 4
-  table$addColumnInfo(name = "Variable", title = gettext("Variable"), type = "string")
-
-  # shared titles
-  overTitles <- names(network[["network"]])
-  if (is.null(overTitles))
-    overTitles <- gettext("Network")
-
 }
 
 .bayesianNetworkAnalysisPlotContainer <- function(mainContainer, network, options) {
@@ -732,7 +716,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
 }
 
-.bayesianNetworkAnalysisStructurePlot <- function(plotContsourceainer, network, options) {
+.bayesianNetworkAnalysisStructurePlot <- function(plotContainer, network, options) {
 
   if (!is.null(plotContainer[["structurePlotContainer"]]) || !options[["posteriorStructurePlot"]])
     return()
@@ -743,12 +727,12 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   title <- if (nGraphs == 1L) gettext("Structure Plot") else gettext("Structure Plots")
 
   structurePlotContainer <- createJaspContainer(title = title, dependencies = c("posteriorStructurePlot",
-                                                                                "layout", "layoutSpringRepulsion", "edgeSize", "nodeSize", "colorNodesBy", "cut", "showDetails", "nodePalette",
+                                                                                "layout", "layoutSpringRepulsion", "edgeSize", "nodeSize", "colorNodesBy", "cut", "details", "nodePalette",
                                                                                 "legendSpecificPlotNumber", "model",
                                                                                 "labelScale", "labelSize", "labelAbbreviation", "labelAbbreviationLength",
-                                                                                "keepLayoutTheSame", "layoutX", "layoutY",
-                                                                                "manualColorGroups", "groupColors", "colorGroupVariables", "groupAssigned", "manualColor",
-                                                                                "legendToPlotRatio", "edgeLabels", "edgeLabelCex", "edgeLabelPosition"
+                                                                                "layoutNotUpdated", "layoutX", "layoutY",
+                                                                                "manualColorGroups", "colorGroupVariables", "manualColor",
+                                                                                "legendToPlotRatio", "edgeLabels", "edgeLabelSize", "edgeLabelPosition"
   ))
   plotContainer[["structurePlotContainer"]] <- structurePlotContainer
 
@@ -825,7 +809,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
       allLegends <- rep(TRUE, nGraphs)
 
-    } else if (options[["legend"]] ==  "specificPlot: ") {
+    } else if (options[["legend"]] ==  "specificPlot") {
 
       if (options[["legendSpecificPlotNumber"]] > nGraphs) {
 
@@ -888,11 +872,11 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   title <- if (nGraphs == 1L) gettext("Edge Evidence Plot") else gettext("Edge Evidence Plots")
 
   evidencePlotContainer <- createJaspContainer(title = title, position = 3, dependencies = c("evidencePlot",
-                                                                                             "layout", "layoutSpringRepulsion", "edgeSize", "nodeSize", "colorNodesBy", "cut", "showDetails", "nodePalette",
+                                                                                             "layout", "layoutSpringRepulsion", "edgeSize", "nodeSize", "colorNodesBy", "cut", "details", "nodePalette",
                                                                                              "legendSpecificPlotNumber", "edgeInclusion", "edgeExclusion", "edgeAbsence",
                                                                                              "labelScale", "labelSize", "labelAbbreviation", "labelAbbreviationLength",
-                                                                                             "keepLayoutTheSame", "layoutX", "layoutY", "edgeInclusionCriteria",
-                                                                                             "manualColorGroups", "groupColors", "colorGroupVariables", "groupAssigned", "manualColor",
+                                                                                             "layoutNotUpdated", "layoutX", "layoutY", "edgeInclusionCriteria",
+                                                                                             "manualColorGroups", "colorGroupVariables", "manualColor",
                                                                                              "legendToPlotRatio"
   ))
   plotContainer[["evidencePlotContainer"]] <- evidencePlotContainer
@@ -972,7 +956,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
       allLegends <- rep(TRUE, nGraphs)
 
-    } else if (options[["legend"]] ==  "specificPlot: ") {
+    } else if (options[["legend"]] ==  "specificPlot") {
 
       if (options[["legendSpecificPlotNumber"]] > nGraphs) {
 
@@ -1045,7 +1029,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       cut                 = options[["cut"]],
       edge.width          = options[["edgeSize"]] * 2,
       node.width          = options[["nodeSize"]],
-      details             = options[["showDetails"]],
+      details             = options[["details"]],
       labels              = labels,
       palette             = if (options[["manualColor"]]) NULL else options[["nodePalette"]],
       legend              = legend,
@@ -1057,7 +1041,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       label.cex           = options[["labelSize"]],
       GLratio             = 1 / options[["legendToPlotRatio"]],
       edge.labels         = options[["edgeLabels"]],
-      edge.label.cex      = options[["edgeLabelCex"]],
+      edge.label.cex      = options[["edgeLabelSize"]],
       edge.label.position = options[["edgeLabelPosition"]]
     ))
 }
@@ -1189,7 +1173,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
     for (nwName in names(allNetworks)) {
       table <- createJaspTable(nwName)
-      .bayesianNetworkAnalysisFillEdgeOverviewTable(table, allNetworks[[nwName]], threshold)
+      .bayesianNetworkAnalysisFillEdgeOverviewTable(table, allNetworks[[nwName]], threshold, options)
       container[[nwName]] <- table
     }
   } else {
@@ -1202,11 +1186,11 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     if (is.null(allNetworks) || mainContainer$getError())
       return()
 
-    .bayesianNetworkAnalysisFillEdgeOverviewTable(table, allNetworks[[1]], threshold)
+    .bayesianNetworkAnalysisFillEdgeOverviewTable(table, allNetworks[[1]], threshold, options)
   }
 }
 
-.bayesianNetworkAnalysisFillEdgeOverviewTable <- function(table, nw, threshold) {
+.bayesianNetworkAnalysisFillEdgeOverviewTable <- function(table, nw, threshold, options) {
 
   variables   <- colnames(nw$estimates)
   nVar        <- length(variables)
@@ -1264,8 +1248,12 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
   table$addFootnote(gettext("Estimates are based on the median probability model: edges with a posterior inclusion probability \u2264 0.5 are set to zero."))
   table$addFootnote(gettext("Bayes factors with values of infinity indicate that the estimated posterior inclusion probability is either 1 or 0. Please see the help file for more information."))
-  if (!is.null(convergence))
-    table$addFootnote(gettext("Convergence is the split-chain R-hat (Gelman-Rubin) statistic, computed post hoc by splitting the posterior samples into two halves. Values greater than about 1.01-1.05 are considered concerning, indicating potential lack of convergence for the estimates of the pairwise interactions."))
+  if (!is.null(convergence)) {
+    if (as.integer(options[["chains"]]) >= 2L)
+      table$addFootnote(gettext("Convergence is the R-hat (Gelman-Rubin) statistic, with values greater than about 1.01-1.05 are considered concerning, indicating potential lack of convergence for the estimates of the pairwise interactions. Consider increasing the number of iterations to improve convergence."))
+    else
+      table$addFootnote(gettext("Convergence is the split-chain R-hat (Gelman-Rubin) statistic, computed post hoc by splitting the posterior samples into two halves. Values greater than about 1.01-1.05 are considered concerning, indicating potential lack of convergence for the estimates of the pairwise interactions. Consider increasing the number of iterations to improve convergence."))
+  }
   table$setData(df)
 }
 
@@ -1327,7 +1315,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       cut                 = options[["cut"]],
       edge.width          = options[["edgeSize"]],
       node.width          = options[["nodeSize"]],
-      details             = options[["showDetails"]],
+      details             = options[["details"]],
       labels              = labels,
       palette             = if (options[["manualColor"]]) NULL else options[["nodePalette"]],
       legend              = legend,
@@ -1338,7 +1326,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       label.cex           = options[["labelSize"]],
       GLratio             = 1 / options[["legendToPlotRatio"]],
       edge.labels         = options[["edgeLabels"]],
-      edge.label.cex      = options[["edgeLabelCex"]],
+      edge.label.cex      = options[["edgeLabelSize"]],
       edge.label.position = options[["edgeLabelPosition"]]
     ))
 }
@@ -1388,7 +1376,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   if (!is.null(mainContainer[["sbmNumBlocksTable"]]) || !options[["posteriorNumBlocksTable"]])
     return()
 
-  table <- createJaspTable(gettext("Posterior Probabilities for the Number of Blocks"),
+  table <- createJaspTable(gettext("Posterior Probabilities for the Number of Clusters"),
                            dependencies = c("posteriorNumBlocksTable", "edgePrior"))
   table$position <- 11
   table$addColumnInfo(name = "numBlocks",   title = gettext("Number of blocks"),    type = "integer")

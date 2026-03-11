@@ -174,7 +174,7 @@ VariablesForm
 					]
 				}
 			}
-			CheckBox { name: "posteriorNumBlocksTable";			label: qsTr("Posterior probabilities for the number of blocks"); info: qsTr("Shows the posterior probability for each possible number of blocks.") }
+			CheckBox { name: "posteriorNumBlocksTable";			label: qsTr("Posterior probabilities for the number of clusters"); info: qsTr("Shows the posterior probability for each possible number of clusters.") }
 			CheckBox { name: "posteriorCoclusteringMatrixTable";	label: qsTr("Posterior co-clustering matrix"); info: qsTr("Shows the posterior probability that each pair of nodes belongs to the same cluster.") }
 			CheckBox
 			{
@@ -388,7 +388,35 @@ VariablesForm
 		title: qsTr("Sampling Options")
 		Layout.columnSpan: 2
 		IntegerField { name: "burnin";	label: qsTr("Burn in: ");		value: 1000;	min: 0; 				max: iter.value / 2;	fieldWidth: 100; id: burnin	}
-		IntegerField { name: "iter";		label: qsTr("Iterations: ");	value: 10000;	min: burnin.value * 2; 							fieldWidth: 100; id: iter	}
+		IntegerField { name: "iter";		label: qsTr("Iterations: ");	value: 2000;	min: burnin.value * 2; 							fieldWidth: 100; id: iter	}
+
+		Group
+		{
+			title: qsTr("Advanced Options")
+			visible: model.currentValue === "omrf"
+
+			DropDown
+			{
+				name: "chains"
+				label: qsTr("Number of chains")
+				indexDefaultValue: 1
+				values: [
+					{ value: "1",	label: "1" },
+					{ value: "2",	label: "2" }
+				]
+			}
+
+			DropDown
+			{
+				name: "omrfUpdateMethod"
+				label: qsTr("Update method")
+				values: [
+					{ value: "adaptive-metropolis",	label: qsTr("Adaptive Metropolis")	},
+					{ value: "hamiltonian-mc",		label: qsTr("Hamiltonian MC")		},
+					{ value: "nuts",				label: qsTr("NUTS")				}
+				]
+			}
+		}
 
 		SetSeed{}
 	}
@@ -527,7 +555,7 @@ VariablesForm
 			RadioButton { value: "allPlots";	label: qsTr("All plots"); checked: true	}
 			RadioButton
 			{
-				value: "specificPlot: "; label: qsTr("In plot number: ")
+				value: "specificPlot"; label: qsTr("In plot number: ")
 				childrenOnSameRow: true
 				IntegerField { name: "legendSpecificPlotNumber"; defaultValue: 1 }
 			}
