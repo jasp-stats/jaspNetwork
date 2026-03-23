@@ -289,7 +289,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
                                          package    = "BDgraph",
                                          not_cont   = nonContVariables,
                                          iter       = options[["iter"]],
-                                         save       = FALSE, # due to the new version (for consistnecy)
+                                         save       = FALSE, # due to the new version (for consistency)
                                          centrality = FALSE,
                                          burnin     = options[["burnin"]],
                                          g.start    = options[["initialConfiguration"]],
@@ -1514,35 +1514,33 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   for (v in names(allNetworks))
     coclusteringPlotContainer[[v]] <- createJaspPlot(title = v, width = 480, height = 400)
 
-  jaspBase::.suppressGrDevice({
-    for (v in names(allNetworks)) {
-      nw <- allNetworks[[v]]
-      if (!is.null(nw$sbm)) {
-        coclust   <- nw$sbm$posterior_mean_coclustering_matrix
-        variables <- colnames(nw$estimates)
-        colnames(coclust) <- variables
-        rownames(coclust) <- variables
+  for (v in names(allNetworks)) {
+    nw <- allNetworks[[v]]
+    if (!is.null(nw$sbm)) {
+      coclust   <- nw$sbm$posterior_mean_coclustering_matrix
+      variables <- colnames(nw$estimates)
+      colnames(coclust) <- variables
+      rownames(coclust) <- variables
 
-        # Reshape to long format for ggplot
-        dfLong <- expand.grid(Var1 = variables, Var2 = variables)
-        dfLong$value <- as.vector(coclust)
-        # Preserve variable ordering
-        dfLong$Var1 <- factor(dfLong$Var1, levels = variables)
-        dfLong$Var2 <- factor(dfLong$Var2, levels = rev(variables))
+      # Reshape to long format for ggplot
+      dfLong <- expand.grid(Var1 = variables, Var2 = variables)
+      dfLong$value <- as.vector(coclust)
+      # Preserve variable ordering
+      dfLong$Var1 <- factor(dfLong$Var1, levels = variables)
+      dfLong$Var2 <- factor(dfLong$Var2, levels = rev(variables))
 
-        plot <- ggplot2::ggplot(dfLong, ggplot2::aes(x = Var1, y = Var2, fill = value)) +
-          ggplot2::geom_tile(color = "white") +
-          ggplot2::scale_fill_gradient(low = "white", high = "#36648B",
-                                       limits = c(0, 1),
-                                       name = gettext("Probability")) +
-          ggplot2::labs(x = NULL, y = NULL) +
-          jaspGraphs::themeJaspRaw() +
-          ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 1))
+      plot <- ggplot2::ggplot(dfLong, ggplot2::aes(x = Var1, y = Var2, fill = value)) +
+        ggplot2::geom_tile(color = "white") +
+        ggplot2::scale_fill_gradient(low = "white", high = "#36648B",
+                                     limits = c(0, 1),
+                                     name = gettext("Probability")) +
+        ggplot2::labs(x = NULL, y = NULL) +
+        jaspGraphs::themeJaspRaw() +
+        ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 1))
 
-        coclusteringPlotContainer[[v]]$plotObject <- plot
-      }
+      coclusteringPlotContainer[[v]]$plotObject <- plot
     }
-  })
+  }
 }
 
 # =========================
