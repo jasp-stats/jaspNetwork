@@ -646,6 +646,8 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     if (!options[["signedNetwork"]]) {
       wMat <- abs(wMat)
     }
+  } else if (!is.null(network[["BF"]]) && !is.null(options[["networkPlotInclusionCriteria"]])) {
+    wMat[network[["BF"]] < options[["networkPlotInclusionCriteria"]]] <- 0
   }
 
   if (all(abs(wMat) <= minE))
@@ -707,7 +709,8 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     "labelScale", "labelSize", "labelAbbreviation", "labelAbbreviationLength",
     "layoutNotUpdated", "layoutX", "layoutY", "networkPlot",
     "manualColorGroups", "color", "colorGroupVariables", "group", "manualColor",
-    "legendToPlotRatio", "edgeLabels", "edgeLabelSize", "edgeLabelPosition"
+    "legendToPlotRatio", "edgeLabels", "edgeLabelSize", "edgeLabelPosition",
+    "networkPlotInclusionCriteria"
   ))
   plotContainer[["networkPlotContainer"]] <- networkPlotContainer
 
@@ -738,7 +741,11 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
   if (length(options[["colorGroupVariables"]]) > 1L) {
 
-    fittedVariablesOrder   <- network[["network"]][[1L]]$labels
+    if (method == "Bayesian") {
+      fittedVariablesOrder <- colnames(network[["network"]][[1L]]$graph)
+    } else {
+      fittedVariablesOrder <- network[["network"]][[1L]]$labels
+    }
     assignedVariablesOrder <- vapply(options[["colorGroupVariables"]], `[[`, character(1L), "variable")
     assignedGroup          <- vapply(options[["colorGroupVariables"]], `[[`, character(1L), "group")
 
