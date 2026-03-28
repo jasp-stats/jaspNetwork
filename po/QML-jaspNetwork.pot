@@ -966,14 +966,6 @@ msgid "Prior edge inclusion probability:"
 msgstr ""
 
 msgctxt "BayesianNetworkAnalysis|"
-msgid "Shape parameter 1:"
-msgstr ""
-
-msgctxt "BayesianNetworkAnalysis|"
-msgid "Shape parameter 2:"
-msgstr ""
-
-msgctxt "BayesianNetworkAnalysis|"
 msgid "Concentration parameter:"
 msgstr ""
 
@@ -999,4 +991,126 @@ msgstr ""
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Threshold shape parameter 2:"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Co-clustering matrix plot"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Displays a heatmap of the posterior co-clustering probabilities."
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Edge specific overview"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Clustering Overview"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Cluster allocations"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Displays the estimated allocation of nodes into clusters."
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Summary statistic"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Posterior mean"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Posterior mode"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Posterior probabilities for the number of clusters"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Shows the posterior probability for each possible number of clusters."
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Posterior co-clustering matrix"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid ""
+"Shows the posterior probability that each pair of nodes belongs to the same "
+"cluster."
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Cluster Bayes factor"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Computes Bayes factors for clustering hypotheses."
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Clustering vs. no clustering"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Point hypotheses"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "H₁"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "H₂"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Within cluster shape parameter 1:"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Within cluster shape parameter 2:"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Between cluster shape parameter 1:"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Between cluster shape parameter 2:"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Parameter for the number of clusters:"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Advanced Options"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Number of chains"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Update method"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Adaptive Metropolis"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "Hamiltonian MC"
+msgstr ""
+
+msgctxt "BayesianNetworkAnalysis|"
+msgid "NUTS"
 msgstr ""

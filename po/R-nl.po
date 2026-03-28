@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: R 3.6.1\n"
 "Report-Msgid-Bugs-To: github.com/jasp-stats/jasp-issues/issues\n"
-"POT-Creation-Date: 2025-01-18 02:34\n"
+"POT-Creation-Date: 2026-03-28 03:19\n"
 "PO-Revision-Date: 2023-05-09 13:24+0000\n"
 "Last-Translator: Johnny van Doorn <j.b.vandoorn@uva.nl>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/jasp/jaspnetwork-r/"
@@ -66,12 +66,6 @@ msgstr ""
 msgid "<em>Warning: </em>"
 msgstr "<em>Waarschuwing: </em>"
 
-msgid "Weights matrix"
-msgstr "Gewichten matrix"
-
-msgid "Variable"
-msgstr "Variabele"
-
 msgid "Posterior Probability Structure Plots"
 msgstr "Posterior Waarschijnlijkheid Structuur Grafieken"
 
@@ -80,6 +74,9 @@ msgstr "Posterior Waarschijnlijkheid Structuur Grafiek"
 
 msgid "Centrality measures per variable"
 msgstr "Centraliteitsmaten per variabele"
+
+msgid "Variable"
+msgstr "Variabele"
 
 msgid "Betweenness"
 msgstr "Betweenness"
@@ -125,6 +122,14 @@ msgstr "Verbinding Evidentie Grafiek"
 msgid "Edge Evidence Plots"
 msgstr "Verbinding Evidentie Grafieken"
 
+msgid "Weights matrix"
+msgstr "Gewichten matrix"
+
+msgid ""
+"Estimates are based on the median probability model: edges with a posterior "
+"inclusion probability ≤ 0.5 are set to zero."
+msgstr ""
+
 msgid "Edge evidence probability table"
 msgstr "Verbinding evidentie waarschijnlijkheidstabel"
 
@@ -133,6 +138,105 @@ msgid ""
 "inclusion probability is either 1 or 0. Please see the help file for more "
 "information."
 msgstr ""
+
+msgid "Edge Specific Overview"
+msgstr ""
+
+msgid "included"
+msgstr ""
+
+msgid "excluded"
+msgstr ""
+
+msgid "inconclusive"
+msgstr ""
+
+msgid "Relation"
+msgstr ""
+
+msgid "Estimate"
+msgstr ""
+
+#, fuzzy
+msgid "Posterior Incl. Prob."
+msgstr "Posterior Waarschijnlijkheid Structuur Grafiek"
+
+msgid "Inclusion BF"
+msgstr ""
+
+msgid "Category"
+msgstr ""
+
+msgid "Convergence"
+msgstr ""
+
+msgid ""
+"Convergence is the R-hat (Gelman-Rubin) statistic, with values greater than "
+"about 1.01-1.05 are considered concerning, indicating potential lack of "
+"convergence for the estimates of the pairwise interactions. Consider "
+"increasing the number of iterations to improve convergence."
+msgstr ""
+
+msgid ""
+"Convergence is the split-chain R-hat (Gelman-Rubin) statistic, computed post "
+"hoc by splitting the posterior samples into two halves. Values greater than "
+"about 1.01-1.05 are considered concerning, indicating potential lack of "
+"convergence for the estimates of the pairwise interactions. Consider "
+"increasing the number of iterations to improve convergence."
+msgstr ""
+
+msgid "Cluster Allocations (Posterior Mean)"
+msgstr ""
+
+msgid "Cluster Allocations (Posterior Mode)"
+msgstr ""
+
+#, fuzzy
+msgid "Cluster"
+msgstr "Clusteringsgrafiek"
+
+#, fuzzy
+msgid "Posterior Probabilities for the Number of Clusters"
+msgstr "Posterior Waarschijnlijkheid Structuur Grafieken"
+
+#, fuzzy
+msgid "Number of blocks"
+msgstr "Aantal knooppunten"
+
+#, fuzzy
+msgid "Posterior probability"
+msgstr "Posterior Waarschijnlijkheid Structuur Grafiek"
+
+msgid "Posterior Co-clustering Matrix"
+msgstr ""
+
+msgid "Cluster Bayes Factor"
+msgstr ""
+
+msgid "Hypothesis"
+msgstr ""
+
+msgid "Bayes factor"
+msgstr ""
+
+msgid "Could not compute the cluster Bayes factor: %s"
+msgstr ""
+
+#, fuzzy
+msgid "Clustering vs. no clustering"
+msgstr "Clusteringsgrafiek"
+
+#, fuzzy
+msgid "Co-clustering Matrix Plot"
+msgstr "Clusteringsgrafiek"
+
+#, fuzzy
+msgid "Co-clustering Matrix Plots"
+msgstr "Clusteringsgrafiek"
+
+#, fuzzy
+msgid "Probability"
+msgstr "Posterior Waarschijnlijkheid Structuur Grafiek"
 
 msgid ""
 "After binarizing the data too little variance remained in variable(s): %s."

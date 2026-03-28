@@ -2,11 +2,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: R 3.6.1\n"
 "Report-Msgid-Bugs-To: github.com/jasp-stats/jasp-issues/issues\n"
-"POT-Creation-Date: 2025-01-18 02:34\n"
+"POT-Creation-Date: 2026-03-28 03:19\n"
 "PO-Revision-Date: 2025-04-26 02:44+0000\n"
 "Last-Translator: Johannes Keyser <joke@fsfe.org>\n"
-"Language-Team: German <https://hosted.weblate.org/projects/jasp/"
-"jaspnetwork-r/de/>\n"
+"Language-Team: German <https://hosted.weblate.org/projects/jasp/jaspnetwork-"
+"r/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -72,12 +72,6 @@ msgstr ""
 msgid "<em>Warning: </em>"
 msgstr "<em>Warnung: </em>"
 
-msgid "Weights matrix"
-msgstr "Gewichtematrix"
-
-msgid "Variable"
-msgstr "Variable"
-
 msgid "Posterior Probability Structure Plots"
 msgstr "Posterior-Wahrscheinlichkeit Strukturdiagramme"
 
@@ -86,6 +80,9 @@ msgstr "Posterior-Wahrscheinlichkeit Strukturdiagramm"
 
 msgid "Centrality measures per variable"
 msgstr "Zentralitätsmaße pro Variable"
+
+msgid "Variable"
+msgstr "Variable"
 
 msgid "Betweenness"
 msgstr "Verflechtung"
@@ -129,6 +126,14 @@ msgstr "Kanten-Evidenz-Diagramm"
 msgid "Edge Evidence Plots"
 msgstr "Kanten-Evidenz-Diagramme"
 
+msgid "Weights matrix"
+msgstr "Gewichtematrix"
+
+msgid ""
+"Estimates are based on the median probability model: edges with a posterior "
+"inclusion probability ≤ 0.5 are set to zero."
+msgstr ""
+
 msgid "Edge evidence probability table"
 msgstr "Kantenevidenz-Wahrscheinlichkeitstabelle"
 
@@ -140,6 +145,105 @@ msgstr ""
 "Bayes-Faktoren mit unendlichen Werten zeigen, dass die geschätzte Posterior-"
 "Einschlusswahrscheinlichkeit entweder 1 oder 0 ist. Weitere Informationen "
 "finden Sie in der Hilfedatei."
+
+msgid "Edge Specific Overview"
+msgstr ""
+
+msgid "included"
+msgstr ""
+
+msgid "excluded"
+msgstr ""
+
+msgid "inconclusive"
+msgstr ""
+
+msgid "Relation"
+msgstr ""
+
+msgid "Estimate"
+msgstr ""
+
+#, fuzzy
+msgid "Posterior Incl. Prob."
+msgstr "Posterior-Wahrscheinlichkeit"
+
+msgid "Inclusion BF"
+msgstr ""
+
+msgid "Category"
+msgstr ""
+
+msgid "Convergence"
+msgstr ""
+
+msgid ""
+"Convergence is the R-hat (Gelman-Rubin) statistic, with values greater than "
+"about 1.01-1.05 are considered concerning, indicating potential lack of "
+"convergence for the estimates of the pairwise interactions. Consider "
+"increasing the number of iterations to improve convergence."
+msgstr ""
+
+msgid ""
+"Convergence is the split-chain R-hat (Gelman-Rubin) statistic, computed post "
+"hoc by splitting the posterior samples into two halves. Values greater than "
+"about 1.01-1.05 are considered concerning, indicating potential lack of "
+"convergence for the estimates of the pairwise interactions. Consider "
+"increasing the number of iterations to improve convergence."
+msgstr ""
+
+msgid "Cluster Allocations (Posterior Mean)"
+msgstr ""
+
+msgid "Cluster Allocations (Posterior Mode)"
+msgstr ""
+
+#, fuzzy
+msgid "Cluster"
+msgstr "Clustering-Diagramm"
+
+#, fuzzy
+msgid "Posterior Probabilities for the Number of Clusters"
+msgstr "Posterior-Wahrscheinlichkeit Strukturdiagramme"
+
+#, fuzzy
+msgid "Number of blocks"
+msgstr "Anzahl Knoten"
+
+#, fuzzy
+msgid "Posterior probability"
+msgstr "Posterior-Wahrscheinlichkeit"
+
+msgid "Posterior Co-clustering Matrix"
+msgstr ""
+
+msgid "Cluster Bayes Factor"
+msgstr ""
+
+msgid "Hypothesis"
+msgstr ""
+
+msgid "Bayes factor"
+msgstr ""
+
+msgid "Could not compute the cluster Bayes factor: %s"
+msgstr ""
+
+#, fuzzy
+msgid "Clustering vs. no clustering"
+msgstr "Clustering-Diagramm"
+
+#, fuzzy
+msgid "Co-clustering Matrix Plot"
+msgstr "Clustering-Diagramm"
+
+#, fuzzy
+msgid "Co-clustering Matrix Plots"
+msgstr "Clustering-Diagramm"
+
+#, fuzzy
+msgid "Probability"
+msgstr "Posterior-Wahrscheinlichkeit"
 
 msgid ""
 "After binarizing the data too little variance remained in variable(s): %s."

@@ -1,11 +1,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: JASP 0.9.2\n"
-"POT-Creation-Date: 2025-01-18 02:34\n"
+"POT-Creation-Date: 2026-03-28 03:19\n"
 "PO-Revision-Date: 2025-01-18 19:33+0000\n"
 "Last-Translator: ecadrian <ecadrian@hotmail.com>\n"
-"Language-Team: Spanish <https://hosted.weblate.org/projects/jasp/"
-"jaspnetwork-r/es/>\n"
+"Language-Team: Spanish <https://hosted.weblate.org/projects/jasp/jaspnetwork-"
+"r/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -70,12 +70,6 @@ msgstr ""
 msgid "<em>Warning: </em>"
 msgstr "<em>Advertencia: </em>"
 
-msgid "Weights matrix"
-msgstr "Matriz de ponderaciones"
-
-msgid "Variable"
-msgstr "Variable"
-
 msgid "Posterior Probability Structure Plots"
 msgstr "Gráficos de Estructura de la Probabilidad Posterior"
 
@@ -84,6 +78,9 @@ msgstr "Gráfica de Estructura de la Probabilidad Posterior"
 
 msgid "Centrality measures per variable"
 msgstr "Medidas de centralidad por variable"
+
+msgid "Variable"
+msgstr "Variable"
 
 msgid "Betweenness"
 msgstr "Intermediación"
@@ -127,6 +124,14 @@ msgstr "Gráfico de Evidencia del Borde"
 msgid "Edge Evidence Plots"
 msgstr "Gráficos de Evidencia del Borde"
 
+msgid "Weights matrix"
+msgstr "Matriz de ponderaciones"
+
+msgid ""
+"Estimates are based on the median probability model: edges with a posterior "
+"inclusion probability ≤ 0.5 are set to zero."
+msgstr ""
+
 msgid "Edge evidence probability table"
 msgstr "Tabla de probabilidad de evidencia del borde"
 
@@ -138,6 +143,105 @@ msgstr ""
 "Factores de Bayes con valores de infinito indican que la probabilidad de "
 "inclusión posterior estimada es 1 o 0. Por favor, consulte el archivo de "
 "ayuda para más información."
+
+msgid "Edge Specific Overview"
+msgstr ""
+
+msgid "included"
+msgstr ""
+
+msgid "excluded"
+msgstr ""
+
+msgid "inconclusive"
+msgstr ""
+
+msgid "Relation"
+msgstr ""
+
+msgid "Estimate"
+msgstr ""
+
+#, fuzzy
+msgid "Posterior Incl. Prob."
+msgstr "Probabilidad Posterior"
+
+msgid "Inclusion BF"
+msgstr ""
+
+msgid "Category"
+msgstr ""
+
+msgid "Convergence"
+msgstr ""
+
+msgid ""
+"Convergence is the R-hat (Gelman-Rubin) statistic, with values greater than "
+"about 1.01-1.05 are considered concerning, indicating potential lack of "
+"convergence for the estimates of the pairwise interactions. Consider "
+"increasing the number of iterations to improve convergence."
+msgstr ""
+
+msgid ""
+"Convergence is the split-chain R-hat (Gelman-Rubin) statistic, computed post "
+"hoc by splitting the posterior samples into two halves. Values greater than "
+"about 1.01-1.05 are considered concerning, indicating potential lack of "
+"convergence for the estimates of the pairwise interactions. Consider "
+"increasing the number of iterations to improve convergence."
+msgstr ""
+
+msgid "Cluster Allocations (Posterior Mean)"
+msgstr ""
+
+msgid "Cluster Allocations (Posterior Mode)"
+msgstr ""
+
+#, fuzzy
+msgid "Cluster"
+msgstr "Gráfico de conglomeración"
+
+#, fuzzy
+msgid "Posterior Probabilities for the Number of Clusters"
+msgstr "Gráficos de Estructura de la Probabilidad Posterior"
+
+#, fuzzy
+msgid "Number of blocks"
+msgstr "Número de nodos"
+
+#, fuzzy
+msgid "Posterior probability"
+msgstr "Probabilidad Posterior"
+
+msgid "Posterior Co-clustering Matrix"
+msgstr ""
+
+msgid "Cluster Bayes Factor"
+msgstr ""
+
+msgid "Hypothesis"
+msgstr ""
+
+msgid "Bayes factor"
+msgstr ""
+
+msgid "Could not compute the cluster Bayes factor: %s"
+msgstr ""
+
+#, fuzzy
+msgid "Clustering vs. no clustering"
+msgstr "Gráfico de conglomeración"
+
+#, fuzzy
+msgid "Co-clustering Matrix Plot"
+msgstr "Gráfico de conglomeración"
+
+#, fuzzy
+msgid "Co-clustering Matrix Plots"
+msgstr "Gráfico de conglomeración"
+
+#, fuzzy
+msgid "Probability"
+msgstr "Probabilidad Posterior"
 
 msgid ""
 "After binarizing the data too little variance remained in variable(s): %s."

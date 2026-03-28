@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: jaspNetwork 0.95.5\n"
-"POT-Creation-Date: 2025-11-15 02:47\n"
+"POT-Creation-Date: 2026-03-28 03:19\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -44,12 +44,6 @@ msgstr ""
 msgid "<em>Warning: </em>"
 msgstr ""
 
-msgid "Weights matrix"
-msgstr ""
-
-msgid "Variable"
-msgstr ""
-
 msgid "Posterior Probability Structure Plots"
 msgstr ""
 
@@ -57,6 +51,9 @@ msgid "Posterior Probability Structure Plot"
 msgstr ""
 
 msgid "Centrality measures per variable"
+msgstr ""
+
+msgid "Variable"
 msgstr ""
 
 msgid "Betweenness"
@@ -101,10 +98,97 @@ msgstr ""
 msgid "Edge Evidence Plots"
 msgstr ""
 
+msgid "Weights matrix"
+msgstr ""
+
+msgid "Estimates are based on the median probability model: edges with a posterior inclusion probability ≤ 0.5 are set to zero."
+msgstr ""
+
 msgid "Edge evidence probability table"
 msgstr ""
 
 msgid "Bayes factors with values of infinity indicate that the estimated posterior inclusion probability is either 1 or 0. Please see the help file for more information."
+msgstr ""
+
+msgid "Edge Specific Overview"
+msgstr ""
+
+msgid "included"
+msgstr ""
+
+msgid "excluded"
+msgstr ""
+
+msgid "inconclusive"
+msgstr ""
+
+msgid "Relation"
+msgstr ""
+
+msgid "Estimate"
+msgstr ""
+
+msgid "Posterior Incl. Prob."
+msgstr ""
+
+msgid "Inclusion BF"
+msgstr ""
+
+msgid "Category"
+msgstr ""
+
+msgid "Convergence"
+msgstr ""
+
+msgid "Convergence is the R-hat (Gelman-Rubin) statistic, with values greater than about 1.01-1.05 are considered concerning, indicating potential lack of convergence for the estimates of the pairwise interactions. Consider increasing the number of iterations to improve convergence."
+msgstr ""
+
+msgid "Convergence is the split-chain R-hat (Gelman-Rubin) statistic, computed post hoc by splitting the posterior samples into two halves. Values greater than about 1.01-1.05 are considered concerning, indicating potential lack of convergence for the estimates of the pairwise interactions. Consider increasing the number of iterations to improve convergence."
+msgstr ""
+
+msgid "Cluster Allocations (Posterior Mean)"
+msgstr ""
+
+msgid "Cluster Allocations (Posterior Mode)"
+msgstr ""
+
+msgid "Cluster"
+msgstr ""
+
+msgid "Posterior Probabilities for the Number of Clusters"
+msgstr ""
+
+msgid "Number of blocks"
+msgstr ""
+
+msgid "Posterior probability"
+msgstr ""
+
+msgid "Posterior Co-clustering Matrix"
+msgstr ""
+
+msgid "Cluster Bayes Factor"
+msgstr ""
+
+msgid "Hypothesis"
+msgstr ""
+
+msgid "Bayes factor"
+msgstr ""
+
+msgid "Could not compute the cluster Bayes factor: %s"
+msgstr ""
+
+msgid "Clustering vs. no clustering"
+msgstr ""
+
+msgid "Co-clustering Matrix Plot"
+msgstr ""
+
+msgid "Co-clustering Matrix Plots"
+msgstr ""
+
+msgid "Probability"
 msgstr ""
 
 msgid "After binarizing the data too little variance remained in variable(s): %s."

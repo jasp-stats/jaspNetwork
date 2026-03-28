@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: jaspNetwork 0.0.0\n"
-"POT-Creation-Date: 2025-01-18 02:34\n"
+"POT-Creation-Date: 2026-03-28 03:19\n"
 "PO-Revision-Date: 2024-06-20 16:09+0000\n"
 "Last-Translator: Daiki Hojo <dhojo.bayes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/jasp/"
@@ -65,12 +65,6 @@ msgstr ""
 msgid "<em>Warning: </em>"
 msgstr "<em>警告:</em>"
 
-msgid "Weights matrix"
-msgstr "重み行列"
-
-msgid "Variable"
-msgstr "変数"
-
 msgid "Posterior Probability Structure Plots"
 msgstr "事後確率構造プロット"
 
@@ -79,6 +73,9 @@ msgstr "事後確率構造プロット"
 
 msgid "Centrality measures per variable"
 msgstr "変数ごとの中心性指標"
+
+msgid "Variable"
+msgstr "変数"
 
 msgid "Betweenness"
 msgstr "間隔"
@@ -124,6 +121,14 @@ msgstr "エッジエビデンスプロット"
 msgid "Edge Evidence Plots"
 msgstr "エッジエビデンスプロット"
 
+msgid "Weights matrix"
+msgstr "重み行列"
+
+msgid ""
+"Estimates are based on the median probability model: edges with a posterior "
+"inclusion probability ≤ 0.5 are set to zero."
+msgstr ""
+
 msgid "Edge evidence probability table"
 msgstr "エッジエビデンス確率表"
 
@@ -132,6 +137,105 @@ msgid ""
 "inclusion probability is either 1 or 0. Please see the help file for more "
 "information."
 msgstr ""
+
+msgid "Edge Specific Overview"
+msgstr ""
+
+msgid "included"
+msgstr ""
+
+msgid "excluded"
+msgstr ""
+
+msgid "inconclusive"
+msgstr ""
+
+msgid "Relation"
+msgstr ""
+
+msgid "Estimate"
+msgstr ""
+
+#, fuzzy
+msgid "Posterior Incl. Prob."
+msgstr "事後確率構造プロット"
+
+msgid "Inclusion BF"
+msgstr ""
+
+msgid "Category"
+msgstr ""
+
+msgid "Convergence"
+msgstr ""
+
+msgid ""
+"Convergence is the R-hat (Gelman-Rubin) statistic, with values greater than "
+"about 1.01-1.05 are considered concerning, indicating potential lack of "
+"convergence for the estimates of the pairwise interactions. Consider "
+"increasing the number of iterations to improve convergence."
+msgstr ""
+
+msgid ""
+"Convergence is the split-chain R-hat (Gelman-Rubin) statistic, computed post "
+"hoc by splitting the posterior samples into two halves. Values greater than "
+"about 1.01-1.05 are considered concerning, indicating potential lack of "
+"convergence for the estimates of the pairwise interactions. Consider "
+"increasing the number of iterations to improve convergence."
+msgstr ""
+
+msgid "Cluster Allocations (Posterior Mean)"
+msgstr ""
+
+msgid "Cluster Allocations (Posterior Mode)"
+msgstr ""
+
+#, fuzzy
+msgid "Cluster"
+msgstr "クラスタリングプロット"
+
+#, fuzzy
+msgid "Posterior Probabilities for the Number of Clusters"
+msgstr "事後確率構造プロット"
+
+#, fuzzy
+msgid "Number of blocks"
+msgstr "ノード数"
+
+#, fuzzy
+msgid "Posterior probability"
+msgstr "事後確率構造プロット"
+
+msgid "Posterior Co-clustering Matrix"
+msgstr ""
+
+msgid "Cluster Bayes Factor"
+msgstr ""
+
+msgid "Hypothesis"
+msgstr ""
+
+msgid "Bayes factor"
+msgstr ""
+
+msgid "Could not compute the cluster Bayes factor: %s"
+msgstr ""
+
+#, fuzzy
+msgid "Clustering vs. no clustering"
+msgstr "クラスタリングプロット"
+
+#, fuzzy
+msgid "Co-clustering Matrix Plot"
+msgstr "クラスタリングプロット"
+
+#, fuzzy
+msgid "Co-clustering Matrix Plots"
+msgstr "クラスタリングプロット"
+
+#, fuzzy
+msgid "Probability"
+msgstr "事後確率構造プロット"
 
 msgid ""
 "After binarizing the data too little variance remained in variable(s): %s."
