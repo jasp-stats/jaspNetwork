@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2026-03-28 03:19\n"
-"PO-Revision-Date: 2026-03-31 10:09+0000\n"
+"PO-Revision-Date: 2026-04-01 11:09+0000\n"
 "Last-Translator: ecadrian <ecadrian@hotmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/jasp/"
 "jaspnetwork-r/gl/>\n"
@@ -190,6 +190,11 @@ msgid ""
 "convergence for the estimates of the pairwise interactions. Consider "
 "increasing the number of iterations to improve convergence."
 msgstr ""
+"A converxencia é o estatístico R-circunflexo (Gelman-Rubin), cuxos valores "
+"maiores que 1.01-1.05 aproximadamente se consideran preocupantes, ao indicar "
+"unha potencial falla de converxencia nas estimacións das interacións por "
+"parellas. Considera aumentar o número de iteracións para mellorar a "
+"converxencia."
 
 msgid ""
 "Convergence is the split-chain R-hat (Gelman-Rubin) statistic, computed post "
@@ -198,6 +203,12 @@ msgid ""
 "convergence for the estimates of the pairwise interactions. Consider "
 "increasing the number of iterations to improve convergence."
 msgstr ""
+"A converxencia é o estatístico R-circunflexo de cadeas separadas (Gelman-"
+"Rubin), calculado a posteriori separando as mostras posteriores en dúas "
+"metades. Valores maiores que 1.01-1.05 aproximadamente se consideran "
+"preocupantes, ao indicar unha falla potencial de converxencia nas "
+"estimacións das interaccións por parellas. Considera aumentar o número de "
+"iteracións para mellorar a converxencia."
 
 msgid "Cluster Allocations (Posterior Mean)"
 msgstr "Posicións de conglomerados (Media posterior)"
@@ -218,35 +229,31 @@ msgid "Posterior probability"
 msgstr "Probabilidade posterior"
 
 msgid "Posterior Co-clustering Matrix"
-msgstr ""
+msgstr "Matriz posterior de Co-conglomeración"
 
 msgid "Cluster Bayes Factor"
-msgstr ""
+msgstr "Factor conglomerado de Bayes"
 
 msgid "Hypothesis"
-msgstr ""
+msgstr "Hipótese"
 
 msgid "Bayes factor"
-msgstr ""
+msgstr "Factor de Bayes"
 
 msgid "Could not compute the cluster Bayes factor: %s"
-msgstr ""
+msgstr "Non se pode calcular o Factor conglomerado de Bayes: %s"
 
-#, fuzzy
 msgid "Clustering vs. no clustering"
-msgstr "Gráfica de conglomeración"
+msgstr "Conglomeración vs. Non conglomeración"
 
-#, fuzzy
 msgid "Co-clustering Matrix Plot"
-msgstr "Gráfica de conglomeración"
+msgstr "Gráfica da matriz de Co-conglomeración"
 
-#, fuzzy
 msgid "Co-clustering Matrix Plots"
-msgstr "Gráfica de conglomeración"
+msgstr "Gráficas de matrices de Co-conglomeración"
 
-#, fuzzy
 msgid "Probability"
-msgstr "Probabilidade Posterior"
+msgstr "Probabilidade"
 
 msgid ""
 "After binarizing the data too little variance remained in variable(s): %s."
