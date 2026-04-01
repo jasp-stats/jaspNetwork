@@ -18,6 +18,8 @@
 #' @export
 BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
+  options <- .bayesianNetworkAnalysisNormalizeVariableOptions(options)
+
   # MissingValues needed for the .networkAnalysisReadData function in the frequentist network module:
   options[["missingValues"]] <- "listwise" # Unfortunately BDgraph does not work with pairwise missing values
 
@@ -30,6 +32,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
   .bayesianNetworkAnalysisMainTable          (mainContainer, dataset, options, network)
   .bayesianNetworkAnalysisEdgeOverviewTable  (mainContainer, network, options)
+  .bayesianNetworkAnalysisInterpretativeScale(mainContainer, network, options)
   .bayesianNetworkAnalysisWeightMatrixTable  (mainContainer, network, options)
   .bayesianNetworkAnalysisEdgeEvidenceTable(mainContainer, network, options)
   .bayesianNetworkAnalysisPlotContainer    (mainContainer, network, options)
@@ -48,10 +51,14 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
   mainContainer <- jaspResults[["mainContainer"]]
   if (is.null(mainContainer)) {
-    mainContainer <- createJaspContainer(dependencies = c("variables", "groupingVariable", "model",
-                                                          "burnin", "iter", "gPrior", "dfPrior", "initialConfiguration",
-                                                          "edgePrior", "interactionScale", "betaAlpha", "betaBeta",
-                                                          "dirichletAlpha", "thresholdAlpha", "thresholdBeta",
+    mainContainer <- createJaspContainer(dependencies = c("variables", "groupingVariable",
+                                         "variablesBlumeCapel",
+                                                          "burnin", "iter", "gPrior",
+                                                          "edgePrior", "interactionScale",
+                                                          "betaAlpha", "betaBeta",
+                                                          "betaAlpha_between", "betaBeta_between",
+                                                          "lambda", "dirichletAlpha",
+                                                          "thresholdAlpha", "thresholdBeta",
                                                           "chains", "omrfUpdateMethod"))
     jaspResults[["mainContainer"]] <- mainContainer
   }
@@ -73,11 +80,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     tb$addColumnInfo(name = "Sparsity", title = gettext("Sparsity"),                 type = "number")
 
 
-    if (options[["model"]] == "omrf") {
-
-      # add footnote
-      tb$addFootnote(gettext("The Ordinal Markov Random Field may require a substantial amount of time to complete. This time increases with the number of variables and the number of iterations."))
-    }
+    tb$addFootnote(gettext("The analysis may require a substantial amount of time to complete. This time increases with the number of variables and the number of iterations."))
 
     mainContainer[["generalTable"]] <- tb
   }
@@ -207,6 +210,126 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   return(layout)
 }
 
+.bayesianNetworkAnalysisAssignedVariableRows <- function(assignedVariables) {
+
+  if (is.null(assignedVariables) || length(assignedVariables) == 0L || identical(assignedVariables, ""))
+    return(list())
+
+  if (!is.list(assignedVariables)) {
+    assignedVariables <- as.list(as.character(assignedVariables))
+    names(assignedVariables) <- NULL
+  }
+
+  lapply(assignedVariables, function(entry) {
+    if (is.list(entry))
+      return(entry)
+
+    list(variable = as.character(entry))
+  })
+}
+
+.bayesianNetworkAnalysisNormalizeVariableOptions <- function(options) {
+
+  variableRows <- .bayesianNetworkAnalysisAssignedVariableRows(options[["variables"]])
+
+  if (length(variableRows) == 0L) {
+    options[["variables"]] <- character(0)
+    if (is.null(options[["variablesBlumeCapel"]]))
+      options[["variablesBlumeCapel"]] <- list()
+
+    return(options)
+  }
+
+  variables <- vapply(variableRows, `[[`, character(1L), "variable")
+  options[["variables"]] <- unname(variables)
+
+  hasBlumeCapelColumn <- any(vapply(variableRows, function(entry) !is.null(entry[["blumeCapel"]]), logical(1L)))
+
+  if (!hasBlumeCapelColumn) {
+    if (is.null(options[["variablesBlumeCapel"]]))
+      options[["variablesBlumeCapel"]] <- list()
+
+    return(options)
+  }
+
+  blumeCapelRows <- variableRows[vapply(variableRows, function(entry) isTRUE(entry[["blumeCapel"]]), logical(1L))]
+
+  options[["variablesBlumeCapel"]] <- lapply(blumeCapelRows, function(entry) {
+    list(
+      variable = entry[["variable"]],
+      levels   = entry[["levels"]]
+    )
+  })
+
+  return(options)
+}
+
+.bayesianNetworkAnalysisResolveBaselineCategory <- function(variableName, variableData, baselineValue) {
+
+  if (is.null(baselineValue) || length(baselineValue) == 0L || identical(baselineValue, ""))
+    return(1L)
+
+  baselineCategory <- suppressWarnings(as.integer(baselineValue))
+  if (!is.na(baselineCategory))
+    return(max(1L, baselineCategory))
+
+  if (is.factor(variableData)) {
+    baselineCategory <- match(as.character(baselineValue), levels(variableData))
+    if (!is.na(baselineCategory))
+      return(baselineCategory)
+  }
+
+  .quitAnalysis(gettextf("Could not determine the baseline category for variable %s.", variableName))
+}
+
+.bayesianNetworkAnalysisBuildVariableTypeSpec <- function(options, dataset) {
+
+  variables <- options[["variables"]]
+
+  inferredType <- vapply(variables, function(variableName) {
+    if (is.factor(dataset[[variableName]]))
+      return("ordinal")
+
+    "continuous"
+  }, character(1L))
+
+  baselineCategory <- stats::setNames(rep(1L, length(variables)), variables)
+
+  variablesBlumeCapel <- .bayesianNetworkAnalysisAssignedVariableRows(options[["variablesBlumeCapel"]])
+
+  explicitTypes <- stats::setNames(rep("blume-capel", length(variablesBlumeCapel)),
+                                   vapply(variablesBlumeCapel, `[[`, character(1L), "variable"))
+
+  unknownVariables <- setdiff(names(explicitTypes), variables)
+  if (length(unknownVariables) > 0L) {
+    .quitAnalysis(gettextf("Some model type assignments refer to variables that are not part of the analysis: %s.",
+                           paste(unknownVariables, collapse = ", ")))
+  }
+
+  if (length(explicitTypes) > 0L)
+    inferredType[names(explicitTypes)] <- unname(explicitTypes)
+
+  for (entry in variablesBlumeCapel) {
+    variableName <- entry[["variable"]]
+
+    if (!is.factor(dataset[[variableName]])) {
+      .quitAnalysis(gettextf("Variable %s cannot be treated as Blume-Capel because it is not ordinal.",
+                             variableName))
+    }
+
+    baselineCategory[[variableName]] <- .bayesianNetworkAnalysisResolveBaselineCategory(
+      variableName  = variableName,
+      variableData  = dataset[[variableName]],
+      baselineValue = entry[["levels"]]
+    )
+  }
+
+  list(
+    type             = unname(inferredType[variables]),
+    baselineCategory = unname(baselineCategory[variables])
+  )
+}
+
 .bayesianNetworkAnalysisComputeNetworks <- function(options, dataset) {
 
   networks <- vector("list", length(dataset))
@@ -214,193 +337,68 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   for (nw in seq_along(dataset)) {
 
     dataset[[nw]] <- dataset[[nw]][options[["variables"]]]
+    variableSpec <- .bayesianNetworkAnalysisBuildVariableTypeSpec(options, dataset[[nw]])
 
-    if (options[["model"]] == "ggm") {
-      # Estimate network
-      jaspBase::.setSeedJASP(options)
-      easybgmFit <- try(easybgm::easybgm(data       = apply(dataset[[nw]], 2, as.numeric),
-                                         type       = "continuous",
-                                         package    = "BDgraph" ,
-                                         iter       = options[["iter"]],
-                                         save       = FALSE,  # due to the new version
-                                         centrality = FALSE,
-                                         burnin     = options[["burnin"]],
-                                         g.start    = options[["initialConfiguration"]],
-                                         df.prior   = options[["dfPrior"]],
-                                         g.prior    = options[["gPrior"]]))
+    # Estimate network
+    jaspBase::.setSeedJASP(options)
+    easybgmFit <- try(easybgm::easybgm(
+      data    = dataset[[nw]],
+      type    = variableSpec[["type"]],
+      baseline_category            = variableSpec[["baselineCategory"]],
+      package = "bgms",
+      iter                         = options[["iter"]],
+      save                         = TRUE,
+      centrality                   = FALSE,
+      warmup                       = options[["burnin"]],
+      chains                       = as.integer(options[["chains"]]),
+      update_method                = options[["omrfUpdateMethod"]],
+      inclusion_probability        = options[["gPrior"]],
+      pairwise_scale               = options[["interactionScale"]],
+      edge_prior                   = options[["edgePrior"]],
+      main_alpha                   = options[["thresholdAlpha"]],
+      main_beta                    = options[["thresholdBeta"]],
+      beta_bernoulli_alpha         = options[["betaAlpha"]],
+      beta_bernoulli_beta          = options[["betaBeta"]],
+      beta_bernoulli_alpha_between = options[["betaAlpha_between"]],
+      beta_bernoulli_beta_between  = options[["betaBeta_between"]],
+      lambda                       = options[["lambda"]],
+      dirichlet_alpha              = options[["dirichletAlpha"]]
+    ))
 
-      if (isTryError(easybgmFit)) {
-        message <- .extractErrorMessage(easybgmFit)
-        .quitAnalysis(gettextf("The analysis failed with the following error message:\n%s", message))
-      }
-
-
-
-      # Extract results with enforced variable ordering
-      easybgmResult <- list()
-      variables <- options[["variables"]]
-
-      # Get estimates matrix and ensure proper ordering
-      estimates <- as.matrix(easybgmFit$parameters)
-      if(!identical(rownames(estimates), variables)) {
-        estimates <- estimates[variables, variables, drop = FALSE]
-      }
-
-      # Get structure matrix and ensure proper ordering
-      structure <- easybgmFit$structure
-      if(!identical(rownames(structure), variables)) {
-        structure <- structure[variables, variables, drop = FALSE]
-      }
-
-      # Create graph with enforced ordering
-      easybgmResult$graph <- estimates * structure
-      rownames(easybgmResult$graph) <- variables
-      colnames(easybgmResult$graph) <- variables
-
-      # [Rest of the assignments]
-      easybgmResult$graphWeights <- easybgmFit$graph_weights
-      easybgmResult$inclusionProbabilities <- easybgmFit$inc_probs
-      easybgmResult$BF <- easybgmFit$inc_BF
-      easybgmResult$structure <- structure
-      easybgmResult$estimates <- estimates
-      easybgmResult$sampleGraphs <- easybgmFit$sample_graph
-      easybgmResult$samplesPosterior <- easybgmFit$samples_posterior
-
-      networks[[nw]] <- easybgmResult
-
+    if (isTryError(easybgmFit)) {
+      message <- .extractErrorMessage(easybgmFit)
+      .quitAnalysis(gettextf("The analysis failed with the following error message:\n%s", message))
     }
 
-    # if model is gcgm
-    if (options[["model"]] == "gcgm") {
-      nonContVariables <- c()
-      for (var in options[["variables"]]) {
+    # Extract results
+    easybgmResult <- list()
 
-        # A 1 indicates noncontinuous variables:
-        if (is.factor(dataset[[nw]][[var]])) {
-          nonContVariables <- c(nonContVariables, 1)
-        } else {
-          nonContVariables <- c(nonContVariables, 0)
-        }
-      }
-      # Estimate network
-      jaspBase::.setSeedJASP(options)
-      easybgmFit <- try(easybgm::easybgm(data       = apply(dataset[[nw]], 2, as.numeric),
-                                         type       = "mixed",
-                                         package    = "BDgraph",
-                                         not_cont   = nonContVariables,
-                                         iter       = options[["iter"]],
-                                         save       = FALSE, # due to the new version (for consistency)
-                                         centrality = FALSE,
-                                         burnin     = options[["burnin"]],
-                                         g.start    = options[["initialConfiguration"]],
-                                         df.prior   = options[["dfPrior"]],
-                                         g.prior    = options[["gPrior"]]))
+    easybgmResult$graphWeights           <- easybgmFit$graph_weights
+    easybgmResult$inclusionProbabilities <- easybgmFit$inc_probs
+    easybgmResult$BF                     <- easybgmFit$inc_BF
+    easybgmResult$structure              <- easybgmFit$structure
+    easybgmResult$estimates              <- as.matrix(easybgmFit$parameters)
+    easybgmResult$graph                  <- easybgmResult$estimates * easybgmResult$structure
+    easybgmResult$sampleGraphs           <- easybgmFit$sample_graph
+    easybgmResult$samplesPosterior       <- easybgmFit$samples_posterior
+    easybgmResult$variableType           <- variableSpec[["type"]]
+    easybgmResult$baselineCategory       <- variableSpec[["baselineCategory"]]
+    easybgmResult$logOdds                <- easybgmFit$log_odds
+    easybgmResult$precisionMatrix        <- easybgmFit$precision_matrix
+    easybgmResult$partialCorrelations    <- easybgmFit$partial_correlations
 
-
-      if (isTryError(easybgmFit)) {
-        message <- .extractErrorMessage(easybgmFit)
-        .quitAnalysis(gettextf("The analysis failed with the following error message:\n%s", message))
-      }
-
-
-      # Extract results with enforced variable ordering
-      easybgmResult <- list()
-      variables <- options[["variables"]]
-
-      # Get estimates matrix and ensure proper ordering
-      estimates <- as.matrix(easybgmFit$parameters)
-      if(!identical(rownames(estimates), variables)) {
-        estimates <- estimates[variables, variables, drop = FALSE]
-      }
-
-      # Get structure matrix and ensure proper ordering
-      structure <- easybgmFit$structure
-      if(!identical(rownames(structure), variables)) {
-        structure <- structure[variables, variables, drop = FALSE]
-      }
-
-      # Create graph with enforced ordering
-      easybgmResult$graph <- estimates * structure
-      rownames(easybgmResult$graph) <- variables
-      colnames(easybgmResult$graph) <- variables
-
-      # [Rest of the assignments]
-      easybgmResult$graphWeights <- easybgmFit$graph_weights
-      easybgmResult$inclusionProbabilities <- easybgmFit$inc_probs
-      easybgmResult$BF <- easybgmFit$inc_BF
-      easybgmResult$structure <- structure
-      easybgmResult$estimates <- estimates
-      easybgmResult$sampleGraphs <- easybgmFit$sample_graph
-      easybgmResult$samplesPosterior <- easybgmFit$samples_posterior
-
-      networks[[nw]] <- easybgmResult
+    # Store SBM-specific results if Stochastic-Block edge prior was used
+    if (options[["edgePrior"]] == "Stochastic-Block") {
+      easybgmResult$sbm <- list(
+        posterior_mean_allocations         = easybgmFit$sbm$posterior_mean_allocations,
+        posterior_mode_allocations         = easybgmFit$sbm$posterior_mode_allocations,
+        posterior_num_blocks               = easybgmFit$sbm$posterior_num_blocks,
+        posterior_mean_coclustering_matrix = easybgmFit$sbm$posterior_mean_coclustering_matrix
+      )
+      easybgmResult$easybgmFit <- easybgmFit  # keep full fit for clusterBayesfactor()
     }
 
-
-    # if model is ordinal Markov random field
-    if (options[["model"]] == "omrf") {
-      for (var in options[["variables"]]) {
-        # Check if variables are binary or ordinal:
-        if (!is.factor(dataset[[nw]][[var]])) {
-          .quitAnalysis(gettext("Some of the variables you have entered for analysis are not binary or ordinal. Please make sure that all variables are binary or ordinal or change the model to gcgm."))
-        }
-      }
-      # Estimate network
-      jaspBase::.setSeedJASP(options)
-      easybgmFit <- try(easybgm::easybgm(data       = dataset[[nw]],
-                                         type       = "ordinal",
-                                         package    = "bgms",
-                                         iter       = options[["iter"]],
-                                         save       = TRUE,
-                                         centrality = FALSE,
-                                         warmup     = options[["burnin"]],
-                                         chains     = as.integer(options[["chains"]]),
-                                         update_method = options[["omrfUpdateMethod"]],
-                                         inclusion_probability         = options[["gPrior"]],
-                                         pairwise_scale                = options[["interactionScale"]], # changed name
-                                         edge_prior                    = options[["edgePrior"]],
-                                         main_alpha                    = options[["thresholdAlpha"]], # changed name
-                                         main_beta                     = options[["thresholdBeta"]],
-                                         beta_bernoulli_alpha          = options[["betaAlpha"]],
-                                         beta_bernoulli_beta           = options[["betaBeta"]],
-                                         beta_bernoulli_alpha_between  = options[["betaAlpha_between"]],
-                                         beta_bernoulli_beta_between   = options[["betaBeta_between"]],
-                                         lambda                        = options[["lambda"]],
-                                         dirichlet_alpha               = options[["dirichletAlpha"]]))
-
-
-
-      if (isTryError(easybgmFit)) {
-        message <- .extractErrorMessage(easybgmFit)
-        .quitAnalysis(gettextf("The analysis failed with the following error message:\n%s", message))
-      }
-
-
-      # Extract results
-      easybgmResult <- list()
-
-      easybgmResult$graphWeights           <- easybgmFit$graph_weights
-      easybgmResult$inclusionProbabilities <- easybgmFit$inc_probs
-      easybgmResult$BF                     <- easybgmFit$inc_BF
-      easybgmResult$structure              <- easybgmFit$structure
-      easybgmResult$estimates              <- as.matrix(easybgmFit$parameters)
-      easybgmResult$graph                  <- easybgmResult$estimates*easybgmResult$structure
-      easybgmResult$sampleGraphs           <- easybgmFit$sample_graph
-      easybgmResult$samplesPosterior       <- easybgmFit$samples_posterior
-
-      # Store SBM-specific results if Stochastic-Block edge prior was used
-      if (options[["edgePrior"]] == "Stochastic-Block") {
-        easybgmResult$sbm <- list(
-          posterior_mean_allocations         = easybgmFit$sbm$posterior_mean_allocations,
-          posterior_mode_allocations         = easybgmFit$sbm$posterior_mode_allocations,
-          posterior_num_blocks               = easybgmFit$sbm$posterior_num_blocks,
-          posterior_mean_coclustering_matrix = easybgmFit$sbm$posterior_mean_coclustering_matrix
-        )
-        easybgmResult$easybgmFit <- easybgmFit  # keep full fit for clusterBayesfactor()
-      }
-
-      networks[[nw]] <- easybgmResult
-    }
+    networks[[nw]] <- easybgmResult
   }
 
   return(networks)
@@ -1087,7 +1085,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     }
     table$setData(TBcolumns)
   }
-  table$addFootnote(gettext("Estimates are based on the median probability model: edges with a posterior inclusion probability \u2264 0.5 are set to zero."))
+  table$addFootnote(gettext("Estimates denote the partial association parameters: values with a posterior inclusion probability \u2264 0.5 are set to zero."))
   mainContainer[["weightsTable"]] <- table
 }
 
@@ -1255,6 +1253,149 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       table$addFootnote(gettext("Convergence is the split-chain R-hat (Gelman-Rubin) statistic, computed post hoc by splitting the posterior samples into two halves. Values greater than about 1.01-1.05 are considered concerning, indicating potential lack of convergence for the estimates of the pairwise interactions. Consider increasing the number of iterations to improve convergence."))
   }
   table$setData(df)
+}
+
+.bayesianNetworkAnalysisInterpretativeScale <- function(mainContainer, network, options) {
+
+  if (!is.null(mainContainer[["interpretativeScaleContainer"]]) ||
+      !options[["edgeSpecificOverviewTable"]] ||
+      !options[["showInterpretativeScaleEstimates"]])
+    return()
+
+  container <- createJaspContainer(
+    dependencies = c("edgeSpecificOverviewTable", "showInterpretativeScaleEstimates")
+  )
+  container$position <- 3
+  mainContainer[["interpretativeScaleContainer"]] <- container
+
+  allNetworks <- network[["network"]]
+  if (is.null(allNetworks) || mainContainer$getError())
+    return()
+
+  nGraphs <- length(allNetworks)
+
+  if (nGraphs > 1L) {
+    for (nwName in names(allNetworks)) {
+      nwContainer <- createJaspContainer(nwName)
+      container[[nwName]] <- nwContainer
+      .bayesianNetworkAnalysisAddInterpretativeScaleTables(nwContainer, allNetworks[[nwName]])
+    }
+  } else {
+    .bayesianNetworkAnalysisAddInterpretativeScaleTables(container, allNetworks[[1L]])
+  }
+}
+
+.bayesianNetworkAnalysisAddInterpretativeScaleTables <- function(container, nw) {
+
+  .bayesianNetworkAnalysisAddInterpretativeScaleMatrix(
+    container   = container,
+    nw          = nw,
+    matrixName  = gettext("Log-odds"),
+    matrixKey   = "logOdds",
+    position    = 1
+  )
+
+  .bayesianNetworkAnalysisAddInterpretativeScaleMatrix(
+    container   = container,
+    nw          = nw,
+    matrixName  = gettext("Precision Matrix"),
+    matrixKey   = "precisionMatrix",
+    position    = 2
+  )
+
+  .bayesianNetworkAnalysisAddInterpretativeScaleMatrix(
+    container   = container,
+    nw          = nw,
+    matrixName  = gettext("Partial Correlations"),
+    matrixKey   = "partialCorrelations",
+    position    = 3
+  )
+}
+
+.bayesianNetworkAnalysisAddInterpretativeScaleMatrix <- function(container, nw, matrixName, matrixKey, position) {
+
+  matrix <- nw[[matrixKey]]
+  key <- paste0(matrixKey, "Table")
+
+  if (is.null(matrix))
+    return()
+
+  matrix <- .bayesianNetworkAnalysisApplyMedianProbabilityMask(matrix, nw$inclusionProbabilities)
+
+  table <- createJaspTable(matrixName)
+  table$position <- position
+
+  df <- .bayesianNetworkAnalysisMatrixToDataFrame(matrix)
+
+  table$addColumnInfo(name = "Variable", title = gettext("Variable"), type = "string")
+
+  valueColumns <- setdiff(colnames(df), "Variable")
+  for (columnName in valueColumns)
+    table$addColumnInfo(name = columnName, title = columnName, type = "number")
+
+  table$setData(df)
+  container[[key]] <- table
+}
+
+.bayesianNetworkAnalysisApplyMedianProbabilityMask <- function(matrix, inclusionProbabilities) {
+
+  if (is.null(matrix) || is.null(inclusionProbabilities))
+    return(matrix)
+
+  maskedMatrix <- as.matrix(matrix)
+  inclusionMatrix <- as.matrix(inclusionProbabilities)
+
+  if (all(dim(maskedMatrix) == dim(inclusionMatrix))) {
+    mask <- inclusionMatrix <= 0.5
+  } else {
+    matrixRows <- rownames(maskedMatrix)
+    matrixCols <- colnames(maskedMatrix)
+    inclusionRows <- rownames(inclusionMatrix)
+    inclusionCols <- colnames(inclusionMatrix)
+
+    hasMatchingNames <- !is.null(matrixRows) && !is.null(matrixCols) &&
+      !is.null(inclusionRows) && !is.null(inclusionCols)
+
+    if (!hasMatchingNames)
+      return(maskedMatrix)
+
+    rowIndex <- match(matrixRows, inclusionRows)
+    colIndex <- match(matrixCols, inclusionCols)
+
+    if (any(is.na(rowIndex)) || any(is.na(colIndex)))
+      return(maskedMatrix)
+
+    mask <- inclusionMatrix[rowIndex, colIndex, drop = FALSE] <= 0.5
+  }
+
+  mask[is.na(mask)] <- FALSE
+  maskedMatrix[mask] <- 0
+  maskedMatrix
+}
+
+.bayesianNetworkAnalysisMatrixToDataFrame <- function(matrix) {
+
+  matrix <- as.matrix(matrix)
+
+  variableNames <- colnames(matrix)
+  if (is.null(variableNames))
+    variableNames <- rownames(matrix)
+
+  if (is.null(variableNames))
+    variableNames <- paste0("V", seq_len(ncol(matrix)))
+
+  decodedNames <- decodeColNames(variableNames)
+
+  rowNames <- rownames(matrix)
+  if (is.null(rowNames))
+    rowNames <- variableNames
+
+  decodedRowNames <- decodeColNames(rowNames)
+
+  df <- as.data.frame(matrix, stringsAsFactors = FALSE)
+  colnames(df) <- decodedNames
+
+  cbind(Variable = decodedRowNames, df, stringsAsFactors = FALSE)
 }
 
 .bayesianNetworkAnalysisComputeEdgeConvergence <- function(nw, upperTriIdx, nEdges) {
@@ -1542,6 +1683,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     }
   }
 }
+
 
 # =========================
 #  ADDITIONAL FUNCTIONS

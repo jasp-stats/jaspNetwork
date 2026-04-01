@@ -1,5 +1,23 @@
 context("Bayesian Network Analysis")
 
+testthat::test_that("Variable type specification supports Blume-Capel baselines", {
+  dataset <- data.frame(
+    ordinalOne = factor(c("low", "mid", "high"), ordered = TRUE),
+    ordinalTwo = factor(c("A", "B", "C"), ordered = TRUE),
+    continuous = c(1, 2, 3)
+  )
+
+  options <- list(
+    variables           = c("ordinalOne", "ordinalTwo", "continuous"),
+    variablesBlumeCapel = list(list(variable = "ordinalTwo", levels = "B"))
+  )
+
+  variableSpec <- jaspNetwork:::.bayesianNetworkAnalysisBuildVariableTypeSpec(options, dataset)
+
+  testthat::expect_equal(variableSpec[["type"]], c("ordinal", "blume-capel", "continuous"))
+  testthat::expect_equal(variableSpec[["baselineCategory"]], c(1L, 2L, 1L))
+})
+
 # does not test
 # - error handling
 # - bootstrapping

@@ -24,31 +24,52 @@ Form
 {
 
 VariablesForm
+{
+	AvailableVariablesList { name: "allVariablesList" }
+
+	AssignedVariablesList
 	{
-		AvailableVariablesList { name: "allVariablesList" }
-		AssignedVariablesList  { name: "variables";
-								title: qsTr("Dependent Variables");
-								allowedColumns: ["ordinal", "scale"];
-								allowTypeChange: true;
-								id: networkVariables}
-		AssignedVariablesList { name: "groupingVariable";
-								title: qsTr("Split");
-								singleVariable: true;
-								allowedColumns: ["nominal"] }
+		name: "variables"
+		title: ""
+		allowedColumns: ["ordinal", "scale"]
+		allowTypeChange: true
+		id: networkVariables
+		rowComponentTitle: qsTr("Blume-Capel / Baseline category")
+		rowComponent: RowLayout
+		{
+			spacing: 6
+
+			Item { Layout.preferredWidth: 10 }
+
+			CheckBox
+			{
+				id: blumeCapelToggle
+				name: "blumeCapel"
+				label: qsTr("B-C")
+				checked: false
+				enabled: rowType == "ordinal"
+				info: qsTr("Variables treated as Blume-Capel variables in the OMRF model. These are ordinal variables that have a neutral category.")
+			}
+
+			DropDown
+			{
+				name: "levels"
+				label: qsTr("Baseline")
+				source: [{ values: [rowValue], use: "levels" }]
+				enabled: blumeCapelToggle.checked
+				info: qsTr("Select baseline category for the variables treated as Blume-Capel.")
+			}
+		}
 	}
 
-	DropDown
+	AssignedVariablesList
 	{
-		id: model
-		name: "model"
-		label: qsTr("Model")
-		Layout.columnSpan: 2
-		values: [
-			{ value: "ggm",		        label: "ggm (continuous)"	        },
-			{ value: "gcgm",				  label: "gcgm (mixed)"			        },
-			{ value: "omrf",				  label: "omrf (binary/ordinal)"		}
-		]
+		name: "groupingVariable"
+		title: qsTr("Split")
+		singleVariable: true
+		allowedColumns: ["nominal"]
 	}
+}
 
 	Group
 	{
@@ -90,7 +111,6 @@ VariablesForm
 			name: "credibilityInterval";
 			label: qsTr("Credibility interval 95%");
 			checked: false;
-			visible: model.currentValue === "omrf"; // Show only when model is "omrf"
 		}
 	}
 	CheckBox
@@ -98,7 +118,7 @@ VariablesForm
 		name: "coclusteringPlot"
 		label: qsTr("Co-clustering matrix plot")
 		info: qsTr("Displays a heatmap of the posterior co-clustering probabilities.")
-		visible: model.currentValue === "omrf" && edgePrior.currentValue === "Stochastic-Block"
+		visible: edgePrior.currentValue === "Stochastic-Block"
 	}
 	Column
 	{
@@ -136,8 +156,15 @@ VariablesForm
 				defaultValue:	10
 				max:			2e2
 			}
+				CheckBox
+			{
+				name: "showInterpretativeScaleEstimates"
+				label: qsTr("Show estimates on interpretative scale")
+				checked: false
+				info: qsTr("Shows log-odds, precision matrix, and partial correlations when available.")
+			}
 		}
-		CheckBox { name: "weightsMatrixTable";	label: qsTr("Weights matrix")	}
+		CheckBox { name: "weightsMatrixTable";	label: qsTr("Partial associations matrix")	}
 		CheckBox
 		{
 			name: "edgeEvidenceTable";		label: qsTr("Edge evidence probability table")
@@ -157,7 +184,7 @@ VariablesForm
 		Group
 		{
 			title: qsTr("Clustering Overview")
-			visible: model.currentValue === "omrf" && edgePrior.currentValue === "Stochastic-Block"
+			visible: edgePrior.currentValue === "Stochastic-Block"
 
 			CheckBox
 			{
@@ -195,15 +222,15 @@ VariablesForm
 							label:			qsTr("H\u2081")
 							defaultValue:	1
 							min:			1
-							max:			networkVariables.count
+							max:			Math.max(1, networkVariables.count)
 						}
 						IntegerField
 						{
 							name:			"clusterBayesFactorB2"
 							label:			qsTr("H\u2082")
-							defaultValue:	2
+							defaultValue:	1
 							min:			1
-							max:			networkVariables.count
+							max:			Math.max(1, networkVariables.count)
 						}
 					}
 				}
@@ -232,7 +259,6 @@ VariablesForm
 						{ value: "Beta-Bernoulli",		label: qsTr("Beta-binomial")			},
 						{ value: "Stochastic-Block",	label: qsTr("Stochastic block model")	}
 					]
-					visible: model.currentValue === "omrf"
 				}
 
 				DoubleField
@@ -244,7 +270,7 @@ VariablesForm
 					max: 1
 					inclusive: JASP.MaxOnly
 					preferredWidth: 300
-					visible: (model.currentValue === "ggm" || model.currentValue === "gcgm") || (model.currentValue === "omrf" && edgePrior.currentValue === "Bernoulli")
+					visible: edgePrior.currentValue === "Bernoulli"
 			   }
 
 				DoubleField
@@ -255,7 +281,7 @@ VariablesForm
 					min: 0
 					inclusive: JASP.None
 					preferredWidth: 300
-					visible: (model.currentValue === "omrf") && (edgePrior.currentValue === "Beta-Bernoulli" || edgePrior.currentValue === "Stochastic-Block")
+					visible: edgePrior.currentValue === "Beta-Bernoulli" || edgePrior.currentValue === "Stochastic-Block"
 				}
 
 				DoubleField
@@ -266,7 +292,7 @@ VariablesForm
 					min: 0
 					inclusive: JASP.None
 					preferredWidth: 300
-					visible: (model.currentValue === "omrf") && (edgePrior.currentValue === "Beta-Bernoulli" || edgePrior.currentValue === "Stochastic-Block")
+					visible: edgePrior.currentValue === "Beta-Bernoulli" || edgePrior.currentValue === "Stochastic-Block"
 				}
         DoubleField
 				{
@@ -276,7 +302,7 @@ VariablesForm
 					min: 0
 					inclusive: JASP.None
 					preferredWidth: 300
-					visible: (model.currentValue === "omrf") && (edgePrior.currentValue === "Stochastic-Block")
+					visible: edgePrior.currentValue === "Stochastic-Block"
 				}
 
 				DoubleField
@@ -287,7 +313,7 @@ VariablesForm
 					min: 0
 					inclusive: JASP.None
 					preferredWidth: 300
-					visible: (model.currentValue === "omrf") && (edgePrior.currentValue === "Stochastic-Block")
+					visible: edgePrior.currentValue === "Stochastic-Block"
 				}
 
 				DoubleField
@@ -298,7 +324,7 @@ VariablesForm
 					min: 0
 					inclusive: JASP.None
 					preferredWidth: 300
-					visible: (model.currentValue === "omrf") && (edgePrior.currentValue === "Stochastic-Block")
+					visible: edgePrior.currentValue === "Stochastic-Block"
 				}
 
 				DoubleField
@@ -309,21 +335,9 @@ VariablesForm
 					min: 0
 					inclusive: JASP.None
 					preferredWidth: 300
-					visible: (model.currentValue === "omrf") && (edgePrior.currentValue === "Stochastic-Block")
+					visible: edgePrior.currentValue === "Stochastic-Block"
 				}
 
-				DropDown
-				{
-					id: initialConfiguration
-					name: "initialConfiguration"
-					label: qsTr("Initial configuration prior edge inclusion:")
-					preferredWidth: 300
-					values: [
-						{ value: "empty", label: "empty" },
-						{ value: "full", label: "full" }
-					]
-				   visible: model.currentValue === "ggm" || model.currentValue === "gcgm"
-				}
 			}
 		}
 
@@ -335,17 +349,6 @@ VariablesForm
 			Column
 			{
 				spacing: 10
-				IntegerField
-				{
-					name: "dfPrior"
-					label: qsTr("Degrees of freedom of G-Wishart prior:")
-					value: 3
-					min: 3
-
-					preferredWidth: 300
-					visible: model.currentValue === "ggm" || model.currentValue === "gcgm"
-				}
-
 				DoubleField
 				{
 					name: "interactionScale"
@@ -354,7 +357,6 @@ VariablesForm
 					min: 0
 					inclusive: JASP.None
 					preferredWidth: 300
-					visible: model.currentValue === "omrf"
 				}
 
 				DoubleField
@@ -365,7 +367,6 @@ VariablesForm
 					min: 0
 					inclusive: JASP.None
 					preferredWidth: 300
-					visible: model.currentValue === "omrf"
 				}
 
 				DoubleField
@@ -376,7 +377,6 @@ VariablesForm
 					min: 0
 					inclusive: JASP.None
 					preferredWidth: 300
-					visible: model.currentValue === "omrf"
 				}
 			}
 		}
@@ -393,7 +393,6 @@ VariablesForm
 		Group
 		{
 			title: qsTr("Advanced Options")
-			visible: model.currentValue === "omrf"
 
 			DropDown
 			{
@@ -420,6 +419,7 @@ VariablesForm
 
 		SetSeed{}
 	}
+
 
   Section
 	{
