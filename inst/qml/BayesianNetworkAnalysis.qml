@@ -115,6 +115,22 @@ VariablesForm
 	}
 	CheckBox
 	{
+		name: "parameterHdiPlot"
+		label: qsTr("Parameter HDI plot")
+		info: qsTr("Displays the highest density interval (HDI) for every estimated partial association, ordered by posterior mean.")
+		DoubleField
+		{
+			name:         "parameterHdiPlotCoverage"
+			label:        qsTr("HDI coverage:")
+			value:        0.95
+			min:          0.01
+			max:          0.99
+			decimals:     2
+			info:         qsTr("Coverage of the highest density interval (e.g., 0.95 for a 95% HDI).")
+		}
+	}
+	CheckBox
+	{
 		name: "coclusteringPlot"
 		label: qsTr("Co-clustering matrix plot")
 		info: qsTr("Displays a heatmap of the posterior co-clustering probabilities.")

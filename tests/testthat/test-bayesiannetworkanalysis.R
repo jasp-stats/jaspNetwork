@@ -88,3 +88,19 @@ testthat::test_that("Centrality plot works with empty graphs", {
   jaspTools::expect_equal_plots(testPlot, "centrality-plot")
 
 })
+
+testthat::test_that("Parameter HDI plot works", {
+  options <- jaspTools::analysisOptions("BayesianNetworkAnalysis")
+  options$variables <- c("contNormal", "contcor1", "contcor2")
+  options$variables.types <- rep("scale", length(options$variables))
+  options$burnin <- 100
+  options$iter   <- 500
+  options$parameterHdiPlot <- TRUE
+  options$parameterHdiPlotCoverage <- 0.95
+  set.seed(1)
+  results <- jaspTools::runAnalysis("BayesianNetworkAnalysis", "test.csv", options)
+
+  plotName <- results[["results"]][["mainContainer"]][["collection"]][["mainContainer_plotContainer"]][["collection"]][["mainContainer_plotContainer_parameterHdiPlotContainer"]][["collection"]][["mainContainer_plotContainer_parameterHdiPlotContainer_Network"]][["data"]]
+  testPlot <- results[["state"]][["figures"]][[plotName]][["obj"]]
+  jaspTools::expect_equal_plots(testPlot, "parameter-hdi-plot")
+})

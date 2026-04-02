@@ -463,6 +463,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   .bayesianNetworkAnalysisEvidencePlot           (plotContainer, network, options)
   .bayesianNetworkAnalysisPosteriorStructurePlot (plotContainer, network, options)
   .bayesianNetworkAnalysisCentralityPlot         (plotContainer, network, options)
+  .bayesianNetworkAnalysisParameterHdiPlot       (plotContainer, network, options)
   .bayesianNetworkAnalysisPosteriorComplexityPlot(plotContainer, network, options)
   .bayesianNetworkAnalysisSbmCoclusteringPlot    (plotContainer, network, options)
 }
@@ -659,6 +660,96 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   }
 
   jaspPlot$plotObject <- g
+}
+
+.bayesianNetworkAnalysisParameterHdiPlot <- function(plotContainer, network, options) {
+
+  if (!is.null(plotContainer[["parameterHdiPlotContainer"]]) || !options[["parameterHdiPlot"]])
+    return()
+
+  allNetworks <- network[["network"]]
+  nGraphs     <- length(allNetworks)
+
+  title <- if (nGraphs == 1L) gettext("Parameter HDI Plot") else gettext("Parameter HDI Plots")
+
+  parameterHdiContainer <- createJaspContainer(
+    title        = title,
+    dependencies = c("parameterHdiPlot", "parameterHdiPlotCoverage",
+                     "labelAbbreviation", "labelAbbreviationLength")
+  )
+  plotContainer[["parameterHdiPlotContainer"]] <- parameterHdiContainer
+
+  if (is.null(allNetworks) || plotContainer$getError()) {
+    parameterHdiContainer[["dummyPlot"]] <- createJaspPlot(title = gettext("Parameter HDI Plot"))
+    return()
+  }
+
+  nVar   <- ncol(allNetworks[[1L]]$estimates)
+  nEdges <- nVar * (nVar - 1L) / 2L
+  height <- max(400L, nEdges * 30L)
+  width  <- 500L
+
+  for (v in names(allNetworks))
+    parameterHdiContainer[[v]] <- createJaspPlot(title = v, width = width, height = height)
+
+  coverage <- options[["parameterHdiPlotCoverage"]]
+
+  jaspBase::.suppressGrDevice({
+    for (v in names(allNetworks)) {
+      p <- try(.bayesianNetworkAnalysisMakeParameterHdiPlot(allNetworks[[v]], options, coverage))
+      if (inherits(p, "try-error"))
+        parameterHdiContainer[[v]]$setError(.extractErrorMessage(p))
+      else
+        parameterHdiContainer[[v]]$plotObject <- p
+    }
+  })
+}
+
+.bayesianNetworkAnalysisMakeParameterHdiPlot <- function(network, options, coverage) {
+
+  samplesPosterior <- network[["samplesPosterior"]]
+  if (is.null(samplesPosterior))
+    stop(gettext("Posterior samples are required for the parameter HDI plot. Please ensure the model was fitted with 'save = TRUE'."))
+
+  # Construct readable edge labels from decoded variable names.
+  # Sort indices in row-major order to match the column order of samplesPosterior (as produced by bgms).
+  variables   <- colnames(network[["estimates"]])
+  decodedVars <- decodeColNames(variables)
+  nVar        <- length(variables)
+  upperIdx    <- which(upper.tri(matrix(0L, nVar, nVar)), arr.ind = TRUE)
+  upperIdx    <- upperIdx[order(upperIdx[, 1L], upperIdx[, 2L]), ]
+  edgeLabels  <- paste0(decodedVars[upperIdx[, 1L]], "-", decodedVars[upperIdx[, 2L]])
+
+  if (options[["labelAbbreviation"]])
+    edgeLabels <- base::abbreviate(edgeLabels, minlength = options[["labelAbbreviationLength"]])
+
+  # Compute HDI and posterior means for each partial association
+  hdiIntervals     <- apply(samplesPosterior, MARGIN = 2L, FUN = HDInterval::hdi, credMass = coverage)
+  posteriorMedians <- apply(samplesPosterior, MARGIN = 2L, FUN = mean)
+
+  posterior <- data.frame(
+    median = posteriorMedians,
+    lower  = hdiIntervals["lower", ],
+    upper  = hdiIntervals["upper", ],
+    edge   = edgeLabels,
+    stringsAsFactors = FALSE
+  )
+
+  # Order by posterior median
+  posterior <- posterior[order(posterior$median), ]
+  posterior$edge <- factor(posterior$edge, levels = posterior$edge)
+
+  coveragePct <- round(coverage * 100)
+  yLabel      <- gettextf("%d%% HDI of Partial Association", coveragePct)
+
+  g <- ggplot2::ggplot(posterior, ggplot2::aes(x = edge, y = median, ymin = lower, ymax = upper)) +
+    ggplot2::geom_hline(yintercept = 0, linetype = "dashed", colour = "grey60") +
+    ggplot2::geom_pointrange() +
+    ggplot2::coord_flip() +
+    ggplot2::labs(x = NULL, y = yLabel) +
+    jaspGraphs::themeJaspRaw()
+
+  return(g)
 }
 
 .bayesianNetworkAnalysisPosteriorComplexityPlot <- function(plotContainer, network, options) {
