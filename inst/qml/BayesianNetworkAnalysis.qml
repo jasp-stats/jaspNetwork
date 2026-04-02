@@ -31,15 +31,15 @@ VariablesForm
 	{
 		name: "variables"
 		title: ""
-		allowedColumns: ["ordinal", "scale"]
-		allowTypeChange: true
+		allowedColumns: groupingVariableSelector.count > 0 ? ["ordinal"] : ["ordinal", "scale"]
+		allowTypeChange: groupingVariableSelector.count === 0
 		id: networkVariables
 		rowComponentTitle: qsTr("Blume-Capel / Baseline category")
 		rowComponent: RowLayout
 		{
 			spacing: 6
 
-			Item { Layout.preferredWidth: 10 }
+			Item { Layout.preferredWidth: rowType == "ordinal" ? 10 : 0 }
 
 			CheckBox
 			{
@@ -47,6 +47,7 @@ VariablesForm
 				name: "blumeCapel"
 				label: qsTr("B-C")
 				checked: false
+				visible: rowType == "ordinal"
 				enabled: rowType == "ordinal"
 				info: qsTr("Variables treated as Blume-Capel variables in the OMRF model. These are ordinal variables that have a neutral category.")
 			}
@@ -56,6 +57,7 @@ VariablesForm
 				name: "levels"
 				label: qsTr("Baseline")
 				source: [{ values: [rowValue], use: "levels" }]
+				visible: rowType == "ordinal" && blumeCapelToggle.checked
 				enabled: blumeCapelToggle.checked
 				info: qsTr("Select baseline category for the variables treated as Blume-Capel.")
 			}
@@ -65,9 +67,11 @@ VariablesForm
 	AssignedVariablesList
 	{
 		name: "groupingVariable"
-		title: qsTr("Split")
+		id: groupingVariableSelector
+		title: qsTr("Compare Networks Across Groups")
 		singleVariable: true
 		allowedColumns: ["nominal"]
+		info: qsTr("Select a factor variable to estimate separate group networks. If all selected variables are ordinal or Blume-Capel, the analysis also estimates an across-group difference network.")
 	}
 }
 
@@ -134,7 +138,7 @@ VariablesForm
 		name: "coclusteringPlot"
 		label: qsTr("Co-clustering matrix plot")
 		info: qsTr("Displays a heatmap of the posterior co-clustering probabilities.")
-		visible: edgePrior.currentValue === "Stochastic-Block"
+		visible: edgePrior.currentValue === "Stochastic-Block" && groupingVariableSelector.count === 0
 	}
 	Column
 	{
@@ -200,7 +204,7 @@ VariablesForm
 		Group
 		{
 			title: qsTr("Clustering Overview")
-			visible: edgePrior.currentValue === "Stochastic-Block"
+			visible: edgePrior.currentValue === "Stochastic-Block" && groupingVariableSelector.count === 0
 
 			CheckBox
 			{
@@ -270,11 +274,16 @@ VariablesForm
 					name: "edgePrior"
 					label: qsTr("Edge prior:")
 					preferredWidth: 300
-					values: [
-						{ value: "Bernoulli",			label: qsTr("Bernoulli")				},
-						{ value: "Beta-Bernoulli",		label: qsTr("Beta-binomial")			},
-						{ value: "Stochastic-Block",	label: qsTr("Stochastic block model")	}
-					]
+					values: groupingVariableSelector.count > 0 ?
+						[
+							{ value: "Bernoulli",      label: qsTr("Bernoulli")     },
+							{ value: "Beta-Bernoulli", label: qsTr("Beta-binomial") }
+						] :
+						[
+							{ value: "Bernoulli",        label: qsTr("Bernoulli")              },
+							{ value: "Beta-Bernoulli",   label: qsTr("Beta-binomial")          },
+							{ value: "Stochastic-Block", label: qsTr("Stochastic block model") }
+						]
 				}
 
 				DoubleField

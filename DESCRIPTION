@@ -13,6 +13,7 @@ Imports:
   bootnet,
   corpcor,
   dplyr,
+  bgms,
   easybgm,
   foreach,
   ggplot2,

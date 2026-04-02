@@ -18,6 +18,32 @@ testthat::test_that("Variable type specification supports Blume-Capel baselines"
   testthat::expect_equal(variableSpec[["baselineCategory"]], c(1L, 2L, 1L))
 })
 
+testthat::test_that("Compare mode is enabled for ordinal and Blume-Capel variables", {
+  options <- list(groupingVariable = "group")
+  variableSpec <- list(type = c("ordinal", "blume-capel"))
+
+  supported <- jaspNetwork:::.bayesianNetworkAnalysisCompareSupported(
+    options      = options,
+    variableSpec = variableSpec,
+    nGroups      = 3L
+  )
+
+  testthat::expect_true(supported)
+})
+
+testthat::test_that("Compare mode is disabled when continuous variables are included", {
+  options <- list(groupingVariable = "group")
+  variableSpec <- list(type = c("ordinal", "continuous"))
+
+  supported <- jaspNetwork:::.bayesianNetworkAnalysisCompareSupported(
+    options      = options,
+    variableSpec = variableSpec,
+    nGroups      = 2L
+  )
+
+  testthat::expect_false(supported)
+})
+
 # does not test
 # - error handling
 # - bootstrapping
