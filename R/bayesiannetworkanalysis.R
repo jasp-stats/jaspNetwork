@@ -19,6 +19,7 @@
 BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
   options <- .bayesianNetworkAnalysisNormalizeVariableOptions(options)
+  options <- .bayesianNetworkAnalysisNormalizeModelOptions(options)
 
   # MissingValues needed for the .networkAnalysisReadData function in the frequentist network module:
   options[["missingValues"]] <- "listwise" # Unfortunately BDgraph does not work with pairwise missing values
@@ -360,6 +361,8 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
 .bayesianNetworkAnalysisFitSingleNetwork <- function(data, variableSpec, options) {
 
+  updateMethod <- .bayesianNetworkAnalysisNormalizeUpdateMethod(options[["omrfUpdateMethod"]])
+
   jaspBase::.setSeedJASP(options)
   easybgmFit <- try(easybgm::easybgm(
     data    = data,
@@ -372,7 +375,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     centrality                   = FALSE,
     warmup                       = options[["burnin"]],
     chains                       = as.integer(options[["chains"]]),
-    update_method                = options[["omrfUpdateMethod"]],
+    update_method                = updateMethod,
     inclusion_probability        = options[["gPrior"]],
     pairwise_scale               = options[["interactionScale"]],
     edge_prior                   = options[["edgePrior"]],
@@ -428,6 +431,78 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   easybgmResult
 }
 
+.bayesianNetworkAnalysisNormalizeUpdateMethod <- function(updateMethodRaw) {
+
+  if (is.null(updateMethodRaw) || length(updateMethodRaw) == 0L)
+    return("adaptive-metropolis")
+
+  # Some option parsers may include object metadata in the selected value.
+  # Keep only the first comma-separated token and normalize spacing/case.
+  updateMethod <- trimws(strsplit(as.character(updateMethodRaw)[1L], ",", fixed = TRUE)[[1L]][1L])
+  updateMethod <- tolower(gsub("[[:space:]_]+", "-", updateMethod))
+
+  aliases <- c(
+    "adaptive-metropolis" = "adaptive-metropolis",
+    "adaptivemetropolis"  = "adaptive-metropolis",
+    "hamiltonian-mc"      = "hamiltonian-mc",
+    "hamiltonianmc"       = "hamiltonian-mc",
+    "nuts"                = "nuts"
+  )
+
+  mapped <- unname(aliases[updateMethod])
+  if (length(mapped) == 1L && !is.na(mapped))
+    return(mapped)
+
+  .quitAnalysis(gettextf(
+    "Unsupported update method '%s'. Please select one of: adaptive-metropolis, hamiltonian-mc, nuts.",
+    updateMethodRaw
+  ))
+}
+
+.bayesianNetworkAnalysisNormalizeModelOptions <- function(options) {
+
+  .normalizeScalarOption <- function(value, default = "") {
+    if (is.null(value) || length(value) == 0L)
+      return(default)
+
+    token <- trimws(strsplit(as.character(value)[1L], ",", fixed = TRUE)[[1L]][1L])
+    if (is.na(token) || token %in% c("", "NA", "NULL"))
+      return(default)
+
+    token
+  }
+
+  edgePriorRaw <- .normalizeScalarOption(options[["edgePrior"]], default = "Bernoulli")
+  edgePriorKey <- tolower(gsub("[[:space:]_]+", "-", edgePriorRaw))
+
+  edgePriorAliases <- c(
+    "bernoulli"              = "Bernoulli",
+    "beta-bernoulli"         = "Beta-Bernoulli",
+    "beta-binomial"          = "Beta-Bernoulli",
+    "stochastic-block"       = "Stochastic-Block",
+    "stochastic-block-model" = "Stochastic-Block"
+  )
+
+  edgePrior <- unname(edgePriorAliases[edgePriorKey])
+  if (length(edgePrior) != 1L || is.na(edgePrior)) {
+    .quitAnalysis(gettextf(
+      "Unsupported edge prior '%s'. Please select one of: Bernoulli, Beta-binomial, Stochastic block model.",
+      edgePriorRaw
+    ))
+  }
+
+  chainsRaw <- .normalizeScalarOption(options[["chains"]], default = "2")
+  chains <- suppressWarnings(as.integer(chainsRaw))
+  if (is.na(chains) || chains < 1L)
+    chains <- 2L
+
+  options[["edgePrior"]] <- edgePrior
+  options[["chains"]] <- as.character(chains)
+  options[["omrfUpdateMethod"]] <- .bayesianNetworkAnalysisNormalizeUpdateMethod(options[["omrfUpdateMethod"]])
+
+  return(options)
+}
+
 .bayesianNetworkAnalysisComputeNetworks <- function(options, dataset) {
 
   .bayesianNetworkAnalysisAssertSupportedPriors(options)
@@ -446,6 +521,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   useCompare <- .bayesianNetworkAnalysisCompareSupported(options, pooledVariableSpec, nGroups)
 
   if (useCompare) {
+    updateMethod <- .bayesianNetworkAnalysisNormalizeUpdateMethod(options[["omrfUpdateMethod"]])
     groupIndicator <- rep(seq_len(nGroups), times = vapply(groupData, nrow, integer(1L)))
 
     jaspBase::.setSeedJASP(options)
@@ -460,7 +536,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       save                        = TRUE,
       warmup                      = options[["burnin"]],
       chains                      = as.integer(options[["chains"]]),
-      update_method               = options[["omrfUpdateMethod"]],
+      update_method               = updateMethod,
       difference_probability      = options[["gPrior"]],
       difference_scale            = options[["interactionScale"]],
       difference_prior            = options[["edgePrior"]],

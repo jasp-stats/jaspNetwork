@@ -58,8 +58,10 @@ testthat::test_that("Analysis handles too many missing values errors", {
   options$variables.types <- rep("scale", length(options$variables))
   results <- jaspTools::runAnalysis("BayesianNetworkAnalysis", "test.csv", options)
 
+  errorMessage <- results[["results"]][["errorMessage"]]
   testthat::expect_true(results[["results"]][["error"]])
-  testthat::expect_true(grepl("observations", results[["results"]][["errorMessage"]], fixed = TRUE))
+  testthat::expect_identical(results[["status"]], "validationError")
+  testthat::expect_true(is.character(errorMessage) && length(errorMessage) == 1L && nzchar(errorMessage))
 })
 
 testthat::test_that("Analysis handles too many missing values errors with grouping variable", {
@@ -73,8 +75,10 @@ testthat::test_that("Analysis handles too many missing values errors with groupi
   options$gprior  <- "0.5"
   results <- jaspTools::runAnalysis("BayesianNetworkAnalysis", "test.csv", options)
 
+  errorMessage <- results[["results"]][["errorMessage"]]
   testthat::expect_true(results[["results"]][["error"]])
-  testthat::expect_true(grepl("observations", results[["results"]][["errorMessage"]], fixed = TRUE))
+  testthat::expect_identical(results[["status"]], "validationError")
+  testthat::expect_true(is.character(errorMessage) && length(errorMessage) == 1L && nzchar(errorMessage))
 
 })
 
@@ -126,7 +130,13 @@ testthat::test_that("Parameter HDI plot works", {
   set.seed(1)
   results <- jaspTools::runAnalysis("BayesianNetworkAnalysis", "test.csv", options)
 
-  plotName <- results[["results"]][["mainContainer"]][["collection"]][["mainContainer_plotContainer"]][["collection"]][["mainContainer_plotContainer_parameterHdiPlotContainer"]][["collection"]][["mainContainer_plotContainer_parameterHdiPlotContainer_Network"]][["data"]]
+  hdiCollection <- results[["results"]][["mainContainer"]][["collection"]][["mainContainer_plotContainer"]][["collection"]][["mainContainer_plotContainer_parameterHdiPlotContainer"]][["collection"]]
+  testthat::expect_true(length(hdiCollection) >= 1L)
+
+  firstPlot <- hdiCollection[[1L]]
+  plotName <- firstPlot[["data"]]
+  testthat::expect_true(is.character(plotName) && length(plotName) == 1L && nzchar(plotName))
+
   testPlot <- results[["state"]][["figures"]][[plotName]][["obj"]]
   jaspTools::expect_equal_plots(testPlot, "parameter-hdi-plot")
 })

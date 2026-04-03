@@ -219,7 +219,7 @@ test_that("Incorrect user layout shows a warning", {
 })
 
 # test partial correlation networks work for all thresholds.
-options <- analysisOptions("NetworkAnalysis")
+options <- jaspTools::analysisOptions("NetworkAnalysis")
 options$estimator <- "pcor"
 options$variables <- c(paste0("A", 1:5), paste0("O", 1:5), paste0("E", 1:5))
 options$variables.types <- rep("ordinal", length(options$variables))
@@ -257,7 +257,7 @@ thresholdMethods <- c("sig", "bonferroni", "locfdr", "holm", "hochberg", "hommel
 for (thresholdMethod in thresholdMethods) {
 
   options$thresholdMethod <- thresholdMethod
-  results <- runAnalysis(dataset = "BFI Network.csv", options = options)
+  results <- jaspTools::runAnalysis(dataset = "BFI Network.csv", options = options)
 
   test_that(paste0("parcor-threshold-", thresholdMethod, ": Weights matrix matches"), {
     df <- table2df(results[["results"]][["mainContainer"]][["collection"]][["mainContainer_weightsTable"]][["data"]], options$variables)
@@ -268,7 +268,7 @@ for (thresholdMethod in thresholdMethods) {
   plotName <- results[["results"]][["mainContainer"]][["collection"]][["mainContainer_plotContainer"]][["collection"]][["mainContainer_plotContainer_networkPlotContainer"]][["collection"]][["mainContainer_plotContainer_networkPlotContainer_Network"]][["data"]]
   testPlot <- results[["state"]][["figures"]][[plotName]][["obj"]]
   test_that(paste0("parcor-threshold-", thresholdMethod, ": Network Plot matches"), {
-    expect_equal_plots(test = testPlot, paste0("parcor-threshold-", thresholdMethod))
+    jaspTools::expect_equal_plots(test = testPlot, paste0("parcor-threshold-", thresholdMethod))
   })
 }
 
