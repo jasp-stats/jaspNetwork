@@ -3059,7 +3059,7 @@
       "RemoteHost": "api.github.com",
       "RemoteRepo": "easybgm",
       "RemoteUsername": "Bayesian-Graphical-Modelling-Lab",
-      "RemoteRef": "update_easybgm",
+      "RemoteRef": "HEAD",
       "RemoteSha": "fb0b12521d060cd273c4e08baf90f745dd05052a",
       "NeedsCompilation": "no",
       "Author": "Karoline Huth [aut, cre] (ORCID: <https://orcid.org/0000-0002-0662-1591>), Sara Keetelaar [ctb], Nikola Sekulovski [ctb], Gali Geller [ctb]"
