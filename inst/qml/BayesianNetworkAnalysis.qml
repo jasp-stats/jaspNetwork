@@ -27,11 +27,6 @@ Form
 		as well as a mixed graphical model of continuous and ordinal (Blume-Capel) variables.\n") +
 		qsTr("When a grouping factor variable is supplied, one network is estimated per group. A a statistical comparison of network differences is available if all selected variables are ordinal or Blume-Capel; otherwise, only group-specific networks are estimated.\n") +
 		qsTr("Posterior summaries include the edge weight estimates, along with the edge inclusion probabilities and inclusion Bayes factors, that can be inspected using the different tables and plots.\n") +
-		"## " + qsTr("Assumptions") + "\n" +
-		"- " + qsTr("Variables are measured on a single occasion (no time dependency is modeled).") + "\n" +
-		"- " + qsTr("Continuous variables are assumed to follow a Gaussian distribution.") + "\n" +
-		"- " + qsTr("Ordinal variables are treated as ordered-categorical; select Blume-Capel if a neutral category is meaningful.") + "\n" +
-		"- " + qsTr("Cases with missing values are excluded listwise.")
 
 VariablesForm
 {
