@@ -8,11 +8,6 @@ on:
 
 name: unit-tests
 
-env:
-  RENV_CONFIG_PAK_ENABLED: "TRUE"
-  RENV_CONFIG_INSTALL_STAGED: "FALSE"
-  RENV_CONFIG_INSTALL_TRANSACTIONAL: "FALSE"
-
 jobs:
 
   unit-tests:
