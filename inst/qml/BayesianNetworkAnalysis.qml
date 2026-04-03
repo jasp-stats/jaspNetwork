@@ -134,7 +134,7 @@ VariablesForm
 		{
 			name: "credibilityInterval";
 			label: qsTr("Credibility interval 95%");
-			info: qsTr("Adds 95% highest density intervals (HDI) to centrality summaries. Intervals are computed from posterior samples using the HDInterval package.")
+			info: qsTr("Adds 95% highest density intervals (HDI) to centrality summaries.")
 			checked: false;
 		}
 	}
@@ -158,7 +158,7 @@ VariablesForm
 	{
 		name: "coclusteringPlot"
 		label: qsTr("Co-clustering matrix plot")
-		info: qsTr("Displays a heatmap where each cell shows the posterior probability that the corresponding pair of nodes belongs to the same cluster. Only available with the Stochastic block model edge prior and no grouping variable.")
+		info: qsTr("Displays a heatmap where each cell shows the posterior proportion of the corresponding pairs of nodes belonging to the same cluster. Only available with the Stochastic block model edge prior (see Prior Specification) and no grouping variable.")
 		visible: edgePrior.currentValue === "Stochastic-Block" && groupingVariableSelector.count === 0
 	}
 	Column
@@ -191,7 +191,7 @@ VariablesForm
 		{
 			name: "edgeSpecificOverviewTable"
 			label: qsTr("Edge specific overview")
-			info: qsTr("Shows one row per edge whose BF\u2081\u2080 exceeds the threshold. Columns include posterior estimates, inclusion probability, Bayes factor, and convergence statistics (R-hat). Edges are listed in order of decreasing inclusion probability.")
+			info: qsTr("Shows one row per edge. Columns include posterior estimates, inclusion probability, inclusion Bayes factor, and convergence statistics (R-hat). Edges are listed in order of decreasing inclusion probability.")
 			IntegerField
 			{
 				name:			"edgeSpecificOverviewInclusionCriteria"
@@ -206,14 +206,14 @@ VariablesForm
 				name: "showInterpretativeScaleEstimates"
 				label: qsTr("Show estimates on interpretative scale")
 				checked: false
-				info: qsTr("Shows log-odds, precision matrix, and partial correlations when available.")
+				info: qsTr("Shows log-odds, precisios, and partial correlations when available.")
 			}
 		}
 		CheckBox { name: "weightsMatrixTable";	label: qsTr("Partial associations matrix"); info: qsTr("Displays the posterior mean interaction parameters (edge weights) as a symmetric matrix. Rows and columns correspond to variables; off-diagonal entries are the estimated pairwise partial associations.") }
 		CheckBox
 		{
 			name: "edgeEvidenceTable";		label: qsTr("Edge evidence probability table")
-			info: qsTr("Displays a symmetric matrix of edge-wise evidence values. All edges are listed regardless of evidence strength. Choose the metric below.")
+			info: qsTr("Displays a symmetric matrix of edge-wise evidence values. All edges are listed regardless of evidence strength.")
 			RadioButtonGroup
 			{
 				name: "evidenceType";
@@ -249,18 +249,18 @@ VariablesForm
 					]
 				}
 			}
-			CheckBox { name: "posteriorNumBlocksTable";			label: qsTr("Posterior probabilities for the number of clusters"); info: qsTr("Shows the posterior probability for each possible number of clusters.") }
+			CheckBox { name: "posteriorNumBlocksTable";			label: qsTr("Posterior probabilities for the number of clusters"); info: qsTr("Shows the posterior probability for every possible number of clusters.") }
 			CheckBox { name: "posteriorCoclusteringMatrixTable";	label: qsTr("Posterior co-clustering matrix"); info: qsTr("Shows the posterior probability that each pair of nodes belongs to the same cluster.") }
 			CheckBox
 			{
 				name: "clusterBayesFactor"
 				label: qsTr("Cluster Bayes factor")
-				info: qsTr("Computes a Bayes factor comparing hypotheses about the clustering structure. The result is expressed as BF\u2081\u2080 where H\u2081 is the hypothesis of interest.")
+				info: qsTr("Computes a Bayes factor comparing hypotheses about the clustering structure.")
 				RadioButtonGroup
 				{
 					name: "clusterBayesFactorType"
-					info: qsTr("Clustering vs. no clustering compares any multi-cluster solution against a single-cluster (no clustering) model. Point hypotheses compares two specific numbers of clusters.")
-					RadioButton { value: "complement";	label: qsTr("Clustering vs. no clustering"); checked: true; info: qsTr("The BF tests whether any clustered structure is more probable than a single-cluster (fully unclustered) model.") }
+					info: qsTr("Clustering vs. no clustering compares the hypothesis of multi-cluster solution against a the hypothesis of a single-cluster (no clustering) model. Point hypotheses compares two specific numbers of clusters.")
+					RadioButton { value: "complement";	label: qsTr("Clustering vs. no clustering"); checked: true; info: qsTr("The BF tests whether any clustered structure is more probable than a single-cluster network.") }
 					RadioButton
 					{
 						value: "point"
@@ -417,8 +417,8 @@ VariablesForm
 				DoubleField
 				{
 					name: "interactionScale"
-					label: qsTr("Scale of the Cauchy distribution for the edge weights:")
-					info: qsTr("Scale parameter of the Cauchy prior on pairwise interaction strengths. Smaller values regularize estimates more strongly toward zero. The default of 2.5 is weakly informative for data on a common scale.")
+					label: qsTr("Scale of the Cauchy distribution for the partial association parameters:")
+					info: qsTr("Scale parameter of the Cauchy prior on the partial association parameters.")
 					value: 2.5
 					min: 0
 					inclusive: JASP.None
@@ -478,7 +478,7 @@ VariablesForm
 			{
 				name: "omrfUpdateMethod"
 				label: qsTr("Update method")
-				info: qsTr("MCMC algorithm used to sample the posterior. Adaptive Metropolis is the default and works for all variable types. Hamiltonian MC and NUTS use gradient-based proposals for more efficient exploration of the posterior but require differentiable likelihoods.")
+				info: qsTr("MCMC algorithm used to sample from the posterior.")
 				values: [
 					{ value: "adaptive-metropolis",	label: qsTr("Adaptive Metropolis")	},
 					{ value: "hamiltonian-mc",		label: qsTr("Hamiltonian MC")		},
