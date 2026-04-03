@@ -8,14 +8,15 @@ on:
 
 name: unit-tests
 
+env:
+  RENV_CONFIG_PAK_ENABLED: "TRUE"
+  RENV_CONFIG_INSTALL_STAGED: "FALSE"
+
 jobs:
 
   unit-tests:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
     uses: jasp-stats/jasp-actions/.github/workflows/unittests.yml@v1
-    env:
-      RENV_CONFIG_PAK_ENABLED: "TRUE"
-      RENV_CONFIG_INSTALL_STAGED: "FALSE"
     with:
       needs_JAGS: false
 
