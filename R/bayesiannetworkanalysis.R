@@ -510,7 +510,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
   if (!useCompare && options[["groupingVariable"]] != "" && nGroups >= 2L) {
     attr(networks, "compareUnavailableReason") <- gettext(
-      "Comparison by edge differences is only available when all selected variables are ordinal or Blume-Capel. Showing separate group estimates instead."
+      "Difference network not estimated: all selected variables must be ordinal or Blume-Capel. Showing separate group estimates instead."
     )
   }
 
