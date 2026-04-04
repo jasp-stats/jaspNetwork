@@ -1,15 +1,9 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2026-04-02 08:09+0000\n"
-"Last-Translator: 陳正昌 <chencc99@gmail.com>\n"
-"Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
-"projects/jasp/jaspnetwork-qml/zh_Hant/>\n"
-"Language: zh_Hant\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.17-dev\n"
 "X-Language: zh_Hant\n"
 "X-Qt-Contexts: true\n"
 
@@ -117,9 +111,10 @@ msgctxt "NetworkAnalysis|"
 msgid "Raw"
 msgstr ""
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Network"
-msgstr ""
+msgstr "網絡分析"
 
 msgctxt "NetworkAnalysis|"
 msgid "Weighted"
@@ -586,9 +581,10 @@ msgctxt "BayesianNetworkAnalysis|"
 msgid "Dependent Variables"
 msgstr "依變數"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Split"
-msgstr ""
+msgstr "分割"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Plots"
