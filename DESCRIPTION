@@ -30,9 +30,9 @@ Imports:
   stats,
   stringr
 Remotes:
-  jasp-stats/jaspBase@f3c58caa2c6103ea91f456634c4a6fc41e0611a6,
-  jasp-stats/jaspGraphs@95c52718fca8b7c991d97423e5697bca37fc9d7c,
-  Bayesian-Graphical-Modelling-Lab/bgms@c9a01b30e4151c828939b496420758e47adfb025,
-  Bayesian-Graphical-Modelling-Lab/easybgm@fb0b12521d060cd273c4e08baf90f745dd05052a
+  jasp-stats/jaspBase,
+  jasp-stats/jaspGraphs,
+  Bayesian-Graphical-Modelling-Lab/bgms,
+  Bayesian-Graphical-Modelling-Lab/easybgm@update_easybgm
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3

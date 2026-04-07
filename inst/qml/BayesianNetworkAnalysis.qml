@@ -83,7 +83,7 @@ VariablesForm
 	{
 		name: "groupingVariable"
 		id: groupingVariableSelector
-		title: qsTr("Compare Networks Across Groups")
+		title: qsTr("Compare networks across groups")
 		singleVariable: true
 		allowedColumns: ["nominal"]
 		info: qsTr("Select a nominal variable to estimate one network per group. A difference network is estimated only when all selected variables are ordinal or Blume-Capel; if scale variables are included, only separate group networks are estimated. At least 2 groups and 3 observations per group are required.")
@@ -96,8 +96,9 @@ VariablesForm
 		CheckBox
 		{
 			name: "networkPlot"
+			visible: groupingVariableSelector.count === 0
 			label: qsTr("Network plot")
-			info: qsTr("Displays the posterior mean partial association network. Edge width and color saturation reflect association strength; blue edges are positive and red edges are negative. Edges whose BF\u2081\u2080 falls below the inclusion threshold are hidden.")
+			info: qsTr("Displays the posterior mean partial association network. Edge width and color saturation reflect association strength; blue edges are positive and red edges are negative. Edges whose BF\u2081\u2080 falls below the inclusion threshold are hidden. Only available when no grouping variable is selected.")
 			IntegerField
 			{
 				name:			"networkPlotInclusionCriteria"
@@ -129,6 +130,7 @@ VariablesForm
 	CheckBox
 	{
 		name: "centralityPlot"; id: centralityPlot; label: qsTr("Centrality plot")
+		visible: groupingVariableSelector.count === 0
 		info: qsTr("Displays posterior mean centrality for the selected measures (betweenness, closeness, strength, expected influence). Measures are plotted side by side per node. Only available when no grouping variable is selected.")
 		CheckBox
 		{
@@ -141,8 +143,9 @@ VariablesForm
 	CheckBox
 	{
 		name: "parameterHdiPlot"
+		visible: groupingVariableSelector.count === 0
 		label: qsTr("Parameter HDI plot")
-		info: qsTr("Displays the posterior mean and highest density interval (HDI) for every pairwise partial association, ordered from smallest to largest posterior mean. One panel per network is shown when multiple networks are estimated.")
+		info: qsTr("Displays the posterior mean and highest density interval (HDI) for every pairwise partial association, ordered from smallest to largest posterior mean. One panel per network is shown when multiple networks are estimated. Only available when no grouping variable is selected.")
 		DoubleField
 		{
 			name:         "parameterHdiPlotCoverage"
@@ -209,7 +212,6 @@ VariablesForm
 				info: qsTr("Shows log-odds, precisios, and partial correlations when available.")
 			}
 		}
-		CheckBox { name: "weightsMatrixTable";	label: qsTr("Partial associations matrix"); info: qsTr("Displays the posterior mean interaction parameters (edge weights) as a symmetric matrix. Rows and columns correspond to variables; off-diagonal entries are the estimated pairwise partial associations.") }
 		CheckBox
 		{
 			name: "edgeEvidenceTable";		label: qsTr("Edge evidence probability table")
@@ -226,7 +228,7 @@ VariablesForm
 					RadioButton { 	value: "log(BF)"; 				label: qsTr("Log(BF\u2081\u2080)"); info: qsTr("Natural logarithm of BF\u2081\u2080.")						}
 				}
 		}
-		CheckBox { name: "centralityTable"; label: qsTr("Centrality table"); info: qsTr("Shows the posterior mean betweenness, closeness, strength, and expected influence for each node. Centrality is computed on the posterior mean network. Only available when no grouping variable is selected.") }
+		CheckBox { name: "centralityTable"; label: qsTr("Centrality table"); visible: groupingVariableSelector.count === 0; info: qsTr("Shows the posterior mean betweenness, closeness, strength, and expected influence for each node. Centrality is computed on the posterior mean network. Only available when no grouping variable is selected.") }
 
 		Group
 		{
@@ -466,11 +468,13 @@ VariablesForm
 			{
 				name: "chains"
 				label: qsTr("Number of chains")
-				info: qsTr("Number of independent MCMC chains. With 2 chains, the Gelman-Rubin R-hat convergence statistic is computed from the two chains. With 1 chain, a split-chain version is used instead. R-hat values above approximately 1.05 suggest the chains have not converged.")
-				indexDefaultValue: 1
+				info: qsTr("Number of independent MCMC chains. With 2 or more chains, the Gelman-Rubin R-hat convergence statistic is computed across all chains. With 1 chain, a split-chain version is used instead. R-hat values above approximately 1.05 suggest the chains have not converged.")
+				indexDefaultValue: 3
 				values: [
 					{ value: "1",	label: "1" },
-					{ value: "2",	label: "2" }
+					{ value: "2",	label: "2" },
+					{ value: "3",	label: "3" },
+					{ value: "4",	label: "4" }
 				]
 			}
 
@@ -479,6 +483,7 @@ VariablesForm
 				name: "omrfUpdateMethod"
 				label: qsTr("Update method")
 				info: qsTr("MCMC algorithm used to sample from the posterior.")
+				indexDefaultValue: 2
 				values: [
 					{ value: "adaptive-metropolis",	label: qsTr("Adaptive Metropolis")	},
 					{ value: "hamiltonian-mc",		label: qsTr("Hamiltonian MC")		},

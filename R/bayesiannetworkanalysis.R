@@ -34,7 +34,6 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   .bayesianNetworkAnalysisMainTable          (mainContainer, dataset, options, network)
   .bayesianNetworkAnalysisEdgeOverviewTable  (mainContainer, network, options)
   .bayesianNetworkAnalysisInterpretativeScale(mainContainer, network, options)
-  .bayesianNetworkAnalysisWeightMatrixTable  (mainContainer, network, options)
   .bayesianNetworkAnalysisEdgeEvidenceTable(mainContainer, network, options)
   .bayesianNetworkAnalysisPlotContainer    (mainContainer, network, options)
   .bayesianNetworkAnalysisCentralityTable  (mainContainer, network, options)
@@ -434,7 +433,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 .bayesianNetworkAnalysisNormalizeUpdateMethod <- function(updateMethodRaw) {
 
   if (is.null(updateMethodRaw) || length(updateMethodRaw) == 0L)
-    return("adaptive-metropolis")
+    return("nuts")
 
   # Some option parsers may include object metadata in the selected value.
   # Keep only the first comma-separated token and normalize spacing/case.
@@ -491,10 +490,10 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     ))
   }
 
-  chainsRaw <- .normalizeScalarOption(options[["chains"]], default = "2")
+  chainsRaw <- .normalizeScalarOption(options[["chains"]], default = "4")
   chains <- suppressWarnings(as.integer(chainsRaw))
   if (is.na(chains) || chains < 1L)
-    chains <- 2L
+    chains <- 4L
 
   options[["edgePrior"]] <- edgePrior
   options[["chains"]] <- as.character(chains)
@@ -653,7 +652,12 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     mainContainer[["plotContainer"]] <- plotContainer
   }
 
-  .networkAnalysisNetworkPlot                    (plotContainer, network, options, method = "Bayesian")
+  # Only show network plot if NOT comparing networks (i.e., no differences network)
+  allNetworks <- network[["network"]]
+  hasDifferences <- !is.null(allNetworks) && gettext("Differences") %in% names(allNetworks)
+  if (!hasDifferences)
+    .networkAnalysisNetworkPlot                    (plotContainer, network, options, method = "Bayesian")
+
   .bayesianNetworkAnalysisEvidencePlot           (plotContainer, network, options)
   .bayesianNetworkAnalysisPosteriorStructurePlot (plotContainer, network, options)
   .bayesianNetworkAnalysisCentralityPlot         (plotContainer, network, options)
@@ -860,11 +864,16 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
 .bayesianNetworkAnalysisParameterHdiPlot <- function(plotContainer, network, options) {
 
-  if (!is.null(plotContainer[["parameterHdiPlotContainer"]]) || !options[["parameterHdiPlot"]])
+  if (!is.null(plotContainer[["parameterHdiPlotContainer"]]) || !options[["parameterHdiPlot"]] ||
+      options[["groupingVariable"]] != "")
     return()
 
-  allNetworks <- network[["network"]]
-  nGraphs     <- length(allNetworks)
+  allNetworks     <- network[["network"]]
+  differencesName <- gettext("Differences")
+  hasDifferences  <- differencesName %in% names(allNetworks)
+  if (hasDifferences)
+    allNetworks <- allNetworks[differencesName]
+  nGraphs <- length(allNetworks)
 
   title <- if (nGraphs == 1L) gettext("Parameter HDI Plot") else gettext("Parameter HDI Plots")
 
@@ -886,7 +895,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   width  <- 500L
 
   for (v in names(allNetworks))
-    parameterHdiContainer[[v]] <- createJaspPlot(title = v, width = width, height = height)
+    parameterHdiContainer[[v]] <- createJaspPlot(title = if (nGraphs == 1L) "" else v, width = width, height = height)
 
   coverage <- options[["parameterHdiPlotCoverage"]]
 
@@ -899,6 +908,13 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
         parameterHdiContainer[[v]]$plotObject <- p
     }
   })
+
+  if (hasDifferences) {
+    noteHtml <- createJaspHtml()
+    noteHtml$text <- paste0("<p>", gettext("The difference parameter HDI plot shows the posterior mean and highest density interval (HDI) for each pairwise difference in partial association between groups. Positive values indicate a stronger association in the first group; negative values indicate a stronger association in the second group."), "</p>")
+    noteHtml$position <- 99
+    parameterHdiContainer[["differenceHdiNote"]] <- noteHtml
+  }
 }
 
 .bayesianNetworkAnalysisMakeParameterHdiPlot <- function(network, options, coverage) {
@@ -1150,6 +1166,10 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     return()
 
   allNetworks <- network[["network"]]
+  differencesName <- gettext("Differences")
+  hasDifferences <- differencesName %in% names(allNetworks)
+  if (hasDifferences)
+    allNetworks <- allNetworks[differencesName]
   nGraphs <- length(allNetworks)
 
   # we use an empty container without a name if there is only 1 graph. This container is hidden from the output but it
@@ -1214,7 +1234,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     nodeNames <- NULL
 
     if (nGraphs == 1) {
-      labels <- colnames(allNetworks$Network$graph)
+      labels <- colnames(allNetworks[[1L]]$graph)
     } else {
       labels <- colnames(allNetworks$`1`$graph)
     }
@@ -1222,7 +1242,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   } else {
 
     if (nGraphs == 1) {
-      nodeNames <- colnames(allNetworks$Network$graph)
+      nodeNames <- colnames(allNetworks[[1L]]$graph)
     } else {
       nodeNames <- colnames(allNetworks$`1`$graph)
     }
@@ -1267,7 +1287,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   width  <- basePlotSize + allLegends * legendMultiplier
 
   for (v in names(allNetworks))
-    evidencePlotContainer[[v]] <- createJaspPlot(title = v, width = width[v], height = height[v])
+    evidencePlotContainer[[v]] <- createJaspPlot(title = if (nGraphs == 1L) "" else v, width = width[v], height = height[v])
 
   jaspBase::.suppressGrDevice({
 
@@ -1330,52 +1350,6 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       edge.label.position = options[["edgeLabelPosition"]]
     ))
 }
-
-.bayesianNetworkAnalysisWeightMatrixTable <- function(mainContainer, network, options) {
-
-  if (!is.null(mainContainer[["weightsTable"]]) || !options[["weightsMatrixTable"]])
-    return()
-
-  variables <- unlist(options[["variables"]])
-  nVar <- length(variables)
-  nGraphs <- max(1L, length(network[["network"]]))
-
-  table <- createJaspTable(gettext("Weights matrix"), dependencies = c("weightsMatrixTable")) #, position = 4
-  table$addColumnInfo(name = "Variable", title = gettext("Variable"), type = "string")
-
-  overTitles <- names(network[["network"]])
-  if (is.null(overTitles))
-    overTitles <- gettext("Network")
-
-  for (i in seq_len(nGraphs))
-    for (v in seq_len(nVar))
-      table$addColumnInfo(name = paste0(variables[v], i), title = variables[v], type = "number", overtitle = overTitles[i])
-
-  if (length(options[["variables"]]) <= 2L || is.null(network[["network"]]) || mainContainer$getError()) { # make empty table
-    if (nVar > 0L) { # otherwise, a 1 by 1 table with a . is generated by default
-      # create a table of nVariables by nVariables
-      table$setExpectedSize(nVar)
-      table[["Variable"]] <- variables
-
-    }
-  } else { # fill with results
-
-    allNetworks <- network[["network"]]
-    TBcolumns <- data.frame(Variable = variables)
-    for (i in seq_len(nGraphs)) {
-
-      toAdd <- allNetworks[[i]][["graph"]]
-      toAdd <- as.data.frame(toAdd)
-      names(toAdd) <- paste0(variables, i)
-
-      TBcolumns <- cbind(TBcolumns, toAdd)
-    }
-    table$setData(TBcolumns)
-  }
-  table$addFootnote(gettext("Estimates denote the partial association parameters: values with a posterior inclusion probability \u2264 0.5 are set to zero."))
-  mainContainer[["weightsTable"]] <- table
-}
-
 
 .bayesianNetworkAnalysisEdgeEvidenceTable <- function(mainContainer, network, options) {
 
@@ -1541,7 +1515,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   )
 
   # Try to add convergence from posterior samples in the difference network
-  convergence <- .bayesianNetworkAnalysisComputeEdgeConvergence(nwDiff, upperTriIdx, nEdges)
+  convergence <- .bayesianNetworkAnalysisComputeEdgeConvergence(nwDiff, upperTriIdx, nEdges, as.integer(options[["chains"]]))
   if (!is.null(convergence)) {
     table$addColumnInfo(name = "convergence", title = gettext("Convergence"), type = "number")
     df$convergence <- convergence
@@ -1568,9 +1542,9 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   table$addFootnote(gettext("Bayes factors with values of infinity indicate that the estimated posterior difference probability is either 1 or 0. Please see the help file for more information."))
   if (!is.null(convergence)) {
     if (as.integer(options[["chains"]]) >= 2L)
-      table$addFootnote(gettext("Convergence is the R-hat (Gelman-Rubin) statistic, with values greater than about 1.01-1.05 are considered concerning, indicating potential lack of convergence for the estimates of the pairwise interactions. Consider increasing the number of iterations to improve convergence."))
+      table$addFootnote(gettext("Convergence is the R-hat (Gelman-Rubin) statistic, values greater than about 1.01-1.05 are considered concerning, indicating potential lack of convergence for the estimates of the pairwise interactions. Consider increasing the number of iterations and/or chains to improve convergence."))
     else
-      table$addFootnote(gettext("Convergence is the split-chain R-hat (Gelman-Rubin) statistic, computed post hoc by splitting the posterior samples into two halves. Values greater than about 1.01-1.05 are considered concerning, indicating potential lack of convergence for the estimates of the pairwise interactions. Consider increasing the number of iterations to improve convergence."))
+      table$addFootnote(gettext("Convergence is the split-chain R-hat (Gelman-Rubin) statistic, computed post hoc by splitting the posterior samples into two halves."))
   }
 
   table$setData(df)
@@ -1626,7 +1600,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   )
 
   # Try to add convergence from posterior samples
-  convergence <- .bayesianNetworkAnalysisComputeEdgeConvergence(nw, upperTriIdx, nEdges)
+  convergence <- .bayesianNetworkAnalysisComputeEdgeConvergence(nw, upperTriIdx, nEdges, as.integer(options[["chains"]]))
   if (!is.null(convergence)) {
     table$addColumnInfo(name = "convergence", title = gettext("Convergence"), type = "number")
     df$convergence <- convergence
@@ -1786,7 +1760,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   cbind(Variable = decodedRowNames, df, stringsAsFactors = FALSE)
 }
 
-.bayesianNetworkAnalysisComputeEdgeConvergence <- function(nw, upperTriIdx, nEdges) {
+.bayesianNetworkAnalysisComputeEdgeConvergence <- function(nw, upperTriIdx, nEdges, nChains = 1L) {
 
   posteriorSamples <- nw$samplesPosterior
   if (is.null(posteriorSamples) || ncol(posteriorSamples) < nEdges || nrow(posteriorSamples) < 4L)
@@ -1807,7 +1781,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     col <- cmLookup[i, j]
 
     if (!is.na(col) && col <= ncol(posteriorSamples))
-      convergence[k] <- .bayesianNetworkAnalysisSplitRhat(posteriorSamples[, col])
+      convergence[k] <- .bayesianNetworkAnalysisRhat(posteriorSamples[, col], nChains)
     else
       convergence[k] <- NA_real_
   }
@@ -1815,20 +1789,27 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   convergence
 }
 
-.bayesianNetworkAnalysisSplitRhat <- function(chain) {
-  n <- length(chain)
+.bayesianNetworkAnalysisRhat <- function(samples, nChains = 1L) {
+  n <- length(samples)
   if (n < 4L) return(NA_real_)
 
-  half   <- n %/% 2L
-  chain1 <- chain[1:half]
-  chain2 <- chain[(half + 1L):(2L * half)]
+  # Use nChains segments when nChains >= 2; split single chain in half otherwise
+  nSegments     <- if (nChains >= 2L) nChains else 2L
+  segmentLength <- n %/% nSegments
+  if (segmentLength < 2L) return(NA_real_)
 
-  W <- (var(chain1) + var(chain2)) / 2
-  B <- half * var(c(mean(chain1), mean(chain2)))
+  chainSamples <- lapply(seq_len(nSegments), function(i)
+    samples[((i - 1L) * segmentLength + 1L):(i * segmentLength)])
+
+  chainMeans <- vapply(chainSamples, mean, numeric(1L))
+  chainVars  <- vapply(chainSamples, var,  numeric(1L))
+
+  W <- mean(chainVars)
+  B <- segmentLength * var(chainMeans)
 
   if (W < .Machine$double.eps) return(NA_real_)
 
-  varhat <- ((half - 1) / half) * W + (1 / half) * B
+  varhat <- ((segmentLength - 1L) / segmentLength) * W + (1L / segmentLength) * B
   sqrt(varhat / W)
 }
 

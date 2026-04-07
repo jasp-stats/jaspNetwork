@@ -125,6 +125,8 @@ testthat::test_that("Parameter HDI plot works", {
   options$variables.types <- rep("scale", length(options$variables))
   options$burnin <- 100
   options$iter   <- 500
+  options$chains <- "1"
+  options$omrfUpdateMethod <- "adaptive-metropolis"
   options$parameterHdiPlot <- TRUE
   options$parameterHdiPlotCoverage <- 0.95
   set.seed(1)
