@@ -166,12 +166,6 @@ VariablesForm
 	}
 	Column
 	{
-		spacing: 10
-		Text
-		{
-			text: qsTr("Network structure selection")
-			font.bold: false
-		}
 		CheckBox
 		{
 			name: "posteriorStructurePlot"
