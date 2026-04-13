@@ -457,8 +457,8 @@ VariablesForm
 	{
 		title: qsTr("Sampling Options")
 		Layout.columnSpan: 2
-		IntegerField { name: "burnin";	label: qsTr("Burn in: ");		value: 2000;	min: 0; 				max: iter.value / 2;	fieldWidth: 100; id: burnin; info: qsTr("Number of warmup iterations discarded from the start of each chain to allow the Markov chain to converge before collecting posterior samples. Must be less than half the total iterations.")	}
-		IntegerField { name: "iter";		label: qsTr("Iterations: ");	value: 2000;	min: burnin.value * 2; 								fieldWidth: 100; id: iter; info: qsTr("Total number of MCMC iterations per chain, including the burn-in. Posterior inference uses the iterations after burn-in. Increase for more stable estimates, especially for complex models.")	}
+		IntegerField { name: "burnin";	label: qsTr("Burn in: ");		value: 2000;	min: 1000; 						fieldWidth: 100; id: burnin; info: qsTr("Number of warmup iterations discarded from the start of each chain to allow the Markov chain to converge before collecting posterior samples.")	}
+		IntegerField { name: "iter";		label: qsTr("Iterations: ");	value: 2000;												fieldWidth: 100; id: iter; info: qsTr("Total number of MCMC iterations per chain, including the burn-in. Posterior inference uses the iterations after burn-in. Increase for more stable estimates, especially for complex models.")	}
 
 		Group
 		{
@@ -483,10 +483,9 @@ VariablesForm
 				name: "omrfUpdateMethod"
 				label: qsTr("Update method")
 				info: qsTr("MCMC algorithm used to sample from the posterior.")
-				indexDefaultValue: 2
+				indexDefaultValue: 1
 				values: [
 					{ value: "adaptive-metropolis",	label: qsTr("Adaptive Metropolis")	},
-					{ value: "hamiltonian-mc",		label: qsTr("Hamiltonian MC")		},
 					{ value: "nuts",				label: qsTr("NUTS")				}
 				]
 			}

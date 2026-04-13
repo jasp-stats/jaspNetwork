@@ -443,8 +443,6 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   aliases <- c(
     "adaptive-metropolis" = "adaptive-metropolis",
     "adaptivemetropolis"  = "adaptive-metropolis",
-    "hamiltonian-mc"      = "hamiltonian-mc",
-    "hamiltonianmc"       = "hamiltonian-mc",
     "nuts"                = "nuts"
   )
 
@@ -453,7 +451,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     return(mapped)
 
   .quitAnalysis(gettextf(
-    "Unsupported update method '%s'. Please select one of: adaptive-metropolis, hamiltonian-mc, nuts.",
+    "Unsupported update method '%s'. Please select one of: adaptive-metropolis, nuts.",
     updateMethodRaw
   ))
 }
