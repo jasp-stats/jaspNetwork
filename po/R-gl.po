@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2026-03-28 03:19\n"
-"PO-Revision-Date: 2025-01-18 19:33+0000\n"
+"PO-Revision-Date: 2026-04-01 11:09+0000\n"
 "Last-Translator: ecadrian <ecadrian@hotmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/jasp/"
 "jaspnetwork-r/gl/>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10-dev\n"
+"X-Generator: Weblate 5.17-dev\n"
 "X-Virgin-Header: remove this line if you change anything in the header.\n"
 "X-Language: gl_ES\n"
 "X-Source-Language: C\n"
@@ -115,7 +115,7 @@ msgid "Complexity Plot"
 msgstr "Gráfica de Complexidade"
 
 msgid "Posterior Probability"
-msgstr "Probabilidade Posterior"
+msgstr "Probabilidade posterior"
 
 msgid "Number of edges"
 msgstr "Número de beiras"
@@ -139,6 +139,8 @@ msgid ""
 "Estimates are based on the median probability model: edges with a posterior "
 "inclusion probability ≤ 0.5 are set to zero."
 msgstr ""
+"As estimacións están baseadas no modelo mediano de probabilidade: as marxes "
+"cunha probabilidade posterior de inclusión ≤ 0.5 fíxanse en cero."
 
 msgid "Edge evidence probability table"
 msgstr "Táboa de probabilidade de evidencia da beira"
@@ -153,35 +155,34 @@ msgstr ""
 "axuda para máis información."
 
 msgid "Edge Specific Overview"
-msgstr ""
+msgstr "Resumo específico de marxes"
 
 msgid "included"
-msgstr ""
+msgstr "Incluído"
 
 msgid "excluded"
-msgstr ""
+msgstr "Excluído"
 
 msgid "inconclusive"
-msgstr ""
+msgstr "Inconcluso"
 
 msgid "Relation"
-msgstr ""
+msgstr "Relación"
 
 msgid "Estimate"
-msgstr ""
+msgstr "Estimar"
 
-#, fuzzy
 msgid "Posterior Incl. Prob."
-msgstr "Probabilidade Posterior"
+msgstr "Prob. posterior inclusión"
 
 msgid "Inclusion BF"
-msgstr ""
+msgstr "FB da Inclusión"
 
 msgid "Category"
-msgstr ""
+msgstr "Categoría"
 
 msgid "Convergence"
-msgstr ""
+msgstr "Converxencia"
 
 msgid ""
 "Convergence is the R-hat (Gelman-Rubin) statistic, with values greater than "
@@ -189,6 +190,11 @@ msgid ""
 "convergence for the estimates of the pairwise interactions. Consider "
 "increasing the number of iterations to improve convergence."
 msgstr ""
+"A converxencia é o estatístico R-circunflexo (Gelman-Rubin), cuxos valores "
+"maiores que 1.01-1.05 aproximadamente se consideran preocupantes, ao indicar "
+"unha potencial falla de converxencia nas estimacións das interacións por "
+"parellas. Considera aumentar o número de iteracións para mellorar a "
+"converxencia."
 
 msgid ""
 "Convergence is the split-chain R-hat (Gelman-Rubin) statistic, computed post "
@@ -197,59 +203,57 @@ msgid ""
 "convergence for the estimates of the pairwise interactions. Consider "
 "increasing the number of iterations to improve convergence."
 msgstr ""
+"A converxencia é o estatístico R-circunflexo de cadeas separadas (Gelman-"
+"Rubin), calculado a posteriori separando as mostras posteriores en dúas "
+"metades. Valores maiores que 1.01-1.05 aproximadamente se consideran "
+"preocupantes, ao indicar unha falla potencial de converxencia nas "
+"estimacións das interaccións por parellas. Considera aumentar o número de "
+"iteracións para mellorar a converxencia."
 
 msgid "Cluster Allocations (Posterior Mean)"
-msgstr ""
+msgstr "Posicións de conglomerados (Media posterior)"
 
 msgid "Cluster Allocations (Posterior Mode)"
-msgstr ""
+msgstr "Posicións de conglomerados (Moda posterior)"
 
-#, fuzzy
 msgid "Cluster"
-msgstr "Gráfica de conglomeración"
+msgstr "Conglomerado"
 
-#, fuzzy
 msgid "Posterior Probabilities for the Number of Clusters"
-msgstr "Gráficas de Estrutura da Probabilidade Posterior"
+msgstr "Probabilidades posteriores para o Número de conglomerados"
 
-#, fuzzy
 msgid "Number of blocks"
-msgstr "Número de nodos"
+msgstr "Número de bloques"
 
-#, fuzzy
 msgid "Posterior probability"
-msgstr "Probabilidade Posterior"
+msgstr "Probabilidade posterior"
 
 msgid "Posterior Co-clustering Matrix"
-msgstr ""
+msgstr "Matriz posterior de Co-conglomeración"
 
 msgid "Cluster Bayes Factor"
-msgstr ""
+msgstr "Factor conglomerado de Bayes"
 
 msgid "Hypothesis"
-msgstr ""
+msgstr "Hipótese"
 
 msgid "Bayes factor"
-msgstr ""
+msgstr "Factor de Bayes"
 
 msgid "Could not compute the cluster Bayes factor: %s"
-msgstr ""
+msgstr "Non se pode calcular o Factor conglomerado de Bayes: %s"
 
-#, fuzzy
 msgid "Clustering vs. no clustering"
-msgstr "Gráfica de conglomeración"
+msgstr "Conglomeración vs. Non conglomeración"
 
-#, fuzzy
 msgid "Co-clustering Matrix Plot"
-msgstr "Gráfica de conglomeración"
+msgstr "Gráfica da matriz de Co-conglomeración"
 
-#, fuzzy
 msgid "Co-clustering Matrix Plots"
-msgstr "Gráfica de conglomeración"
+msgstr "Gráficas de matrices de Co-conglomeración"
 
-#, fuzzy
 msgid "Probability"
-msgstr "Probabilidade Posterior"
+msgstr "Probabilidade"
 
 msgid ""
 "After binarizing the data too little variance remained in variable(s): %s."

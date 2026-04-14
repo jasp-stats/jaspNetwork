@@ -1007,11 +1007,11 @@ msgstr ""
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge specific overview"
-msgstr ""
+msgstr "Resumen específico de márgenes"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Clustering Overview"
-msgstr ""
+msgstr "Resumen de conglomeración"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Cluster allocations"

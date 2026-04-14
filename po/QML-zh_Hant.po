@@ -9,11 +9,11 @@ msgstr ""
 
 msgctxt "Description|"
 msgid "Network"
-msgstr ""
+msgstr "網絡分析"
 
 msgctxt "Description|"
 msgid "Explore the connections between variables organized as a network"
-msgstr ""
+msgstr "探索以網絡形式組織之變項間的關聯性"
 
 msgctxt "NetworkAnalysis|"
 msgid "Dependent Variables"
@@ -21,7 +21,7 @@ msgstr "依變項"
 
 msgctxt "NetworkAnalysis|"
 msgid "Split"
-msgstr ""
+msgstr "分割"
 
 msgctxt "NetworkAnalysis|"
 msgid "Estimator"
@@ -111,9 +111,10 @@ msgctxt "NetworkAnalysis|"
 msgid "Raw"
 msgstr ""
 
+#, fuzzy
 msgctxt "NetworkAnalysis|"
 msgid "Network"
-msgstr ""
+msgstr "網絡分析"
 
 msgctxt "NetworkAnalysis|"
 msgid "Weighted"
@@ -580,9 +581,10 @@ msgctxt "BayesianNetworkAnalysis|"
 msgid "Dependent Variables"
 msgstr "依變數"
 
+#, fuzzy
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Split"
-msgstr ""
+msgstr "分割"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Plots"
@@ -1002,7 +1004,7 @@ msgstr ""
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Displays a heatmap of the posterior co-clustering probabilities."
-msgstr ""
+msgstr "顯示後驗共同集群機率之熱圖。"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Edge specific overview"
