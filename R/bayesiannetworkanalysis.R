@@ -358,7 +358,23 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   }
 }
 
-.bayesianNetworkAnalysisFitSingleNetwork <- function(data, variableSpec, options) {
+.bayesianNetworkAnalysisMakeProgressCallback <- function(label = "") {
+  lastDone <- 0L
+  initialized <- FALSE
+  callback <- function(done, total_iter) {
+    if (!initialized) {
+      jaspBase::startProgressbar(total_iter, label)
+      initialized <<- TRUE
+    }
+    ticks <- done - lastDone
+    for (i in seq_len(ticks))
+      jaspBase::progressbarTick()
+    lastDone <<- done
+  }
+  return(callback)
+}
+
+.bayesianNetworkAnalysisFitSingleNetwork <- function(data, variableSpec, options, progressLabel = "") {
 
   updateMethod <- .bayesianNetworkAnalysisNormalizeUpdateMethod(options[["omrfUpdateMethod"]])
 
@@ -372,6 +388,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     seed                         = options[["seed"]],
     save                         = TRUE,
     centrality                   = FALSE,
+    progress                     = FALSE,
     warmup                       = options[["burnin"]],
     chains                       = as.integer(options[["chains"]]),
     update_method                = updateMethod,
@@ -385,7 +402,8 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     beta_bernoulli_alpha_between = options[["betaAlpha_between"]],
     beta_bernoulli_beta_between  = options[["betaBeta_between"]],
     lambda                       = options[["lambda"]],
-    dirichlet_alpha              = options[["dirichletAlpha"]]
+    dirichlet_alpha              = options[["dirichletAlpha"]],
+    progress_callback            = .bayesianNetworkAnalysisMakeProgressCallback(progressLabel)
   ))
 
   if (isTryError(easybgmFit)) {
@@ -531,6 +549,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       iter                        = options[["iter"]],
       seed                        = options[["seed"]],
       save                        = TRUE,
+      progress                    = FALSE,
       warmup                      = options[["burnin"]],
       chains                      = as.integer(options[["chains"]]),
       update_method               = updateMethod,
@@ -540,7 +559,8 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       main_alpha                  = options[["thresholdAlpha"]],
       main_beta                   = options[["thresholdBeta"]],
       beta_bernoulli_alpha        = options[["betaAlpha"]],
-      beta_bernoulli_beta         = options[["betaBeta"]]
+      beta_bernoulli_beta         = options[["betaBeta"]],
+      progress_callback           = .bayesianNetworkAnalysisMakeProgressCallback(gettext("Estimating group comparison"))
     ))
 
     if (isTryError(compareFit)) {
@@ -556,9 +576,10 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     )
 
     pooledFit <- .bayesianNetworkAnalysisFitSingleNetwork(
-      data         = pooledData,
-      variableSpec = pooledVariableSpec,
-      options      = options
+      data          = pooledData,
+      variableSpec  = pooledVariableSpec,
+      options       = options,
+      progressLabel = gettext("Estimating pooled network")
     )
 
     networks[[gettext("Pooled")]] <- .bayesianNetworkAnalysisExtractEasybgmResult(
@@ -571,7 +592,9 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
   for (nw in seq_along(groupData)) {
     variableSpec <- .bayesianNetworkAnalysisBuildVariableTypeSpec(options, groupData[[nw]])
-    easybgmFit <- .bayesianNetworkAnalysisFitSingleNetwork(groupData[[nw]], variableSpec, options)
+    progressLabel <- if (nGroups > 1L) gettextf("Estimating %s", groupNames[[nw]]) else gettext("Estimating network")
+    easybgmFit <- .bayesianNetworkAnalysisFitSingleNetwork(groupData[[nw]], variableSpec, options,
+                                                            progressLabel = progressLabel)
 
     networks[[groupNames[[nw]]]] <- .bayesianNetworkAnalysisExtractEasybgmResult(
       easybgmFit   = easybgmFit,
