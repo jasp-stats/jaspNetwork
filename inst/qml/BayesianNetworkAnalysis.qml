@@ -424,8 +424,8 @@ VariablesForm
 				DoubleField
 				{
 					name: "thresholdAlpha"
-					label: qsTr("Threshold shape parameter 1:")
-					info: qsTr("First shape parameter (\u03b11) of the Beta prior on ordinal category threshold probabilities. The default of 0.5 together with shape parameter 2 = 0.5 corresponds to a Jeffreys prior.")
+					label: qsTr("Shape parameter 1 for the main effects")
+					info: qsTr("First shape parameter (\u03b11) of the Beta prior on the main effects.")
 					value: 0.5
 					min: 0
 					inclusive: JASP.None
@@ -435,8 +435,8 @@ VariablesForm
 				DoubleField
 				{
 					name: "thresholdBeta"
-					label: qsTr("Threshold shape parameter 2:")
-					info: qsTr("Second shape parameter (\u03b12) of the Beta prior on ordinal category threshold probabilities.")
+					label: qsTr("Shape parameter 2 for the main effects:")
+					info: qsTr("Second shape parameter (\u03b12) of the Beta prior on the main effects.")
 					value: 0.5
 					min: 0
 					inclusive: JASP.None
