@@ -111,7 +111,7 @@ testthat::test_that("Centrality plot works with empty graphs", {
 
   table <- results[["results"]][["mainContainer"]][["collection"]][["mainContainer_generalTable"]][["data"]]
   jaspTools::expect_equal_tables(table,
-                                 list(0.333333333333333, 3, "2 / 3"))
+                                 list(1, "2 / 3", 0, 3, 0.333333333333333))
 
   plotName <- results[["results"]][["mainContainer"]][["collection"]][["mainContainer_plotContainer"]][["collection"]][["mainContainer_plotContainer_centralityPlot"]][["data"]]
   testPlot <- results[["state"]][["figures"]][[plotName]][["obj"]]

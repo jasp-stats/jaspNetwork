@@ -71,16 +71,18 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
   if (is.null(mainContainer[["generalTable"]])) {
 
-    tb <- createJaspTable(gettext("Summary of Network"), position = 1, dependencies = "minEdgeStrength")
+    tb <- createJaspTable(gettext("Summary of Network"), position = 1, dependencies = c("minEdgeStrength", "edgeSpecificOverviewInclusionCriteria"))
 
     if (length(dataset) > 1L) tb$addColumnInfo(name = "info", title = gettext("Network"), type = "string")
 
-    tb$addColumnInfo(name = "nodes",    title = gettext("Number of nodes"),          type = "integer")
-    tb$addColumnInfo(name = "nonZero",  title = gettext("Number of non-zero edges"), type = "string")
-    tb$addColumnInfo(name = "Sparsity", title = gettext("Sparsity"),                 type = "number")
+    tb$addColumnInfo(name = "nodes",        title = gettext("Number of nodes"),                          type = "integer")
+    tb$addColumnInfo(name = "included",     title = gettext("Number of included edges"),                 type = "string")
+    tb$addColumnInfo(name = "excluded",     title = gettext("Number of excluded edges"),                 type = "integer")
+    tb$addColumnInfo(name = "inconclusive", title = gettext("Number of edges with inconclusive evidence"), type = "integer")
+    tb$addColumnInfo(name = "Sparsity",     title = gettext("Sparsity"),                                 type = "number")
 
 
-    tb$addFootnote(gettext("The analysis may require a substantial amount of time to complete. This time increases with the number of variables and the number of iterations."))
+    tb$addFootnote(gettext("Edge categorization is based on the inclusion criteria BF: included (BF\u2081\u2080 \u2265 threshold), excluded (BF\u2081\u2080 \u2264 1/threshold), inconclusive (otherwise)."))
 
     mainContainer[["generalTable"]] <- tb
   }
@@ -641,18 +643,28 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     }
   }
 
-  df <- data.frame(nodes = integer(nGraphs), nonZero = numeric(nGraphs), Sparsity = numeric(nGraphs))
+  df <- data.frame(nodes = integer(nGraphs), included = character(nGraphs), excluded = integer(nGraphs),
+                   inconclusive = integer(nGraphs), Sparsity = numeric(nGraphs), stringsAsFactors = FALSE)
   if (nGraphs > 1L)
     df[["info"]] <- names(network[["network"]])
 
+  threshold <- options[["edgeSpecificOverviewInclusionCriteria"]]
   nVar <- ncol(network[["network"]][[1L]][["graph"]])
   for (i in seq_len(nGraphs)) {
 
     nw <- network[["network"]][[i]]
+    nEdges <- (nVar * (nVar - 1L)) %/% 2
+    bfUpper <- nw[["BF"]][upper.tri(nw[["BF"]], diag = FALSE)]
 
-    df[["nodes"]][i]    <- nrow(nw[["graph"]])
-    df[["nonZero"]][i]  <- paste(sum(nw[["graph"]][upper.tri(nw[["graph"]], diag = FALSE)] != 0), "/", (nVar * (nVar-1L)) %/% 2)
-    df[["Sparsity"]][i] <- mean(nw[["graph"]][upper.tri(nw[["graph"]], diag = FALSE)] == 0)
+    nIncluded    <- sum(bfUpper >= threshold)
+    nExcluded    <- sum(bfUpper <= 1 / threshold)
+    nInconclusive <- nEdges - nIncluded - nExcluded
+
+    df[["nodes"]][i]        <- nrow(nw[["graph"]])
+    df[["included"]][i]     <- paste(nIncluded, "/", nEdges)
+    df[["excluded"]][i]     <- nExcluded
+    df[["inconclusive"]][i] <- nInconclusive
+    df[["Sparsity"]][i]     <- 1 - nIncluded / nEdges
 
   }
 
