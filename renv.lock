@@ -2836,7 +2836,7 @@
       "RemoteRepo": "easybgm",
       "RemoteUsername": "Bayesian-Graphical-Modelling-Lab",
       "RemoteRef": "update_easybgm",
-      "RemoteSha": "c402b3d7dde22ebabaa58e41d855d4c55f8d2433",
+      "RemoteSha": "8d6a1a3f9c9a92cc53e31e3e228586410ae29e45",
       "NeedsCompilation": "no",
       "Author": "Karoline Huth [aut, cre] (ORCID: <https://orcid.org/0000-0002-0662-1591>), Sara Keetelaar [ctb], Nikola Sekulovski [ctb], Gali Geller [ctb]"
     },
