@@ -166,18 +166,20 @@ VariablesForm
 	}
 	Column
 	{
-		CheckBox
-		{
-			name: "posteriorStructurePlot"
-			label: qsTr("Posterior structure probability plot")
-			info: qsTr("Plots the posterior probability of each sampled graph structure (y-axis) against a structure index (x-axis), sorted in decreasing order of probability. Useful for assessing whether a single graph structure dominates the posterior.")
-		}
-		CheckBox
-		{
-			name: "complexityPlot"
-			label: qsTr("Posterior complexity probability plot")
-			info: qsTr("Plots the summed posterior probability (y-axis) against the number of edges (x-axis). Useful for assessing which network complexities are most supported by the data.")
-		}
+			   CheckBox
+			   {
+				   name: "posteriorStructurePlot"
+				   label: qsTr("Posterior structure probability plot")
+				   info: qsTr("Plots the posterior probability of each sampled graph structure (y-axis) against a structure index (x-axis), sorted in decreasing order of probability. Useful for assessing whether a single graph structure dominates the posterior.")
+				   visible: groupingVariableSelector.count === 0
+			   }
+			   CheckBox
+			   {
+				   name: "complexityPlot"
+				   label: qsTr("Posterior complexity probability plot")
+				   info: qsTr("Plots the summed posterior probability (y-axis) against the number of edges (x-axis). Useful for assessing which network complexities are most supported by the data.")
+				   visible: groupingVariableSelector.count === 0
+			   }
 	}
 }
 
