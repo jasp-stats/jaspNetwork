@@ -328,29 +328,30 @@ VariablesForm
 					visible: edgePrior.currentValue === "Bernoulli"
 			   }
 
-				DoubleField
-				{
-					name: "betaAlpha"
-					label: qsTr("Within cluster shape parameter 1:")
-					info: qsTr("First shape parameter (\u03b11) of the Beta prior on the within-cluster edge inclusion probability. Together with shape parameter 2, controls the prior mean (\u03b11 / (\u03b11 + \u03b12)) and concentration. Equal values of 1 correspond to a uniform prior within each cluster.")
-					value: 1
-					min: 0
-					inclusive: JASP.None
-					preferredWidth: 300
-					visible: edgePrior.currentValue === "Beta-Bernoulli" || edgePrior.currentValue === "Stochastic-Block"
-				}
 
-				DoubleField
-				{
-					name: "betaBeta"
-					label: qsTr("Within cluster shape parameter 2:")
-					info: qsTr("Second shape parameter (\u03b12) of the Beta prior on the within-cluster edge inclusion probability. Equal values of 1 correspond to a uniform prior.")
-					value: 1
-					min: 0
-					inclusive: JASP.None
-					preferredWidth: 300
-					visible: edgePrior.currentValue === "Beta-Bernoulli" || edgePrior.currentValue === "Stochastic-Block"
-				}
+				   DoubleField
+				   {
+					   name: "betaAlpha"
+					   label: edgePrior.currentValue === "Beta-Bernoulli" ? qsTr("Shape parameter 1:") : qsTr("Within cluster shape parameter 1:")
+					   info: qsTr("First shape parameter (\u03b11) of the Beta prior on the within-cluster edge inclusion probability. Together with shape parameter 2, controls the prior mean (\u03b11 / (\u03b11 + \u03b12)) and concentration. Equal values of 1 correspond to a uniform prior within each cluster.")
+					   value: 1
+					   min: 0
+					   inclusive: JASP.None
+					   preferredWidth: 300
+					   visible: edgePrior.currentValue === "Beta-Bernoulli" || edgePrior.currentValue === "Stochastic-Block"
+				   }
+
+				   DoubleField
+				   {
+					   name: "betaBeta"
+					   label: edgePrior.currentValue === "Beta-Bernoulli" ? qsTr("Shape parameter 2:") : qsTr("Within cluster shape parameter 2:")
+					   info: qsTr("Second shape parameter (\u03b12) of the Beta prior on the within-cluster edge inclusion probability. Equal values of 1 correspond to a uniform prior.")
+					   value: 1
+					   min: 0
+					   inclusive: JASP.None
+					   preferredWidth: 300
+					   visible: edgePrior.currentValue === "Beta-Bernoulli" || edgePrior.currentValue === "Stochastic-Block"
+				   }
         DoubleField
 				{
 					name: "betaAlpha_between"
