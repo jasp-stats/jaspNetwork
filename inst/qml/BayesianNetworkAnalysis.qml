@@ -202,10 +202,12 @@ VariablesForm
 			}
 				CheckBox
 			{
-				name: "showInterpretativeScaleEstimates"
-				label: qsTr("Show estimates on interpretative scale")
-				checked: false
-				info: qsTr("Shows log-odds, precisios, and partial correlations when available.")
+				   name: "showInterpretativeScaleEstimates"
+				   label: qsTr("Show estimates on interpretative scale")
+				   checked: false
+				   info: qsTr("Shows log-odds, precisions, and partial correlations when available.")
+				   enabled: groupingVariableSelector.count === 0
+				   visible: groupingVariableSelector.count === 0
 			}
 		}
 		CheckBox
