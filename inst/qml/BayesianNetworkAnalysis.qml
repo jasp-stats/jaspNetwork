@@ -420,7 +420,7 @@ VariablesForm
 					name: "interactionScale"
 					label: qsTr("Scale of the Cauchy distribution for the partial association parameters:")
 					info: qsTr("Scale parameter of the Cauchy prior on the partial association parameters.")
-					value: 2.5
+					value: 1
 					min: 0
 					inclusive: JASP.None
 					preferredWidth: 300

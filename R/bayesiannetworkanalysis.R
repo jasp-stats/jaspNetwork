@@ -623,13 +623,14 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   tb <- mainContainer[["generalTable"]]
   nGraphs <- length(network[["network"]])
 
-  if (options[["minEdgeStrength"]] != 0) {
+  # Check if group comparison is active and 'Differences' network is present
+  groupComparison <- options[["groupingVariable"]] != "" && gettext("Differences") %in% names(network[["network"]])
 
+  if (options[["minEdgeStrength"]] != 0) {
     ignored <- logical(nGraphs)
     for (i in seq_along(network[["network"]])) {
       ignored[i] <- all(abs(network[["network"]][[i]][["graph"]]) <= options[["minEdgeStrength"]])
     }
-
     if (any(ignored)) {
       if (nGraphs == 1L) {
         text <- gettext("Minimum edge strength ignored in the network plot because it was larger than the absolute value of the strongest edge.")
@@ -643,36 +644,59 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     }
   }
 
-  df <- data.frame(nodes = integer(nGraphs), included = character(nGraphs), excluded = integer(nGraphs),
-                   inconclusive = integer(nGraphs), Sparsity = numeric(nGraphs), stringsAsFactors = FALSE)
-  if (nGraphs > 1L)
-    df[["info"]] <- names(network[["network"]])
-
-  threshold <- options[["edgeSpecificOverviewInclusionCriteria"]]
-  nVar <- ncol(network[["network"]][[1L]][["graph"]])
-  for (i in seq_len(nGraphs)) {
-
-    nw <- network[["network"]][[i]]
+  if (groupComparison) {
+    # Only show Differences row, rename columns, drop sparsity
+    nw <- network[["network"]][[gettext("Differences")]]
+    nVar <- ncol(nw[["graph"]])
     nEdges <- (nVar * (nVar - 1L)) %/% 2
     bfUpper <- nw[["BF"]][upper.tri(nw[["BF"]], diag = FALSE)]
+    nDifferent <- sum(bfUpper >= options[["edgeSpecificOverviewInclusionCriteria"]])
+    nEqual <- sum(bfUpper <= 1 / options[["edgeSpecificOverviewInclusionCriteria"]])
+    nInconclusive <- nEdges - nDifferent - nEqual
+    df <- data.frame(
+      nodes = nrow(nw[["graph"]]),
+      different = paste(nDifferent, "/", nEdges),
+      equal = nEqual,
+      inconclusive = nInconclusive,
+      stringsAsFactors = FALSE
+    )
+    # Remove info column if present
+    if ("info" %in% names(tb$columns)) tb$removeColumn("info")
+    # Remove Sparsity column if present
+    if ("Sparsity" %in% names(tb$columns)) tb$removeColumn("Sparsity")
+    # Rename columns
+    tb$setColumnTitle("included", gettext("Number of different edges"))
+    tb$setColumnTitle("excluded", gettext("Number of equal edges"))
+    tb$setColumnTitle("inconclusive", gettext("Number of edges with inconclusive evidence"))
+    # Set data with new column names
+    names(df) <- c("nodes", "included", "excluded", "inconclusive")
+    tb$setData(df)
+  } else {
+    df <- data.frame(nodes = integer(nGraphs), included = character(nGraphs), excluded = integer(nGraphs),
+                     inconclusive = integer(nGraphs), Sparsity = numeric(nGraphs), stringsAsFactors = FALSE)
+    if (nGraphs > 1L)
+      df[["info"]] <- names(network[["network"]])
 
-    nIncluded    <- sum(bfUpper >= threshold)
-    nExcluded    <- sum(bfUpper <= 1 / threshold)
-    nInconclusive <- nEdges - nIncluded - nExcluded
-
-    df[["nodes"]][i]        <- nrow(nw[["graph"]])
-    df[["included"]][i]     <- paste(nIncluded, "/", nEdges)
-    df[["excluded"]][i]     <- nExcluded
-    df[["inconclusive"]][i] <- nInconclusive
-    df[["Sparsity"]][i]     <- 1 - nIncluded / nEdges
-
+    threshold <- options[["edgeSpecificOverviewInclusionCriteria"]]
+    nVar <- ncol(network[["network"]][[1L]][["graph"]])
+    for (i in seq_len(nGraphs)) {
+      nw <- network[["network"]][[i]]
+      nEdges <- (nVar * (nVar - 1L)) %/% 2
+      bfUpper <- nw[["BF"]][upper.tri(nw[["BF"]], diag = FALSE)]
+      nIncluded    <- sum(bfUpper >= threshold)
+      nExcluded    <- sum(bfUpper <= 1 / threshold)
+      nInconclusive <- nEdges - nIncluded - nExcluded
+      df[["nodes"]][i]        <- nrow(nw[["graph"]])
+      df[["included"]][i]     <- paste(nIncluded, "/", nEdges)
+      df[["excluded"]][i]     <- nExcluded
+      df[["inconclusive"]][i] <- nInconclusive
+      df[["Sparsity"]][i]     <- 1 - nIncluded / nEdges
+    }
+    compareUnavailableReason <- attr(network[["network"]], "compareUnavailableReason")
+    if (!is.null(compareUnavailableReason))
+      tb$addFootnote(compareUnavailableReason, symbol = gettext("<em>Warning: </em>"))
+    tb$setData(df)
   }
-
-  compareUnavailableReason <- attr(network[["network"]], "compareUnavailableReason")
-  if (!is.null(compareUnavailableReason))
-    tb$addFootnote(compareUnavailableReason, symbol = gettext("<em>Warning: </em>"))
-
-  tb$setData(df)
 }
 
 .bayesianNetworkAnalysisPlotContainer <- function(mainContainer, network, options) {
