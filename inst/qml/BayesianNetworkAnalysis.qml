@@ -22,33 +22,73 @@ import JASP.Controls
 
 Form
 {
+	info: qsTr("Bayesian Network Analysis estimates the structure and strength of conditional associations among variables in a graphical model.\n") +
+		qsTr("The module supports the Gaussian graphical model (for continuous variables), the ordinal Markov random field, for ordinal (and binary) variables including Blume-Capel parameterizations when the ordinal variables with more than two categories have a meaningful neutral category,
+		as well as a mixed graphical model of continuous and ordinal (Blume-Capel) variables.\n") +
+		qsTr("When a grouping factor variable is supplied, one network is estimated per group. A a statistical comparison of network differences is available if all selected variables are ordinal or Blume-Capel; otherwise, only group-specific networks are estimated.\n") +
+		qsTr("Posterior summaries include the edge weight estimates, along with the edge inclusion probabilities and inclusion Bayes factors, that can be inspected using the different tables and plots.\n") +
+		"## " + qsTr("Assumptions") + "\n" +
+		"- " + qsTr("Variables are measured on a single occasion (no time dependency is modeled).") + "\n" +
+		"- " + qsTr("Continuous variables are assumed to follow a Gaussian distribution.") + "\n" +
+		"- " + qsTr("Ordinal variables are treated as ordered-categorical; select Blume-Capel if a neutral category is meaningful.") + "\n" +
+		"- " + qsTr("Cases with missing values are excluded listwise.")
 
 VariablesForm
+{
+	AvailableVariablesList
 	{
-		AvailableVariablesList { name: "allVariablesList" }
-		AssignedVariablesList  { name: "variables";
-								title: qsTr("Dependent Variables");
-								allowedColumns: ["ordinal", "scale"];
-								allowTypeChange: true;
-								id: networkVariables}
-		AssignedVariablesList { name: "groupingVariable";
-								title: qsTr("Split");
-								singleVariable: true;
-								allowedColumns: ["nominal"] }
+		name: "allVariablesList"
+		info: qsTr("Variables available for inclusion in the network model.")
 	}
 
-	DropDown
+	AssignedVariablesList
 	{
-		id: model
-		name: "model"
-		label: qsTr("Model")
-		Layout.columnSpan: 2
-		values: [
-			{ value: "ggm",		        label: "ggm (continuous)"	        },
-			{ value: "gcgm",				  label: "gcgm (mixed)"			        },
-			{ value: "omrf",				  label: "omrf (binary/ordinal)"		}
-		]
+		name: "variables"
+		title: ""
+		info: qsTr("Select variables to include as nodes in the network. Continuous (scale) and ordinal variables are accepted. When a grouping variable is present, a difference network is estimated only if all selected variables are ordinal or Blume-Capel; otherwise separate group networks are estimated.")
+		allowedColumns: ["ordinal", "scale"]
+		allowTypeChange: false
+		id: networkVariables
+		rowComponentTitle: qsTr("Blume-Capel / Baseline category")
+		rowComponent: RowLayout
+		{
+			spacing: 6
+
+			Item { Layout.preferredWidth: rowType == "ordinal" ? 10 : 0 }
+
+			CheckBox
+			{
+				id: blumeCapelToggle
+				name: "blumeCapel"
+				label: qsTr("B-C")
+				checked: false
+				visible: rowType == "ordinal"
+				enabled: rowType == "ordinal"
+				info: qsTr("Treat this ordinal variable using the Blume-Capel parameterization in the OMRF model. Use this when the variable has a meaningful neutral or reference category (e.g., a symmetric Likert scale with a midpoint).")
+			}
+
+			DropDown
+			{
+				name: "levels"
+				label: qsTr("Baseline")
+				source: [{ values: [rowValue], use: "levels" }]
+				visible: rowType == "ordinal" && blumeCapelToggle.checked
+				enabled: blumeCapelToggle.checked
+				info: qsTr("Select the neutral or reference category for the Blume-Capel parameterization. Distances between ordinal categories are measured relative to this baseline.")
+			}
+		}
 	}
+
+	AssignedVariablesList
+	{
+		name: "groupingVariable"
+		id: groupingVariableSelector
+		title: qsTr("Compare networks across groups")
+		singleVariable: true
+		allowedColumns: ["nominal"]
+		info: qsTr("Select a nominal variable to estimate one network per group. A difference network is estimated only when all selected variables are ordinal or Blume-Capel; if scale variables are included, only separate group networks are estimated. At least 2 groups and 3 observations per group are required.")
+	}
+}
 
 	Group
 	{
@@ -56,11 +96,14 @@ VariablesForm
 		CheckBox
 		{
 			name: "networkPlot"
+			visible: groupingVariableSelector.count === 0
 			label: qsTr("Network plot")
+			info: qsTr("Displays the posterior mean partial association network. Edge width and color saturation reflect association strength; blue edges are positive and red edges are negative. Edges whose BF\u2081\u2080 falls below the inclusion threshold are hidden. Only available when no grouping variable is selected.")
 			IntegerField
 			{
 				name:			"networkPlotInclusionCriteria"
 				label:			qsTr("Inclusion criteria: BF\u2081\u2080 > ")
+				info: qsTr("Edges with BF\u2081\u2080 below this value are set to zero in the network plot.")
 				min:			1
 				defaultValue:	10
 				max:			2e2
@@ -70,54 +113,73 @@ VariablesForm
 		{
 			name: "evidencePlot";
 			label: qsTr("Edge evidence plot")
+			info: qsTr("Displays the network with edges colored by the evidence category they belong to. Blue edges have BF\u2081\u2080 at or above the threshold (evidence for inclusion); yellow edges have BF\u2081\u2080 at or below the reciprocal threshold (evidence for exclusion); gray edges fall in between (absence of evidence).")
 			IntegerField
 			{
 				name:			"edgeInclusionCriteria";
 				label:			qsTr("Inclusion criteria: BF\u2081\u2080 > ");
+				info: qsTr("BF threshold for categorizing evidence. An edge is evidence for inclusion if BF\u2081\u2080 \u2265 threshold, evidence for exclusion if BF\u2081\u2080 \u2264 1/threshold, and absence of evidence otherwise.")
 				min:			1;
 				defaultValue:	10;
 				max:			2e2
 			}
-			CheckBox { name: "edgeInclusion";	label: qsTr("Evidence for inclusion");	checked: true }
-			CheckBox { name: "edgeExclusion";	label: qsTr("Evidence for exclusion");	checked: true }
-			CheckBox { name: "edgeAbsence";		label: qsTr("Absence of evidence"); 	checked: true }
+			CheckBox { name: "edgeInclusion";	label: qsTr("Evidence for inclusion");	checked: true; info: qsTr("Show edges with BF\u2081\u2080 \u2265 threshold, colored blue.") }
+			CheckBox { name: "edgeExclusion";	label: qsTr("Evidence for exclusion");	checked: true; info: qsTr("Show edges with BF\u2081\u2080 \u2264 1/threshold, colored yellow.") }
+			CheckBox { name: "edgeAbsence";		label: qsTr("Absence of evidence"); 	checked: true; info: qsTr("Show edges where BF\u2081\u2080 falls between the two thresholds, colored gray.") }
 	}
 	CheckBox
 	{
 		name: "centralityPlot"; id: centralityPlot; label: qsTr("Centrality plot")
+		visible: groupingVariableSelector.count === 0
+		info: qsTr("Displays posterior mean centrality for the selected measures (betweenness, closeness, strength, expected influence). Measures are plotted side by side per node. Only available when no grouping variable is selected.")
 		CheckBox
 		{
 			name: "credibilityInterval";
 			label: qsTr("Credibility interval 95%");
+			info: qsTr("Adds 95% highest density intervals (HDI) to centrality summaries.")
 			checked: false;
-			visible: model.currentValue === "omrf"; // Show only when model is "omrf"
+		}
+	}
+	CheckBox
+	{
+		name: "parameterHdiPlot"
+		visible: groupingVariableSelector.count === 0
+		label: qsTr("Parameter HDI plot")
+		info: qsTr("Displays the posterior mean and highest density interval (HDI) for every pairwise partial association, ordered from smallest to largest posterior mean. One panel per network is shown when multiple networks are estimated. Only available when no grouping variable is selected.")
+		DoubleField
+		{
+			name:         "parameterHdiPlotCoverage"
+			label:        qsTr("HDI coverage:")
+			value:        0.95
+			min:          0.01
+			max:          0.99
+			decimals:     2
+			info:         qsTr("Coverage of the highest density interval (e.g., 0.95 for a 95% HDI).")
 		}
 	}
 	CheckBox
 	{
 		name: "coclusteringPlot"
 		label: qsTr("Co-clustering matrix plot")
-		info: qsTr("Displays a heatmap of the posterior co-clustering probabilities.")
-		visible: model.currentValue === "omrf" && edgePrior.currentValue === "Stochastic-Block"
+		info: qsTr("Displays a heatmap where each cell shows the posterior proportion of the corresponding pairs of nodes belonging to the same cluster. Only available with the Stochastic block model edge prior (see Prior Specification) and no grouping variable.")
+		visible: edgePrior.currentValue === "Stochastic-Block" && groupingVariableSelector.count === 0
 	}
 	Column
 	{
-		spacing: 10
-		Text
-		{
-			text: qsTr("Network structure selection")
-			font.bold: false
-		}
-		CheckBox
-		{
-			name: "posteriorStructurePlot"
-			label: qsTr("Posterior structure probability plot")
-		}
-		CheckBox
-		{
-			name: "complexityPlot"
-			label: qsTr("Posterior complexity probability plot")
-		}
+			   CheckBox
+			   {
+				   name: "posteriorStructurePlot"
+				   label: qsTr("Posterior structure probability plot")
+				   info: qsTr("Plots the posterior probability of each sampled graph structure (y-axis) against a structure index (x-axis), sorted in decreasing order of probability. Useful for assessing whether a single graph structure dominates the posterior.")
+				   visible: groupingVariableSelector.count === 0
+			   }
+			   CheckBox
+			   {
+				   name: "complexityPlot"
+				   label: qsTr("Posterior complexity probability plot")
+				   info: qsTr("Plots the summed posterior probability (y-axis) against the number of edges (x-axis). Useful for assessing which network complexities are most supported by the data.")
+				   visible: groupingVariableSelector.count === 0
+			   }
 	}
 }
 
@@ -128,82 +190,99 @@ VariablesForm
 		{
 			name: "edgeSpecificOverviewTable"
 			label: qsTr("Edge specific overview")
+			info: qsTr("Shows one row per edge. Columns include posterior estimates, inclusion probability, inclusion Bayes factor, and convergence statistics (R-hat). Edges are listed in order of decreasing inclusion probability.")
 			IntegerField
 			{
 				name:			"edgeSpecificOverviewInclusionCriteria"
 				label:			qsTr("Inclusion criteria: BF\u2081\u2080 > ")
+				info: qsTr("Only edges with BF\u2081\u2080 above this value are listed in the edge-specific overview table.")
 				min:			1
 				defaultValue:	10
 				max:			2e2
 			}
+				CheckBox
+			{
+				   name: "showInterpretativeScaleEstimates"
+				   label: qsTr("Show estimates on interpretative scale")
+				   checked: false
+				   info: qsTr("Shows log-odds, precisions, and partial correlations when available.")
+				   enabled: groupingVariableSelector.count === 0
+				   visible: groupingVariableSelector.count === 0
+			}
 		}
-		CheckBox { name: "weightsMatrixTable";	label: qsTr("Weights matrix")	}
 		CheckBox
 		{
 			name: "edgeEvidenceTable";		label: qsTr("Edge evidence probability table")
+			info: qsTr("Displays a symmetric matrix of edge-wise evidence values. All edges are listed regardless of evidence strength.")
 			RadioButtonGroup
 			{
 				name: "evidenceType";
+				info: qsTr("Choose which evidence quantity to display for each edge.")
 				RadioButton
 				{
-									value: "inclusionProbability";	label: qsTr("Edge inclusion probability"); checked: true }
-					RadioButton { 	value: "BF10"; 					label: qsTr("BF\u2081\u2080")							}
-					RadioButton { 	value: "BF01"; 					label: qsTr("BF\u2080\u2081")							}
-					RadioButton { 	value: "log(BF)"; 				label: qsTr("Log(BF\u2081\u2080)")						}
+									value: "inclusionProbability";	label: qsTr("Edge inclusion probability"); checked: true; info: qsTr("Posterior probability that an edge is present, ranging from 0 (no evidence for the edge) to 1 (certain inclusion).") }
+					RadioButton { 	value: "BF10"; 					label: qsTr("BF\u2081\u2080"); info: qsTr("Bayes factor quantifying evidence for edge inclusion relative to exclusion. BF\u2081\u2080 > 1 favors inclusion; BF\u2081\u2080 < 1 favors exclusion.")									}
+					RadioButton { 	value: "BF01"; 					label: qsTr("BF\u2080\u2081"); info: qsTr("Reciprocal Bayes factor quantifying evidence for edge exclusion relative to inclusion. BF\u2080\u2081 = 1 / BF\u2081\u2080.")									}
+					RadioButton { 	value: "log(BF)"; 				label: qsTr("Log(BF\u2081\u2080)"); info: qsTr("Natural logarithm of BF\u2081\u2080.")						}
 				}
 		}
-		CheckBox { name: "centralityTable"; label: qsTr("Centrality table") }
+		CheckBox { name: "centralityTable"; label: qsTr("Centrality table"); visible: groupingVariableSelector.count === 0; info: qsTr("Shows the posterior mean betweenness, closeness, strength, and expected influence for each node. Centrality is computed on the posterior mean network. Only available when no grouping variable is selected.") }
 
 		Group
 		{
 			title: qsTr("Clustering Overview")
-			visible: model.currentValue === "omrf" && edgePrior.currentValue === "Stochastic-Block"
+			visible: edgePrior.currentValue === "Stochastic-Block" && groupingVariableSelector.count === 0
 
 			CheckBox
 			{
 				name: "clusterAllocationsTable"
 				label: qsTr("Cluster allocations")
-				info: qsTr("Displays the estimated allocation of nodes into clusters.")
+				info: qsTr("Shows the estimated cluster membership for each node. The allocation is summarized as either the posterior mean or posterior mode of the cluster indicator across MCMC samples.")
 				DropDown
 				{
 					name: "clusterAllocationsType"
 					label: qsTr("Summary statistic")
+					info: qsTr("Posterior mean uses the average cluster index across samples (may be non-integer). Posterior mode uses the most frequently sampled cluster assignment.")
 					values: [
 						{ value: "mean", label: qsTr("Posterior mean") },
 						{ value: "mode", label: qsTr("Posterior mode") }
 					]
 				}
 			}
-			CheckBox { name: "posteriorNumBlocksTable";			label: qsTr("Posterior probabilities for the number of clusters"); info: qsTr("Shows the posterior probability for each possible number of clusters.") }
+			CheckBox { name: "posteriorNumBlocksTable";			label: qsTr("Posterior probabilities for the number of clusters"); info: qsTr("Shows the posterior probability for every possible number of clusters.") }
 			CheckBox { name: "posteriorCoclusteringMatrixTable";	label: qsTr("Posterior co-clustering matrix"); info: qsTr("Shows the posterior probability that each pair of nodes belongs to the same cluster.") }
 			CheckBox
 			{
 				name: "clusterBayesFactor"
 				label: qsTr("Cluster Bayes factor")
-				info: qsTr("Computes Bayes factors for clustering hypotheses.")
+				info: qsTr("Computes a Bayes factor comparing hypotheses about the clustering structure.")
 				RadioButtonGroup
 				{
 					name: "clusterBayesFactorType"
-					RadioButton { value: "complement";	label: qsTr("Clustering vs. no clustering"); checked: true }
+					info: qsTr("Clustering vs. no clustering compares the hypothesis of multi-cluster solution against a the hypothesis of a single-cluster (no clustering) model. Point hypotheses compares two specific numbers of clusters.")
+					RadioButton { value: "complement";	label: qsTr("Clustering vs. no clustering"); checked: true; info: qsTr("The BF tests whether any clustered structure is more probable than a single-cluster network.") }
 					RadioButton
 					{
 						value: "point"
 						label: qsTr("Point hypotheses")
+						info: qsTr("The BF compares the posterior probability of exactly H\u2081 clusters versus exactly H\u2082 clusters.")
 						IntegerField
 						{
 							name:			"clusterBayesFactorB1"
 							label:			qsTr("H\u2081")
+							info: qsTr("Number of clusters under hypothesis H\u2081.")
 							defaultValue:	1
 							min:			1
-							max:			networkVariables.count
+							max:			Math.max(1, networkVariables.count)
 						}
 						IntegerField
 						{
 							name:			"clusterBayesFactorB2"
 							label:			qsTr("H\u2082")
-							defaultValue:	2
+							info: qsTr("Number of clusters under hypothesis H\u2082.")
+							defaultValue:	1
 							min:			1
-							max:			networkVariables.count
+							max:			Math.max(1, networkVariables.count)
 						}
 					}
 				}
@@ -226,104 +305,105 @@ VariablesForm
 					id: edgePrior
 					name: "edgePrior"
 					label: qsTr("Edge prior:")
+							info: qsTr("Bernoulli: each edge is independently included with a fixed prior probability. Beta-binomial: edges share a random inclusion probability drawn from a Beta distribution, allowing borrowing of information. Stochastic block: inclusion probabilities depend on latent cluster membership, with separate within- and between-cluster parameters. The Stochastic block option is only available without a grouping variable.")
 					preferredWidth: 300
-					values: [
-						{ value: "Bernoulli",			label: qsTr("Bernoulli")				},
-						{ value: "Beta-Bernoulli",		label: qsTr("Beta-binomial")			},
-						{ value: "Stochastic-Block",	label: qsTr("Stochastic block model")	}
-					]
-					visible: model.currentValue === "omrf"
+					values: groupingVariableSelector.count > 0 ?
+						[
+							{ value: "Bernoulli",      label: qsTr("Bernoulli")     },
+							{ value: "Beta-Bernoulli", label: qsTr("Beta-binomial") }
+						] :
+						[
+							{ value: "Bernoulli",        label: qsTr("Bernoulli")              },
+							{ value: "Beta-Bernoulli",   label: qsTr("Beta-binomial")          },
+							{ value: "Stochastic-Block", label: qsTr("Stochastic block model") }
+						]
 				}
 
 				DoubleField
 				{
 					name: "gPrior"
 					label: qsTr("Prior edge inclusion probability:")
+					info: qsTr("Prior probability that any given edge is present under the Bernoulli prior. The default of 0.5 assigns equal prior probability to inclusion and exclusion. Values closer to 0 impose a sparser prior.")
 					value: 0.5
 					min: 0
 					max: 1
 					inclusive: JASP.MaxOnly
 					preferredWidth: 300
-					visible: (model.currentValue === "ggm" || model.currentValue === "gcgm") || (model.currentValue === "omrf" && edgePrior.currentValue === "Bernoulli")
+					visible: edgePrior.currentValue === "Bernoulli"
 			   }
 
-				DoubleField
-				{
-					name: "betaAlpha"
-					label: qsTr("Within cluster shape parameter 1:")
-					value: 1
-					min: 0
-					inclusive: JASP.None
-					preferredWidth: 300
-					visible: (model.currentValue === "omrf") && (edgePrior.currentValue === "Beta-Bernoulli" || edgePrior.currentValue === "Stochastic-Block")
-				}
 
-				DoubleField
-				{
-					name: "betaBeta"
-					label: qsTr("Within cluster shape parameter 2:")
-					value: 1
-					min: 0
-					inclusive: JASP.None
-					preferredWidth: 300
-					visible: (model.currentValue === "omrf") && (edgePrior.currentValue === "Beta-Bernoulli" || edgePrior.currentValue === "Stochastic-Block")
-				}
+				   DoubleField
+				   {
+					   name: "betaAlpha"
+					   label: edgePrior.currentValue === "Beta-Bernoulli" ? qsTr("Shape parameter 1:") : qsTr("Within cluster shape parameter 1:")
+					   info: qsTr("First shape parameter (\u03b11) of the Beta prior on the within-cluster edge inclusion probability. Together with shape parameter 2, controls the prior mean (\u03b11 / (\u03b11 + \u03b12)) and concentration. Equal values of 1 correspond to a uniform prior within each cluster.")
+					   value: 1
+					   min: 0
+					   inclusive: JASP.None
+					   preferredWidth: 300
+					   visible: edgePrior.currentValue === "Beta-Bernoulli" || edgePrior.currentValue === "Stochastic-Block"
+				   }
+
+				   DoubleField
+				   {
+					   name: "betaBeta"
+					   label: edgePrior.currentValue === "Beta-Bernoulli" ? qsTr("Shape parameter 2:") : qsTr("Within cluster shape parameter 2:")
+					   info: qsTr("Second shape parameter (\u03b12) of the Beta prior on the within-cluster edge inclusion probability. Equal values of 1 correspond to a uniform prior.")
+					   value: 1
+					   min: 0
+					   inclusive: JASP.None
+					   preferredWidth: 300
+					   visible: edgePrior.currentValue === "Beta-Bernoulli" || edgePrior.currentValue === "Stochastic-Block"
+				   }
         DoubleField
 				{
 					name: "betaAlpha_between"
 					label: qsTr("Between cluster shape parameter 1:")
+					info: qsTr("First shape parameter (\u03b11) of the Beta prior on the between-cluster edge inclusion probability. To encourage sparsity between clusters (block structure), set both between-cluster parameters to values less than 1.")
 					value: 1
 					min: 0
 					inclusive: JASP.None
 					preferredWidth: 300
-					visible: (model.currentValue === "omrf") && (edgePrior.currentValue === "Stochastic-Block")
+					visible: edgePrior.currentValue === "Stochastic-Block"
 				}
 
 				DoubleField
 				{
 					name: "betaBeta_between"
 					label: qsTr("Between cluster shape parameter 2:")
+					info: qsTr("Second shape parameter (\u03b12) of the Beta prior on the between-cluster edge inclusion probability.")
 					value: 1
 					min: 0
 					inclusive: JASP.None
 					preferredWidth: 300
-					visible: (model.currentValue === "omrf") && (edgePrior.currentValue === "Stochastic-Block")
+					visible: edgePrior.currentValue === "Stochastic-Block"
 				}
 
 				DoubleField
 				{
 					name: "lambda"
 					label: qsTr("Parameter for the number of clusters:")
+					info: qsTr("Rate parameter of the truncated Poisson prior on the number of clusters. Smaller values favor fewer clusters.")
 					value: 1
 					min: 0
 					inclusive: JASP.None
 					preferredWidth: 300
-					visible: (model.currentValue === "omrf") && (edgePrior.currentValue === "Stochastic-Block")
+					visible: edgePrior.currentValue === "Stochastic-Block"
 				}
 
 				DoubleField
 				{
 					name: "dirichletAlpha"
 					label: qsTr("Concentration parameter:")
+					info: qsTr("Symmetric Dirichlet concentration parameter for cluster membership probabilities. The default of 1 is roughly uninformative about cluster sizes. Values less than 1 favor unequal cluster sizes.")
 					value: 1
 					min: 0
 					inclusive: JASP.None
 					preferredWidth: 300
-					visible: (model.currentValue === "omrf") && (edgePrior.currentValue === "Stochastic-Block")
+					visible: edgePrior.currentValue === "Stochastic-Block"
 				}
 
-				DropDown
-				{
-					id: initialConfiguration
-					name: "initialConfiguration"
-					label: qsTr("Initial configuration prior edge inclusion:")
-					preferredWidth: 300
-					values: [
-						{ value: "empty", label: "empty" },
-						{ value: "full", label: "full" }
-					]
-				   visible: model.currentValue === "ggm" || model.currentValue === "gcgm"
-				}
 			}
 		}
 
@@ -335,48 +415,37 @@ VariablesForm
 			Column
 			{
 				spacing: 10
-				IntegerField
-				{
-					name: "dfPrior"
-					label: qsTr("Degrees of freedom of G-Wishart prior:")
-					value: 3
-					min: 3
-
-					preferredWidth: 300
-					visible: model.currentValue === "ggm" || model.currentValue === "gcgm"
-				}
-
 				DoubleField
 				{
 					name: "interactionScale"
-					label: qsTr("Scale of the Cauchy distribution for the edge weights:")
-					value: 2.5
+					label: qsTr("Scale of the Cauchy distribution for the partial association parameters:")
+					info: qsTr("Scale parameter of the Cauchy prior on the partial association parameters.")
+					value: 1
 					min: 0
 					inclusive: JASP.None
 					preferredWidth: 300
-					visible: model.currentValue === "omrf"
 				}
 
 				DoubleField
 				{
 					name: "thresholdAlpha"
-					label: qsTr("Threshold shape parameter 1:")
+					label: qsTr("Shape parameter 1 for the main effects")
+					info: qsTr("First shape parameter (\u03b11) of the Beta prior on the main effects.")
 					value: 0.5
 					min: 0
 					inclusive: JASP.None
 					preferredWidth: 300
-					visible: model.currentValue === "omrf"
 				}
 
 				DoubleField
 				{
 					name: "thresholdBeta"
-					label: qsTr("Threshold shape parameter 2:")
+					label: qsTr("Shape parameter 2 for the main effects:")
+					info: qsTr("Second shape parameter (\u03b12) of the Beta prior on the main effects.")
 					value: 0.5
 					min: 0
 					inclusive: JASP.None
 					preferredWidth: 300
-					visible: model.currentValue === "omrf"
 				}
 			}
 		}
@@ -387,22 +456,24 @@ VariablesForm
 	{
 		title: qsTr("Sampling Options")
 		Layout.columnSpan: 2
-		IntegerField { name: "burnin";	label: qsTr("Burn in: ");		value: 1000;	min: 0; 				max: iter.value / 2;	fieldWidth: 100; id: burnin	}
-		IntegerField { name: "iter";		label: qsTr("Iterations: ");	value: 2000;	min: burnin.value * 2; 							fieldWidth: 100; id: iter	}
+		IntegerField { name: "burnin";	label: qsTr("Burn in: ");		value: 2000;	min: 1000; 						fieldWidth: 100; id: burnin; info: qsTr("Number of warmup iterations discarded from the start of each chain to allow the Markov chain to converge before collecting posterior samples.")	}
+		IntegerField { name: "iter";		label: qsTr("Iterations: ");	value: 2000;												fieldWidth: 100; id: iter; info: qsTr("Total number of MCMC iterations per chain, including the burn-in. Posterior inference uses the iterations after burn-in. Increase for more stable estimates, especially for complex models.")	}
 
 		Group
 		{
 			title: qsTr("Advanced Options")
-			visible: model.currentValue === "omrf"
 
 			DropDown
 			{
 				name: "chains"
 				label: qsTr("Number of chains")
-				indexDefaultValue: 1
+				info: qsTr("Number of independent MCMC chains. With 2 or more chains, the Gelman-Rubin R-hat convergence statistic is computed across all chains. With 1 chain, a split-chain version is used instead. R-hat values above approximately 1.05 suggest the chains have not converged.")
+				indexDefaultValue: 3
 				values: [
 					{ value: "1",	label: "1" },
-					{ value: "2",	label: "2" }
+					{ value: "2",	label: "2" },
+					{ value: "3",	label: "3" },
+					{ value: "4",	label: "4" }
 				]
 			}
 
@@ -410,9 +481,10 @@ VariablesForm
 			{
 				name: "omrfUpdateMethod"
 				label: qsTr("Update method")
+				info: qsTr("MCMC algorithm used to sample from the posterior.")
+				indexDefaultValue: 1
 				values: [
 					{ value: "adaptive-metropolis",	label: qsTr("Adaptive Metropolis")	},
-					{ value: "hamiltonian-mc",		label: qsTr("Hamiltonian MC")		},
 					{ value: "nuts",				label: qsTr("NUTS")				}
 				]
 			}
@@ -420,6 +492,7 @@ VariablesForm
 
 		SetSeed{}
 	}
+
 
   Section
 	{
@@ -430,6 +503,7 @@ VariablesForm
 			id					: networkFactors
 			name				: "manualColorGroups"
 			title				: qsTr("Group name")
+			info				: qsTr("Define named groups for manual node coloring. Each group can be assigned a color that will appear in the network plot when Manual colors is enabled.")
 			optionKey			: "name"
 			defaultValues		: [qsTr("Group 1"), qsTr("Group 2")]
 			placeHolder			: qsTr("New Group")
@@ -458,6 +532,7 @@ VariablesForm
 			preferredWidth					: (2 * form.width) / 5
 			title							: qsTr("Variables in network")
 			name							: "colorGroupVariables"
+								info								: qsTr("Assign each network variable to one of the color groups defined on the left. All variables start in Group 1 by default.")
 			source							: ["variables"]
 			addAvailableVariablesToAssigned	: true
 			draggable						: false
@@ -472,13 +547,14 @@ VariablesForm
 		Group
 		{
 			Layout.columnSpan: 2
-			CheckBox	{ name: "manualColor";	label: qsTr("Manual colors");	id: manualColor	}
+			CheckBox	{ name: "manualColor";	label: qsTr("Manual colors");	id: manualColor; info: qsTr("When enabled, node colors are taken from the group color assignments above. When disabled, a predefined palette is applied uniformly.")	}
 			DropDown
 			{
 				enabled: !manualColor.checked
 				id: paletteSelector
 				name: "nodePalette"
 				label: qsTr("Node palette")
+				info: qsTr("Color palette applied to node groups when Manual colors is disabled. Colorblind-safe options are recommended for accessible figures.")
 				indexDefaultValue: 1
 				values: [
 					{ label: qsTr("Rainbow"),		value: "rainbow"	},
@@ -489,28 +565,29 @@ VariablesForm
 					{ label: qsTr("ggplot2"),		value: "ggplot2"	}
 				]
 			}
-			DoubleField	{ name: "nodeSize";		label: qsTr("Node size");		defaultValue: 1; max: 10	}
+			DoubleField	{ name: "nodeSize";		label: qsTr("Node size");		defaultValue: 1; max: 10; info: qsTr("Multiplier applied to all node sizes. A value of 1 uses the default size; values above 1 create larger nodes.")	}
 		}
 
 		Group
 		{
 			title: qsTr("Edges")
-			DoubleField { name: "edgeSize";			label: qsTr("Edge size");			defaultValue: 1 }
-			DoubleField { name: "maxEdgeStrength";	label: qsTr("Max edge strength");	defaultValue: 0; max: 10 }
-			DoubleField { name: "minEdgeStrength";	label: qsTr("Min edge strength");	defaultValue: 0; max: 10 }
-			DoubleField { name: "cut";				label: qsTr("Cut");					defaultValue: 0; max: 10 }
-			CheckBox	{ name: "details";			label: qsTr("Show details") }
+			DoubleField { name: "edgeSize";			label: qsTr("Edge size");			defaultValue: 1; info: qsTr("Multiplier applied to all edge widths. A value of 2 doubles the edge width relative to the default.") }
+			DoubleField { name: "maxEdgeStrength";	label: qsTr("Max edge strength");	defaultValue: 0; max: 10; info: qsTr("Sets the edge weight that corresponds to the maximum line width. Edges stronger than this value are clipped to the maximum width. Set to 0 to scale all edges relative to the strongest edge.") }
+			DoubleField { name: "minEdgeStrength";	label: qsTr("Min edge strength");	defaultValue: 0; max: 10; info: qsTr("Edges with absolute weight below this value are hidden in the network plot. If the threshold exceeds the strongest edge, it is ignored and a warning is shown in the summary table.") }
+			DoubleField { name: "cut";				label: qsTr("Cut");					defaultValue: 0; max: 10; info: qsTr("Edges with absolute weight below this value are drawn thin and desaturated; above it they scale to full width and saturation. Set to 0 to scale all edges continuously without a cut threshold.") }
+			CheckBox	{ name: "details";			label: qsTr("Show details"); info: qsTr("Overlays the minimum edge strength, maximum edge strength, and cut values as text on the network plot.") }
 			CheckBox
 			{
-								name: "edgeLabels";			label: qsTr("Edge labels");				checked: false
-				DoubleField {	name: "edgeLabelSize";		label: qsTr("Edge label size");			min: 0;		max: 10;	defaultValue: 1		}
-				DoubleField {	name: "edgeLabelPosition";	label: qsTr("Edge label position");		min: 0;		max: 1;		defaultValue: 0.5	}
+								name: "edgeLabels";			label: qsTr("Edge labels");				checked: false; info: qsTr("Overlay the numerical edge weight on each edge in the network plot.")
+				DoubleField {	name: "edgeLabelSize";		label: qsTr("Edge label size");			min: 0;		max: 10;	defaultValue: 1; info: qsTr("Multiplier for edge label size.")		}
+				DoubleField {	name: "edgeLabelPosition";	label: qsTr("Edge label position");		min: 0;		max: 1;		defaultValue: 0.5; info: qsTr("Position of edge labels along each edge (0 to 1).")	}
 			}
 
 			DropDown
 			{
 				name: "edgePalette"
 				label: qsTr("Edge palette")
+				info: qsTr("Color scheme applied to positive and negative edges. Classic uses blue for positive and red for negative associations. Colorblind-safe and grayscale options are also available.")
 				indexDefaultValue: 1
 				values:
 				[
@@ -529,13 +606,14 @@ VariablesForm
 		Group
 		{
 			title: qsTr("Labels")
-			DoubleField { name: "labelSize";	label: qsTr("Label size");		defaultValue: 1; max: 10 }
-			CheckBox	{ name: "labelScale";	label: qsTr("Scale label size");	checked: true }
+			DoubleField { name: "labelSize";	label: qsTr("Label size");		defaultValue: 1; max: 10; info: qsTr("Multiplier for node label font size. A value of 2 doubles the label size relative to the default.") }
+			CheckBox	{ name: "labelScale";	label: qsTr("Scale label size");	checked: true; info: qsTr("When enabled, label font size is automatically scaled relative to node size so that labels fit inside nodes.") }
 			CheckBox
 			{
 				name: "labelAbbreviation"; label: qsTr("Abbreviate labels to ")
+				info: qsTr("Abbreviate variable names in plots to reduce label clutter.")
 				childrenOnSameRow: true
-				IntegerField { name: "labelAbbreviationLength"; defaultValue: 4; min: 1; max: 100000 }
+				IntegerField { name: "labelAbbreviationLength"; defaultValue: 4; min: 1; max: 100000; info: qsTr("Target character length for abbreviated labels.") }
 			}
 		}
 
@@ -543,26 +621,30 @@ VariablesForm
 		{
 			name: "variableNamesShown";
 			title: qsTr("Show Variable Names")
-			RadioButton { value: "inNodes";			label: qsTr("In plot");	 checked: true	}
-			RadioButton { value: "inLegend";		label: qsTr("In legend")				}
+			info: qsTr("Choose where variable names are displayed in network plots.")
+			RadioButton { value: "inNodes";			label: qsTr("In plot");	 checked: true; info: qsTr("Variable names are shown as labels directly on the nodes.")	}
+			RadioButton { value: "inLegend";		label: qsTr("In legend"); info: qsTr("Nodes are labeled with numbers; a legend maps each number to the variable name. Useful when variable names are long.")				}
 		}
 
 		RadioButtonGroup
 		{
 			name: "legend"
 			title: qsTr("Legend")
-			RadioButton { value: "hide";		label: qsTr("No legend")				}
-			RadioButton { value: "allPlots";	label: qsTr("All plots"); checked: true	}
+			info: qsTr("Controls legend placement across network plots. When multiple networks are shown (e.g., with grouping), this setting applies globally.")
+			RadioButton { value: "hide";		label: qsTr("No legend"); info: qsTr("No legend is shown in any plot.")				}
+			RadioButton { value: "allPlots";	label: qsTr("All plots"); checked: true; info: qsTr("A legend is added to every network plot.")	}
 			RadioButton
 			{
 				value: "specificPlot"; label: qsTr("In plot number: ")
+				info: qsTr("A legend is added to only the plot with the specified number, and other plots are shown without a legend.")
 				childrenOnSameRow: true
-				IntegerField { name: "legendSpecificPlotNumber"; defaultValue: 1 }
+				IntegerField { name: "legendSpecificPlotNumber"; defaultValue: 1; info: qsTr("1-based index of the plot in which the legend should appear.") }
 			}
 			DoubleField
 			{
 				name: "legendToPlotRatio"
 				label: qsTr("Legend to plot ratio")
+				info: qsTr("Width of the legend panel relative to the network plot. A value of 0.4 means the legend is 40% as wide as the plot.")
 				defaultValue: 0.4
 				min: 0.001
 				max: 4 // not strictly necessary but png crashes if it gets too big
@@ -573,23 +655,25 @@ VariablesForm
 		{
 			name: "layout"
 			title: qsTr("Layout")
+			info: qsTr("Determines how nodes are positioned in network plots. The same layout is applied to all networks in a multi-network analysis, computed from the average of estimated edge weights.")
 			RadioButton
 			{
 				value: "spring"; label: qsTr("Spring"); checked: true
+				info: qsTr("Nodes are positioned using the Fruchterman-Reingold force-directed algorithm. Strongly connected nodes are placed closer together.")
 				childrenOnSameRow: true
-				DoubleField { name: "layoutSpringRepulsion"; label: qsTr("Repulsion"); defaultValue: 1; max: 10 }
+				DoubleField { name: "layoutSpringRepulsion"; label: qsTr("Repulsion"); defaultValue: 1; max: 10; info: qsTr("Controls how strongly nodes repel each other. Larger values spread nodes further apart.") }
 			}
-			RadioButton { value: "circle";	label: qsTr("Circle")							}
+			RadioButton { value: "circle";	label: qsTr("Circle"); info: qsTr("Nodes are evenly spaced on a circle. Useful for comparing relative edge patterns without the layout reflecting association strength.")							}
 		}
 
 		Group
 		{
 			title: qsTr("Measures shown in centrality plot")
 			enabled: centralityPlot.checked
-			CheckBox	{	name: "betweenness";		label: qsTr("Betweenness");			checked: true	}
-			CheckBox	{	name: "closeness";			label: qsTr("Closeness");			checked: true	}
-			CheckBox	{	name: "strength";			label: qsTr("Strength");			checked: true	}
-			CheckBox	{	name: "expectedInfluence";	label: qsTr("Expected influence");	checked: true	}
+			CheckBox	{	name: "betweenness";		label: qsTr("Betweenness");			checked: true; info: qsTr("Number of shortest paths between other node pairs that pass through this node. Nodes with high betweenness act as bridges in the network.")	}
+			CheckBox	{	name: "closeness";			label: qsTr("Closeness");			checked: true; info: qsTr("Inverse of the average shortest path length from this node to all other nodes. Nodes with high closeness can efficiently reach all other nodes.")	}
+			CheckBox	{	name: "strength";			label: qsTr("Strength");			checked: true; info: qsTr("Sum of absolute edge weights connected to this node. Reflects how strongly a node is associated with its neighbors.")	}
+			CheckBox	{	name: "expectedInfluence";	label: qsTr("Expected influence");	checked: true; info: qsTr("Sum of signed edge weights connected to this node. Unlike strength, negative edges reduce the value, so nodes with mixed positive and negative connections may have low expected influence.")	}
 		}
 	}
 }
