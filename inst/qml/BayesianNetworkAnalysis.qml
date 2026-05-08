@@ -760,10 +760,10 @@ VariablesForm
 		{
 			title: qsTr("Measures shown in centrality plot")
 			enabled: centralityPlot.checked
-			CheckBox	{	name: "betweenness";		label: qsTr("Betweenness");			checked: true; info: qsTr("Number of shortest paths between other node pairs that pass through this node. Nodes with high betweenness act as bridges in the network.")	}
-			CheckBox	{	name: "closeness";			label: qsTr("Closeness");			checked: true; info: qsTr("Inverse of the average shortest path length from this node to all other nodes. Nodes with high closeness can efficiently reach all other nodes.")	}
+			CheckBox	{	name: "betweenness";		label: qsTr("Betweenness");			checked: false; info: qsTr("Number of shortest paths between other node pairs that pass through this node. Nodes with high betweenness act as bridges in the network.")	}
+			CheckBox	{	name: "closeness";			label: qsTr("Closeness");			checked: false; info: qsTr("Inverse of the average shortest path length from this node to all other nodes. Nodes with high closeness can efficiently reach all other nodes.")	}
 			CheckBox	{	name: "strength";			label: qsTr("Strength");			checked: true; info: qsTr("Sum of absolute edge weights connected to this node. Reflects how strongly a node is associated with its neighbors.")	}
-			CheckBox	{	name: "expectedInfluence";	label: qsTr("Expected influence");	checked: true; info: qsTr("Sum of signed edge weights connected to this node. Unlike strength, negative edges reduce the value, so nodes with mixed positive and negative connections may have low expected influence.")	}
+			CheckBox	{	name: "expectedInfluence";	label: qsTr("Expected influence");	checked: false; info: qsTr("Sum of signed edge weights connected to this node. Unlike strength, negative edges reduce the value, so nodes with mixed positive and negative connections may have low expected influence.")	}
 		}
 	}
 }
