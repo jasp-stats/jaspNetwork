@@ -503,6 +503,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
         jaspGraphs::geom_point() +
         ggplot2::ylab("Posterior Structure Probability") +
         ggplot2::xlab("Structure Index")  +
+        ggplot2::scale_y_continuous(expand = ggplot2::expansion(mult = c(0, 0.05))) +
         jaspGraphs::geom_rangeframe() +
         jaspGraphs::themeJaspRaw(legend.position = c(.85, 0.25))
 
@@ -704,6 +705,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
         jaspGraphs::geom_point() +
         ggplot2::ylab(gettext("Posterior Probability")) +
         ggplot2::xlab(gettext("Number of edges"))  +
+        ggplot2::scale_y_continuous(expand = ggplot2::expansion(mult = c(0, 0.05))) +
         jaspGraphs::geom_rangeframe() +
         jaspGraphs::themeJaspRaw(legend.position = c(.85, 0.25))
 
