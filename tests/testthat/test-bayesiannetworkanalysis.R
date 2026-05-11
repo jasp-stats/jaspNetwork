@@ -1,5 +1,49 @@
 context("Bayesian Network Analysis")
 
+testthat::test_that("Variable type specification supports Blume-Capel baselines", {
+  dataset <- data.frame(
+    ordinalOne = factor(c("low", "mid", "high"), ordered = TRUE),
+    ordinalTwo = factor(c("A", "B", "C"), ordered = TRUE),
+    continuous = c(1, 2, 3)
+  )
+
+  options <- list(
+    variables           = c("ordinalOne", "ordinalTwo", "continuous"),
+    variablesBlumeCapel = list(list(variable = "ordinalTwo", levels = "B"))
+  )
+
+  variableSpec <- jaspNetwork:::.bayesianNetworkAnalysisBuildVariableTypeSpec(options, dataset)
+
+  testthat::expect_equal(variableSpec[["type"]], c("ordinal", "blume-capel", "continuous"))
+  testthat::expect_equal(variableSpec[["baselineCategory"]], c(1L, 2L, 1L))
+})
+
+testthat::test_that("Compare mode is enabled for ordinal and Blume-Capel variables", {
+  options <- list(groupingVariable = "group")
+  variableSpec <- list(type = c("ordinal", "blume-capel"))
+
+  supported <- jaspNetwork:::.bayesianNetworkAnalysisCompareSupported(
+    options      = options,
+    variableSpec = variableSpec,
+    nGroups      = 3L
+  )
+
+  testthat::expect_true(supported)
+})
+
+testthat::test_that("Compare mode is disabled when continuous variables are included", {
+  options <- list(groupingVariable = "group")
+  variableSpec <- list(type = c("ordinal", "continuous"))
+
+  supported <- jaspNetwork:::.bayesianNetworkAnalysisCompareSupported(
+    options      = options,
+    variableSpec = variableSpec,
+    nGroups      = 2L
+  )
+
+  testthat::expect_false(supported)
+})
+
 # does not test
 # - error handling
 # - bootstrapping
@@ -14,8 +58,10 @@ testthat::test_that("Analysis handles too many missing values errors", {
   options$variables.types <- rep("scale", length(options$variables))
   results <- jaspTools::runAnalysis("BayesianNetworkAnalysis", "test.csv", options)
 
+  errorMessage <- results[["results"]][["errorMessage"]]
   testthat::expect_true(results[["results"]][["error"]])
-  testthat::expect_true(grepl("observations", results[["results"]][["errorMessage"]], fixed = TRUE))
+  testthat::expect_identical(results[["status"]], "validationError")
+  testthat::expect_true(is.character(errorMessage) && length(errorMessage) == 1L && nzchar(errorMessage))
 })
 
 testthat::test_that("Analysis handles too many missing values errors with grouping variable", {
@@ -29,8 +75,10 @@ testthat::test_that("Analysis handles too many missing values errors with groupi
   options$gprior  <- "0.5"
   results <- jaspTools::runAnalysis("BayesianNetworkAnalysis", "test.csv", options)
 
+  errorMessage <- results[["results"]][["errorMessage"]]
   testthat::expect_true(results[["results"]][["error"]])
-  testthat::expect_true(grepl("observations", results[["results"]][["errorMessage"]], fixed = TRUE))
+  testthat::expect_identical(results[["status"]], "validationError")
+  testthat::expect_true(is.character(errorMessage) && length(errorMessage) == 1L && nzchar(errorMessage))
 
 })
 
@@ -63,10 +111,34 @@ testthat::test_that("Centrality plot works with empty graphs", {
 
   table <- results[["results"]][["mainContainer"]][["collection"]][["mainContainer_generalTable"]][["data"]]
   jaspTools::expect_equal_tables(table,
-                                 list(0.333333333333333, 3, "2 / 3"))
+                                 list(1, "2 / 3", 0, 3, 0.333333333333333))
 
   plotName <- results[["results"]][["mainContainer"]][["collection"]][["mainContainer_plotContainer"]][["collection"]][["mainContainer_plotContainer_centralityPlot"]][["data"]]
   testPlot <- results[["state"]][["figures"]][[plotName]][["obj"]]
   jaspTools::expect_equal_plots(testPlot, "centrality-plot")
 
+})
+
+testthat::test_that("Parameter HDI plot works", {
+  options <- jaspTools::analysisOptions("BayesianNetworkAnalysis")
+  options$variables <- c("contNormal", "contcor1", "contcor2")
+  options$variables.types <- rep("scale", length(options$variables))
+  options$burnin <- 100
+  options$iter   <- 500
+  options$chains <- "1"
+  options$omrfUpdateMethod <- "adaptive-metropolis"
+  options$parameterHdiPlot <- TRUE
+  options$parameterHdiPlotCoverage <- 0.95
+  set.seed(1)
+  results <- jaspTools::runAnalysis("BayesianNetworkAnalysis", "test.csv", options)
+
+  hdiCollection <- results[["results"]][["mainContainer"]][["collection"]][["mainContainer_plotContainer"]][["collection"]][["mainContainer_plotContainer_parameterHdiPlotContainer"]][["collection"]]
+  testthat::expect_true(length(hdiCollection) >= 1L)
+
+  firstPlot <- hdiCollection[[1L]]
+  plotName <- firstPlot[["data"]]
+  testthat::expect_true(is.character(plotName) && length(plotName) == 1L && nzchar(plotName))
+
+  testPlot <- results[["state"]][["figures"]][[plotName]][["obj"]]
+  jaspTools::expect_equal_plots(testPlot, "parameter-hdi-plot")
 })

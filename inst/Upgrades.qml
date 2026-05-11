@@ -191,4 +191,15 @@ Upgrades
 			}
 		}
 	}
+
+	Upgrade
+	{
+		functionName:	"BayesianNetworkAnalysis"
+		fromVersion:	"0.96.0"
+		toVersion:		"0.97.0"
+
+		ChangeRemove { name: "model"                }
+		ChangeRemove { name: "dfPrior"              }
+		ChangeRemove { name: "initialConfiguration" }
+	}
 }

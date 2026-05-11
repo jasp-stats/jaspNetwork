@@ -33,7 +33,7 @@ vignettes/*.pdf
 *.knit.md
 
 # R Environment Variables
-.Renviron
+# .Renviron is tracked to pass renv config to CI
 
 # pkgdown site
 docs/

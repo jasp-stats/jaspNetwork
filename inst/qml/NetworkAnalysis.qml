@@ -73,7 +73,6 @@ Form
 		title: qsTr("Tables")
 		CheckBox { name: "centralityTable";		label: qsTr("Centrality table")	}
 		CheckBox { name: "clusteringTable";		label: qsTr("Clustering table")	}
-		CheckBox { name: "weightsMatrixTable";	label: qsTr("Weights matrix")	}
 	}
 
 	Section
