@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: jaspNetwork 0.15\n"
-"POT-Creation-Date: 2026-03-28 03:19\n"
+"POT-Creation-Date: 2026-05-16 03:29\n"
 "PO-Revision-Date: 2024-12-05 02:55+0000\n"
 "Last-Translator: tao guo <guotao3s@163.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -22,16 +22,48 @@ msgstr "网络"
 msgid "Number of nodes"
 msgstr "节点数"
 
-msgid "Number of non-zero edges"
-msgstr "非零边数"
+#, fuzzy
+msgid "Number of included edges"
+msgstr "节点数"
+
+#, fuzzy
+msgid "Number of excluded edges"
+msgstr "节点数"
+
+msgid "Number of edges with inconclusive evidence"
+msgstr ""
 
 msgid "Sparsity"
 msgstr "稀缺性"
 
 msgid ""
-"The Ordinal Markov Random Field may require a substantial amount of time to "
-"complete. This time increases with the number of variables and the number of "
-"iterations."
+"Edge categorization is based on the inclusion criteria BF: included (BF₁₀ ≥ "
+"threshold), excluded (BF₁₀ ≤ 1/threshold), inconclusive (otherwise)."
+msgstr ""
+
+msgid "Could not determine the baseline category for variable %s."
+msgstr ""
+
+msgid ""
+"Some model type assignments refer to variables that are not part of the "
+"analysis: %s."
+msgstr ""
+
+msgid "Variable %s cannot be treated as Blume-Capel because it is not ordinal."
+msgstr ""
+
+msgid ""
+"The Stochastic block model edge prior is not available when Split is "
+"selected. Please use Bernoulli or Beta-binomial."
+msgstr ""
+
+msgid "Unsupported prior family '%s'."
+msgstr ""
+
+msgid "Unsupported edge prior '%s'."
+msgstr ""
+
+msgid "Unsupported difference prior '%s'."
 msgstr ""
 
 #, fuzzy
@@ -43,9 +75,47 @@ msgstr ""
 "%s"
 
 msgid ""
-"Some of the variables you have entered for analysis are not binary or "
-"ordinal. Please make sure that all variables are binary or ordinal or change "
-"the model to gcgm."
+"Unsupported update method '%s'. Please select one of: adaptive-metropolis, "
+"nuts."
+msgstr ""
+
+msgid ""
+"Unsupported edge prior '%s'. Please select one of: Bernoulli, Beta-binomial, "
+"Stochastic block model."
+msgstr ""
+
+msgid "Group"
+msgstr ""
+
+msgid "Estimating group comparison"
+msgstr ""
+
+#, fuzzy
+msgid ""
+"The group comparison failed with the following error message:\n"
+"%s"
+msgstr ""
+"bootnet 崩溃，错误信息如下：\n"
+"%s"
+
+msgid "Differences"
+msgstr ""
+
+msgid "Estimating pooled network"
+msgstr ""
+
+msgid "Pooled"
+msgstr ""
+
+msgid "Estimating %s"
+msgstr ""
+
+msgid "Estimating network"
+msgstr ""
+
+msgid ""
+"Difference network not estimated: all selected variables must be ordinal or "
+"Blume-Capel. Showing separate group estimates instead."
 msgstr ""
 
 msgid ""
@@ -60,6 +130,14 @@ msgstr "组%1$s %2$s 中的网络图中最小边强度被忽略，因为它大�
 
 msgid "<em>Warning: </em>"
 msgstr "<em>警告: </em>"
+
+#, fuzzy
+msgid "Number of different edges"
+msgstr "节点数"
+
+#, fuzzy
+msgid "Number of equal edges"
+msgstr "节点数"
 
 msgid "Posterior Probability Structure Plots"
 msgstr "后验概率结构图"
@@ -87,6 +165,27 @@ msgstr "预期影响"
 
 msgid "Centrality Plot"
 msgstr "中心性图"
+
+msgid "Parameter HDI Plot"
+msgstr ""
+
+msgid "Parameter HDI Plots"
+msgstr ""
+
+msgid ""
+"The difference parameter HDI plot shows the posterior mean and highest "
+"density interval (HDI) for each pairwise difference in partial association "
+"between groups. Positive values indicate a stronger association in the first "
+"group; negative values indicate a stronger association in the second group."
+msgstr ""
+
+msgid ""
+"Posterior samples are required for the parameter HDI plot. Please ensure the "
+"model was fitted with 'save = TRUE'."
+msgstr ""
+
+msgid "%d%% HDI of Partial Association"
+msgstr ""
 
 msgid "Complexity plot"
 msgstr "复杂性图"
@@ -117,14 +216,6 @@ msgstr "边证据图"
 msgid "Edge Evidence Plots"
 msgstr "边证据图"
 
-msgid "Weights matrix"
-msgstr "权重矩阵"
-
-msgid ""
-"Estimates are based on the median probability model: edges with a posterior "
-"inclusion probability ≤ 0.5 are set to zero."
-msgstr ""
-
 msgid "Edge evidence probability table"
 msgstr "边证据概率表"
 
@@ -137,10 +228,10 @@ msgstr ""
 msgid "Edge Specific Overview"
 msgstr ""
 
-msgid "included"
+msgid "difference"
 msgstr ""
 
-msgid "excluded"
+msgid "equal"
 msgstr ""
 
 msgid "inconclusive"
@@ -149,7 +240,52 @@ msgstr ""
 msgid "Relation"
 msgstr ""
 
+msgid "Difference Estimate"
+msgstr ""
+
+#, fuzzy
+msgid "Posterior Diff. Prob."
+msgstr "后验概率结构图"
+
+msgid "Difference BF"
+msgstr ""
+
+msgid "Category"
+msgstr ""
+
+msgid "Convergence"
+msgstr ""
+
 msgid "Estimate"
+msgstr ""
+
+msgid ""
+"Difference estimates are based on the median probability model: edges with a "
+"posterior difference probability ≤ 0.5 are set to zero."
+msgstr ""
+
+msgid ""
+"Bayes factors with values of infinity indicate that the estimated posterior "
+"difference probability is either 1 or 0. Please see the help file for more "
+"information."
+msgstr ""
+
+msgid ""
+"Convergence is the R-hat (Gelman-Rubin) statistic, values greater than about "
+"1.01-1.05 are considered concerning, indicating potential lack of "
+"convergence for the estimates of the pairwise interactions. Consider "
+"increasing the number of iterations and/or chains to improve convergence."
+msgstr ""
+
+msgid ""
+"Convergence is the split-chain R-hat (Gelman-Rubin) statistic, computed post "
+"hoc by splitting the posterior samples into two halves."
+msgstr ""
+
+msgid "included"
+msgstr ""
+
+msgid "excluded"
 msgstr ""
 
 #, fuzzy
@@ -159,10 +295,9 @@ msgstr "后验概率结构图"
 msgid "Inclusion BF"
 msgstr ""
 
-msgid "Category"
-msgstr ""
-
-msgid "Convergence"
+msgid ""
+"Estimates are based on the median probability model: edges with a posterior "
+"inclusion probability ≤ 0.5 are set to zero."
 msgstr ""
 
 msgid ""
@@ -178,6 +313,16 @@ msgid ""
 "about 1.01-1.05 are considered concerning, indicating potential lack of "
 "convergence for the estimates of the pairwise interactions. Consider "
 "increasing the number of iterations to improve convergence."
+msgstr ""
+
+msgid "Log-odds"
+msgstr ""
+
+#, fuzzy
+msgid "Precision Matrix"
+msgstr "权重矩阵"
+
+msgid "Partial Correlations"
 msgstr ""
 
 msgid "Cluster Allocations (Posterior Mean)"
@@ -236,6 +381,9 @@ msgstr "后验概率结构图"
 msgid ""
 "After binarizing the data too little variance remained in variable(s): %s."
 msgstr "对数据进行二值化后，变量 %s 中剩余的方差太小。"
+
+msgid "Number of non-zero edges"
+msgstr "非零边数"
 
 msgid "Data was binarized using %s."
 msgstr "使用 %s 对数据进行二值化。"

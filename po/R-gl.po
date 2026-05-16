@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-03-28 03:19\n"
+"POT-Creation-Date: 2026-05-16 03:29\n"
 "PO-Revision-Date: 2026-04-20 13:09+0000\n"
 "Last-Translator: ecadrian <ecadrian@hotmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/jasp/"
@@ -30,20 +30,49 @@ msgstr "Rede"
 msgid "Number of nodes"
 msgstr "Número de nodos"
 
-msgid "Number of non-zero edges"
-msgstr "Número de beiras non nulas"
+#, fuzzy
+msgid "Number of included edges"
+msgstr "Número de beiras"
+
+#, fuzzy
+msgid "Number of excluded edges"
+msgstr "Número de beiras"
+
+msgid "Number of edges with inconclusive evidence"
+msgstr ""
 
 msgid "Sparsity"
 msgstr "Exigüidade"
 
 msgid ""
-"The Ordinal Markov Random Field may require a substantial amount of time to "
-"complete. This time increases with the number of variables and the number of "
-"iterations."
+"Edge categorization is based on the inclusion criteria BF: included (BF₁₀ ≥ "
+"threshold), excluded (BF₁₀ ≤ 1/threshold), inconclusive (otherwise)."
 msgstr ""
-"O Campo Aleatorio Ordinario de Markov pode requirir unha gran cantidade de "
-"tempo para completarse. Este tempo aumenta co número de variables e o número "
-"de iteracións."
+
+msgid "Could not determine the baseline category for variable %s."
+msgstr ""
+
+msgid ""
+"Some model type assignments refer to variables that are not part of the "
+"analysis: %s."
+msgstr ""
+
+msgid "Variable %s cannot be treated as Blume-Capel because it is not ordinal."
+msgstr ""
+
+msgid ""
+"The Stochastic block model edge prior is not available when Split is "
+"selected. Please use Bernoulli or Beta-binomial."
+msgstr ""
+
+msgid "Unsupported prior family '%s'."
+msgstr ""
+
+msgid "Unsupported edge prior '%s'."
+msgstr ""
+
+msgid "Unsupported difference prior '%s'."
+msgstr ""
 
 msgid ""
 "The analysis failed with the following error message:\n"
@@ -53,13 +82,50 @@ msgstr ""
 "%s"
 
 msgid ""
-"Some of the variables you have entered for analysis are not binary or "
-"ordinal. Please make sure that all variables are binary or ordinal or change "
-"the model to gcgm."
+"Unsupported update method '%s'. Please select one of: adaptive-metropolis, "
+"nuts."
 msgstr ""
-"Algunhas das variables que introduciches para a análise non son binarias nin "
-"ordinais. Por favor, asegúrate de que todas as variables son binarias ou "
-"ordinais, ou troca o modelo a GCGM."
+
+msgid ""
+"Unsupported edge prior '%s'. Please select one of: Bernoulli, Beta-binomial, "
+"Stochastic block model."
+msgstr ""
+
+msgid "Group"
+msgstr ""
+
+msgid "Estimating group comparison"
+msgstr ""
+
+#, fuzzy
+msgid ""
+"The group comparison failed with the following error message:\n"
+"%s"
+msgstr ""
+"A análise fallou coa seguinte mensaxe de fallo:\n"
+"%s"
+
+msgid "Differences"
+msgstr ""
+
+msgid "Estimating pooled network"
+msgstr ""
+
+msgid "Pooled"
+msgstr ""
+
+#, fuzzy
+msgid "Estimating %s"
+msgstr "Estimar"
+
+#, fuzzy
+msgid "Estimating network"
+msgstr "Estimar"
+
+msgid ""
+"Difference network not estimated: all selected variables must be ordinal or "
+"Blume-Capel. Showing separate group estimates instead."
+msgstr ""
 
 msgid ""
 "Minimum edge strength ignored in the network plot because it was larger than "
@@ -77,6 +143,14 @@ msgstr ""
 
 msgid "<em>Warning: </em>"
 msgstr "<em>Aviso: </em>"
+
+#, fuzzy
+msgid "Number of different edges"
+msgstr "Número de beiras"
+
+#, fuzzy
+msgid "Number of equal edges"
+msgstr "Número de beiras"
 
 msgid "Posterior Probability Structure Plots"
 msgstr "Gráficas de Estrutura da Probabilidade Posterior"
@@ -105,6 +179,27 @@ msgstr "Influencia agardada"
 msgid "Centrality Plot"
 msgstr "Gráfica de Centrado"
 
+msgid "Parameter HDI Plot"
+msgstr ""
+
+msgid "Parameter HDI Plots"
+msgstr ""
+
+msgid ""
+"The difference parameter HDI plot shows the posterior mean and highest "
+"density interval (HDI) for each pairwise difference in partial association "
+"between groups. Positive values indicate a stronger association in the first "
+"group; negative values indicate a stronger association in the second group."
+msgstr ""
+
+msgid ""
+"Posterior samples are required for the parameter HDI plot. Please ensure the "
+"model was fitted with 'save = TRUE'."
+msgstr ""
+
+msgid "%d%% HDI of Partial Association"
+msgstr ""
+
 msgid "Complexity plot"
 msgstr "Gráfica de Complexidade"
 
@@ -132,16 +227,6 @@ msgstr "Gráfica de Evidencia da Beira"
 msgid "Edge Evidence Plots"
 msgstr "Gráficas de Evidencia da Beira"
 
-msgid "Weights matrix"
-msgstr "Matriz de ponderacións"
-
-msgid ""
-"Estimates are based on the median probability model: edges with a posterior "
-"inclusion probability ≤ 0.5 are set to zero."
-msgstr ""
-"As estimacións están baseadas no modelo mediano de probabilidade: as marxes "
-"cunha probabilidade posterior de inclusión ≤ 0.5 fíxanse en cero."
-
 msgid "Edge evidence probability table"
 msgstr "Táboa de probabilidade de evidencia da beira"
 
@@ -157,11 +242,11 @@ msgstr ""
 msgid "Edge Specific Overview"
 msgstr "Resumo específico de marxes"
 
-msgid "included"
-msgstr "Incluído"
+msgid "difference"
+msgstr ""
 
-msgid "excluded"
-msgstr "Excluído"
+msgid "equal"
+msgstr ""
 
 msgid "inconclusive"
 msgstr "Inconcluso"
@@ -169,8 +254,66 @@ msgstr "Inconcluso"
 msgid "Relation"
 msgstr "Relación"
 
+msgid "Difference Estimate"
+msgstr ""
+
+#, fuzzy
+msgid "Posterior Diff. Prob."
+msgstr "Prob. posterior inclusión"
+
+msgid "Difference BF"
+msgstr ""
+
+msgid "Category"
+msgstr "Categoría"
+
+msgid "Convergence"
+msgstr "Converxencia"
+
 msgid "Estimate"
 msgstr "Estimar"
+
+#, fuzzy
+msgid ""
+"Difference estimates are based on the median probability model: edges with a "
+"posterior difference probability ≤ 0.5 are set to zero."
+msgstr ""
+"As estimacións están baseadas no modelo mediano de probabilidade: as marxes "
+"cunha probabilidade posterior de inclusión ≤ 0.5 fíxanse en cero."
+
+#, fuzzy
+msgid ""
+"Bayes factors with values of infinity indicate that the estimated posterior "
+"difference probability is either 1 or 0. Please see the help file for more "
+"information."
+msgstr ""
+"Factores de Bayes con valores de infinito indican que a probabilidade de "
+"inclusión posterior estimada é 1 ou 0. Por favor, consulta o ficheiro de "
+"axuda para máis información."
+
+#, fuzzy
+msgid ""
+"Convergence is the R-hat (Gelman-Rubin) statistic, values greater than about "
+"1.01-1.05 are considered concerning, indicating potential lack of "
+"convergence for the estimates of the pairwise interactions. Consider "
+"increasing the number of iterations and/or chains to improve convergence."
+msgstr ""
+"A converxencia é o estatístico R-circunflexo (Gelman-Rubin), cuxos valores "
+"maiores que 1.01-1.05 aproximadamente se consideran preocupantes, ao indicar "
+"unha potencial falla de converxencia nas estimacións das interacións por "
+"parellas. Considera aumentar o número de iteracións para mellorar a "
+"converxencia."
+
+msgid ""
+"Convergence is the split-chain R-hat (Gelman-Rubin) statistic, computed post "
+"hoc by splitting the posterior samples into two halves."
+msgstr ""
+
+msgid "included"
+msgstr "Incluído"
+
+msgid "excluded"
+msgstr "Excluído"
 
 msgid "Posterior Incl. Prob."
 msgstr "Prob. posterior inclusión"
@@ -178,11 +321,12 @@ msgstr "Prob. posterior inclusión"
 msgid "Inclusion BF"
 msgstr "FB da Inclusión"
 
-msgid "Category"
-msgstr "Categoría"
-
-msgid "Convergence"
-msgstr "Converxencia"
+msgid ""
+"Estimates are based on the median probability model: edges with a posterior "
+"inclusion probability ≤ 0.5 are set to zero."
+msgstr ""
+"As estimacións están baseadas no modelo mediano de probabilidade: as marxes "
+"cunha probabilidade posterior de inclusión ≤ 0.5 fíxanse en cero."
 
 msgid ""
 "Convergence is the R-hat (Gelman-Rubin) statistic, with values greater than "
@@ -209,6 +353,16 @@ msgstr ""
 "preocupantes, ao indicar unha falla potencial de converxencia nas "
 "estimacións das interaccións por parellas. Considera aumentar o número de "
 "iteracións para mellorar a converxencia."
+
+msgid "Log-odds"
+msgstr ""
+
+#, fuzzy
+msgid "Precision Matrix"
+msgstr "Matriz de ponderacións"
+
+msgid "Partial Correlations"
+msgstr ""
 
 msgid "Cluster Allocations (Posterior Mean)"
 msgstr "Posicións de conglomerados (Media posterior)"
@@ -260,6 +414,9 @@ msgid ""
 msgstr ""
 "Despois de facer que os datos sexan binarios, queda moi pouca varianza na(s) "
 "variable(s): %s."
+
+msgid "Number of non-zero edges"
+msgstr "Número de beiras non nulas"
 
 msgid "Data was binarized using %s."
 msgstr "Fixéronse binarios os datos utilizando %s."
@@ -397,6 +554,24 @@ msgid "%1$s Y-Coordinates for variable %2$s was not understood."
 msgid_plural "%1$s Y-Coordinates for variables %2$s were not understood."
 msgstr[0] "%1$s A coordenada Y para a variable %2$s non se entendeu."
 msgstr[1] "%1$s As coordenadas X para as variables %2$s non se entenderon."
+
+#~ msgid ""
+#~ "The Ordinal Markov Random Field may require a substantial amount of time "
+#~ "to complete. This time increases with the number of variables and the "
+#~ "number of iterations."
+#~ msgstr ""
+#~ "O Campo Aleatorio Ordinario de Markov pode requirir unha gran cantidade "
+#~ "de tempo para completarse. Este tempo aumenta co número de variables e o "
+#~ "número de iteracións."
+
+#~ msgid ""
+#~ "Some of the variables you have entered for analysis are not binary or "
+#~ "ordinal. Please make sure that all variables are binary or ordinal or "
+#~ "change the model to gcgm."
+#~ msgstr ""
+#~ "Algunhas das variables que introduciches para a análise non son binarias "
+#~ "nin ordinais. Por favor, asegúrate de que todas as variables son binarias "
+#~ "ou ordinais, ou troca o modelo a GCGM."
 
 #~ msgid ""
 #~ "Could not invert the posterior rate matrix. Check if the covariance "
