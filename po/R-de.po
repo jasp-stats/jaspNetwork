@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: R 3.6.1\n"
 "Report-Msgid-Bugs-To: github.com/jasp-stats/jasp-issues/issues\n"
 "POT-Creation-Date: 2026-05-16 03:29\n"
-"PO-Revision-Date: 2025-04-26 02:44+0000\n"
+"PO-Revision-Date: 2026-05-17 06:11+0000\n"
 "Last-Translator: Johannes Keyser <joke@fsfe.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/jasp/jaspnetwork-"
 "r/de/>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n==0 ? 0 : n==1 ? 0 : 1;\n"
-"X-Generator: Weblate 5.12-dev\n"
+"X-Generator: Weblate 2026.6.dev0\n"
 
 msgid "Summary of Network"
 msgstr "Zusammenfassung des Netwerks"
@@ -23,16 +23,14 @@ msgstr "Netzwerk"
 msgid "Number of nodes"
 msgstr "Anzahl Knoten"
 
-#, fuzzy
 msgid "Number of included edges"
-msgstr "Anzahl der Kanten"
+msgstr "Anzahl der eingeschlossenen Kanten"
 
-#, fuzzy
 msgid "Number of excluded edges"
-msgstr "Anzahl der Kanten"
+msgstr "Anzahl der ausgeschlossenen Kanten"
 
 msgid "Number of edges with inconclusive evidence"
-msgstr ""
+msgstr "Anzahl von Kanten mit uneindeutiger Evidenz"
 
 msgid "Sparsity"
 msgstr "Sparsamkeit"
@@ -41,17 +39,24 @@ msgid ""
 "Edge categorization is based on the inclusion criteria BF: included (BF₁₀ ≥ "
 "threshold), excluded (BF₁₀ ≤ 1/threshold), inconclusive (otherwise)."
 msgstr ""
+"Kantenkategorisierung basiert auf den Inklusionskriterien BF: eingeschlossen "
+"(BF₁₀ ≥ Schwellwert), ausgeschlossen (BF₁₀ ≤ 1/Schwellwert), uneindeutig "
+"(andernfalls)."
 
 msgid "Could not determine the baseline category for variable %s."
-msgstr ""
+msgstr "Konnte Basiskategorie für Variable %s nicht ermitteln."
 
 msgid ""
 "Some model type assignments refer to variables that are not part of the "
 "analysis: %s."
 msgstr ""
+"Einige Modelltypzuweisungen beziehen sich auf Variablen, die nicht Teil der "
+"Analyse sind: %s."
 
 msgid "Variable %s cannot be treated as Blume-Capel because it is not ordinal."
 msgstr ""
+"Die Variable %s kann nicht als Blume-Capel behandelt werden, da sie nicht "
+"ordinal ist."
 
 msgid ""
 "The Stochastic block model edge prior is not available when Split is "
@@ -59,13 +64,13 @@ msgid ""
 msgstr ""
 
 msgid "Unsupported prior family '%s'."
-msgstr ""
+msgstr "Nicht unterstützte Prior-Familie \"%s\"."
 
 msgid "Unsupported edge prior '%s'."
-msgstr ""
+msgstr "Nicht unterstützter Kanten-Prior \"%s\"."
 
 msgid "Unsupported difference prior '%s'."
-msgstr ""
+msgstr "Nicht unterstützter Differenz-Prior \"%s\"."
 
 msgid ""
 "The analysis failed with the following error message:\n"
@@ -85,35 +90,32 @@ msgid ""
 msgstr ""
 
 msgid "Group"
-msgstr ""
+msgstr "Gruppe"
 
 msgid "Estimating group comparison"
-msgstr ""
+msgstr "Schätzung Gruppenvergleich"
 
-#, fuzzy
 msgid ""
 "The group comparison failed with the following error message:\n"
 "%s"
 msgstr ""
-"Die Analyse ist mit folgender Fehlermeldung fehlgeschlagen:\n"
+"Der Gruppenvergleich ist mit folgender Fehlermeldung fehlgeschlagen:\n"
 "%s"
 
 msgid "Differences"
-msgstr ""
+msgstr "Differenzen"
 
-#, fuzzy
 msgid "Estimating pooled network"
-msgstr "Schätzung des Beispielnetzwerks ..."
+msgstr "Schätzung gepooltes Netzwerk"
 
 msgid "Pooled"
-msgstr ""
+msgstr "Gepoolt"
 
 msgid "Estimating %s"
-msgstr ""
+msgstr "Schätzung %s"
 
-#, fuzzy
 msgid "Estimating network"
-msgstr "Schätzung des Beispielnetzwerks ..."
+msgstr "Schätzung Netzwerk"
 
 msgid ""
 "Difference network not estimated: all selected variables must be ordinal or "
@@ -137,13 +139,11 @@ msgstr ""
 msgid "<em>Warning: </em>"
 msgstr "<em>Warnung: </em>"
 
-#, fuzzy
 msgid "Number of different edges"
-msgstr "Anzahl der Kanten"
+msgstr "Anzahl verschiedener Kanten"
 
-#, fuzzy
 msgid "Number of equal edges"
-msgstr "Anzahl der Kanten"
+msgstr "Anzahl gleicher Kanten"
 
 msgid "Posterior Probability Structure Plots"
 msgstr "Posterior-Wahrscheinlichkeit Strukturdiagramme"
