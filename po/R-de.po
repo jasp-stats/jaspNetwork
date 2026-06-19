@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: R 3.6.1\n"
 "Report-Msgid-Bugs-To: github.com/jasp-stats/jasp-issues/issues\n"
 "POT-Creation-Date: 2026-05-16 03:29\n"
-"PO-Revision-Date: 2026-06-13 18:19+0000\n"
+"PO-Revision-Date: 2026-06-20 03:28+0000\n"
 "Last-Translator: Johannes Keyser <joke@fsfe.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/jasp/jaspnetwork-"
 "r/de/>\n"
@@ -251,35 +251,35 @@ msgid "Edge Specific Overview"
 msgstr ""
 
 msgid "difference"
-msgstr ""
+msgstr "Differenz"
 
 msgid "equal"
-msgstr ""
+msgstr "gleich"
 
+#, fuzzy
 msgid "inconclusive"
-msgstr ""
+msgstr "uneindeutig"
 
 msgid "Relation"
 msgstr ""
 
 msgid "Difference Estimate"
-msgstr ""
+msgstr "Differenz-Schätzung"
 
-#, fuzzy
 msgid "Posterior Diff. Prob."
-msgstr "Posterior-Wahrscheinlichkeit"
+msgstr "Posterior Diff.-Wahrsch."
 
 msgid "Difference BF"
-msgstr ""
+msgstr "BF Differenz"
 
 msgid "Category"
-msgstr ""
+msgstr "Kategorie"
 
 msgid "Convergence"
-msgstr ""
+msgstr "Konvergenz"
 
 msgid "Estimate"
-msgstr ""
+msgstr "Schätzung"
 
 msgid ""
 "Difference estimates are based on the median probability model: edges with a "
@@ -309,17 +309,16 @@ msgid ""
 msgstr ""
 
 msgid "included"
-msgstr ""
+msgstr "eingeschlossen"
 
 msgid "excluded"
-msgstr ""
+msgstr "ausgeschlossen"
 
-#, fuzzy
 msgid "Posterior Incl. Prob."
-msgstr "Posterior-Wahrscheinlichkeit"
+msgstr "Posterior-Einschl.-Wahrsch."
 
 msgid "Inclusion BF"
-msgstr ""
+msgstr "BF Einschluss"
 
 msgid ""
 "Estimates are based on the median probability model: edges with a posterior "
@@ -346,10 +345,10 @@ msgstr ""
 
 #, fuzzy
 msgid "Precision Matrix"
-msgstr "Gewichtematrix"
+msgstr "Präzisions-Matrix"
 
 msgid "Partial Correlations"
-msgstr ""
+msgstr "Partielle Korrelationen"
 
 msgid "Cluster Allocations (Posterior Mean)"
 msgstr ""
@@ -357,19 +356,15 @@ msgstr ""
 msgid "Cluster Allocations (Posterior Mode)"
 msgstr ""
 
-#, fuzzy
 msgid "Cluster"
-msgstr "Clustering-Diagramm"
+msgstr "Cluster"
 
-#, fuzzy
 msgid "Posterior Probabilities for the Number of Clusters"
-msgstr "Posterior-Wahrscheinlichkeit Strukturdiagramme"
+msgstr "Posterior-Wahrscheinlichkeit für die Anzahl von Clustern"
 
-#, fuzzy
 msgid "Number of blocks"
-msgstr "Anzahl Knoten"
+msgstr "Anzahl Blöcke"
 
-#, fuzzy
 msgid "Posterior probability"
 msgstr "Posterior-Wahrscheinlichkeit"
 
@@ -377,7 +372,7 @@ msgid "Posterior Co-clustering Matrix"
 msgstr ""
 
 msgid "Cluster Bayes Factor"
-msgstr ""
+msgstr "Cluster Bayesfaktor"
 
 msgid "Hypothesis"
 msgstr ""
@@ -396,13 +391,11 @@ msgstr "Clustering-Diagramm"
 msgid "Co-clustering Matrix Plot"
 msgstr "Clustering-Diagramm"
 
-#, fuzzy
 msgid "Co-clustering Matrix Plots"
-msgstr "Clustering-Diagramm"
+msgstr "Co-Clustering-Matrix-Diagramme"
 
-#, fuzzy
 msgid "Probability"
-msgstr "Posterior-Wahrscheinlichkeit"
+msgstr "Wahrscheinlichkeit"
 
 msgid ""
 "After binarizing the data too little variance remained in variable(s): %s."
