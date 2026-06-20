@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: R 3.6.1\n"
 "Report-Msgid-Bugs-To: github.com/jasp-stats/jasp-issues/issues\n"
 "POT-Creation-Date: 2026-05-16 03:29\n"
-"PO-Revision-Date: 2026-05-17 06:11+0000\n"
+"PO-Revision-Date: 2026-06-20 03:28+0000\n"
 "Last-Translator: Johannes Keyser <joke@fsfe.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/jasp/jaspnetwork-"
 "r/de/>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n==0 ? 0 : n==1 ? 0 : 1;\n"
-"X-Generator: Weblate 2026.6.dev0\n"
+"X-Generator: Weblate 2026.7.dev0\n"
 
 msgid "Summary of Network"
 msgstr "Zusammenfassung des Netwerks"
@@ -83,11 +83,15 @@ msgid ""
 "Unsupported update method '%s'. Please select one of: adaptive-metropolis, "
 "nuts."
 msgstr ""
+"Die Update-Methode \"%s\" wird nicht unterstützt. Bitte wählen Sie eine der "
+"folgenden Optionen aus: Adaptive-Metropolis, NUTS."
 
 msgid ""
 "Unsupported edge prior '%s'. Please select one of: Bernoulli, Beta-binomial, "
 "Stochastic block model."
 msgstr ""
+"Nicht unterstützter Kanten-Prior \"%s\". Bitte eins der folgenden auswählen: "
+"Bernoulli, Beta-Binomial, Stochastisches Blockmodell."
 
 msgid "Group"
 msgstr "Gruppe"
@@ -121,6 +125,9 @@ msgid ""
 "Difference network not estimated: all selected variables must be ordinal or "
 "Blume-Capel. Showing separate group estimates instead."
 msgstr ""
+"Differenznetzwerk nicht geschätzt: Alle ausgewählten Variablen müssen "
+"ordinal oder vom Typ Blume-Capel sein. Stattdessen werden separate "
+"Gruppenschätzungen angezeigt."
 
 msgid ""
 "Minimum edge strength ignored in the network plot because it was larger than "
@@ -173,10 +180,10 @@ msgid "Centrality Plot"
 msgstr "Zentralitätsdiagramm"
 
 msgid "Parameter HDI Plot"
-msgstr ""
+msgstr "Parameter HDI-Diagramm"
 
 msgid "Parameter HDI Plots"
-msgstr ""
+msgstr "Parameter HDI-Diagramme"
 
 msgid ""
 "The difference parameter HDI plot shows the posterior mean and highest "
@@ -184,14 +191,22 @@ msgid ""
 "between groups. Positive values indicate a stronger association in the first "
 "group; negative values indicate a stronger association in the second group."
 msgstr ""
+"Das HDI-Diagramm der Differenzparameter zeigt den Posterior-Mittelwert und "
+"das Intervall höchster Dichte (HDI) für jede paarweise Differenz von "
+"partieller Assoziation zwischen den Gruppen. Positive Werte deuten auf eine "
+"stärkere Assoziation in der ersten Gruppe; negative Werte deuten auf eine "
+"stärkere Assoziation in der zweiten Gruppe."
 
 msgid ""
 "Posterior samples are required for the parameter HDI plot. Please ensure the "
 "model was fitted with 'save = TRUE'."
 msgstr ""
+"Für das Diagramm der HDI-Parameter sind Posterior-Stichproben erforderlich. "
+"Bitte stellen Sie sicher, dass das Modell mit \"save = TRUE\" angepasst "
+"wurde."
 
 msgid "%d%% HDI of Partial Association"
-msgstr ""
+msgstr "%d%% HDI von partieller Assoziation"
 
 msgid "Complexity plot"
 msgstr "Komplexitätsdiagramm"
@@ -236,35 +251,35 @@ msgid "Edge Specific Overview"
 msgstr ""
 
 msgid "difference"
-msgstr ""
+msgstr "Differenz"
 
 msgid "equal"
-msgstr ""
+msgstr "gleich"
 
+#, fuzzy
 msgid "inconclusive"
-msgstr ""
+msgstr "uneindeutig"
 
 msgid "Relation"
 msgstr ""
 
 msgid "Difference Estimate"
-msgstr ""
+msgstr "Differenz-Schätzung"
 
-#, fuzzy
 msgid "Posterior Diff. Prob."
-msgstr "Posterior-Wahrscheinlichkeit"
+msgstr "Posterior Diff.-Wahrsch."
 
 msgid "Difference BF"
-msgstr ""
+msgstr "BF Differenz"
 
 msgid "Category"
-msgstr ""
+msgstr "Kategorie"
 
 msgid "Convergence"
-msgstr ""
+msgstr "Konvergenz"
 
 msgid "Estimate"
-msgstr ""
+msgstr "Schätzung"
 
 msgid ""
 "Difference estimates are based on the median probability model: edges with a "
@@ -294,17 +309,16 @@ msgid ""
 msgstr ""
 
 msgid "included"
-msgstr ""
+msgstr "eingeschlossen"
 
 msgid "excluded"
-msgstr ""
+msgstr "ausgeschlossen"
 
-#, fuzzy
 msgid "Posterior Incl. Prob."
-msgstr "Posterior-Wahrscheinlichkeit"
+msgstr "Posterior-Einschl.-Wahrsch."
 
 msgid "Inclusion BF"
-msgstr ""
+msgstr "BF Einschluss"
 
 msgid ""
 "Estimates are based on the median probability model: edges with a posterior "
@@ -331,10 +345,10 @@ msgstr ""
 
 #, fuzzy
 msgid "Precision Matrix"
-msgstr "Gewichtematrix"
+msgstr "Präzisions-Matrix"
 
 msgid "Partial Correlations"
-msgstr ""
+msgstr "Partielle Korrelationen"
 
 msgid "Cluster Allocations (Posterior Mean)"
 msgstr ""
@@ -342,19 +356,15 @@ msgstr ""
 msgid "Cluster Allocations (Posterior Mode)"
 msgstr ""
 
-#, fuzzy
 msgid "Cluster"
-msgstr "Clustering-Diagramm"
+msgstr "Cluster"
 
-#, fuzzy
 msgid "Posterior Probabilities for the Number of Clusters"
-msgstr "Posterior-Wahrscheinlichkeit Strukturdiagramme"
+msgstr "Posterior-Wahrscheinlichkeit für die Anzahl von Clustern"
 
-#, fuzzy
 msgid "Number of blocks"
-msgstr "Anzahl Knoten"
+msgstr "Anzahl Blöcke"
 
-#, fuzzy
 msgid "Posterior probability"
 msgstr "Posterior-Wahrscheinlichkeit"
 
@@ -362,7 +372,7 @@ msgid "Posterior Co-clustering Matrix"
 msgstr ""
 
 msgid "Cluster Bayes Factor"
-msgstr ""
+msgstr "Cluster Bayesfaktor"
 
 msgid "Hypothesis"
 msgstr ""
@@ -381,13 +391,11 @@ msgstr "Clustering-Diagramm"
 msgid "Co-clustering Matrix Plot"
 msgstr "Clustering-Diagramm"
 
-#, fuzzy
 msgid "Co-clustering Matrix Plots"
-msgstr "Clustering-Diagramm"
+msgstr "Co-Clustering-Matrix-Diagramme"
 
-#, fuzzy
 msgid "Probability"
-msgstr "Posterior-Wahrscheinlichkeit"
+msgstr "Wahrscheinlichkeit"
 
 msgid ""
 "After binarizing the data too little variance remained in variable(s): %s."
