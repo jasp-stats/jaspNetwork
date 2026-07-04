@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jaspNetwork 0.95.5\n"
 "POT-Creation-Date: 2026-05-16 03:29\n"
-"PO-Revision-Date: 2026-05-17 06:11+0000\n"
-"Last-Translator: Arif Budiman <arifpedia@gmail.com>\n"
+"PO-Revision-Date: 2026-07-03 23:01+0000\n"
+"Last-Translator: Zahid Rizky Fakhri <zahidrizkyfakhri@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/jasp/"
 "jaspnetwork-r/id/>\n"
 "Language: id\n"
@@ -11,156 +11,178 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.6.dev0\n"
+"X-Generator: Weblate 2026.7.1.dev0\n"
 
 msgid "Summary of Network"
-msgstr ""
+msgstr "Ringkasan Jaringan"
 
 msgid "Network"
-msgstr ""
+msgstr "Jaringan"
 
 msgid "Number of nodes"
-msgstr ""
+msgstr "Jumlah simpul"
 
 msgid "Number of included edges"
-msgstr ""
+msgstr "Jumlah tepi disertakan"
 
 msgid "Number of excluded edges"
-msgstr ""
+msgstr "Jumlah tepi dikecualikan"
 
 msgid "Number of edges with inconclusive evidence"
-msgstr ""
+msgstr "Jumlah tepi dengan bukti inkonklusif"
 
 msgid "Sparsity"
-msgstr ""
+msgstr "Kelangkaan"
 
 msgid ""
 "Edge categorization is based on the inclusion criteria BF: included (BF₁₀ ≥ "
 "threshold), excluded (BF₁₀ ≤ 1/threshold), inconclusive (otherwise)."
 msgstr ""
+"Kategorisasi tepi berdasarkan kriteria inklusi BF: disertakan (BF₁₀ ≥ ambang "
+"batas), dikecualikan (BF₁₀ ≤ 1/ambang batas), inkonklusif (sebaliknya)."
 
 msgid "Could not determine the baseline category for variable %s."
-msgstr ""
+msgstr "Tidak dapat menentukan kategori garis dasar untuk variabel %s."
 
 msgid ""
 "Some model type assignments refer to variables that are not part of the "
 "analysis: %s."
 msgstr ""
+"Beberapa penugasan jenis model merujuk pada variabel yang bukan bagian dari "
+"analisis: %s."
 
 msgid "Variable %s cannot be treated as Blume-Capel because it is not ordinal."
 msgstr ""
+"Variabel %s tidak dapat diperlakukan sebagai Blume-Capel karena itu tidak "
+"ordinal."
 
 msgid ""
 "The Stochastic block model edge prior is not available when Split is "
 "selected. Please use Bernoulli or Beta-binomial."
 msgstr ""
+"Priori tepi model blok Stochastik tidak tersedia ketika Pemisahan dipilih. "
+"Silakan gunakan Bernoulli atau Binomial-beta."
 
 msgid "Unsupported prior family '%s'."
-msgstr ""
+msgstr "Keluarga priori tidak didukung '%s'."
 
 msgid "Unsupported edge prior '%s'."
-msgstr ""
+msgstr "Tepi priori tidak didukung '%s'."
 
 msgid "Unsupported difference prior '%s'."
-msgstr ""
+msgstr "Perbedaan priori tidak didukung '%s'."
 
 msgid ""
 "The analysis failed with the following error message:\n"
 "%s"
 msgstr ""
+"Analisis gagal dengan pesan galat berikut:\n"
+"%s"
 
 msgid ""
 "Unsupported update method '%s'. Please select one of: adaptive-metropolis, "
 "nuts."
 msgstr ""
+"Metode pembaruan tidak didukung '%s'. Silakan pilih satu dari: metropolis-"
+"adaptif, nuts."
 
 msgid ""
 "Unsupported edge prior '%s'. Please select one of: Bernoulli, Beta-binomial, "
 "Stochastic block model."
 msgstr ""
+"Priori tepi tidak didukung '%s'. Silakan pilih satu dari: Bernoulli, "
+"Binomial-beta, model blok Stochastik."
 
 msgid "Group"
 msgstr "Kelompok"
 
 msgid "Estimating group comparison"
-msgstr ""
+msgstr "Mengestimasi perbandingan grup"
 
 msgid ""
 "The group comparison failed with the following error message:\n"
 "%s"
 msgstr ""
+"Perbandingan grup gagal dengan pesan galat berikut:\n"
+"%s"
 
 msgid "Differences"
-msgstr ""
+msgstr "Perbedaan"
 
 msgid "Estimating pooled network"
-msgstr ""
+msgstr "Mengestimasi jaringan terkumpul"
 
 msgid "Pooled"
-msgstr ""
+msgstr "Dikumpul"
 
 msgid "Estimating %s"
-msgstr ""
+msgstr "Mengestimasi %s"
 
 msgid "Estimating network"
-msgstr ""
+msgstr "Mengestimasi jaringan"
 
 msgid ""
 "Difference network not estimated: all selected variables must be ordinal or "
 "Blume-Capel. Showing separate group estimates instead."
 msgstr ""
+"Jaringan perbedaan tidak diestimasi: semua variabel terpilih harus ordinal "
+"atau Blume-Capel. Menampilkan estimasi grup terpisah sebagai pengganti."
 
 msgid ""
 "Minimum edge strength ignored in the network plot because it was larger than "
 "the absolute value of the strongest edge."
 msgstr ""
+"Minimum kekuatan tepi diabaikan di diagram jaringan karena itu lebih besar "
+"dari nilai absolut dari tepi terkuat."
 
 msgid ""
 "Minimum edge strength ignored in the network plot of group%1$s %2$s because "
 "it was larger than the absolute value of the strongest edge."
 msgstr ""
+"Minimum kekuatan tepi diabaikan di diagram jaringan dari grup%1$s %2$s "
+"karena itu lebih besar dari nilai absolut dari tepi terkuat."
 
 msgid "<em>Warning: </em>"
-msgstr ""
+msgstr "<em>Peringatan: </em>"
 
 msgid "Number of different edges"
-msgstr ""
+msgstr "Jumlah tepi berbeda"
 
 msgid "Number of equal edges"
-msgstr ""
+msgstr "Jumlah tepi sama"
 
 msgid "Posterior Probability Structure Plots"
-msgstr ""
+msgstr "Diagram Struktur Probabilitas Posterior"
 
 msgid "Posterior Probability Structure Plot"
-msgstr ""
+msgstr "Diagram Struktur Probabilitas Posterior"
 
 msgid "Centrality measures per variable"
-msgstr ""
+msgstr "Pengukuran kepusatan per variabel"
 
 msgid "Variable"
 msgstr "Variabel"
 
 msgid "Betweenness"
-msgstr ""
+msgstr "Keantaraan"
 
 msgid "Closeness"
-msgstr ""
+msgstr "Kedekatan"
 
 msgid "Strength"
-msgstr ""
+msgstr "Kekuatan"
 
 msgid "Expected influence"
-msgstr ""
+msgstr "Dampak terharapkan"
 
 msgid "Centrality Plot"
-msgstr ""
+msgstr "Diagram kepusatan"
 
 msgid "Parameter HDI Plot"
-msgstr ""
+msgstr "Diagram HDI Parameter"
 
 msgid "Parameter HDI Plots"
-msgstr ""
+msgstr "Diagram HDI Parameter"
 
 msgid ""
 "The difference parameter HDI plot shows the posterior mean and highest "
@@ -168,94 +190,109 @@ msgid ""
 "between groups. Positive values indicate a stronger association in the first "
 "group; negative values indicate a stronger association in the second group."
 msgstr ""
+"Diagram HDI parameter perbedaan menampilkan rerata posterior dan interval "
+"kepadatan tertinggi (HDI) untuk setiap perbedaan berpasangan di asosiasi "
+"parsial antara grup. Nilai positif mengindikasikan asosiasi lebih kuat di "
+"grup pertama; nilai negatif mengindikasikan asosiasi lebih kuat di grup "
+"kedua."
 
 msgid ""
 "Posterior samples are required for the parameter HDI plot. Please ensure the "
 "model was fitted with 'save = TRUE'."
 msgstr ""
+"Sampel posterior diperlukan untuk diagram HDI parameter. Silakan pastikan "
+"model telah disesuaikan dengan 'save = TRUE'."
 
 msgid "%d%% HDI of Partial Association"
-msgstr ""
+msgstr "%d%% HDI dari Asosiasi Parsial"
 
 msgid "Complexity plot"
-msgstr ""
+msgstr "Diagram kompleksitas"
 
 msgid "Complexity plots"
-msgstr ""
+msgstr "Diagram kompleksitas"
 
 msgid "Complexity Plot"
-msgstr ""
+msgstr "Diagram Kompleksitas"
 
 msgid "Posterior Probability"
-msgstr ""
+msgstr "Probabilitas Posterior"
 
 msgid "Number of edges"
-msgstr ""
+msgstr "Jumlah tepi"
 
 msgid "Structure Plot"
-msgstr ""
+msgstr "Diagram Struktur"
 
 msgid "Structure Plots"
-msgstr ""
+msgstr "Diagram Struktur"
 
 msgid "Edge Evidence Plot"
-msgstr ""
+msgstr "Diagram Bukti Tepi"
 
 msgid "Edge Evidence Plots"
-msgstr ""
+msgstr "Diagram Bukti Tepi"
 
 msgid "Edge evidence probability table"
-msgstr ""
+msgstr "Tabel probabilitas bukti tepi"
 
 msgid ""
 "Bayes factors with values of infinity indicate that the estimated posterior "
 "inclusion probability is either 1 or 0. Please see the help file for more "
 "information."
 msgstr ""
+"Faktor bayes dengan nilai infinit mengindikasikan bahwa probabilitas inklusi "
+"posterior terestimasi adalah baik 1 atau 0. Silakan lihat berkas bantuan "
+"untuk informasi lebih lanjut."
 
 msgid "Edge Specific Overview"
-msgstr ""
+msgstr "Ikhtisar Spesifik Tepi"
 
 msgid "difference"
-msgstr ""
+msgstr "perbedaan"
 
 msgid "equal"
-msgstr ""
+msgstr "sama"
 
 msgid "inconclusive"
-msgstr ""
+msgstr "inkonklusif"
 
 msgid "Relation"
-msgstr ""
+msgstr "Relasi"
 
 msgid "Difference Estimate"
-msgstr ""
+msgstr "Estimasi Perbedaan"
 
 msgid "Posterior Diff. Prob."
-msgstr ""
+msgstr "Prob. Perb. Posterior"
 
 msgid "Difference BF"
-msgstr ""
+msgstr "BF Perbedaan"
 
 msgid "Category"
-msgstr ""
+msgstr "Kategori"
 
 msgid "Convergence"
-msgstr ""
+msgstr "Konvergensi"
 
 msgid "Estimate"
-msgstr ""
+msgstr "Estimasi"
 
 msgid ""
 "Difference estimates are based on the median probability model: edges with a "
 "posterior difference probability ≤ 0.5 are set to zero."
 msgstr ""
+"Estimasi perbedaan berdasarkan model probabilitas median: tepi dengan "
+"probabilitas perbedaan posterior ≤ 0.5 diatur ke nol."
 
 msgid ""
 "Bayes factors with values of infinity indicate that the estimated posterior "
 "difference probability is either 1 or 0. Please see the help file for more "
 "information."
 msgstr ""
+"Faktor bayes dengan nilai infinit mengindikasikan bahwa probabilitas "
+"perbedaan posterior terestimasi adalah baik 1 atau 0. Silakan lihat berkas "
+"bantuan untuk informasi lebih lanjut."
 
 msgid ""
 "Convergence is the R-hat (Gelman-Rubin) statistic, values greater than about "
@@ -263,28 +300,36 @@ msgid ""
 "convergence for the estimates of the pairwise interactions. Consider "
 "increasing the number of iterations and/or chains to improve convergence."
 msgstr ""
+"Konvergensi adalah statistik R-hat (Gelman-Rubin), nilai lebih dari sekitar "
+"1.01-1.05 dianggap mengkhawatirkan, mengindikasikan kurang dari konvergensi "
+"potensial untuk estimasi dari interaksi berpasangan. Pertimbangkan "
+"meningkatkan jumlah iterasi dan/atau rantai untuk meningkatkan konvergensi."
 
 msgid ""
 "Convergence is the split-chain R-hat (Gelman-Rubin) statistic, computed post "
 "hoc by splitting the posterior samples into two halves."
 msgstr ""
+"Konvergensi adalah statistik R-hat (Gelman-Rubin) terpisah-rantai, dihitung "
+"pos hoc dengan memisahkan sampel posterior menjadi dua bagian."
 
 msgid "included"
-msgstr ""
+msgstr "disertakan"
 
 msgid "excluded"
-msgstr ""
+msgstr "dikecualikan"
 
 msgid "Posterior Incl. Prob."
-msgstr ""
+msgstr "Prob. Inkl. Posterior"
 
 msgid "Inclusion BF"
-msgstr ""
+msgstr "BF Inklusi"
 
 msgid ""
 "Estimates are based on the median probability model: edges with a posterior "
 "inclusion probability ≤ 0.5 are set to zero."
 msgstr ""
+"Estimasi perbedaan berdasarkan model probabilitas median: tepi dengan "
+"probabilitas inklusi posterior ≤ 0.5 diatur ke nol."
 
 msgid ""
 "Convergence is the R-hat (Gelman-Rubin) statistic, with values greater than "
@@ -292,6 +337,10 @@ msgid ""
 "convergence for the estimates of the pairwise interactions. Consider "
 "increasing the number of iterations to improve convergence."
 msgstr ""
+"Konvergensi adalah statistik R-hat (Gelman-Rubin), nilai lebih dari sekitar "
+"1.01-1.05 dianggap mengkhawatirkan, mengindikasikan kurang dari konvergensi "
+"potensial untuk estimasi dari interaksi berpasangan. Pertimbangkan "
+"meningkatkan jumlah iterasi untuk meningkatkan konvergensi."
 
 msgid ""
 "Convergence is the split-chain R-hat (Gelman-Rubin) statistic, computed post "
@@ -300,155 +349,173 @@ msgid ""
 "convergence for the estimates of the pairwise interactions. Consider "
 "increasing the number of iterations to improve convergence."
 msgstr ""
+"Konvergensi adalah statistik R-hat (Gelman-Rubin) terpisah-rantai, dihitung "
+"pos hoc dengan memisahkan sampel posterior menjadi dua bagian. Nilai lebih "
+"dari sekitar 1.01-1.05 dianggap mengkhawatirkan, mengindikasikan kurang dari "
+"konvergensi potensial untuk estimasi dari interaksi berpasangan. "
+"Pertimbangkan meningkatkan jumlah iterasi untuk meningkatkan konvergensi."
 
 msgid "Log-odds"
-msgstr ""
+msgstr "Ganjil-log"
 
 msgid "Precision Matrix"
-msgstr ""
+msgstr "Matriks Presisi"
 
 msgid "Partial Correlations"
-msgstr ""
+msgstr "Korelasi Parsial"
 
 msgid "Cluster Allocations (Posterior Mean)"
-msgstr ""
+msgstr "Alokasi Klaster (Rerata Posterior)"
 
 msgid "Cluster Allocations (Posterior Mode)"
-msgstr ""
+msgstr "Alokasi Klaster (Mode Posterior)"
 
 msgid "Cluster"
-msgstr ""
+msgstr "Klaster"
 
 msgid "Posterior Probabilities for the Number of Clusters"
-msgstr ""
+msgstr "Probabilitas Posterior untuk Jumlah Klaster"
 
 msgid "Number of blocks"
-msgstr ""
+msgstr "Jumlah blok"
 
 msgid "Posterior probability"
-msgstr ""
+msgstr "Probabilitas posterior"
 
 msgid "Posterior Co-clustering Matrix"
-msgstr ""
+msgstr "Matriks Ko-keklasteran Posterior"
 
 msgid "Cluster Bayes Factor"
-msgstr ""
+msgstr "Faktor Bayes Klaster"
 
 msgid "Hypothesis"
-msgstr ""
+msgstr "Hipotesis"
 
 msgid "Bayes factor"
-msgstr ""
+msgstr "Faktor Bayes"
 
 msgid "Could not compute the cluster Bayes factor: %s"
-msgstr ""
+msgstr "Tidak dapat menghitung faktor Bayes klaster: %s"
 
 msgid "Clustering vs. no clustering"
-msgstr ""
+msgstr "Keklasteran vs. tidak keklasteran"
 
 msgid "Co-clustering Matrix Plot"
-msgstr ""
+msgstr "Diagram Matriks Ko-keklasteran"
 
 msgid "Co-clustering Matrix Plots"
-msgstr ""
+msgstr "Diagram Matriks Ko-keklasteran"
 
 msgid "Probability"
-msgstr ""
+msgstr "Probabilitas"
 
 msgid ""
 "After binarizing the data too little variance remained in variable(s): %s."
 msgstr ""
+"Setelah membinerisasi data terlalu kecil variabel tetap ada di variabel: %s."
 
 msgid "Number of non-zero edges"
-msgstr ""
+msgstr "Jumlah tepi non-nol"
 
 msgid "Data was binarized using %s."
-msgstr ""
+msgstr "Data telah dibinerisasikan menggunakan %s."
 
 msgid ""
 "Only the first %1$d values of %2$s were used to color nodes (%3$d provided)."
 msgstr ""
+"Hanya nilai %1$s pertama dari %2$s telah digunakan untuk mewarnai simpul "
+"warna ($3%d disediakan)."
 
 msgid ""
 "Bootstrapping is only done when 'Bootstrap network' is ticked and 'Number of "
 "Bootstraps' is larger than 0."
 msgstr ""
+"Bootstrap hanya dilakukan ketika 'Jaringan bootstrap' dicentang dan 'Jumlah "
+"Bootstrap' lebih besar dari 0."
 
 msgid "Barrat"
-msgstr ""
+msgstr "Barrat"
 
 msgid "Onnela"
-msgstr ""
+msgstr "Onnela"
 
 msgid "WS"
-msgstr ""
+msgstr "WS"
 
 msgid "Zhang"
-msgstr ""
+msgstr "Zhang"
 
 msgid "Clustering measures per variable"
-msgstr ""
+msgstr "Pengukuran keklasteran per variabel"
 
 msgid "Clustering measures could not be computed for network%1$s: %2$s"
-msgstr ""
+msgstr "Pengukuran keklasteran tidak dapat dihitung untuk jaringan%1$s: %2$s"
 
 msgid "Bootstrap summary of Network"
-msgstr ""
+msgstr "Ringkasan bootstrap dari Jaringa"
 
 msgid "Type"
-msgstr ""
+msgstr "Jenis"
 
 msgid "Number of bootstraps"
-msgstr ""
+msgstr "Jumlah bootstrap"
 
 msgid "Clustering Plot"
-msgstr ""
+msgstr "Diagram Keklasteran"
 
 msgid "Network Plots"
-msgstr ""
+msgstr "Diagram Jaringan"
 
 msgid "Network Plot"
-msgstr ""
+msgstr "Diagram Jaringan"
 
 msgid "Edge Stability"
-msgstr ""
+msgstr "Stabilitas Tepi"
 
 msgid "Centrality Stability"
-msgstr ""
+msgstr "Stabilitas Kepusatan"
 
 msgid ""
 "bootnet crashed with the following error message:\n"
 "%s"
 msgstr ""
+"bootnet mogok dengan pesan galat berikut:\n"
+"%s"
 
 msgid ""
 "Please drag all variables to a particular type under \"Analysis options\"."
 msgstr ""
+"Silakan seretkan semua variabel ke jenis tertentu di bawah \"Opsi analisis\"."
 
 msgid ""
 "Coefficient could not be standardized because the variance is too small."
-msgstr ""
+msgstr "Koefisien tidak dapat distandardisasi karena varians terlalu kecil."
 
 msgid "Please supply a name for both the x and y-coordinates of the layout."
-msgstr ""
+msgstr "Silakan sediakan nama untuk kedua koordinat-x dan y dari tata letak."
 
 msgid "Some variables did not contain char (%s)"
-msgstr ""
+msgstr "Beberapa variabel tidak berisi kar (%s)"
 
 msgid "Some variables were not matched in the column names of the dataset."
-msgstr ""
+msgstr "Beberapa variabel tidak cocok di nama kolom dari rangkaian data."
 
 msgid ""
 "Supplied data for layout was not understood and instead a circle layout was "
 "used."
 msgstr ""
+"Data disediakan untuk tata letak tidak dipahami dan sebagai pengganti tata "
+"letak lingkaran telah digunakan."
 
 msgid ""
 "Data supplied in %1$s AND %2$s could not be used to determine node locations."
 msgstr ""
+"Data disediakan di %1$s AND %2$s tidak dapat digunakan untuk menentukan "
+"lokasi simpul."
 
 msgid "Data supplied in %s could not be used to determine node locations."
 msgstr ""
+"Data disediakan di %s tidak dapat digunakan untuk menentukan lokasi simpul."
 
 msgid ""
 "%1$s %2$s Data should only contain numeric:\n"
@@ -456,19 +523,24 @@ msgid ""
 "                 -contain an '=' to distinguish between column name and "
 "coordinate."
 msgstr ""
+"%1$s %2$s Data hanya harus berisi numerik:\n"
+"                 -mulai dengan nama kolom dari variabel.\n"
+"                 -berisi '=' untuk membedakan antara nama dan koordinat "
+"kolom."
 
 msgid ""
 "bootnet crashed with the following error message:\n"
 "%s. <ul><li>Please check if there are variables in the network with little "
 "variance or few distinct observations.</li></ul>"
 msgstr ""
+"bootnet mogok dengan pesan galat berikut:\n"
+"%s. <ul><li>Silakan periksa jika ada variabel di jaringan dengan variabel "
+"kecil atau sedikit observasi berbeda.</li></ul>"
 
 msgid "%1$s X-Coordinates for variable %2$s was not understood."
 msgid_plural "%1$s X-Coordinates for variables %2$s were not understood."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1$s Koordinat-X untuk variabel %2$d tidak dipahami."
 
 msgid "%1$s Y-Coordinates for variable %2$s was not understood."
 msgid_plural "%1$s Y-Coordinates for variables %2$s were not understood."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1$s Koordinat-Y untuk variabel %2$d tidak dipahami."
