@@ -589,7 +589,7 @@
       "RemoteHost": "api.github.com",
       "RemoteUsername": "Bayesian-Graphical-Modelling-Lab",
       "RemoteRepo": "bgms",
-      "RemoteSha": "841b9a3cc79a36dd496ea787993beeb489acf559"
+      "RemoteSha": "42c277cd093da41c59e94559958414319f859307"
     },
     "bit": {
       "Package": "bit",
@@ -993,7 +993,7 @@
       "RemoteHost": "api.github.com",
       "RemoteUsername": "Bayesian-Graphical-Modelling-Lab",
       "RemoteRepo": "easybgm",
-      "RemoteSha": "1743035047c0debafbb895c44d92c3d21792408d"
+      "RemoteSha": "8c5ed4376826a8799e59b00bc8233d344d81118e"
     },
     "eigenmodel": {
       "Package": "eigenmodel",
