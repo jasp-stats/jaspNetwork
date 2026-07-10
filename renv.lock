@@ -1,10 +1,10 @@
 {
   "R": {
-    "Version": "4.5.2",
+    "Version": "4.6.1",
     "Repositories": [
       {
         "Name": "RSPM",
-        "URL": "https://packagemanager.posit.co/cran/2026-04-22"
+        "URL": "https://packagemanager.posit.co/cran/2026-06-15"
       },
       {
         "Name": "RPSM2",
@@ -589,7 +589,7 @@
       "RemoteHost": "api.github.com",
       "RemoteUsername": "Bayesian-Graphical-Modelling-Lab",
       "RemoteRepo": "bgms",
-      "RemoteSha": "42c277cd093da41c59e94559958414319f859307"
+      "RemoteSha": "733f52917d93bf5b235af652cec3c25a14a496d9"
     },
     "bit": {
       "Package": "bit",
@@ -993,7 +993,7 @@
       "RemoteHost": "api.github.com",
       "RemoteUsername": "Bayesian-Graphical-Modelling-Lab",
       "RemoteRepo": "easybgm",
-      "RemoteSha": "8c5ed4376826a8799e59b00bc8233d344d81118e"
+      "RemoteSha": "98876f6b1e38d3b897eef11732255fdd096e9bd1"
     },
     "eigenmodel": {
       "Package": "eigenmodel",
@@ -2476,7 +2476,7 @@
     },
     "rlang": {
       "Package": "rlang",
-      "Version": "1.1.7",
+      "Version": "1.2.0",
       "Source": "Repository",
       "Requirements": [
         "R",
