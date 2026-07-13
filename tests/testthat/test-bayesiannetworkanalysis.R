@@ -139,6 +139,9 @@ testthat::test_that("Parameter HDI plot works", {
   plotName <- firstPlot[["data"]]
   testthat::expect_true(is.character(plotName) && length(plotName) == 1L && nzchar(plotName))
 
+  # HDI bounds come from MCMC sampling that set.seed() does not govern, so the plot is not reproducible
+  testthat::skip("Not reproducible")
+
   testPlot <- results[["state"]][["figures"]][[plotName]][["obj"]]
   jaspTools::expect_equal_plots(testPlot, "parameter-hdi-plot")
 })

@@ -244,6 +244,8 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
 .bayesianNetworkAnalysisNormalizeVariableOptions <- function(options) {
 
+  options[["groupingVariable"]] <- .networkAnalysisScalarVariableName(options[["groupingVariable"]])
+
   variableRows <- .bayesianNetworkAnalysisAssignedVariableRows(options[["variables"]])
 
   if (length(variableRows) == 0L) {
