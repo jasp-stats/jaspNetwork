@@ -2,326 +2,356 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jaspNetwork 0.96.3\n"
 "POT-Creation-Date: 2026-05-16 03:29\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2026-07-28 08:02+0000\n"
+"Last-Translator: 陳正昌 <chencc99@gmail.com>\n"
+"Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
+"projects/jasp/jaspnetwork-r/zh_Hant/>\n"
 "Language: zh_Hant\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 2026.8.dev0\n"
 
 msgid "Summary of Network"
 msgstr ""
 
 msgid "Network"
-msgstr ""
+msgstr "網路"
 
 msgid "Number of nodes"
-msgstr ""
+msgstr "節點數"
 
 msgid "Number of included edges"
-msgstr ""
+msgstr "包含的邊數"
 
 msgid "Number of excluded edges"
-msgstr ""
+msgstr "排除的邊數"
 
 msgid "Number of edges with inconclusive evidence"
-msgstr ""
+msgstr "證據不明確的邊數"
 
 msgid "Sparsity"
-msgstr ""
+msgstr "稀疏性"
 
 msgid "Edge categorization is based on the inclusion criteria BF: included (BF₁₀ ≥ threshold), excluded (BF₁₀ ≤ 1/threshold), inconclusive (otherwise)."
 msgstr ""
+"邊緣分類是基於納入準則 BF：納入 (BF₁₀ ≥ 臨界值)、排除 (BF₁₀ ≤ 1/臨界值)、不明"
+"確 (其他情況)。"
 
 msgid "Could not determine the baseline category for variable %s."
-msgstr ""
+msgstr "無法判定變數 %s 的基準類別。"
 
 msgid "Some model type assignments refer to variables that are not part of the analysis: %s."
-msgstr ""
+msgstr "部分模型類型指定參照到不屬於分析範圍的變數：%s。"
 
 msgid "Variable %s cannot be treated as Blume-Capel because it is not ordinal."
-msgstr ""
+msgstr "變數 %s 無法以 Blume-Capel 方式處理，因其並非有序類別變數。"
 
 msgid "The Stochastic block model edge prior is not available when Split is selected. Please use Bernoulli or Beta-binomial."
 msgstr ""
+"當選取「分割」時，隨機區塊模型的邊緣先驗無法使用。請改用伯努利 (Bernoulli) 或"
+"貝塔 (Beta) 二項分布。"
 
 msgid "Unsupported prior family '%s'."
-msgstr ""
+msgstr "不支援的先驗家族「%s」。"
 
 msgid "Unsupported edge prior '%s'."
-msgstr ""
+msgstr "不支援的邊緣先驗「%s」。"
 
 msgid "Unsupported difference prior '%s'."
-msgstr ""
+msgstr "不支援的差異先驗「%s」。"
 
 msgid "The analysis failed with the following error message:\n%s"
 msgstr ""
+"分析失敗，錯誤訊息如下：\n"
+"%s"
 
 msgid "Unsupported update method '%s'. Please select one of: adaptive-metropolis, nuts."
-msgstr ""
+msgstr "不支援的更新方法「%s」。請選取下列其中一種：adaptive-metropolis、nuts。"
 
 msgid "Unsupported edge prior '%s'. Please select one of: Bernoulli, Beta-binomial, Stochastic block model."
 msgstr ""
+"不支援的邊緣先驗「%s」。請選取下列其中一種：Bernoulli、Beta-binomial、"
+"Stochastic block model。"
 
 msgid "Group"
-msgstr ""
+msgstr "組別"
 
 msgid "Estimating group comparison"
-msgstr ""
+msgstr "正在估計組別比較"
 
 msgid "The group comparison failed with the following error message:\n%s"
 msgstr ""
+"組別比較失敗，錯誤訊息如下：\n"
+"%s"
 
 msgid "Differences"
-msgstr ""
+msgstr "差異"
 
 msgid "Estimating pooled network"
-msgstr ""
+msgstr "正在估計合併網路"
 
 msgid "Pooled"
-msgstr ""
+msgstr "合併"
 
 msgid "Estimating %s"
-msgstr ""
+msgstr "正在估計 %s"
 
 msgid "Estimating network"
-msgstr ""
+msgstr "正在估計網路"
 
 msgid "Difference network not estimated: all selected variables must be ordinal or Blume-Capel. Showing separate group estimates instead."
 msgstr ""
+"差異網路未估計：所有選取變數必須為有序類別或 Blume-Capel 類型。改為顯示個別組"
+"別估計結果。"
 
 msgid "Minimum edge strength ignored in the network plot because it was larger than the absolute value of the strongest edge."
-msgstr ""
+msgstr "網路圖中的最小邊緣強度被忽略，因其數值大於最強邊緣的絕對值。"
 
 msgid "Minimum edge strength ignored in the network plot of group%1$s %2$s because it was larger than the absolute value of the strongest edge."
-msgstr ""
+msgstr "群組%1$s %2$s 的網路圖中，最小邊緣強度被忽略，因其數值大於最強邊緣的絕對值。"
 
 msgid "<em>Warning: </em>"
-msgstr ""
+msgstr "<em>警告：</em>"
 
 msgid "Number of different edges"
-msgstr ""
+msgstr "不同邊緣的數量"
 
 msgid "Number of equal edges"
-msgstr ""
+msgstr "相等邊緣的數量"
 
 msgid "Posterior Probability Structure Plots"
-msgstr ""
+msgstr "後驗機率結構圖"
 
 msgid "Posterior Probability Structure Plot"
-msgstr ""
+msgstr "後驗機率結構圖"
 
 msgid "Centrality measures per variable"
-msgstr ""
+msgstr "各變數的中心性指標"
 
 msgid "Variable"
-msgstr ""
+msgstr "變項"
 
 msgid "Betweenness"
-msgstr ""
+msgstr "中介中心性"
 
 msgid "Closeness"
-msgstr ""
+msgstr "接近中心性"
 
 msgid "Strength"
-msgstr ""
+msgstr "強度中心性"
 
 msgid "Expected influence"
-msgstr ""
+msgstr "預期影響力"
 
 msgid "Centrality Plot"
-msgstr ""
+msgstr "中心性圖"
 
 msgid "Parameter HDI Plot"
-msgstr ""
+msgstr "參數 HDI 圖"
 
 msgid "Parameter HDI Plots"
-msgstr ""
+msgstr "參數 HDI 圖"
 
 msgid "The difference parameter HDI plot shows the posterior mean and highest density interval (HDI) for each pairwise difference in partial association between groups. Positive values indicate a stronger association in the first group; negative values indicate a stronger association in the second group."
 msgstr ""
+"差異參數 HDI 圖顯示各組間成對偏相關差異的事後平均數與最高密度區間 (HDI)。正值"
+"表示第一組的關聯較強；負值表示第二組的關聯較強。"
 
 msgid "Posterior samples are required for the parameter HDI plot. Please ensure the model was fitted with 'save = TRUE'."
-msgstr ""
+msgstr "參數 HDI 圖需要事後樣本。請確認模型擬合時有設定「save = TRUE」。"
 
 msgid "%d%% HDI of Partial Association"
-msgstr ""
+msgstr "偏關聯的 %d%% HDI"
 
 msgid "Complexity plot"
-msgstr ""
+msgstr "複雜度圖"
 
 msgid "Complexity plots"
-msgstr ""
+msgstr "複雜度圖"
 
 msgid "Complexity Plot"
-msgstr ""
+msgstr "複雜度圖"
 
 msgid "Posterior Probability"
-msgstr ""
+msgstr "後驗機率"
 
 msgid "Number of edges"
-msgstr ""
+msgstr "邊緣數量"
 
 msgid "Structure Plot"
-msgstr ""
+msgstr "結構圖"
 
 msgid "Structure Plots"
-msgstr ""
+msgstr "結構圖"
 
 msgid "Edge Evidence Plot"
-msgstr ""
+msgstr "邊緣證據圖"
 
 msgid "Edge Evidence Plots"
-msgstr ""
+msgstr "邊緣證據圖"
 
 msgid "Edge evidence probability table"
-msgstr ""
+msgstr "邊緣證據機率表"
 
 msgid "Bayes factors with values of infinity indicate that the estimated posterior inclusion probability is either 1 or 0. Please see the help file for more information."
 msgstr ""
+"貝氏因子值為無限大時，表示估計出的後驗納入機率為 1 或 0。詳細資訊請參閱說明文"
+"件。"
 
 msgid "Edge Specific Overview"
-msgstr ""
+msgstr "邊緣特定總覽"
 
 msgid "difference"
-msgstr ""
+msgstr "差異"
 
 msgid "equal"
-msgstr ""
+msgstr "相等"
 
 msgid "inconclusive"
-msgstr ""
+msgstr "不明確"
 
 msgid "Relation"
-msgstr ""
+msgstr "關係"
 
 msgid "Difference Estimate"
-msgstr ""
+msgstr "差異估計值"
 
 msgid "Posterior Diff. Prob."
-msgstr ""
+msgstr "後驗差異機率。"
 
 msgid "Difference BF"
-msgstr ""
+msgstr "差異貝氏因子"
 
 msgid "Category"
-msgstr ""
+msgstr "類別"
 
 msgid "Convergence"
-msgstr ""
+msgstr "收斂性"
 
 msgid "Estimate"
-msgstr ""
+msgstr "估計值"
 
 msgid "Difference estimates are based on the median probability model: edges with a posterior difference probability ≤ 0.5 are set to zero."
-msgstr ""
+msgstr "差異估計值係基於中位數機率模型：後驗差異機率 ≤ 0.5 的邊緣設為 0。"
 
 msgid "Bayes factors with values of infinity indicate that the estimated posterior difference probability is either 1 or 0. Please see the help file for more information."
 msgstr ""
+"貝氏因子值為無限大時，表示估計出的後驗差異機率為 1 或 0。詳細資訊請參閱說明文"
+"件。"
 
 msgid "Convergence is the R-hat (Gelman-Rubin) statistic, values greater than about 1.01-1.05 are considered concerning, indicating potential lack of convergence for the estimates of the pairwise interactions. Consider increasing the number of iterations and/or chains to improve convergence."
 msgstr ""
+"收斂性為 R-hat (Gelman-Rubin) 統計量，數值大於約 1.01-1.05 時被視為有疑慮，表"
+"示成對交互作用項的估計值可能尚未收斂。建議增加疊代次數及／或鏈數以改善收斂性"
+"。"
 
 msgid "Convergence is the split-chain R-hat (Gelman-Rubin) statistic, computed post hoc by splitting the posterior samples into two halves."
 msgstr ""
+"收斂性為分裂鏈 R-hat (Gelman-Rubin) 統計量，其計算方式為在事後將後驗樣本分割"
+"為兩半進行計算。"
 
 msgid "included"
-msgstr ""
+msgstr "納入"
 
 msgid "excluded"
-msgstr ""
+msgstr "排除"
 
 msgid "Posterior Incl. Prob."
-msgstr ""
+msgstr "後驗納入機率"
 
 msgid "Inclusion BF"
-msgstr ""
+msgstr "納入貝氏因子"
 
 msgid "Estimates are based on the median probability model: edges with a posterior inclusion probability ≤ 0.5 are set to zero."
-msgstr ""
+msgstr "估計值係基於中位數機率模型：後驗納入機率 ≤ 0.5 的邊緣設為 0。"
 
 msgid "Convergence is the R-hat (Gelman-Rubin) statistic, with values greater than about 1.01-1.05 are considered concerning, indicating potential lack of convergence for the estimates of the pairwise interactions. Consider increasing the number of iterations to improve convergence."
 msgstr ""
+"收斂性為 R-hat (Gelman-Rubin) 統計量，數值大於約 1.01-1.05 時被視為有疑慮，表"
+"示成對交互作用項的估計值可能尚未收斂。建議增加疊代次數以改善收斂性。"
 
 msgid "Convergence is the split-chain R-hat (Gelman-Rubin) statistic, computed post hoc by splitting the posterior samples into two halves. Values greater than about 1.01-1.05 are considered concerning, indicating potential lack of convergence for the estimates of the pairwise interactions. Consider increasing the number of iterations to improve convergence."
 msgstr ""
+"收斂性為分裂鏈 R-hat (Gelman-Rubin) 統計量，其計算方式為在事後將後驗樣本分割"
+"為兩半進行計算。數值大於約 1.01-1.05 時被視為有疑慮，表示成對交互作用項的估計"
+"值可能尚未收斂。建議增加疊代次數以改善收斂性。"
 
 msgid "Log-odds"
-msgstr ""
+msgstr "對數勝算"
 
 msgid "Precision Matrix"
-msgstr ""
+msgstr "精確矩陣"
 
 msgid "Partial Correlations"
-msgstr ""
+msgstr "偏相關"
 
 msgid "Cluster Allocations (Posterior Mean)"
-msgstr ""
+msgstr "集群歸屬 (後驗平均數)"
 
 msgid "Cluster Allocations (Posterior Mode)"
-msgstr ""
+msgstr "集群歸屬 (後驗眾數)"
 
 msgid "Cluster"
-msgstr ""
+msgstr "集群"
 
 msgid "Posterior Probabilities for the Number of Clusters"
-msgstr ""
+msgstr "集群數的後驗機率"
 
 msgid "Number of blocks"
-msgstr ""
+msgstr "區塊數"
 
 msgid "Posterior probability"
-msgstr ""
+msgstr "後驗機率"
 
 msgid "Posterior Co-clustering Matrix"
-msgstr ""
+msgstr "後驗共集群矩陣"
 
 msgid "Cluster Bayes Factor"
-msgstr ""
+msgstr "集群貝氏因子"
 
 msgid "Hypothesis"
-msgstr ""
+msgstr "假設"
 
 msgid "Bayes factor"
-msgstr ""
+msgstr "貝氏因子"
 
 msgid "Could not compute the cluster Bayes factor: %s"
-msgstr ""
+msgstr "無法計算集群貝氏因子：%s"
 
 msgid "Clustering vs. no clustering"
-msgstr ""
+msgstr "有集群 vs. 無集群"
 
 msgid "Co-clustering Matrix Plot"
-msgstr ""
+msgstr "共集群矩陣圖"
 
 msgid "Co-clustering Matrix Plots"
-msgstr ""
+msgstr "共集群矩陣圖"
 
 msgid "Probability"
-msgstr ""
+msgstr "機率"
 
 msgid "After binarizing the data too little variance remained in variable(s): %s."
-msgstr ""
+msgstr "資料二元化後，變數 %s 的變異量剩餘過少。"
 
 msgid "Number of non-zero edges"
-msgstr ""
+msgstr "非零邊緣數"
 
 msgid "Data was binarized using %s."
-msgstr ""
+msgstr "資料採用 %s 進行二元化。"
 
 msgid "Only the first %1$d values of %2$s were used to color nodes (%3$d provided)."
-msgstr ""
+msgstr "僅使用 %2$s 的前的前 %1$d 個數值來為節點上色（共提供了 %3$d 個）。"
 
 msgid "Bootstrapping is only done when 'Bootstrap network' is ticked and 'Number of Bootstraps' is larger than 0."
-msgstr ""
+msgstr "只有在勾選「自助法網路」且「自助法次數」大於 0 時，才會執行自助法分析。"
 
 msgid "Barrat"
-msgstr ""
+msgstr "Barrat"
 
 msgid "Onnela"
-msgstr ""
+msgstr "Onnela"
 
 msgid "WS"
 msgstr ""
@@ -330,74 +360,79 @@ msgid "Zhang"
 msgstr ""
 
 msgid "Clustering measures per variable"
-msgstr ""
+msgstr "各變數的集群指標"
 
 msgid "Clustering measures could not be computed for network%1$s: %2$s"
-msgstr ""
+msgstr "無法計算網路 %1s 的集群指標：%2$s"
 
 msgid "Bootstrap summary of Network"
-msgstr ""
+msgstr "網路自助法摘要"
 
 msgid "Type"
-msgstr ""
+msgstr "類型"
 
 msgid "Number of bootstraps"
-msgstr ""
+msgstr "自助法次數"
 
 msgid "Clustering Plot"
-msgstr ""
+msgstr "集群圖"
 
 msgid "Network Plots"
-msgstr ""
+msgstr "網路圖"
 
 msgid "Network Plot"
-msgstr ""
+msgstr "網路圖"
 
 msgid "Edge Stability"
-msgstr ""
+msgstr "邊緣穩定性"
 
 msgid "Centrality Stability"
-msgstr ""
+msgstr "邊緣穩定性"
 
 msgid "bootnet crashed with the following error message:\n%s"
 msgstr ""
+"bootnet 發生錯誤，錯誤訊息如下：\n"
+"%s"
 
 msgid "Please drag all variables to a particular type under \"Analysis options\"."
-msgstr ""
+msgstr "請將所有變數拖曳至「分析選項」中的特定類型。"
 
 msgid "Coefficient could not be standardized because the variance is too small."
-msgstr ""
+msgstr "係數無法標準化，因其變異數過小。"
 
 msgid "Please supply a name for both the x and y-coordinates of the layout."
-msgstr ""
+msgstr "請為版面配置的 x 座標與 y 座標皆提供名稱。"
 
 msgid "Some variables did not contain char (%s)"
-msgstr ""
+msgstr "部分變數未包含字元 (%s)"
 
 msgid "Some variables were not matched in the column names of the dataset."
-msgstr ""
+msgstr "部分變數未與資料集的欄位名稱匹配。"
 
 msgid "Supplied data for layout was not understood and instead a circle layout was used."
-msgstr ""
+msgstr "所提供的版面配置資料無法辨識，因此改採環形版面配置。"
 
 msgid "Data supplied in %1$s AND %2$s could not be used to determine node locations."
-msgstr ""
+msgstr "在 %1s 與 %2$s 中提供的資料無法用於決定節點位置。"
 
 msgid "Data supplied in %s could not be used to determine node locations."
-msgstr ""
+msgstr "在 %s 中提供的資料無法用於決定節點位置。"
 
 msgid "%1$s %2$s Data should only contain numeric:\n                 -start with the column name of the variable.\n                 -contain an '=' to distinguish between column name and coordinate."
 msgstr ""
+"%1$s %2$s資料應僅包含數值：\n"
+"                 以變數的欄位名稱開頭。\n"
+"                 包含「=」以區分欄位名稱與座標。"
 
 msgid "bootnet crashed with the following error message:\n%s. <ul><li>Please check if there are variables in the network with little variance or few distinct observations.</li></ul>"
 msgstr ""
+"bootnet 發生錯誤，錯誤訊息如下：\n"
+"%s。<ul><li>請檢查網路中是否含有變異量過小或相異觀察值過少的變數。</li></ul>"
 
 msgid "%1$s X-Coordinates for variable %2$s was not understood."
 msgid_plural "%1$s X-Coordinates for variables %2$s were not understood."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "變數 %2$s 的%1$s X 座標無法辨識。"
 
 msgid "%1$s Y-Coordinates for variable %2$s was not understood."
 msgid_plural "%1$s Y-Coordinates for variables %2$s were not understood."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "變數 %2$s 的%1$s Y 座標無法辨識。"
