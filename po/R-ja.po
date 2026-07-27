@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jaspNetwork 0.0.0\n"
 "POT-Creation-Date: 2026-05-16 03:29\n"
-"PO-Revision-Date: 2026-07-27 07:08+0000\n"
+"PO-Revision-Date: 2026-07-28 08:01+0000\n"
 "Last-Translator: Koji Kosugi <kosugitti@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/jasp/"
 "jaspnetwork-r/ja/>\n"
@@ -22,13 +22,11 @@ msgstr "ネットワーク"
 msgid "Number of nodes"
 msgstr "ノード数"
 
-#, fuzzy
 msgid "Number of included edges"
-msgstr "ノード数"
+msgstr "含まれるエッジの数"
 
-#, fuzzy
 msgid "Number of excluded edges"
-msgstr "ノード数"
+msgstr "除外されたエッジの数"
 
 msgid "Number of edges with inconclusive evidence"
 msgstr "証拠が決定的でないエッジの数"
@@ -70,12 +68,11 @@ msgstr "対応していないエッジの事前分布 '%s' です。"
 msgid "Unsupported difference prior '%s'."
 msgstr "対応していない差の事前分布 '%s' です。"
 
-#, fuzzy
 msgid ""
 "The analysis failed with the following error message:\n"
 "%s"
 msgstr ""
-"BDgraphは、次のエラー メッセージでクラッシュしました:\n"
+"分析が次のエラーメッセージで失敗しました:\n"
 "%s"
 
 msgid ""
@@ -98,12 +95,11 @@ msgstr "群"
 msgid "Estimating group comparison"
 msgstr "群の比較を推定しています"
 
-#, fuzzy
 msgid ""
 "The group comparison failed with the following error message:\n"
 "%s"
 msgstr ""
-"BDgraphは、次のエラー メッセージでクラッシュしました:\n"
+"群間比較が次のエラーメッセージで失敗しました:\n"
 "%s"
 
 msgid "Differences"
@@ -145,13 +141,11 @@ msgstr ""
 msgid "<em>Warning: </em>"
 msgstr "<em>警告:</em>"
 
-#, fuzzy
 msgid "Number of different edges"
-msgstr "ノード数"
+msgstr "異なるエッジの数"
 
-#, fuzzy
 msgid "Number of equal edges"
-msgstr "ノード数"
+msgstr "等しいエッジの数"
 
 msgid "Posterior Probability Structure Plots"
 msgstr "事後確率構造プロット"
@@ -215,13 +209,11 @@ msgstr "複雑性プロット"
 msgid "Complexity Plot"
 msgstr "複雑性プロット"
 
-#, fuzzy
 msgid "Posterior Probability"
-msgstr "事後確率構造プロット"
+msgstr "事後確率"
 
-#, fuzzy
 msgid "Number of edges"
-msgstr "ノード数"
+msgstr "エッジの数"
 
 msgid "Structure Plot"
 msgstr "構造プロット"
@@ -264,9 +256,8 @@ msgstr "関係"
 msgid "Difference Estimate"
 msgstr "差の推定値"
 
-#, fuzzy
 msgid "Posterior Diff. Prob."
-msgstr "事後確率構造プロット"
+msgstr "事後差分確率"
 
 msgid "Difference BF"
 msgstr "差のBF"
@@ -318,9 +309,8 @@ msgstr "含まれる"
 msgid "excluded"
 msgstr "除かれる"
 
-#, fuzzy
 msgid "Posterior Incl. Prob."
-msgstr "事後確率構造プロット"
+msgstr "事後包含確率"
 
 msgid "Inclusion BF"
 msgstr "包含BF"
@@ -357,9 +347,8 @@ msgstr ""
 msgid "Log-odds"
 msgstr "対数オッズ"
 
-#, fuzzy
 msgid "Precision Matrix"
-msgstr "重み行列"
+msgstr "精度行列"
 
 msgid "Partial Correlations"
 msgstr "偏相関"
@@ -373,17 +362,14 @@ msgstr "クラスタへの割り当て(事後最頻値)"
 msgid "Cluster"
 msgstr "クラスタ"
 
-#, fuzzy
 msgid "Posterior Probabilities for the Number of Clusters"
-msgstr "事後確率構造プロット"
+msgstr "クラスター数の事後確率"
 
-#, fuzzy
 msgid "Number of blocks"
-msgstr "ノード数"
+msgstr "ブロック数"
 
-#, fuzzy
 msgid "Posterior probability"
-msgstr "事後確率構造プロット"
+msgstr "事後確率"
 
 msgid "Posterior Co-clustering Matrix"
 msgstr "事後の共クラスタリング行列"
@@ -400,21 +386,17 @@ msgstr "ベイズファクター"
 msgid "Could not compute the cluster Bayes factor: %s"
 msgstr "クラスタのベイズファクターを計算できませんでした: %s"
 
-#, fuzzy
 msgid "Clustering vs. no clustering"
-msgstr "クラスタリングプロット"
+msgstr "クラスタリングあり vs. なし"
 
-#, fuzzy
 msgid "Co-clustering Matrix Plot"
-msgstr "クラスタリングプロット"
+msgstr "共クラスタリング行列プロット"
 
-#, fuzzy
 msgid "Co-clustering Matrix Plots"
-msgstr "クラスタリングプロット"
+msgstr "共クラスタリング行列プロット"
 
-#, fuzzy
 msgid "Probability"
-msgstr "事後確率構造プロット"
+msgstr "確率"
 
 msgid ""
 "After binarizing the data too little variance remained in variable(s): %s."
