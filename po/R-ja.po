@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jaspNetwork 0.0.0\n"
 "POT-Creation-Date: 2026-05-16 03:29\n"
-"PO-Revision-Date: 2024-06-20 16:09+0000\n"
-"Last-Translator: Daiki Hojo <dhojo.bayes@gmail.com>\n"
+"PO-Revision-Date: 2026-07-27 07:08+0000\n"
+"Last-Translator: Koji Kosugi <kosugitti@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/jasp/"
 "jaspnetwork-r/ja/>\n"
 "Language: ja\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.6-rc\n"
+"X-Generator: Weblate 2026.8.dev0\n"
 
 msgid "Summary of Network"
 msgstr "ネットワークの概要"
@@ -31,7 +31,7 @@ msgid "Number of excluded edges"
 msgstr "ノード数"
 
 msgid "Number of edges with inconclusive evidence"
-msgstr ""
+msgstr "証拠が決定的でないエッジの数"
 
 msgid "Sparsity"
 msgstr "スパース性"
@@ -40,31 +40,35 @@ msgid ""
 "Edge categorization is based on the inclusion criteria BF: included (BF₁₀ ≥ "
 "threshold), excluded (BF₁₀ ≤ 1/threshold), inconclusive (otherwise)."
 msgstr ""
+"エッジの区分は包含の基準となるBFに基づきます。含まれる(BF₁₀ ≥ 閾値)、除かれる"
+"(BF₁₀ ≤ 1/閾値)、決定的でない(それ以外)。"
 
 msgid "Could not determine the baseline category for variable %s."
-msgstr ""
+msgstr "変数 %s の基準カテゴリを決められませんでした。"
 
 msgid ""
 "Some model type assignments refer to variables that are not part of the "
 "analysis: %s."
-msgstr ""
+msgstr "モデルの種類の割り当ての一部が、分析に含まれない変数を指しています: %s。"
 
 msgid "Variable %s cannot be treated as Blume-Capel because it is not ordinal."
-msgstr ""
+msgstr "変数 %s は順序変数ではないため、Blume-Capelとして扱えません。"
 
 msgid ""
 "The Stochastic block model edge prior is not available when Split is "
 "selected. Please use Bernoulli or Beta-binomial."
 msgstr ""
+"分割を選んでいる場合、確率的ブロックモデルのエッジの事前分布は利用できません"
+"。ベルヌーイまたはベータ二項を使ってください。"
 
 msgid "Unsupported prior family '%s'."
-msgstr ""
+msgstr "対応していない事前分布族 '%s' です。"
 
 msgid "Unsupported edge prior '%s'."
-msgstr ""
+msgstr "対応していないエッジの事前分布 '%s' です。"
 
 msgid "Unsupported difference prior '%s'."
-msgstr ""
+msgstr "対応していない差の事前分布 '%s' です。"
 
 #, fuzzy
 msgid ""
@@ -78,17 +82,21 @@ msgid ""
 "Unsupported update method '%s'. Please select one of: adaptive-metropolis, "
 "nuts."
 msgstr ""
+"対応していない更新の方法 '%s' です。adaptive-metropolis または nuts のいずれ"
+"かを選んでください。"
 
 msgid ""
 "Unsupported edge prior '%s'. Please select one of: Bernoulli, Beta-binomial, "
 "Stochastic block model."
 msgstr ""
+"対応していないエッジの事前分布 '%s' です。ベルヌーイ、ベータ二項、確率的"
+"ブロックモデルのいずれかを選んでください。"
 
 msgid "Group"
-msgstr ""
+msgstr "群"
 
 msgid "Estimating group comparison"
-msgstr ""
+msgstr "群の比較を推定しています"
 
 #, fuzzy
 msgid ""
@@ -99,24 +107,26 @@ msgstr ""
 "%s"
 
 msgid "Differences"
-msgstr ""
+msgstr "差"
 
 msgid "Estimating pooled network"
-msgstr ""
+msgstr "統合されたネットワークを推定しています"
 
 msgid "Pooled"
-msgstr ""
+msgstr "統合"
 
 msgid "Estimating %s"
-msgstr ""
+msgstr "%s を推定しています"
 
 msgid "Estimating network"
-msgstr ""
+msgstr "ネットワークを推定しています"
 
 msgid ""
 "Difference network not estimated: all selected variables must be ordinal or "
 "Blume-Capel. Showing separate group estimates instead."
 msgstr ""
+"差のネットワークは推定されませんでした。選択した変数はすべて順序またはBlume-"
+"Capelである必要があります。代わりに群ごとの推定値を表示します。"
 
 msgid ""
 "Minimum edge strength ignored in the network plot because it was larger than "
@@ -171,10 +181,10 @@ msgid "Centrality Plot"
 msgstr "中心性プロット"
 
 msgid "Parameter HDI Plot"
-msgstr ""
+msgstr "パラメータのHDIプロット"
 
 msgid "Parameter HDI Plots"
-msgstr ""
+msgstr "パラメータのHDIプロット"
 
 msgid ""
 "The difference parameter HDI plot shows the posterior mean and highest "
@@ -182,14 +192,19 @@ msgid ""
 "between groups. Positive values indicate a stronger association in the first "
 "group; negative values indicate a stronger association in the second group."
 msgstr ""
+"差のパラメータのHDIプロットは、群間の偏関連の対ごとの差について、事後平均と最"
+"高密度区間(HDI)を示します。正の値は1つ目の群で関連が強いこと、負の値は2つ目の"
+"群で関連が強いことを表します。"
 
 msgid ""
 "Posterior samples are required for the parameter HDI plot. Please ensure the "
 "model was fitted with 'save = TRUE'."
 msgstr ""
+"パラメータのHDIプロットには事後サンプルが必要です。モデルが 'save = TRUE' で"
+"あてはめられているか確認してください。"
 
 msgid "%d%% HDI of Partial Association"
-msgstr ""
+msgstr "偏関連の %d%% HDI"
 
 msgid "Complexity plot"
 msgstr "複雑性プロット"
@@ -228,51 +243,57 @@ msgid ""
 "inclusion probability is either 1 or 0. Please see the help file for more "
 "information."
 msgstr ""
+"ベイズファクターが無限大の場合、推定された事後包含確率が1か0であることを意味"
+"します。詳しくはヘルプファイルを参照してください。"
 
 msgid "Edge Specific Overview"
-msgstr ""
+msgstr "エッジごとの概観"
 
 msgid "difference"
-msgstr ""
+msgstr "差あり"
 
 msgid "equal"
-msgstr ""
+msgstr "等しい"
 
 msgid "inconclusive"
-msgstr ""
+msgstr "決定的でない"
 
 msgid "Relation"
-msgstr ""
+msgstr "関係"
 
 msgid "Difference Estimate"
-msgstr ""
+msgstr "差の推定値"
 
 #, fuzzy
 msgid "Posterior Diff. Prob."
 msgstr "事後確率構造プロット"
 
 msgid "Difference BF"
-msgstr ""
+msgstr "差のBF"
 
 msgid "Category"
-msgstr ""
+msgstr "区分"
 
 msgid "Convergence"
-msgstr ""
+msgstr "収束"
 
 msgid "Estimate"
-msgstr ""
+msgstr "推定値"
 
 msgid ""
 "Difference estimates are based on the median probability model: edges with a "
 "posterior difference probability ≤ 0.5 are set to zero."
 msgstr ""
+"差の推定値は中央確率モデルに基づいています。事後の差の確率が0.5以下のエッジは"
+"0とされます。"
 
 msgid ""
 "Bayes factors with values of infinity indicate that the estimated posterior "
 "difference probability is either 1 or 0. Please see the help file for more "
 "information."
 msgstr ""
+"ベイズファクターが無限大の場合、推定された事後の差の確率が1か0であることを意"
+"味します。詳しくはヘルプファイルを参照してください。"
 
 msgid ""
 "Convergence is the R-hat (Gelman-Rubin) statistic, values greater than about "
@@ -280,29 +301,36 @@ msgid ""
 "convergence for the estimates of the pairwise interactions. Consider "
 "increasing the number of iterations and/or chains to improve convergence."
 msgstr ""
+"収束はR-hat(Gelman-Rubin)統計量です。おおよそ1.01〜1.05を超える値は懸念され、"
+"対ごとの交互作用の推定値が収束していない可能性を示します。収束を改善するには"
+"、反復回数やチェイン数を増やすことを検討してください。"
 
 msgid ""
 "Convergence is the split-chain R-hat (Gelman-Rubin) statistic, computed post "
 "hoc by splitting the posterior samples into two halves."
 msgstr ""
+"収束は、事後サンプルを2つに分けて事後的に計算した、チェイン分割版のR-hat"
+"(Gelman-Rubin)統計量です。"
 
 msgid "included"
-msgstr ""
+msgstr "含まれる"
 
 msgid "excluded"
-msgstr ""
+msgstr "除かれる"
 
 #, fuzzy
 msgid "Posterior Incl. Prob."
 msgstr "事後確率構造プロット"
 
 msgid "Inclusion BF"
-msgstr ""
+msgstr "包含BF"
 
 msgid ""
 "Estimates are based on the median probability model: edges with a posterior "
 "inclusion probability ≤ 0.5 are set to zero."
 msgstr ""
+"推定値は中央確率モデルに基づいています。事後包含確率が0.5以下のエッジは0とさ"
+"れます。"
 
 msgid ""
 "Convergence is the R-hat (Gelman-Rubin) statistic, with values greater than "
@@ -310,6 +338,9 @@ msgid ""
 "convergence for the estimates of the pairwise interactions. Consider "
 "increasing the number of iterations to improve convergence."
 msgstr ""
+"収束はR-hat(Gelman-Rubin)統計量です。おおよそ1.01〜1.05を超える値は懸念され、"
+"対ごとの交互作用の推定値が収束していない可能性を示します。収束を改善するには"
+"、反復回数を増やすことを検討してください。"
 
 msgid ""
 "Convergence is the split-chain R-hat (Gelman-Rubin) statistic, computed post "
@@ -318,26 +349,29 @@ msgid ""
 "convergence for the estimates of the pairwise interactions. Consider "
 "increasing the number of iterations to improve convergence."
 msgstr ""
+"収束は、事後サンプルを2つに分けて事後的に計算した、チェイン分割版のR-hat"
+"(Gelman-Rubin)統計量です。おおよそ1.01〜1.05を超える値は懸念され、対ごとの交"
+"互作用の推定値が収束していない可能性を示します。収束を改善するには、反復回数"
+"を増やすことを検討してください。"
 
 msgid "Log-odds"
-msgstr ""
+msgstr "対数オッズ"
 
 #, fuzzy
 msgid "Precision Matrix"
 msgstr "重み行列"
 
 msgid "Partial Correlations"
-msgstr ""
+msgstr "偏相関"
 
 msgid "Cluster Allocations (Posterior Mean)"
-msgstr ""
+msgstr "クラスタへの割り当て(事後平均)"
 
 msgid "Cluster Allocations (Posterior Mode)"
-msgstr ""
+msgstr "クラスタへの割り当て(事後最頻値)"
 
-#, fuzzy
 msgid "Cluster"
-msgstr "クラスタリングプロット"
+msgstr "クラスタ"
 
 #, fuzzy
 msgid "Posterior Probabilities for the Number of Clusters"
@@ -352,19 +386,19 @@ msgid "Posterior probability"
 msgstr "事後確率構造プロット"
 
 msgid "Posterior Co-clustering Matrix"
-msgstr ""
+msgstr "事後の共クラスタリング行列"
 
 msgid "Cluster Bayes Factor"
-msgstr ""
+msgstr "クラスタのベイズファクター"
 
 msgid "Hypothesis"
-msgstr ""
+msgstr "仮説"
 
 msgid "Bayes factor"
-msgstr ""
+msgstr "ベイズファクター"
 
 msgid "Could not compute the cluster Bayes factor: %s"
-msgstr ""
+msgstr "クラスタのベイズファクターを計算できませんでした: %s"
 
 #, fuzzy
 msgid "Clustering vs. no clustering"
@@ -428,7 +462,7 @@ msgid "Bootstrap summary of Network"
 msgstr "ネットワークのブートストラップ要約"
 
 msgid "Type"
-msgstr "型"
+msgstr "種類"
 
 msgid "Number of bootstraps"
 msgstr "ブートストラップの数"
