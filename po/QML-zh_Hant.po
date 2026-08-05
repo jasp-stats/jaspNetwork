@@ -29,11 +29,11 @@ msgstr "估計方法"
 
 msgctxt "NetworkAnalysis|"
 msgid "Correlation"
-msgstr ""
+msgstr "相關"
 
 msgctxt "NetworkAnalysis|"
 msgid "Partial Correlation"
-msgstr ""
+msgstr "偏相關"
 
 msgctxt "NetworkAnalysis|"
 msgid "huge"
@@ -262,7 +262,7 @@ msgstr ""
 
 msgctxt "NetworkAnalysis|"
 msgid "Number of bootstraps"
-msgstr ""
+msgstr "自助法次數"
 
 msgctxt "NetworkAnalysis|"
 msgid "Parallel Bootstrap"
