@@ -443,7 +443,7 @@
     },
     "RcppParallel": {
       "Package": "RcppParallel",
-      "Version": "5.1.11-2",
+      "Version": "6.2.0",
       "Source": "Repository",
       "Requirements": [
         "R"
@@ -565,13 +565,19 @@
     "bgms": {
       "Package": "bgms",
       "Version": "0.2.0.0",
-      "Source": "GitHub",
+      "Source": "Repository",
       "Requirements": [
         "Rcpp",
         "RcppParallel",
         "Rdpack",
         "S7",
+        "methods",
         "lifecycle",
+        "graphics",
+        "grDevices",
+        "parallel",
+        "stats",
+        "utils",
         "RcppArmadillo",
         "dqrng",
         "BH",
@@ -583,13 +589,8 @@
         "qgraph",
         "rmarkdown",
         "testthat",
-        "tidytemplate"
-      ],
-      "RemoteType": "github",
-      "RemoteHost": "api.github.com",
-      "RemoteUsername": "Bayesian-Graphical-Modelling-Lab",
-      "RemoteRepo": "bgms",
-      "RemoteSha": "733f52917d93bf5b235af652cec3c25a14a496d9"
+        "withr"
+      ]
     },
     "bit": {
       "Package": "bit",
@@ -983,17 +984,16 @@
         "dplyr",
         "ggplot2",
         "HDInterval",
-        "igraph",
         "qgraph",
         "coda",
-        "testthat",
-        "vdiffr"
+        "testthat"
       ],
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteUsername": "Bayesian-Graphical-Modelling-Lab",
       "RemoteRepo": "easybgm",
-      "RemoteSha": "98876f6b1e38d3b897eef11732255fdd096e9bd1"
+      "RemoteRef": "9cb55d9263ebbb75a55231cfca44f39decf30657",
+      "RemoteSha": "9cb55d9263ebbb75a55231cfca44f39decf30657"
     },
     "eigenmodel": {
       "Package": "eigenmodel",
