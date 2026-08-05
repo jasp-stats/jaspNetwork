@@ -3,3 +3,11 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^tests/upgrades$
+^\.claude$
+^\.agents$
+^\.mcp\.json$
+^\.vscode$
+^\.github$
+^[^/]*\.jasp$
+^[^/]*\.png$
+^Rplots\.pdf$

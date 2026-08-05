@@ -145,3 +145,135 @@ testthat::test_that("Parameter HDI plot works", {
   testPlot <- results[["state"]][["figures"]][[plotName]][["obj"]]
   jaspTools::expect_equal_plots(testPlot, "parameter-hdi-plot")
 })
+
+testthat::test_that("Default interaction prior is Normal and thresholds Beta-prime", {
+  interaction <- jaspNetwork:::.bayesianNetworkAnalysisBuildParameterPrior(
+    family = NULL, scale = 1, alpha = 0.5, beta = 0.5, priorRole = "interaction"
+  )
+  threshold <- jaspNetwork:::.bayesianNetworkAnalysisBuildParameterPrior(
+    family = NULL, scale = 1, alpha = 0.5, beta = 0.5, priorRole = "threshold"
+  )
+
+  testthat::expect_equal(interaction, bgms::normal_prior(scale = 1))
+  testthat::expect_equal(threshold, bgms::beta_prime_prior(alpha = 0.5, beta = 0.5))
+})
+
+testthat::test_that("Gibbs is rejected for non-continuous variables and group comparisons", {
+  options <- list(omrfUpdateMethod = "gibbs")
+
+  # Accepted: all-continuous, no comparison
+  testthat::expect_silent(
+    jaspNetwork:::.bayesianNetworkAnalysisAssertUpdateMethodSupported(
+      options, list(type = c("continuous", "continuous")), useCompare = FALSE
+    )
+  )
+
+  testthat::expect_error(
+    jaspNetwork:::.bayesianNetworkAnalysisAssertUpdateMethodSupported(
+      options, list(type = c("continuous", "ordinal")), useCompare = FALSE
+    )
+  )
+
+  testthat::expect_error(
+    jaspNetwork:::.bayesianNetworkAnalysisAssertUpdateMethodSupported(
+      options, list(type = c("ordinal", "ordinal")), useCompare = TRUE
+    )
+  )
+
+  # NUTS is unaffected by either restriction
+  testthat::expect_silent(
+    jaspNetwork:::.bayesianNetworkAnalysisAssertUpdateMethodSupported(
+      list(omrfUpdateMethod = "nuts"), list(type = c("ordinal", "ordinal")), useCompare = TRUE
+    )
+  )
+})
+
+testthat::test_that("Parameter HDI relations match the edge specific overview convention", {
+  variables <- c("alpha", "beta", "gamma")
+  estimates <- matrix(0, 3L, 3L, dimnames = list(variables, variables))
+
+  # Three edges, in the row-major upper-triangle order bgms uses for its samples
+  samples <- cbind(rep(0.10, 20L), rep(0.20, 20L), rep(0.30, 20L))
+
+  network <- list(estimates = estimates, samplesPosterior = samples)
+  options <- list(labelAbbreviation = FALSE)
+
+  posterior <- jaspNetwork:::.bayesianNetworkAnalysisComputeParameterHdi(network, options, 0.95)
+
+  # Column-then-row, identical to .bayesianNetworkAnalysisFillEdgeOverviewTable
+  testthat::expect_equal(sort(posterior$edge), sort(c("beta-alpha", "gamma-alpha", "gamma-beta")))
+
+  # Ordered ascending by posterior mean
+  testthat::expect_equal(posterior$mean, sort(posterior$mean))
+
+  # Named samples in the expected order are accepted
+  colnames(samples) <- c("alpha-beta", "alpha-gamma", "beta-gamma")
+  network$samplesPosterior <- samples
+  testthat::expect_silent(
+    jaspNetwork:::.bayesianNetworkAnalysisComputeParameterHdi(network, options, 0.95)
+  )
+
+  # A reordering upstream must fail loudly rather than mislabel the intervals
+  colnames(network$samplesPosterior) <- c("beta-gamma", "alpha-beta", "alpha-gamma")
+  testthat::expect_error(
+    jaspNetwork:::.bayesianNetworkAnalysisComputeParameterHdi(network, options, 0.95)
+  )
+})
+
+testthat::test_that("Blume-Capel main effects are extracted into a table", {
+  options <- jaspTools::analysisOptions("BayesianNetworkAnalysis")
+  options$variables       <- c("facFive", "contBinom", "facGender")
+  options$variables.types <- rep("ordinal", 3L)
+  options$variablesBlumeCapel <- list(list(variable = "facFive", levels = "2"))
+  options$burnin <- 100
+  options$iter   <- 200
+  options$chains <- "1"
+  options$edgeSpecificOverviewTable <- TRUE
+
+  set.seed(1)
+  results <- jaspTools::runAnalysis("BayesianNetworkAnalysis", "test.csv", options)
+
+  table <- results[["results"]][["mainContainer"]][["collection"]][["mainContainer_blumeCapelTable"]]
+  testthat::expect_false(is.null(table))
+
+  testthat::expect_equal(
+    sapply(table[["schema"]][["fields"]], `[[`, "name"),
+    c("variable", "effect", "baseline", "estimate", "sd", "lower", "upper", "convergence")
+  )
+
+  rows <- do.call(rbind, lapply(table[["data"]], as.data.frame))
+  testthat::expect_equal(rows$variable, c("facFive", "facFive"))
+  testthat::expect_equal(rows$effect,   c("Linear", "Quadratic"))
+  testthat::expect_equal(rows$baseline, c(2L, 2L))
+
+  # Estimates come from MCMC that set.seed() does not govern, so only structure is checked
+  testthat::expect_true(all(is.finite(rows$estimate)))
+  testthat::expect_true(all(rows$lower <= rows$upper))
+})
+
+testthat::test_that("Parameter HDI table reports one row per edge", {
+  options <- jaspTools::analysisOptions("BayesianNetworkAnalysis")
+  options$variables       <- c("contNormal", "contcor1", "contcor2")
+  options$variables.types <- rep("scale", 3L)
+  options$burnin <- 100
+  options$iter   <- 200
+  options$chains <- "1"
+  options$parameterHdiTable         <- TRUE
+  options$parameterHdiTableCoverage <- 0.95
+
+  set.seed(1)
+  results <- jaspTools::runAnalysis("BayesianNetworkAnalysis", "test.csv", options)
+
+  table <- results[["results"]][["mainContainer"]][["collection"]][["mainContainer_parameterHdiTable"]]
+  testthat::expect_false(is.null(table))
+
+  testthat::expect_equal(
+    sapply(table[["schema"]][["fields"]], `[[`, "name"),
+    c("relation", "mean", "lower", "upper")
+  )
+
+  rows <- do.call(rbind, lapply(table[["data"]], as.data.frame))
+  testthat::expect_equal(nrow(rows), 3L)
+  testthat::expect_equal(rows$mean, sort(rows$mean))
+  testthat::expect_true(all(rows$lower <= rows$mean & rows$mean <= rows$upper))
+})
