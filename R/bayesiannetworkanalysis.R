@@ -287,15 +287,22 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   if (is.null(baselineValue) || length(baselineValue) == 0L || identical(baselineValue, ""))
     return(1L)
 
-  baselineCategory <- suppressWarnings(as.integer(baselineValue))
-  if (!is.na(baselineCategory))
-    return(max(1L, baselineCategory))
-
+  # The QML supplies the level label, while bgms expects the category index on the
+  # 1..k scale it derives from the factor. Match the label first: for a variable
+  # with levels "2", "4", "6" the label "4" is category 2, not category 4, and
+  # passing 4 makes bgms reject the baseline as outside the observed scores.
   if (is.factor(variableData)) {
     baselineCategory <- match(as.character(baselineValue), levels(variableData))
     if (!is.na(baselineCategory))
       return(baselineCategory)
   }
+
+  baselineCategory <- suppressWarnings(as.integer(baselineValue))
+  nCategories      <- if (is.factor(variableData)) nlevels(variableData) else NA_integer_
+
+  if (!is.na(baselineCategory) && baselineCategory >= 1L &&
+      (is.na(nCategories) || baselineCategory <= nCategories))
+    return(baselineCategory)
 
   .quitAnalysis(gettextf("Could not determine the baseline category for variable %s.", variableName))
 }

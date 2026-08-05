@@ -18,6 +18,37 @@ testthat::test_that("Variable type specification supports Blume-Capel baselines"
   testthat::expect_equal(variableSpec[["baselineCategory"]], c(1L, 2L, 1L))
 })
 
+testthat::test_that("Blume-Capel baselines resolve by level label, not by numeric value", {
+  # bgms codes the factor as 1..k and expects the baseline on that scale, so the
+  # label "4" of a variable with levels "2", "4", "6" is category 2. Passing 4
+  # makes bgms reject the baseline as outside the observed category scores.
+  dataset <- data.frame(
+    spacedLevels = factor(c(2, 4, 6), levels = c(2, 4, 6), ordered = TRUE),
+    plainLevels  = factor(c(1, 2, 3), levels = c(1, 2, 3), ordered = TRUE)
+  )
+
+  options <- list(
+    variables           = c("spacedLevels", "plainLevels"),
+    variablesBlumeCapel = list(
+      list(variable = "spacedLevels", levels = "4"),
+      list(variable = "plainLevels",  levels = "2")
+    )
+  )
+
+  variableSpec <- jaspNetwork:::.bayesianNetworkAnalysisBuildVariableTypeSpec(options, dataset)
+
+  testthat::expect_equal(variableSpec[["baselineCategory"]], c(2L, 2L))
+
+  # An out-of-range baseline is reported against the variable instead of reaching bgms
+  bad <- list(
+    variables           = "spacedLevels",
+    variablesBlumeCapel = list(list(variable = "spacedLevels", levels = "99"))
+  )
+  testthat::expect_error(
+    jaspNetwork:::.bayesianNetworkAnalysisBuildVariableTypeSpec(bad, dataset)
+  )
+})
+
 testthat::test_that("Compare mode is enabled for ordinal and Blume-Capel variables", {
   options <- list(groupingVariable = "group")
   variableSpec <- list(type = c("ordinal", "blume-capel"))
