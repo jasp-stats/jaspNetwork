@@ -1114,7 +1114,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   decodedVars <- decodeColNames(variables)
   nVar        <- length(variables)
   upperIdx    <- which(upper.tri(matrix(0L, nVar, nVar)), arr.ind = TRUE)
-  upperIdx    <- upperIdx[order(upperIdx[, 1L], upperIdx[, 2L]), ]
+  upperIdx    <- upperIdx[order(upperIdx[, 1L], upperIdx[, 2L]), , drop = FALSE]
 
   # bgms returns the pairwise draws in row-major upper-triangle order. easybgm
   # names those columns, so verify the assumed order rather than trust it: a
@@ -1135,6 +1135,17 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   # Compute HDI and posterior means for each partial association
   hdiIntervals   <- apply(samplesPosterior, MARGIN = 2L, FUN = HDInterval::hdi, credMass = coverage)
   posteriorMeans <- apply(samplesPosterior, MARGIN = 2L, FUN = mean)
+
+  # The edge specific overview table and the network plot report the median probability
+  # model, in which edges with an inclusion probability <= 0.5 are set to zero. Match that
+  # here: when the HDI collapses onto zero and the edge is excluded, report an exact zero
+  # rather than the small mean left by the few non-zero draws.
+  medianProbabilityEstimates <- network[["graph"]]
+  if (!is.null(medianProbabilityEstimates)) {
+    excluded <- medianProbabilityEstimates[upperIdx] == 0 &
+      hdiIntervals["lower", ] == 0 & hdiIntervals["upper", ] == 0
+    posteriorMeans[excluded] <- 0
+  }
 
   posterior <- data.frame(
     mean  = posteriorMeans,
@@ -1982,6 +1993,10 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     return()
   }
 
+  # .bayesianNetworkAnalysisComputeParameterHdi orders ascending for the plot, whose flipped
+  # axis puts the smallest at the bottom. Reverse it so the table reads top-to-bottom like the plot.
+  posterior <- posterior[order(posterior$mean, decreasing = TRUE), ]
+
   df <- data.frame(
     relation = posterior$edge,
     mean     = posterior$mean,
@@ -1989,6 +2004,8 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     upper    = posterior$upper,
     stringsAsFactors = FALSE
   )
+
+  table$addFootnote(gettext("Edges whose HDI collapses onto zero are excluded under the median probability model; their posterior mean is reported as zero, matching the edge specific overview table."))
 
   table$setData(df)
 }
@@ -2036,17 +2053,9 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   .bayesianNetworkAnalysisAddInterpretativeScaleMatrix(
     container   = container,
     nw          = nw,
-    matrixName  = gettext("Precision Matrix"),
-    matrixKey   = "precisionMatrix",
-    position    = 2
-  )
-
-  .bayesianNetworkAnalysisAddInterpretativeScaleMatrix(
-    container   = container,
-    nw          = nw,
     matrixName  = gettext("Partial Correlations"),
     matrixKey   = "partialCorrelations",
-    position    = 3
+    position    = 2
   )
 }
 

@@ -305,11 +305,16 @@ testthat::test_that("Parameter HDI table reports one row per edge", {
 
   rows <- do.call(rbind, lapply(table[["data"]], as.data.frame))
   testthat::expect_equal(nrow(rows), 3L)
-  testthat::expect_equal(rows$mean, sort(rows$mean))
 
-  # The posterior mean is NOT required to fall inside the HDI: under spike-and-slab
-  # selection an excluded edge has most of its mass exactly at zero, so its HDI
-  # collapses to [0, 0] while the model-averaged mean stays small but non-zero.
+  # Ordered largest-first so the table reads top-to-bottom like the (flipped) HDI plot.
+  testthat::expect_equal(rows$mean, sort(rows$mean, decreasing = TRUE))
+
+  # Under spike-and-slab selection an excluded edge has most of its mass exactly at zero,
+  # so its HDI collapses to [0, 0]. Those edges are reported as an exact zero, matching the
+  # median probability model shown in the edge specific overview table.
+  degenerate <- rows$lower == 0 & rows$upper == 0
+  testthat::expect_equal(rows$mean[degenerate], rep(0, sum(degenerate)))
+
   testthat::expect_true(all(rows$lower <= rows$upper))
   testthat::expect_true(all(is.finite(rows$lower) & is.finite(rows$upper)))
 })

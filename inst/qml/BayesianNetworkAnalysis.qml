@@ -112,18 +112,18 @@ VariablesForm
 		{
 			name: "evidencePlot";
 			label: qsTr("Edge evidence plot")
-			info: qsTr("Displays the network with edges colored by the evidence category they belong to. Blue edges have BF\u2081\u2080 at or above the threshold (evidence for inclusion); yellow edges have BF\u2081\u2080 at or below the reciprocal threshold (evidence for exclusion); gray edges fall in between (absence of evidence).")
+			info: qsTr("Displays the network with edges colored by the evidence category they belong to. Blue edges have BF\u2081\u2080 at or above the threshold (evidence for inclusion); yellow edges have BF\u2081\u2080 below the reciprocal threshold (evidence for exclusion); gray edges fall in between (absence of evidence).")
 			IntegerField
 			{
 				name:			"edgeInclusionCriteria";
 				label:			qsTr("Inclusion criteria: BF\u2081\u2080 > ");
-				info: qsTr("BF threshold for categorizing evidence. An edge is evidence for inclusion if BF\u2081\u2080 \u2265 threshold, evidence for exclusion if BF\u2081\u2080 \u2264 1/threshold, and absence of evidence otherwise.")
+				info: qsTr("BF threshold for categorizing evidence. An edge is evidence for inclusion if BF\u2081\u2080 \u2265 threshold, evidence for exclusion if BF\u2081\u2080 is below 1/threshold, and absence of evidence otherwise.")
 				min:			1;
 				defaultValue:	10;
 				max:			2e2
 			}
 			CheckBox { name: "edgeInclusion";	label: qsTr("Evidence for inclusion");	checked: true; info: qsTr("Show edges with BF\u2081\u2080 \u2265 threshold, colored blue.") }
-			CheckBox { name: "edgeExclusion";	label: qsTr("Evidence for exclusion");	checked: true; info: qsTr("Show edges with BF\u2081\u2080 \u2264 1/threshold, colored yellow.") }
+			CheckBox { name: "edgeExclusion";	label: qsTr("Evidence for exclusion");	checked: true; info: qsTr("Show edges with BF\u2081\u2080 below 1/threshold, colored yellow.") }
 			CheckBox { name: "edgeAbsence";		label: qsTr("Absence of evidence"); 	checked: true; info: qsTr("Show edges where BF\u2081\u2080 falls between the two thresholds, colored gray.") }
 	}
 	CheckBox
@@ -144,7 +144,7 @@ VariablesForm
 		name: "parameterHdiPlot"
 		visible: groupingVariableSelector.count === 0
 		label: qsTr("Parameter HDI plot")
-		info: qsTr("Displays the posterior mean and highest density interval (HDI) for every pairwise partial association, ordered from smallest to largest posterior mean. One panel per network is shown when multiple networks are estimated. Only available when no grouping variable is selected.")
+		info: qsTr("Displays the posterior mean and highest density interval (HDI) for every pairwise partial association, ordered from smallest to largest posterior mean. Only available when no grouping variable is selected.")
 		DoubleField
 		{
 			name:         "parameterHdiPlotCoverage"
@@ -189,12 +189,12 @@ VariablesForm
 		{
 			name: "edgeSpecificOverviewTable"
 			label: qsTr("Edge specific overview")
-			info: qsTr("Shows one row per edge. Columns include posterior estimates, inclusion probability, inclusion Bayes factor, and convergence statistics (R-hat). Edges are listed in order of decreasing inclusion probability. When Blume-Capel variables are selected, an additional table reports the posterior mean, standard deviation, credible interval and R-hat of their linear and quadratic main effects.")
+			info: qsTr("Shows one row per edge, listed by variable pair. Columns include the posterior estimate, inclusion probability, inclusion Bayes factor, an evidence category, and the R-hat convergence statistic. When Blume-Capel variables are selected, an additional table reports the posterior mean, standard deviation, credible interval and R-hat of their linear and quadratic main effects.")
 			IntegerField
 			{
 				name:			"edgeSpecificOverviewInclusionCriteria"
 				label:			qsTr("Inclusion criteria: BF\u2081\u2080 > ")
-				info: qsTr("Only edges with BF\u2081\u2080 above this value are listed in the edge-specific overview table.")
+				info: qsTr("BF threshold used to categorize the edges in the overview table: included if BF\u2081\u2080 \u2265 threshold, excluded if BF\u2081\u2080 \u2264 1/threshold, and inconclusive otherwise. All edges remain listed. When comparing groups the categories are labelled difference, equal, and inconclusive. The same threshold drives the edge counts in the summary table.")
 				min:			1
 				defaultValue:	10
 				max:			2e2
@@ -204,7 +204,7 @@ VariablesForm
 				   name: "showInterpretativeScaleEstimates"
 				   label: qsTr("Show estimates on interpretative scale")
 				   checked: false
-				   info: qsTr("Shows log-odds, precisions, and partial correlations when available.")
+				   info: qsTr("Shows log-odds and partial correlations when available.")
 				   enabled: groupingVariableSelector.count === 0
 				   visible: groupingVariableSelector.count === 0
 			}
@@ -232,7 +232,7 @@ VariablesForm
 			name: "parameterHdiTable"
 			label: qsTr("Parameter HDI table")
 			visible: groupingVariableSelector.count === 0
-			info: qsTr("Shows the posterior mean and highest density interval (HDI) for every pairwise partial association, ordered from smallest to largest posterior mean. This is the tabular equivalent of the parameter HDI plot. Only available when no grouping variable is selected.")
+			info: qsTr("Shows the posterior mean and highest density interval (HDI) for every pairwise partial association, ordered from largest to smallest posterior mean so that it reads like the parameter HDI plot. Edges excluded under the median probability model, whose HDI collapses onto zero, are reported as exactly zero. Only available when no grouping variable is selected.")
 			DoubleField
 			{
 				name:         "parameterHdiTableCoverage"
@@ -353,7 +353,7 @@ VariablesForm
 				   {
 					   name: "betaAlpha"
 					   label: edgePrior.currentValue === "Beta-Bernoulli" ? qsTr("Shape parameter 1:") : qsTr("Within cluster shape parameter 1:")
-					   info: qsTr("First shape parameter (\u03b11) of the Beta prior on the within-cluster edge inclusion probability. Together with shape parameter 2, controls the prior mean (\u03b11 / (\u03b11 + \u03b12)) and concentration. Equal values of 1 correspond to a uniform prior within each cluster.")
+					   info: qsTr("First shape parameter (\u03b11) of the Beta prior on the edge inclusion probability; under the Stochastic block model it applies to the within-cluster inclusion probability. Together with shape parameter 2 it controls the prior mean (\u03b11 / (\u03b11 + \u03b12)) and concentration. Both parameters equal to 1 give a uniform prior.")
 					   defaultValue: 1
 					   min: 0
 					   inclusive: JASP.None
@@ -365,7 +365,7 @@ VariablesForm
 				   {
 					   name: "betaBeta"
 					   label: edgePrior.currentValue === "Beta-Bernoulli" ? qsTr("Shape parameter 2:") : qsTr("Within cluster shape parameter 2:")
-					   info: qsTr("Second shape parameter (\u03b12) of the Beta prior on the within-cluster edge inclusion probability. Equal values of 1 correspond to a uniform prior.")
+					   info: qsTr("Second shape parameter (\u03b12) of the Beta prior on the edge inclusion probability; under the Stochastic block model it applies to the within-cluster inclusion probability. Both parameters equal to 1 give a uniform prior.")
 					   defaultValue: 1
 					   min: 0
 					   inclusive: JASP.None
@@ -496,7 +496,7 @@ VariablesForm
 					label: interactionPriorFamily.currentValue === "cauchy" ?
 						qsTr("Baseline Cauchy scale for the partial association parameters:") :
 						qsTr("Baseline Normal scale for the partial association parameters:")
-					info: qsTr("Scale of the prior on the *baseline* partial association parameters when comparing groups. Set to a positive value to override the default of 1; values \u2264 0 fall back to the differences scale.")
+					info: qsTr("Scale of the prior on the *baseline* partial association parameters when comparing groups. This is separate from the scale above, which applies to the group differences.")
 					defaultValue: 1
 					min: 0
 					inclusive: JASP.None
@@ -623,6 +623,7 @@ VariablesForm
 			rowComponent: DropDown
 			{
 				name: "color"
+				info: qsTr("Color assigned to this group. Only used when Manual colors is enabled.")
 				visible: manualColor.checked
 				values: [
 					{ label: qsTr("red")	, value: "red"		},
@@ -650,6 +651,7 @@ VariablesForm
 			rowComponent: DropDown
 			{
 				name: "group"
+				info: qsTr("Color group this variable belongs to.")
 				source: ["manualColorGroups"]
 			}
 		}
