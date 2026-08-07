@@ -436,34 +436,14 @@ VariablesForm
 				{
 					id: interactionPriorFamily
 					name: "interactionPriorFamily"
-					label: groupingVariableSelector.count > 0 ?
-						qsTr("Prior family for the partial association differences:") :
-						qsTr("Prior family for the partial association parameters:")
-					info: qsTr("Family of the prior on the partial association parameters. Normal is the default and applies lighter-tailed shrinkage. Cauchy is a heavy-tailed shrinkage prior. Beta-prime is parameterized via two shape parameters on the logistic scale.")
+					label: qsTr("Prior family for the partial association parameters:")
+					info: qsTr("Family of the prior on the partial association parameters. Normal is the default and applies lighter-tailed shrinkage. Cauchy is a heavy-tailed shrinkage prior. Beta-prime is parameterized via two shape parameters on the logistic scale. When a grouping variable is selected this family applies to the baseline partial associations; the prior on the group differences is set separately below.")
 					preferredWidth: 300
 					values: [
 						{ value: "normal",     label: qsTr("Normal")      },
 						{ value: "cauchy",     label: qsTr("Cauchy")      },
 						{ value: "beta-prime", label: qsTr("Beta-prime")  }
 					]
-				}
-
-				DoubleField
-				{
-					name: "interactionScale"
-					label: groupingVariableSelector.count > 0 ?
-						(interactionPriorFamily.currentValue === "cauchy" ?
-							qsTr("Scale of the Cauchy distribution for the differences:") :
-							qsTr("Scale of the Normal distribution for the differences:")) :
-						(interactionPriorFamily.currentValue === "cauchy" ?
-							qsTr("Scale of the Cauchy distribution for the partial association parameters:") :
-							qsTr("Scale of the Normal distribution for the partial association parameters:"))
-					info: qsTr("Scale parameter of the Normal or Cauchy prior on the partial association parameters. When a grouping variable is selected, this scale applies to the differences between groups.")
-					defaultValue: 1
-					min: 0
-					inclusive: JASP.None
-					preferredWidth: 300
-					visible: interactionPriorFamily.currentValue === "normal" || interactionPriorFamily.currentValue === "cauchy"
 				}
 
 				DoubleField
@@ -496,13 +476,46 @@ VariablesForm
 					label: interactionPriorFamily.currentValue === "cauchy" ?
 						qsTr("Baseline Cauchy scale for the partial association parameters:") :
 						qsTr("Baseline Normal scale for the partial association parameters:")
-					info: qsTr("Scale of the prior on the *baseline* partial association parameters when comparing groups. This is separate from the scale above, which applies to the group differences.")
+					info: qsTr("Scale of the prior on the *baseline* partial association parameters when comparing groups. This is separate from the scale of the prior on the group differences.")
 					defaultValue: 1
 					min: 0
 					inclusive: JASP.None
 					preferredWidth: 300
 					visible: groupingVariableSelector.count > 0 &&
 						(interactionPriorFamily.currentValue === "normal" || interactionPriorFamily.currentValue === "cauchy")
+				}
+
+				DropDown
+				{
+					id: differencePriorFamily
+					name: "differencePriorFamily"
+					label: qsTr("Prior family for the partial association differences:")
+					info: qsTr("Family of the prior on the differences in partial association between the groups. Normal is the default and bounds a difference more tightly; Cauchy is heavy-tailed and leaves more room for large differences. Only used when a grouping variable is selected.")
+					preferredWidth: 300
+					visible: groupingVariableSelector.count > 0
+					values: [
+						{ value: "normal", label: qsTr("Normal") },
+						{ value: "cauchy", label: qsTr("Cauchy") }
+					]
+				}
+
+				DoubleField
+				{
+					name: "interactionScale"
+					label: groupingVariableSelector.count > 0 ?
+						(differencePriorFamily.currentValue === "cauchy" ?
+							qsTr("Scale of the Cauchy distribution for the differences:") :
+							qsTr("Scale of the Normal distribution for the differences:")) :
+						(interactionPriorFamily.currentValue === "cauchy" ?
+							qsTr("Scale of the Cauchy distribution for the partial association parameters:") :
+							qsTr("Scale of the Normal distribution for the partial association parameters:"))
+					info: qsTr("Scale parameter of the Normal or Cauchy prior on the partial association parameters. When a grouping variable is selected, this scale applies to the differences between groups.")
+					defaultValue: 1
+					min: 0
+					inclusive: JASP.None
+					preferredWidth: 300
+					visible: groupingVariableSelector.count > 0 ||
+						interactionPriorFamily.currentValue === "normal" || interactionPriorFamily.currentValue === "cauchy"
 				}
 
 				DropDown

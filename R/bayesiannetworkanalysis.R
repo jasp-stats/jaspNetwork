@@ -60,6 +60,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
                                                           "interactionPriorFamily", "interactionScale",
                                                           "interactionAlpha", "interactionBeta",
                                                           "interactionScaleBaseline",
+                                                          "differencePriorFamily",
                                                           "betaAlpha", "betaBeta",
                                                           "betaAlpha_between", "betaBeta_between",
                                                           "lambda", "dirichletAlpha",
@@ -472,6 +473,19 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   )
 }
 
+.bayesianNetworkAnalysisBuildDifferenceFamily <- function(options) {
+
+  family <- .bayesianNetworkAnalysisNormalizePriorFamily(options[["differencePriorFamily"]], default = "normal")
+
+  # bgmCompare takes the slab on the group differences as a family name rather
+  # than as a prior object, and expects it capitalized.
+  switch(family,
+    "normal" = "Normal",
+    "cauchy" = "Cauchy",
+    .quitAnalysis(gettextf("Unsupported prior family '%s' for the group differences.", family))
+  )
+}
+
 .bayesianNetworkAnalysisBuildInteractionPrior <- function(options) {
 
   .bayesianNetworkAnalysisBuildParameterPrior(
@@ -530,18 +544,16 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   easybgmFit
 }
 
-.bayesianNetworkAnalysisExtractEasybgmResult <- function(easybgmFit, variableSpec, options, keepRawFit = FALSE) {
+.bayesianNetworkAnalysisExtractEasybgmResult <- function(easybgmFit, variableSpec, options, keepRawFit = FALSE,
+                                                         isDifferenceFit = FALSE) {
 
   easybgmResult <- list()
 
-  easybgmResult$graphWeights           <- easybgmFit$graph_weights
   easybgmResult$inclusionProbabilities <- easybgmFit$inc_probs
   easybgmResult$BF                     <- easybgmFit$inc_BF
   easybgmResult$structure              <- easybgmFit$structure
   easybgmResult$estimates              <- as.matrix(easybgmFit$parameters)
   easybgmResult$graph                  <- easybgmResult$estimates * easybgmResult$structure
-  easybgmResult$sampleGraphs           <- easybgmFit$sample_graph
-  easybgmResult$samplesPosterior       <- easybgmFit$samples_posterior
   easybgmResult$variableType           <- variableSpec[["type"]]
   easybgmResult$baselineCategory       <- variableSpec[["baselineCategory"]]
   easybgmResult$logOdds                <- easybgmFit$log_odds
@@ -549,6 +561,29 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   easybgmResult$partialCorrelations    <- easybgmFit$partial_correlations
   # Only returned by easybgm when at least one variable is of type blume-capel.
   easybgmResult$blumeCapelParameters   <- easybgmFit$blume_capel_parameters
+  # R-hat as bgms computes it across chains, in row-major upper-triangle order.
+  easybgmResult$convergence            <- easybgmFit$convergence_parameter
+
+  # bgmCompare pads its indicator draws with one main effect indicator per
+  # variable, so the sampled structures of a difference fit are wider than the
+  # number of edges. Reduce them to the pairwise part before anything counts them.
+  reduced <- .bayesianNetworkAnalysisReducePairwiseIndicators(
+    sampleGraphs = easybgmFit$sample_graph,
+    graphWeights = easybgmFit$graph_weights,
+    nVar         = ncol(easybgmResult$estimates)
+  )
+  easybgmResult$sampleGraphs <- reduced$sampleGraphs
+  easybgmResult$graphWeights <- reduced$graphWeights
+
+  if (isDifferenceFit) {
+    # easybgm returns the *baseline* pairwise draws for a group comparison, not
+    # the differences. Keeping them under a distinct name stops anything that
+    # summarizes the differences from silently reading the baseline instead.
+    easybgmResult$baselineSamplesPosterior <- easybgmFit$samples_posterior
+    easybgmResult$convergenceIsBaseline    <- TRUE
+  } else {
+    easybgmResult$samplesPosterior <- easybgmFit$samples_posterior
+  }
 
   # Store SBM-specific results if Stochastic-Block edge prior was used.
   if (options[["edgePrior"]] == "Stochastic-Block" && .bayesianNetworkAnalysisStochasticBlockAllowed(options)) {
@@ -564,6 +599,51 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     easybgmResult$easybgmFit <- easybgmFit
 
   easybgmResult
+}
+
+.bayesianNetworkAnalysisPairwiseIndicatorPositions <- function(nVar) {
+
+  # bgmCompare interleaves one main effect indicator per variable with the
+  # pairwise indicators: V1 (main), V1-V2, V1-V3, ..., V2 (main), V2-V3, ...
+  # Return the positions of the pairwise entries in that layout.
+  positions <- integer(0)
+  cursor    <- 0L
+
+  for (i in seq_len(nVar)) {
+    cursor <- cursor + 1L                       # main effect of variable i
+    nPairs <- nVar - i
+    if (nPairs > 0L)
+      positions <- c(positions, cursor + seq_len(nPairs))
+    cursor <- cursor + nPairs
+  }
+
+  positions
+}
+
+.bayesianNetworkAnalysisReducePairwiseIndicators <- function(sampleGraphs, graphWeights, nVar) {
+
+  unchanged <- list(sampleGraphs = sampleGraphs, graphWeights = graphWeights)
+
+  if (is.null(sampleGraphs) || length(sampleGraphs) == 0L || is.null(graphWeights))
+    return(unchanged)
+
+  nEdges <- (nVar * (nVar - 1L)) %/% 2L
+
+  # Only the group comparison pads the indicators. Anything already at the edge
+  # width - every fit of a single network - is left untouched.
+  if (!all(nchar(sampleGraphs) == nEdges + nVar))
+    return(unchanged)
+
+  keep    <- .bayesianNetworkAnalysisPairwiseIndicatorPositions(nVar)
+  reduced <- vapply(strsplit(sampleGraphs, "", fixed = TRUE),
+                    function(indicators) paste0(indicators[keep], collapse = ""),
+                    character(1L))
+
+  # Dropping the main effect indicators can collapse distinct sampled structures
+  # into one, so re-aggregate rather than assuming the strings stay unique.
+  weights <- tapply(graphWeights, reduced, sum)
+
+  list(sampleGraphs = names(weights), graphWeights = as.integer(weights))
 }
 
 .bayesianNetworkAnalysisNormalizeUpdateMethod <- function(updateMethodRaw) {
@@ -671,6 +751,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     interactionPriorBaseline <- .bayesianNetworkAnalysisBuildInteractionPrior(baselineOptions)
     thresholdPrior           <- .bayesianNetworkAnalysisBuildThresholdPrior(options)
     differencePrior          <- .bayesianNetworkAnalysisBuildDifferencePrior(options)
+    differenceFamily         <- .bayesianNetworkAnalysisBuildDifferenceFamily(options)
 
     jaspBase::.setSeedJASP(options)
     compareFit <- try(easybgm::easybgm_compare(
@@ -689,6 +770,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       interaction_prior           = interactionPriorBaseline,
       threshold_prior             = thresholdPrior,
       difference_prior            = differencePrior,
+      difference_family           = differenceFamily,
       difference_scale            = options[["interactionScale"]],
       progress_callback           = .bayesianNetworkAnalysisMakeProgressCallback(gettext("Estimating group comparison"))
     ))
@@ -699,10 +781,11 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     }
 
     networks[[gettext("Differences")]] <- .bayesianNetworkAnalysisExtractEasybgmResult(
-      easybgmFit   = compareFit,
-      variableSpec = pooledVariableSpec,
-      options      = options,
-      keepRawFit   = FALSE
+      easybgmFit      = compareFit,
+      variableSpec    = pooledVariableSpec,
+      options         = options,
+      keepRawFit      = FALSE,
+      isDifferenceFit = TRUE
     )
 
     pooledFit <- .bayesianNetworkAnalysisFitSingleNetwork(
@@ -1727,10 +1810,15 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     stringsAsFactors   = FALSE
   )
 
-  # Try to add convergence from posterior samples in the difference network
-  convergence <- .bayesianNetworkAnalysisComputeEdgeConvergence(nwDiff, upperTriIdx, nEdges, as.integer(options[["chains"]]))
+  # The group comparison reports R-hat for the baseline pairwise interactions
+  # rather than for the differences, so say so instead of labelling it as the
+  # convergence of the difference estimates next to it.
+  convergence    <- .bayesianNetworkAnalysisComputeEdgeConvergence(nwDiff, upperTriIdx, nEdges, as.integer(options[["chains"]]))
+  isBaselineRhat <- isTRUE(nwDiff[["convergenceIsBaseline"]])
   if (!is.null(convergence)) {
-    table$addColumnInfo(name = "convergence", title = gettext("Convergence"), type = "number")
+    table$addColumnInfo(name  = "convergence",
+                        title = if (isBaselineRhat) gettext("Convergence (baseline)") else gettext("Convergence"),
+                        type  = "number")
     df$convergence <- convergence
   }
 
@@ -1754,7 +1842,9 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   table$addFootnote(gettext("Difference estimates are based on the median probability model: edges with a posterior difference probability \u2264 0.5 are set to zero."))
   table$addFootnote(gettext("Bayes factors with values of infinity indicate that the estimated posterior difference probability is either 1 or 0. Please see the help file for more information."))
   if (!is.null(convergence)) {
-    if (as.integer(options[["chains"]]) >= 2L)
+    if (isBaselineRhat)
+      table$addFootnote(gettext("Convergence is the R-hat (Gelman-Rubin) statistic of the baseline pairwise interactions of the joint model; the group comparison does not report a separate R-hat for the differences themselves. Values greater than about 1.01-1.05 are considered concerning. Consider increasing the number of iterations and/or chains to improve convergence."))
+    else if (as.integer(options[["chains"]]) >= 2L)
       table$addFootnote(gettext("Convergence is the R-hat (Gelman-Rubin) statistic, values greater than about 1.01-1.05 are considered concerning, indicating potential lack of convergence for the estimates of the pairwise interactions. Consider increasing the number of iterations and/or chains to improve convergence."))
     else
       table$addFootnote(gettext("Convergence is the split-chain R-hat (Gelman-Rubin) statistic, computed post hoc by splitting the posterior samples into two halves."))
@@ -2147,28 +2237,38 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
 .bayesianNetworkAnalysisComputeEdgeConvergence <- function(nw, upperTriIdx, nEdges, nChains = 1L) {
 
+  # bgms reports every pairwise quantity in row-major upper-triangle order
+  # (V1-V2, V1-V3, ..., V2-V3, ...), which is also the order of the samples
+  # easybgm passes on. Reading it as column-major attaches each statistic to the
+  # wrong edge from four variables onwards.
+  nVar     <- nrow(nw$estimates)
+  rowIdx   <- which(upper.tri(matrix(NA, nVar, nVar)), arr.ind = TRUE)
+  rowIdx   <- rowIdx[order(rowIdx[, 1L], rowIdx[, 2L]), , drop = FALSE]
+  rowMajor <- matrix(NA_integer_, nVar, nVar)
+  rowMajor[rowIdx] <- seq_len(nrow(rowIdx))
+
+  # Prefer the R-hat bgms itself computed across chains over the post hoc
+  # split-chain statistic below.
+  reported    <- nw$convergence
+  useReported <- is.numeric(reported) && length(reported) >= nrow(rowIdx)
+
   posteriorSamples <- nw$samplesPosterior
-  if (is.null(posteriorSamples) || ncol(posteriorSamples) < nEdges || nrow(posteriorSamples) < 4L)
+  if (!useReported &&
+      (is.null(posteriorSamples) || ncol(posteriorSamples) < nEdges || nrow(posteriorSamples) < 4L))
     return(NULL)
-
-  # Build column-major upper triangle mapping to find the right column in samplesPosterior
-  nVar <- nrow(nw$estimates)
-  cmIdx <- which(upper.tri(matrix(NA, nVar, nVar)), arr.ind = TRUE)
-
-  cmLookup <- matrix(NA_integer_, nVar, nVar)
-  for (pos in seq_len(nrow(cmIdx)))
-    cmLookup[cmIdx[pos, 1], cmIdx[pos, 2]] <- pos
 
   convergence <- numeric(nEdges)
   for (k in seq_len(nEdges)) {
-    i <- upperTriIdx[k, 1]
-    j <- upperTriIdx[k, 2]
-    col <- cmLookup[i, j]
+    col <- rowMajor[upperTriIdx[k, 1], upperTriIdx[k, 2]]
 
-    if (!is.na(col) && col <= ncol(posteriorSamples))
-      convergence[k] <- .bayesianNetworkAnalysisRhat(posteriorSamples[, col], nChains)
+    convergence[k] <- if (is.na(col))
+      NA_real_
+    else if (useReported)
+      reported[[col]]
+    else if (col <= ncol(posteriorSamples))
+      .bayesianNetworkAnalysisRhat(posteriorSamples[, col], nChains)
     else
-      convergence[k] <- NA_real_
+      NA_real_
   }
 
   convergence
@@ -2548,7 +2648,9 @@ centrality <- function(network, measures = c("closeness", "betweenness", "streng
     # Compute centrality for each posterior sample:
     for (i in seq_len(nrow(network$samplesPosterior))) {
 
-      graph <- qgraph::centralityPlot(vectorToMatrix(network$samplesPosterior[i, ], as.numeric(nrow(network$estimates)), bycolumn = TRUE),
+      # bgms draws are in row-major upper-triangle order, which is what
+      # bycolumn = FALSE reconstructs; bycolumn = TRUE permutes the edges.
+      graph <- qgraph::centralityPlot(vectorToMatrix(network$samplesPosterior[i, ], as.numeric(nrow(network$estimates)), bycolumn = FALSE),
                                       include = measures,
                                       verbose = FALSE,
                                       print = FALSE,

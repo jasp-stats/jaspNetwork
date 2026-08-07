@@ -62,6 +62,71 @@ testthat::test_that("Compare mode is enabled for ordinal and Blume-Capel variabl
   testthat::expect_true(supported)
 })
 
+testthat::test_that("The prior family on the group differences maps to what bgmCompare expects", {
+  buildFamily <- jaspNetwork:::.bayesianNetworkAnalysisBuildDifferenceFamily
+
+  testthat::expect_identical(buildFamily(list(differencePriorFamily = "normal")), "Normal")
+  testthat::expect_identical(buildFamily(list(differencePriorFamily = "cauchy")), "Cauchy")
+
+  # Missing or metadata-carrying option values fall back to the bgms default
+  testthat::expect_identical(buildFamily(list()), "Normal")
+  testthat::expect_identical(buildFamily(list(differencePriorFamily = "Cauchy, QtObject")), "Cauchy")
+})
+
+testthat::test_that("Sampled difference structures are reduced to their pairwise part", {
+  # bgmCompare interleaves one main effect indicator per variable with the
+  # pairwise ones: V1 (main), V1-V2, V1-V3, V1-V4, V2 (main), V2-V3, ...
+  positions <- jaspNetwork:::.bayesianNetworkAnalysisPairwiseIndicatorPositions(4L)
+  testthat::expect_identical(positions, c(2L, 3L, 4L, 6L, 7L, 9L))
+
+  reduce <- jaspNetwork:::.bayesianNetworkAnalysisReducePairwiseIndicators
+
+  # Width nEdges + nVar: the main effect indicators (positions 1, 5, 8, 10) are dropped
+  reduced <- reduce(c("1101100111", "1000100101"), c(3L, 7L), nVar = 4L)
+  testthat::expect_identical(reduced[["sampleGraphs"]], c("000000", "101001"))
+  testthat::expect_identical(reduced[["graphWeights"]], c(7L, 3L))
+
+  # Dropping indicators can merge structures, so the weights are re-aggregated
+  merged <- reduce(c("1101100111", "0101000010"), c(3L, 7L), nVar = 4L)
+  testthat::expect_identical(merged[["sampleGraphs"]], "101001")
+  testthat::expect_identical(merged[["graphWeights"]], 10L)
+
+  # A fit of a single network is already at the edge width and is left alone
+  untouched <- reduce(c("101010", "111000"), c(3L, 7L), nVar = 4L)
+  testthat::expect_identical(untouched[["sampleGraphs"]], c("101010", "111000"))
+  testthat::expect_identical(untouched[["graphWeights"]], c(3L, 7L))
+
+  testthat::expect_null(reduce(NULL, NULL, nVar = 4L)[["sampleGraphs"]])
+})
+
+testthat::test_that("Edge convergence is read in the row-major order bgms reports", {
+  # Column-major reading attaches V2-V3 to the V1-V4 statistic from four
+  # variables onwards, so the order is asserted rather than assumed.
+  nVar        <- 4L
+  upperTriIdx <- which(upper.tri(matrix(0, nVar, nVar)), arr.ind = TRUE)
+  upperTriIdx <- upperTriIdx[order(upperTriIdx[, 1], upperTriIdx[, 2]), ]
+
+  reportedRhat <- c(1.1, 1.2, 1.3, 1.4, 1.5, 1.6)
+  nw <- list(estimates = matrix(0, nVar, nVar), convergence = reportedRhat)
+
+  convergence <- jaspNetwork:::.bayesianNetworkAnalysisComputeEdgeConvergence(nw, upperTriIdx, 6L, 2L)
+  testthat::expect_equal(convergence, reportedRhat)
+
+  # Without a reported R-hat the samples are read in the same order
+  samples <- matrix(rep(reportedRhat, each = 40L), nrow = 40L)
+  nwSamples <- list(estimates = matrix(0, nVar, nVar), samplesPosterior = samples)
+  testthat::expect_length(
+    jaspNetwork:::.bayesianNetworkAnalysisComputeEdgeConvergence(nwSamples, upperTriIdx, 6L, 2L), 6L
+  )
+
+  # Nothing to report at all
+  testthat::expect_null(
+    jaspNetwork:::.bayesianNetworkAnalysisComputeEdgeConvergence(
+      list(estimates = matrix(0, nVar, nVar)), upperTriIdx, 6L, 2L
+    )
+  )
+})
+
 testthat::test_that("Compare mode is disabled when continuous variables are included", {
   options <- list(groupingVariable = "group")
   variableSpec <- list(type = c("ordinal", "continuous"))
