@@ -31,7 +31,7 @@ msgid "Number of excluded edges"
 msgstr "节点数"
 
 msgid "Number of edges with inconclusive evidence"
-msgstr ""
+msgstr "证据尚无定论的边数"
 
 msgid "Sparsity"
 msgstr "稀缺性"
@@ -39,32 +39,32 @@ msgstr "稀缺性"
 msgid ""
 "Edge categorization is based on the inclusion criteria BF: included (BF₁₀ ≥ "
 "threshold), excluded (BF₁₀ ≤ 1/threshold), inconclusive (otherwise)."
-msgstr ""
+msgstr "边的分类基于包含标准 BF：包含（BF₁₀ ≥ 阈值）、排除（BF₁₀ ≤ 1/阈值）、尚无定论（其他情况）。"
 
 msgid "Could not determine the baseline category for variable %s."
-msgstr ""
+msgstr "无法确定变量 %s 的基线类别。"
 
 msgid ""
 "Some model type assignments refer to variables that are not part of the "
 "analysis: %s."
-msgstr ""
+msgstr "某些模型类型分配所引用的变量并不在分析范围内：%s。"
 
 msgid "Variable %s cannot be treated as Blume-Capel because it is not ordinal."
-msgstr ""
+msgstr "变量 %s 不能按 Blume-Capel 处理，因为它不是定序变量。"
 
 msgid ""
 "The Stochastic block model edge prior is not available when Split is "
 "selected. Please use Bernoulli or Beta-binomial."
-msgstr ""
+msgstr "在选择“拆分”时不可使用随机块模型边先验。请使用 Bernoulli 或 Beta-二项分布。"
 
 msgid "Unsupported prior family '%s'."
-msgstr ""
+msgstr "不支持的先验族“%s”。"
 
 msgid "Unsupported edge prior '%s'."
-msgstr ""
+msgstr "不支持的边先验“%s”。"
 
 msgid "Unsupported difference prior '%s'."
-msgstr ""
+msgstr "不支持的差异先验“%s”。"
 
 #, fuzzy
 msgid ""
@@ -77,18 +77,18 @@ msgstr ""
 msgid ""
 "Unsupported update method '%s'. Please select one of: adaptive-metropolis, "
 "nuts."
-msgstr ""
+msgstr "不支持的更新方法“%s”。请选择以下之一：adaptive-metropolis、nuts。"
 
 msgid ""
 "Unsupported edge prior '%s'. Please select one of: Bernoulli, Beta-binomial, "
 "Stochastic block model."
-msgstr ""
+msgstr "不支持的边先验“%s”。请选择以下之一：Bernoulli、Beta-二项分布、随机块模型。"
 
 msgid "Group"
-msgstr ""
+msgstr "组"
 
 msgid "Estimating group comparison"
-msgstr ""
+msgstr "正在估计组间比较"
 
 #, fuzzy
 msgid ""
@@ -99,24 +99,24 @@ msgstr ""
 "%s"
 
 msgid "Differences"
-msgstr ""
+msgstr "差异"
 
 msgid "Estimating pooled network"
-msgstr ""
+msgstr "正在估计合并网络"
 
 msgid "Pooled"
-msgstr ""
+msgstr "合并"
 
 msgid "Estimating %s"
-msgstr ""
+msgstr "正在估计 %s"
 
 msgid "Estimating network"
-msgstr ""
+msgstr "正在估计网络"
 
 msgid ""
 "Difference network not estimated: all selected variables must be ordinal or "
 "Blume-Capel. Showing separate group estimates instead."
-msgstr ""
+msgstr "未估计差异网络：所有选定的变量必须为定序或 Blume-Capel。改为显示各组的单独估计。"
 
 msgid ""
 "Minimum edge strength ignored in the network plot because it was larger than "
@@ -167,25 +167,25 @@ msgid "Centrality Plot"
 msgstr "中心性图"
 
 msgid "Parameter HDI Plot"
-msgstr ""
+msgstr "参数 HDI 图"
 
 msgid "Parameter HDI Plots"
-msgstr ""
+msgstr "参数 HDI 图"
 
 msgid ""
 "The difference parameter HDI plot shows the posterior mean and highest "
 "density interval (HDI) for each pairwise difference in partial association "
 "between groups. Positive values indicate a stronger association in the first "
 "group; negative values indicate a stronger association in the second group."
-msgstr ""
+msgstr "差异参数 HDI 图显示各组之间每对偏关联差异的后验均值与最高密度区间（HDI）。正值表示第一组的关联更强；负值表示第二组的关联更强。"
 
 msgid ""
 "Posterior samples are required for the parameter HDI plot. Please ensure the "
 "model was fitted with 'save = TRUE'."
-msgstr ""
+msgstr "参数 HDI 图需要后验样本。请确保模型在拟合时设置“save = TRUE”。"
 
 msgid "%d%% HDI of Partial Association"
-msgstr ""
+msgstr "偏关联的 %d%% HDI"
 
 msgid "Complexity plot"
 msgstr "复杂性图"
@@ -223,38 +223,38 @@ msgid ""
 "Bayes factors with values of infinity indicate that the estimated posterior "
 "inclusion probability is either 1 or 0. Please see the help file for more "
 "information."
-msgstr ""
+msgstr "贝叶斯因子的值为无穷大，表示估计的后验包含概率为 1 或 0。更多信息请参阅帮助文件。"
 
 msgid "Edge Specific Overview"
-msgstr ""
+msgstr "边特定概览"
 
 msgid "difference"
-msgstr ""
+msgstr "差异"
 
 msgid "equal"
-msgstr ""
+msgstr "相等"
 
 msgid "inconclusive"
-msgstr ""
+msgstr "尚无定论"
 
 msgid "Relation"
-msgstr ""
+msgstr "关系"
 
 msgid "Difference Estimate"
-msgstr ""
+msgstr "差异估计"
 
 #, fuzzy
 msgid "Posterior Diff. Prob."
 msgstr "后验概率结构图"
 
 msgid "Difference BF"
-msgstr ""
+msgstr "差异 BF"
 
 msgid "Category"
-msgstr ""
+msgstr "类别"
 
 msgid "Convergence"
-msgstr ""
+msgstr "收敛"
 
 msgid "Estimate"
 msgstr "估计"
@@ -262,50 +262,50 @@ msgstr "估计"
 msgid ""
 "Difference estimates are based on the median probability model: edges with a "
 "posterior difference probability ≤ 0.5 are set to zero."
-msgstr ""
+msgstr "差异估计基于中位概率模型：后验差异概率 ≤ 0.5 的边设为零。"
 
 msgid ""
 "Bayes factors with values of infinity indicate that the estimated posterior "
 "difference probability is either 1 or 0. Please see the help file for more "
 "information."
-msgstr ""
+msgstr "贝叶斯因子的值为无穷大，表示估计的后验差异概率为 1 或 0。更多信息请参阅帮助文件。"
 
 msgid ""
 "Convergence is the R-hat (Gelman-Rubin) statistic, values greater than about "
 "1.01-1.05 are considered concerning, indicating potential lack of "
 "convergence for the estimates of the pairwise interactions. Consider "
 "increasing the number of iterations and/or chains to improve convergence."
-msgstr ""
+msgstr "收敛性为 R-hat（Gelman-Rubin）统计量，大于约 1.01-1.05 的值被认为值得关注，表明成对交互的估计可能缺乏收敛。可考虑增加迭代次数和/或链数以改善收敛。"
 
 msgid ""
 "Convergence is the split-chain R-hat (Gelman-Rubin) statistic, computed post "
 "hoc by splitting the posterior samples into two halves."
-msgstr ""
+msgstr "收敛性为分裂链 R-hat（Gelman-Rubin）统计量，通过将后验样本一分为二事后计算得出。"
 
 msgid "included"
-msgstr ""
+msgstr "包含"
 
 msgid "excluded"
-msgstr ""
+msgstr "排除"
 
 #, fuzzy
 msgid "Posterior Incl. Prob."
 msgstr "后验概率结构图"
 
 msgid "Inclusion BF"
-msgstr ""
+msgstr "包含 BF"
 
 msgid ""
 "Estimates are based on the median probability model: edges with a posterior "
 "inclusion probability ≤ 0.5 are set to zero."
-msgstr ""
+msgstr "估计基于中位概率模型：后验包含概率 ≤ 0.5 的边设为零。"
 
 msgid ""
 "Convergence is the R-hat (Gelman-Rubin) statistic, with values greater than "
 "about 1.01-1.05 are considered concerning, indicating potential lack of "
 "convergence for the estimates of the pairwise interactions. Consider "
 "increasing the number of iterations to improve convergence."
-msgstr ""
+msgstr "收敛性为 R-hat（Gelman-Rubin）统计量，大于约 1.01-1.05 的值被认为值得关注，表明成对交互的估计可能缺乏收敛。可考虑增加迭代次数以改善收敛。"
 
 msgid ""
 "Convergence is the split-chain R-hat (Gelman-Rubin) statistic, computed post "
@@ -313,23 +313,23 @@ msgid ""
 "about 1.01-1.05 are considered concerning, indicating potential lack of "
 "convergence for the estimates of the pairwise interactions. Consider "
 "increasing the number of iterations to improve convergence."
-msgstr ""
+msgstr "收敛性为分裂链 R-hat（Gelman-Rubin）统计量，通过将后验样本一分为二事后计算得出。大于约 1.01-1.05 的值被认为值得关注，表明成对交互的估计可能缺乏收敛。可考虑增加迭代次数以改善收敛。"
 
 msgid "Log-odds"
-msgstr ""
+msgstr "对数几率（Log-odds）"
 
 #, fuzzy
 msgid "Precision Matrix"
 msgstr "权重矩阵"
 
 msgid "Partial Correlations"
-msgstr ""
+msgstr "偏相关"
 
 msgid "Cluster Allocations (Posterior Mean)"
-msgstr ""
+msgstr "聚类分配（后验均值）"
 
 msgid "Cluster Allocations (Posterior Mode)"
-msgstr ""
+msgstr "聚类分配（后验众数）"
 
 #, fuzzy
 msgid "Cluster"
@@ -348,19 +348,19 @@ msgid "Posterior probability"
 msgstr "后验概率结构图"
 
 msgid "Posterior Co-clustering Matrix"
-msgstr ""
+msgstr "后验共聚类矩阵"
 
 msgid "Cluster Bayes Factor"
-msgstr ""
+msgstr "聚类贝叶斯因子"
 
 msgid "Hypothesis"
-msgstr ""
+msgstr "假设"
 
 msgid "Bayes factor"
-msgstr ""
+msgstr "贝叶斯因子"
 
 msgid "Could not compute the cluster Bayes factor: %s"
-msgstr ""
+msgstr "无法计算聚类贝叶斯因子：%s"
 
 #, fuzzy
 msgid "Clustering vs. no clustering"
