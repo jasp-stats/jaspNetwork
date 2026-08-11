@@ -14,7 +14,7 @@ msgstr ""
 "X-Generator: Weblate 2026.8.dev0\n"
 
 msgid "Summary of Network"
-msgstr ""
+msgstr "網路摘要"
 
 msgid "Network"
 msgstr "網路"
@@ -354,10 +354,10 @@ msgid "Onnela"
 msgstr "Onnela"
 
 msgid "WS"
-msgstr ""
+msgstr "WS"
 
 msgid "Zhang"
-msgstr ""
+msgstr "Zhang"
 
 msgid "Clustering measures per variable"
 msgstr "各變數的集群指標"
