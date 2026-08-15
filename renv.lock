@@ -1,10 +1,10 @@
 {
   "R": {
-    "Version": "4.5.2",
+    "Version": "4.5.0",
     "Repositories": [
       {
         "Name": "RSPM",
-        "URL": "https://packagemanager.posit.co/cran/2026-04-22"
+        "URL": "https://packagemanager.posit.co/cran/2026-06-15"
       },
       {
         "Name": "RPSM2",
@@ -443,7 +443,7 @@
     },
     "RcppParallel": {
       "Package": "RcppParallel",
-      "Version": "5.1.11-2",
+      "Version": "6.2.0",
       "Source": "Repository",
       "Requirements": [
         "R"
@@ -565,13 +565,19 @@
     "bgms": {
       "Package": "bgms",
       "Version": "0.2.0.0",
-      "Source": "GitHub",
+      "Source": "Repository",
       "Requirements": [
         "Rcpp",
         "RcppParallel",
         "Rdpack",
         "S7",
+        "methods",
         "lifecycle",
+        "graphics",
+        "grDevices",
+        "parallel",
+        "stats",
+        "utils",
         "RcppArmadillo",
         "dqrng",
         "BH",
@@ -583,13 +589,8 @@
         "qgraph",
         "rmarkdown",
         "testthat",
-        "tidytemplate"
-      ],
-      "RemoteType": "github",
-      "RemoteHost": "api.github.com",
-      "RemoteUsername": "Bayesian-Graphical-Modelling-Lab",
-      "RemoteRepo": "bgms",
-      "RemoteSha": "841b9a3cc79a36dd496ea787993beeb489acf559"
+        "withr"
+      ]
     },
     "bit": {
       "Package": "bit",
@@ -983,17 +984,16 @@
         "dplyr",
         "ggplot2",
         "HDInterval",
-        "igraph",
         "qgraph",
         "coda",
-        "testthat",
-        "vdiffr"
+        "testthat"
       ],
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteUsername": "Bayesian-Graphical-Modelling-Lab",
       "RemoteRepo": "easybgm",
-      "RemoteSha": "1743035047c0debafbb895c44d92c3d21792408d"
+      "RemoteRef": "9cb55d9263ebbb75a55231cfca44f39decf30657",
+      "RemoteSha": "9cb55d9263ebbb75a55231cfca44f39decf30657"
     },
     "eigenmodel": {
       "Package": "eigenmodel",
@@ -2476,7 +2476,7 @@
     },
     "rlang": {
       "Package": "rlang",
-      "Version": "1.1.7",
+      "Version": "1.2.0",
       "Source": "Repository",
       "Requirements": [
         "R",
