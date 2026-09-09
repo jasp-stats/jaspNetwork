@@ -286,60 +286,109 @@ Form
 			placeHolder			: qsTr("New Group")
 			minRows				: 2
 			preferredWidth	 	: (2 * form.width) / 5
-			rowComponentTitle	: manualColor.checked ? qsTr("Group color") : ""
+			rowComponentTitle	: manualColor.checked ? qsTr("Node / label color") : ""
 
 			rowComponent: Row
 			{
 				spacing: 6
 
-			TextField
-			{
-				id: colorValue
-				name: "color"
-				visible: false
-				defaultValue: "#FFFFFF"
-			}
-
-			Rectangle
-			{
-				id: colorSwatch
-
-				visible: manualColor.checked
-
-				width: 28
-				height: 18
-				radius: 6
-
-				color: colorValue.value !== ""? colorValue.value: "#FFFFFF"
-
-				border.width: 1
-				border.color: "#808080"
-
-				MouseArea
+				TextField
 				{
-					anchors.fill: parent
-					cursorShape: Qt.PointingHandCursor
+					id: colorValue
+					name: "color"
+					visible: false
+					defaultValue: "#FFFFFF"
+				}
 
-					onClicked:
+				TextField
+				{
+					id: labelColorValue
+					name: "labelColor"
+					visible: false
+					defaultValue: "#000000"
+				}
+
+				Rectangle
+				{
+					id: colorSwatch
+
+					visible: manualColor.checked
+
+					width: 28
+					height: 18
+					radius: 6
+
+					color: colorValue.value !== ""? colorValue.value: "#FFFFFF"
+
+					border.width: 1
+					border.color: "#808080"
+
+					MouseArea
 					{
-						colorDialog.open()
+						anchors.fill: parent
+						cursorShape: Qt.PointingHandCursor
+
+						onClicked:
+						{
+							colorDialog.open()
+						}
 					}
 				}
-			}
 
-			ColorDialog
-			{
-				id: colorDialog
-				title: qsTr("Select color")
-
-				selectedColor: colorValue.value !== ""? colorValue.value: "#FFFFFF"
-
-				onAccepted:
+				ColorDialog
 				{
-					colorValue.value =
-						selectedColor.toString().toUpperCase()
+					id: colorDialog
+					title: qsTr("Select color")
+
+					selectedColor: colorValue.value !== ""? colorValue.value: "#FFFFFF"
+
+					onAccepted:
+					{
+						colorValue.value =
+							selectedColor.toString().toUpperCase()
+					}
 				}
-			}
+
+				Rectangle
+				{
+					id: labelColorSwatch
+
+					visible: manualColor.checked
+
+					width: 28
+					height: 18
+					radius: 6
+
+					color: labelColorValue.value !== "" ? labelColorValue.value : "#000000"
+
+					border.width: 1
+					border.color: "#808080"
+
+					MouseArea
+					{
+						anchors.fill: parent
+						cursorShape: Qt.PointingHandCursor
+
+						onClicked:
+						{
+							labelColorDialog.open()
+						}
+					}
+				}
+
+				ColorDialog
+				{
+					id: labelColorDialog
+					title: qsTr("Select label color")
+
+					selectedColor: labelColorValue.value !== "" ? labelColorValue.value : "#000000"
+
+					onAccepted:
+					{
+						labelColorValue.value =
+							selectedColor.toString().toUpperCase()
+					}
+				}
 			}
 		}
 

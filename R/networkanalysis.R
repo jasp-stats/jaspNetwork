@@ -611,7 +611,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
 
 .networkAnalysisOneNetworkPlot <- function(network, options, minE, layout, groups, maxE, labels, legend, shape,
-                                           nodeColor, edgeColor, nodeNames, method = "frequentist") {
+                                           nodeColor, labelColor, edgeColor, nodeNames, method = "frequentist") {
 
 
   wMat <- network[["graph"]]
@@ -648,6 +648,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
       legend              = legend,
       shape               = shape,
       color               = nodeColor,
+      label.color         = labelColor,
       edge.color          = edgeColor,
       nodeNames           = nodeNames,
       label.scale         = options[["labelScale"]],
@@ -689,7 +690,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     "legendSpecificPlotNumber", "mgmVariableTypeShown",
     "labelScale", "labelSize", "labelAbbreviation", "labelAbbreviationLength",
     "layoutNotUpdated", "layoutX", "layoutY", "networkPlot",
-    "manualColorGroups", "color", "colorGroupVariables", "group", "manualColor",
+    "manualColorGroups", "color", "labelColor", "colorGroupVariables", "group", "manualColor",
     "legendToPlotRatio", "edgeLabels", "edgeLabelSize", "edgeLabelPosition",
     "networkPlotInclusionCriteria"
   ))
@@ -718,6 +719,8 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
   groups <- NULL
   nodeColor <- NULL
+  labelColor <- NULL
+
   allLegends <- rep(FALSE, nGraphs) # no legends
 
   if (length(options[["colorGroupVariables"]]) > 1L) {
@@ -738,9 +741,20 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     if (length(unique(assignedGroup)) > 1L) {
 
       # user has defined groups and there are variables in the groups
-      groupNames  <- vapply(options[["manualColorGroups"]], `[[`, character(1L), "name")
-      groupColors <- vapply(options[["manualColorGroups"]], `[[`, character(1L), "color")
-      groupColors[groupColors == ""] <- "white"  # safeguard against sending empty colors to qgraph
+      groupNames       <- vapply(options[["manualColorGroups"]], `[[`, character(1L), "name")
+      groupColors      <- vapply(options[["manualColorGroups"]], `[[`, character(1L), "color")
+      groupLabelColors <- vapply(
+        options[["manualColorGroups"]],
+        function(x) {
+          if (is.null(x[["labelColor"]]) || x[["labelColor"]] == "")
+            "black"  # backwards compatibility for older manual saves without label colors
+          else
+            x[["labelColor"]]
+        },
+        character(1L)
+      )
+
+      groupColors[groupColors == ""] <- "white"
 
       nGroups <- length(groupNames)
 
@@ -754,8 +768,10 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
       nonEmpty <- lengths(groups) > 0L
       groups <- groups[nonEmpty]
 
-      if (options[["manualColor"]])
-        nodeColor <- groupColors[nonEmpty]
+      if (options[["manualColor"]]) {
+        nodeColor  <- groupColors[nonEmpty]
+        labelColor <- groupLabelColors[idx]
+      }
     }
   }
 
@@ -883,6 +899,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
         legend     = legend,
         shape      = shape,
         nodeColor  = nodeColor,
+        labelColor = labelColor,
         edgeColor  = edgeColor,
         nodeNames  = nodeNames,
         method     = method
