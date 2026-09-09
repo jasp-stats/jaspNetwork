@@ -88,7 +88,6 @@ Form
 		{
 			name: "centralityNormalization"
 			title: qsTr("Centrality Measures")
-			visible: estimator.currentValue === "ebicGlasso"
 			RadioButton { value: "normalized";	label: qsTr("Normalized"); checked: true }
 			RadioButton { value: "relative" ;	label: qsTr("Relative")					}
 			RadioButton { value: "raw";			label: qsTr("Raw")						}
@@ -524,35 +523,16 @@ Form
 	Section
 	{
 	  title: qsTr("Graphical Options - Centrality Plot")
+
 		enabled: centralityPlot.checked
-		// STANDALONE SECTION @ 2025
 
 		Group
 		{
-		  // SHIFTED POSITION @ 2025
-		  // NOTE that centrality plots should not show CIs
 			title: qsTr("Measures shown")
 			CheckBox	{	name: "betweenness";	  	 label: qsTr("Betweenness")             }
 			CheckBox	{	name: "closeness";			   label: qsTr("Closeness")               }
 			CheckBox	{	name: "strength";		   	   label: qsTr("Strength"); checked: true	} // DEFAULT @ 2025
 			CheckBox	{	name: "expectedInfluence"; label: qsTr("Expected Influence")      }
 		}
-
-		RadioButtonGroup
-		{
-		  // SHIFTED POSITION @ 2025
-			name: "centralityNormalization"
-			title: qsTr("Measure normalization")
-			// NOW VISIBLE FOR ALL ESTIMATORS @ 2025
-			// NOW VISIBLE ONLY WHEN CENTRALITY PLOT IS REQUESTED @ 2025
-			RadioButton { value: "normalized";	label: qsTr("Normalized"); checked: true }
-			RadioButton { value: "relative";	  label: qsTr("Relative")			          	 }
-			RadioButton { value: "raw";		    	label: qsTr("Raw")			           			 }
-			// NADYA NEED TO INCLUDE RAW ZERO NADYA
-			// NADYA THIS HAS TO BE FIXED IN THE networkanalysis.R FILE - THE qgraph FUNCTION IS OUTDATED
-			// NADYA this correctly updates the centrality table but does not update the plot - fix plot....?
-			// NADYA table should just be raw values.......
-		}
-
-		}
+	}
 }
