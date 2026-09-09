@@ -19,6 +19,7 @@
 import QtQuick
 import QtQuick.Layouts
 import JASP.Controls
+import QtQuick.Dialogs  // used for color widget (name: manualColorGroups)
 
 Form
 {
@@ -272,41 +273,74 @@ Form
 		title: qsTr("Graphical Options - Network Plot")
 		enabled: networkPlot.checked
 
-// NADYA NEED TO ADD SPLIT 0 FOR BOOTSTRAP PLOT
-// NADYA (CHECK BOOTNET, THERES AREA AND THERES INTERVAL)
-// NADYA THIS GOES IN GRAPHICAL OPTIONS NOT BOOTSTRAP OPTIONS
-// NADYA inside plot()
-// NADYA split0 should be default probably (only works for plot interval not plot area)
-// NADYA maybe add 'auto' argument
-
-// NADYA incl plot(plot = "difference")
-
-// NADYA colours add jasp palette
-// NADYA (remind sacha to add to qgraph)
+// TODO add fallback in case the color widget does not load (only tested on mac)
 
 		InputListView
 		{
-			id					     : networkFactors
-			name				     : "manualColorGroups"
-			title				     : qsTr("Group name")
-			optionKey			   : "name"
-			defaultValues		 : [qsTr("Group 1"), qsTr("Group 2")]
-			placeHolder			 : qsTr("New Group")
-			minRows				   : 2
-			preferredWidth	 : (2 * form.width) / 5
-			rowComponentTitle: manualColor.checked ? qsTr("Group color") : ""
-			rowComponent     : DropDown
+			id: networkFactors
+			name: "manualColorGroups"
+			title: qsTr("Group name")
+			optionKey: "name"
+			defaultValues: [qsTr("Group 1"), qsTr("Group 2")]
+
+			// check if necessary:
+			placeHolder			: qsTr("New Group")
+			minRows				: 2
+			preferredWidth	 	: (2 * form.width) / 5
+			rowComponentTitle	: manualColor.checked ? qsTr("Group color") : ""
+
+			rowComponent: Row
 			{
+				spacing: 6
+
+			TextField
+			{
+				id: colorValue
 				name: "color"
+				visible: false
+				defaultValue: "#FFFFFF"
+			}
+
+			Rectangle
+			{
+				id: colorSwatch
+
 				visible: manualColor.checked
-				values: [
-					{ label: qsTr("red"),    value: "red"		 },
-					{ label: qsTr("blue"),   value: "blue"	 },
-					{ label: qsTr("yellow"), value: "yellow" },
-					{ label: qsTr("green"),  value: "green"	 },
-					{ label: qsTr("purple"), value: "purple" },
-					{ label: qsTr("orange"), value: "orange" }
-				]
+
+				width: 28
+				height: 18
+				radius: 6
+
+				color: colorValue.value !== ""? colorValue.value: "#FFFFFF"
+
+				border.width: 1
+				border.color: "#808080"
+
+				MouseArea
+				{
+					anchors.fill: parent
+					cursorShape: Qt.PointingHandCursor
+
+					onClicked:
+					{
+						colorDialog.open()
+					}
+				}
+			}
+
+			ColorDialog
+			{
+				id: colorDialog
+				title: qsTr("Select color")
+
+				selectedColor: colorValue.value !== ""? colorValue.value: "#FFFFFF"
+
+				onAccepted:
+				{
+					colorValue.value =
+						selectedColor.toString().toUpperCase()
+				}
+			}
 			}
 		}
 

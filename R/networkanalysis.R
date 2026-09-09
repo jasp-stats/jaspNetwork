@@ -742,6 +742,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
       # user has defined groups and there are variables in the groups
       groupNames  <- vapply(options[["manualColorGroups"]], `[[`, character(1L), "name")
       groupColors <- vapply(options[["manualColorGroups"]], `[[`, character(1L), "color")
+      groupColors[groupColors == ""] <- "white"  # safeguard against sending empty colors to qgraph
 
       nGroups <- length(groupNames)
 
