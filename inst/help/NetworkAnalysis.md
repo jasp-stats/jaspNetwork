@@ -45,7 +45,6 @@ This analysis allows you to estimate not one type of network, but multiple. Supp
 For each network method, options can be adjusted to influence the result. Only options available to a specific estimation method will be available at a time.
 
 #### Correlation method
-- `Auto`: Automatically detect variable type and uses the most suitable correlation type. This will detect continuous, binary and ordinal variables and will use Pearson, tetrachoric or polychoric correlations.
 - `Cor`: Pearson correlation.
 - `Cov`: Covariances.
 - `Npn`: This will first apply the nonparanormal transformation to make all data normally distributed and then use Pearson correlations.

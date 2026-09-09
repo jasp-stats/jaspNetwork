@@ -91,8 +91,6 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
 .networkAnalysisErrorCheck <- function(mainContainer, dataset, options) {
 
-  # some analyses, such as Sacha's EBIGglasso with cor_auto, completely ignore the missing argument
-  # and always use pairwise information even though their documentation says they can do listwise
   if (length(options[["variables"]]) < 3)
     return()
 
@@ -271,7 +269,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   # (cor_mantar), which overrides the selected correlation method for the correlation computation.
   if (options[["estimator"]] %in% c("ebicGlasso", "ggmModSelect", "cor", "pcor") &&
       options[["missingValues"]] %in% c("fiml", "stackedMI") &&
-      !(options[["correlationMethod"]] %in% c("cor_mantar", "cor_auto", "auto"))) {
+      options[["correlationMethod"]] != "cor_mantar") {
     text <- if (options[["missingValues"]] == "fiml")
       gettext("FIML missing-data handling is computed with maximum-likelihood correlations (the 'mantar' package); the selected correlation method is not used to estimate the correlations.")
     else
@@ -994,19 +992,17 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   errorMessage <- NULL
   variables <- unlist(options[["variables"]])
   options[["rule"]] <- toupper(options[["rule"]])
-  if (options[["correlationMethod"]] == "auto")
-    options[["correlationMethod"]] <- "cor_auto"
 
-  # bootnet 1.9: missing = "stackedMI" (multiple imputation) requires corMethod == "cor_mantar",
-  # and missing = "fiml" requires corMethod %in% c("cor_auto", "cor_mantar"). Both are handled by
-  # the mantar-based ML/imputation engine (cor_mantar), which overrides the selected correlation
-  # method. cor_auto is intentionally not used (kept only when a saved analysis already used it).
-  if (isTRUE(options[["missingValues"]] == "stackedMI"))
-    options[["correlationMethod"]] <- "cor_mantar"
+  # Legacy compatibility: "auto" previously mapped to bootnet's cor_auto.
+  # cor_auto is no longer used; old saved analyses fall back to Pearson correlations.
+  if (options[["correlationMethod"]] %in% c("auto", "cor_auto"))
+      options[["correlationMethod"]] <- "cor"
 
-  if (isTRUE(options[["missingValues"]] == "fiml") &&
-      !(options[["correlationMethod"]] %in% c("cor_auto", "cor_mantar")))
-    options[["correlationMethod"]] <- "cor_mantar"
+  # bootnet 1.9: FIML and multiple imputation use the mantar-based
+  # maximum-likelihood/imputation engine, which overrides the selected
+  # correlation method.
+  if (options[["missingValues"]] %in% c("fiml", "stackedMI"))
+      options[["correlationMethod"]] <- "cor_mantar"
 
   options[["isingEstimator"]] <- switch(options[["isingEstimator"]],
                                         "pseudoLikelihood" = "pl",
