@@ -1157,10 +1157,15 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   networks <- vector("list", length(dataset))
   # for every dataset do the analysis
   for (nw in seq_along(dataset)) {
-
+  
     data <- dataset[[nw]]
 
-    # mgm requires integer instead of factor
+    # JASP supplies ordinal variables as ordered factors, convert to integer category scores for bootnet
+    for (i in seq_along(data))
+      if (is.factor(data[[i]]))
+        data[[i]] <- as.integer(data[[i]])
+
+    # mgm additionally requires all nonnumeric variables to be integer encoded
     if (options[["estimator"]] == "mgm") {
       for (i in seq_along(data))
         if (!is.numeric(data[[i]]))
