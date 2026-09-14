@@ -99,14 +99,58 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
     customChecks <- NULL
 
+    # Ising models require two-category variables. When no split is requested (by default),
+    # stop here rather than letting bootnet silently apply its default median split.
+    if (options[["estimator"]] %in% c("isingFit", "isingSampler") &&
+        identical(options[["split"]], "none")) {
+
+      nonBinary <- vapply(dataset, function(data) {
+        any(vapply(data, function(x) {
+          length(unique(x[!is.na(x)])) > 2L
+        }, logical(1)))
+      }, logical(1))
+
+      if (any(nonBinary)) {
+        mainContainer$setError(
+          gettext(
+            "IsingFit and IsingSampler require binary data. One or more selected variables contain more than two observed values. Select Median or Mean under Binarization to binarize the data."
+          )
+        )
+        return()
+      }
+    }
+
     # check if data must be binarized
     if (options[["estimator"]] %in% c("isingFit", "isingSampler") &&
         !identical(options[["split"]], "none")) {
 
       splitFun <- .networkAnalysisGetSplitFunction(options[["split"]])
+
       for (i in seq_along(dataset)) {
         idx <- colnames(dataset[[i]]) != options[["groupingVariable"]]
-        dataset[[i]][idx] <- bootnet::binarize(dataset[[i]][idx], split = splitFun, verbose = FALSE, removeNArows = FALSE)
+
+        dataToBinarize <- dataset[[i]][idx]
+
+        # bootnet::binarize() requires numeric data. JASP ordinal variables are
+        # represented as factors, so use their ordered category codes.
+        dataToBinarize[] <- lapply(dataToBinarize, function(x) {
+          if (is.factor(x))
+            as.numeric(x)
+          else
+            x
+        })
+
+# TODO: Add tests to verify Ising binarization end-to-end. In particular,
+# confirm that ordinal variables are converted to the correct numeric category
+# codes, that mean/median splitting produces the expected binary values without
+# introducing NAs, and that the same correctly processed data are ultimately
+# passed to bootnet for estimation.
+        dataset[[i]][idx] <- bootnet::binarize(
+          dataToBinarize,
+          split = splitFun,
+          verbose = FALSE,
+          removeNArows = FALSE
+        )
       }
 
       if (options[["estimator"]] == "isingFit") {
@@ -236,8 +280,11 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   nGraphs <- length(dataset)
 
   # footnotes
-  if (options[["estimator"]] %in% c("isingFit", "isingSampler") && !all(unlist(dataset[!is.na(dataset)]) %in% 0:1))
-    tb$addFootnote(gettextf("Data was binarized using %s. ",	options[["split"]]))
+  if (options[["estimator"]] %in% c("isingFit", "isingSampler") &&
+      options[["split"]] %in% c("median", "mean"))
+    tb$addFootnote(
+      gettextf("Data was binarized using %s.", options[["split"]])
+    )
 
   if (!is.null(options[["colorNodesByData"]]) && length(options[["colorNodesByData"]]) != length(options[["variables"]])) {
     tb$addFootnote(
@@ -1144,8 +1191,10 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   nms2keep <- names(funArgs)
   .dots <- .dots[names(.dots) %in% nms2keep]
 
-  # split = "none" means "data is already binary, do not binarize" -- drop the entry
-  # so that bootnet's default ("median") is used (idempotent on already-binary data).
+  # JASP's "none" means that no binarization was requested. Non-binary data are
+  # rejected during error checking above. Drop the JASP-only value here because
+  # bootnet does not support split = "none"; for two-category data bootnet only
+  # normalizes the binary encoding and does not perform a median split.
   if (identical(.dots[["split"]], "none"))
     .dots[["split"]] <- NULL
 
@@ -1432,23 +1481,16 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
 .networkAnalysisGetSplitFunction <- function(split = c("mean", "median")) {
   split <- match.arg(split)
+
   if (split == "median") {
     return(function(x, na.rm) {
-      if (is.numeric(x)) {
-        stats::median(x, na.rm = na.rm)
-      } else {
-        quantile(x, probs = .5, type = 3, na.rm = na.rm)
-      }
-    })
-  }  else {
-    return(function(x, na.rm) {
-      if (is.numeric(x)) {
-        mean(x, na.rm = na.rm)
-      } else {
-        mean(as.numeric(x), na.rm = na.rm)
-      }
+      stats::median(x, na.rm = na.rm)
     })
   }
+
+  return(function(x, na.rm) {
+    mean(x, na.rm = na.rm)
+  })
 }
 
 # bootstrap network functions ----

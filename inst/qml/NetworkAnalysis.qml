@@ -183,7 +183,7 @@ Form
 		RadioButtonGroup
 		{
 			name: "split"
-			title: qsTr("Split")
+			title: qsTr("Binarization")
 			visible: ["isingFit", "isingSampler"].includes(estimator.currentValue)
 			RadioButton { value: "none";	 label: qsTr("None"); checked: true	} // NEW @ 2025 // NADYA if data is not alr binary it should give warning that data is not binary
 			RadioButton { value: "median"; label: qsTr("Median")              }

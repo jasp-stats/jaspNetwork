@@ -56,10 +56,13 @@ What 'rule' should be used to determine if an edge is present between two nodes?
 - `AND`: Both estimates, the edge from A to B and the edge from B to A, must be nonzero.
 - `OR`: Either of the estimates must be nonzero.
 
-#### Split
-When estimating an Ising model (using either IsingFit or IsingSampler) non binary variables will be binarized using either:
-- `Median`: the median of the observed scores.
-- `Mean`: the mean of the observed scores.
+#### Binarization
+IsingFit and IsingSampler require binary variables. By default, no binarization is performed and variables with more than two observed values will produce an error. Non-binary variables can instead be binarized using:
+
+- `Median`: Binarize each variable using the median of its observed scores.
+- `Mean`: Binarize each variable using the mean of its observed scores.
+
+Variables that already contain two categories do not need to be binarized.
 
 #### Variable Type
 When estimating a Mixed Graphical Model, insert a variable here to specify the variable type. Allowed inputs are:
