@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jaspNetwork 0.96.3\n"
 "POT-Creation-Date: 2026-05-16 03:29\n"
-"PO-Revision-Date: 2026-09-14 02:35+0000\n"
+"PO-Revision-Date: 2026-09-15 04:04+0000\n"
 "Last-Translator: Sohrab Delshad <sdel4030@gmail.com>\n"
 "Language-Team: Persian <https://hosted.weblate.org/projects/jasp/jaspnetwork-"
 "r/fa/>\n"
@@ -68,7 +68,7 @@ msgid "Unsupported edge prior '%s'. Please select one of: Bernoulli, Beta-binomi
 msgstr ""
 
 msgid "Group"
-msgstr ""
+msgstr "گروه"
 
 msgid "Estimating group comparison"
 msgstr ""
@@ -275,7 +275,7 @@ msgid "Number of blocks"
 msgstr ""
 
 msgid "Posterior probability"
-msgstr ""
+msgstr "احتمال پسین"
 
 msgid "Posterior Co-clustering Matrix"
 msgstr ""
