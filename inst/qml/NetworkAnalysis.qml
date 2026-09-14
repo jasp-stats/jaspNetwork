@@ -88,9 +88,10 @@ Form
 		{
 			name: "centralityNormalization"
 			title: qsTr("Centrality Measures")
-			RadioButton { value: "normalized";	label: qsTr("Normalized"); checked: true }
-			RadioButton { value: "relative" ;	label: qsTr("Relative")					}
-			RadioButton { value: "raw";			label: qsTr("Raw")						}
+			RadioButton { value: "raw0"; label: qsTr("Raw including zero"); checked: true }
+			RadioButton { value: "raw";			label: qsTr("Raw")					   	  }
+			RadioButton { value: "normalized";	label: qsTr("Normalized");                }
+			RadioButton { value: "relative" ;	label: qsTr("Relative")					  }
 		}
 
 		Group

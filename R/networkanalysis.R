@@ -17,7 +17,7 @@
 
 # This is a temporary fix
 # TODO: remove it when R will solve this problem!
-gettextf <- function(fmt, ..., domain = NULL)  {
+gettextf <- function(fmt, ..., domain = NULL)  {∏
   return(sprintf(gettext(fmt, domain = domain), ...))
 }
 
@@ -474,7 +474,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
   width <- 200 + 120 * sum(measuresToShow)
   plot <- createJaspPlot(title = gettext("Centrality Plot"), position = 52, width = width,
-                         dependencies = c("centralityPlot", "betweenness", "closeness", "strength", "expectedInfluence"))
+                         dependencies = c("centralityPlot", "centralityNormalization", "betweenness", "closeness", "strength", "expectedInfluence"))
   plotContainer[["centralityPlot"]] <- plot
   if (is.null(network[["centrality"]]) || plotContainer$getError() || !hasMeasures)
     return()
@@ -491,8 +491,12 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   # ensure that the first character is capitalized in the text above the subplots so it matches the centrality table
   levels(long[["measure"]]) <- stringr::str_to_title(levels(long[["measure"]]))
 
-  .networkAnalysisMakePlotFromLong(plot, long, options)
-
+  .networkAnalysisMakePlotFromLong(
+    plot,
+    long,
+    options,
+    includeZero = options[["centralityNormalization"]] == "raw0"
+  )
 }
 
 .networkAnalysisClusteringPlot <- function(plotContainer, network, options) {
@@ -548,7 +552,11 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
 }
 
-.networkAnalysisMakePlotFromLong <- function(jaspPlot, Long, options) {
+# TODO: Centrality and clustering currently share this plotting function.
+# These should eventually be separated so that plot-specific behavior and
+# options can be handled independently without affecting the other plot type.
+# For now, I added optional arg "includeZero" to isolate behavior when relevant.
+.networkAnalysisMakePlotFromLong <- function(jaspPlot, Long, options, includeZero = FALSE) {
 
   # "Long" is how qgraph refers to this object. This function transforms the
   # long object for centrality or clustering into a ggplot.
@@ -593,6 +601,11 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   } else {
     g <- g + ggplot2::facet_grid(~measure, scales = "free")
   }
+
+  # ensure that the x-axis includes zero for raw0 setting (centrality-specific)
+  if (includeZero)
+    g <- g + ggplot2::expand_limits(x = 0)
+
   g <- g + ggplot2::theme_bw()
 
   if (options[["legend"]] == "hide")
@@ -1299,7 +1312,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
 
       }
 
-    } # else raw centrality measures -> do nothing
+    } # else "raw" or "raw0": retain raw centrality measures
 
     TBcent[["node"]] <- network[["labels"]]
     nc <- ncol(TBcent)
