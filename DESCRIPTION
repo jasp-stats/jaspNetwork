@@ -14,7 +14,7 @@ Imports:
   corpcor,
   dplyr,
   bgms (>= 0.2.0.0),
-  easybgm,
+  easybgm (>= 0.5.1),
   foreach,
   ggplot2,
   gtools,
@@ -32,6 +32,6 @@ Imports:
 Remotes:
   jasp-stats/jaspBase,
   jasp-stats/jaspGraphs,
-  KarolineHuth/easybgm@2bec609ed78c25cb0f73016c557a2b3216565611
+  Bayesian-Graphical-Modelling-Lab/easybgm@f17e8f98a2d5ee91e3b1989d99ad44c15e27c842
 Roxygen: list(markdown = TRUE)
 Config/roxygen2/version: 8.0.0

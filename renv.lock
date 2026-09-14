@@ -974,7 +974,7 @@
     },
     "easybgm": {
       "Package": "easybgm",
-      "Version": "0.5.0",
+      "Version": "0.5.1",
       "Source": "GitHub",
       "Requirements": [
         "R",
@@ -990,10 +990,10 @@
       ],
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
-      "RemoteUsername": "KarolineHuth",
+      "RemoteUsername": "Bayesian-Graphical-Modelling-Lab",
       "RemoteRepo": "easybgm",
-      "RemoteRef": "2bec609ed78c25cb0f73016c557a2b3216565611",
-      "RemoteSha": "2bec609ed78c25cb0f73016c557a2b3216565611"
+      "RemoteRef": "f17e8f98a2d5ee91e3b1989d99ad44c15e27c842",
+      "RemoteSha": "f17e8f98a2d5ee91e3b1989d99ad44c15e27c842"
     },
     "eigenmodel": {
       "Package": "eigenmodel",

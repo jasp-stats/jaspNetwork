@@ -179,40 +179,40 @@ testthat::test_that("Analysis handles too many missing values errors with groupi
 })
 
 # based on https://github.com/jasp-stats/jasp-test-release/issues/2298
-testthat::test_that("Centrality plot works with empty graphs", {
+testthat::test_that("Centrality keeps every measure for an empty network", {
+  # qgraph drops Strength for an all-zero network, which broke the centrality table
+  variables <- c("A", "B", "C")
+  network <- list(
+    estimates        = matrix(0, 3L, 3L, dimnames = list(variables, variables)),
+    samplesPosterior = matrix(0, nrow = 20L, ncol = 3L)
+  )
 
-  testthat::skip("Not reproducible")
+  summary <- jaspNetwork:::.bayesianNetworkAnalysisComputeCentrality(list(network), list(credibilityInterval = TRUE))[[1L]]
 
-  sleep <- structure(list(extra = c(0.7, -1.6, -0.2, -1.2, -0.1, 3.4, 3.7, 0.8, 0, 2, 1.9, 0.8, 1.1, 0.1, -0.1, 4.4, 5.5, 1.6, 4.6, 3.4),
-                          group = c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L),
-                          ID = c(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, 10L, 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, 10L)),
-                     class = "data.frame", row.names = c(NA, -20L))
-  sleep$group <- factor(sleep$group)
-  sleep$ID    <- factor(sleep$ID, ordered = TRUE)
+  testthat::expect_setequal(unique(summary$measure), c("Betweenness", "Closeness", "Strength", "ExpectedInfluence"))
+  testthat::expect_equal(summary$posteriorMeans[summary$measure == "Strength"], rep(0, 3L))
+  testthat::expect_true(all(c("lower", "upper") %in% colnames(summary)))
 
-  options <- analysisOptions("BayesianNetworkAnalysis")
-  options$estimator <- "gcgm"
-  options$variables <- c("extra", "group", "ID")
-  options$variables.types <- rep("scale", length(options$variables))
-  options$dfprior <- 3
-  options$gprior  <- "0.5"
-  options$manualColorGroups <- list(list(color = "red", name = "Group 1"), list(color = "red", name = "Group 2"))
-  options$centralityPlot <- TRUE
-  options$credibilityInterval <- TRUE
-  options$burnin <- 100
-  options$iter   <- 500
-  options$group  <- ""
-  options$initialConfiguration <- "empty"
-  results <- jaspTools::runAnalysis("BayesianNetworkAnalysis", sleep, options)
+  pointEstimate <- jaspNetwork:::centrality(network, options = list(credibilityInterval = FALSE))
+  wide <- stats::reshape(pointEstimate, idvar = "node", timevar = "measure", direction = "wide")
+  testthat::expect_true("posteriorMeans.Strength" %in% names(wide))
+})
 
-  table <- results[["results"]][["mainContainer"]][["collection"]][["mainContainer_generalTable"]][["data"]]
-  jaspTools::expect_equal_tables(table,
-                                 list(1, "2 / 3", 0, 3, 0.333333333333333))
+testthat::test_that("Centrality summaries use the posterior samples only", {
+  # The wide centrality output holds node, measure and the posterior mean network
+  # before the samples; the summary must not include that point estimate.
+  variables <- c("A", "B", "C")
+  estimates <- matrix(0.9, 3L, 3L, dimnames = list(variables, variables))
+  diag(estimates) <- 0
+  draws <- rbind(c(0.1, 0.5, 0.3), c(0.4, 0.2, 0.6))
+  network <- list(estimates = estimates, samplesPosterior = draws)
 
-  plotName <- results[["results"]][["mainContainer"]][["collection"]][["mainContainer_plotContainer"]][["collection"]][["mainContainer_plotContainer_centralityPlot"]][["data"]]
-  testPlot <- results[["state"]][["figures"]][[plotName]][["obj"]]
-  jaspTools::expect_equal_plots(testPlot, "centrality-plot")
+  summary <- jaspNetwork:::.bayesianNetworkAnalysisComputeCentrality(list(network), list(credibilityInterval = TRUE))[[1L]]
 
+  measures <- c("Closeness", "Betweenness", "Strength", "ExpectedInfluence")
+  perDraw  <- sapply(1:2, function(i) jaspNetwork:::.bayesianNetworkAnalysisCentralityGrid(
+    jaspNetwork:::vectorToMatrix(draws[i, ], 3), measures, variables)$value)
+  testthat::expect_equal(summary$posteriorMeans, rowMeans(perDraw))
 })
 
 testthat::test_that("Parameter HDI plot works", {
@@ -235,7 +235,8 @@ testthat::test_that("Parameter HDI plot works", {
   plotName <- firstPlot[["data"]]
   testthat::expect_true(is.character(plotName) && length(plotName) == 1L && nzchar(plotName))
 
-  # HDI bounds come from MCMC sampling that set.seed() does not govern, so the plot is not reproducible
+  # bgms is seeded through options$seed, but the draws still differ across platforms and bgms
+  # builds, so a plot snapshot is not portable
   testthat::skip("Not reproducible")
 
   testPlot <- results[["state"]][["figures"]][[plotName]][["obj"]]
@@ -342,7 +343,8 @@ testthat::test_that("Blume-Capel main effects are extracted into a table", {
   testthat::expect_equal(rows$effect,   c("Linear", "Quadratic"))
   testthat::expect_equal(rows$baseline, c(2L, 2L))
 
-  # Estimates come from MCMC that set.seed() does not govern, so only structure is checked
+  # bgms is seeded through options$seed, but estimates differ across platforms and bgms builds,
+  # so only structure is checked
   testthat::expect_true(all(is.finite(rows$estimate)))
   testthat::expect_true(all(rows$lower <= rows$upper))
 })
@@ -365,7 +367,7 @@ testthat::test_that("Parameter HDI table reports one row per edge", {
 
   testthat::expect_equal(
     sapply(table[["schema"]][["fields"]], `[[`, "name"),
-    c("relation", "mean", "lower", "upper")
+    c("relation", "mean", "lower", "upper", "medianProbabilityEstimate")
   )
 
   rows <- do.call(rbind, lapply(table[["data"]], as.data.frame))
@@ -374,12 +376,253 @@ testthat::test_that("Parameter HDI table reports one row per edge", {
   # Ordered largest-first so the table reads top-to-bottom like the (flipped) HDI plot.
   testthat::expect_equal(rows$mean, sort(rows$mean, decreasing = TRUE))
 
-  # Under spike-and-slab selection an excluded edge has most of its mass exactly at zero,
-  # so its HDI collapses to [0, 0]. Those edges are reported as an exact zero, matching the
-  # median probability model shown in the edge specific overview table.
-  degenerate <- rows$lower == 0 & rows$upper == 0
-  testthat::expect_equal(rows$mean[degenerate], rep(0, sum(degenerate)))
+  testthat::expect_true(all(is.finite(rows$mean)))
 
   testthat::expect_true(all(rows$lower <= rows$upper))
   testthat::expect_true(all(is.finite(rows$lower) & is.finite(rows$upper)))
+})
+
+testthat::test_that("Pairwise quantities are put in row-major order by name", {
+  canonicalOrder <- jaspNetwork:::.bayesianNetworkAnalysisCanonicalEdgeOrder
+  variables <- c("A", "B", "C", "D")
+
+  # bgms groups the pairs of mixed models by variable type and may reverse a pair
+  testthat::expect_identical(canonicalOrder(c("A-C", "B-D", "A-B", "A-D", "C-B", "C-D"), variables),
+                             c(3L, 1L, 4L, 5L, 2L, 6L))
+  testthat::expect_null(canonicalOrder(c("A-C", "B-D", "A-B", "A-D", "C-B", "X-Y"), variables))
+  testthat::expect_null(canonicalOrder(c("A-B", "A-B", "A-D", "B-C", "B-D", "C-D"), variables))
+})
+
+testthat::test_that("Extraction reorders samples and R-hat of a mixed network", {
+  variables  <- c("A", "B", "C", "D")
+  edgeMatrix <- matrix(0, 4L, 4L, dimnames = list(variables, variables))
+  bgmsOrder  <- c("A-C", "B-D", "A-B", "A-D", "C-B", "C-D")
+
+  fit <- list(
+    inc_probs             = edgeMatrix,
+    inc_BF                = edgeMatrix,
+    structure             = edgeMatrix,
+    parameters            = edgeMatrix,
+    samples_posterior     = matrix(rep(1:6, each = 5L), nrow = 5L, dimnames = list(NULL, bgmsOrder)),
+    convergence_parameter = stats::setNames(1 + (1:6) / 10, bgmsOrder)
+  )
+  spec    <- list(type = c("ordinal", "continuous", "ordinal", "continuous"), baselineCategory = rep(1L, 4L))
+  options <- list(edgePrior = "Bernoulli", groupingVariable = "")
+
+  result <- jaspNetwork:::.bayesianNetworkAnalysisExtractEasybgmResult(fit, spec, options)
+
+  testthat::expect_identical(colnames(result$samplesPosterior), c("A-B", "A-C", "A-D", "B-C", "B-D", "C-D"))
+  testthat::expect_equal(unname(result$samplesPosterior[1L, ]), c(3, 1, 4, 5, 2, 6))
+  testthat::expect_equal(result$convergence, 1 + c(3, 1, 4, 5, 2, 6) / 10)
+})
+
+testthat::test_that("A comparison of more than two groups keeps its pairwise differences", {
+  variables  <- c("A", "B", "C", "D")
+  edgeMatrix <- matrix(0, 4L, 4L, dimnames = list(variables, variables))
+  groupOrder <- c("A-C", "A-B", "A-D", "B-C", "B-D", "C-D") # deliberately not row-major
+
+  groupEstimates <- matrix(c(1:6, 11:16, 21:26), 6L, dimnames = list(groupOrder, c("group1", "group2", "group3")))
+  differences    <- cbind(groupEstimates[, 2] - groupEstimates[, 1],
+                          groupEstimates[, 3] - groupEstimates[, 1],
+                          groupEstimates[, 3] - groupEstimates[, 2])
+  dimnames(differences) <- list(groupOrder, c("group2 - group1", "group3 - group1", "group3 - group2"))
+
+  compareFit <- list(
+    inc_probs                  = edgeMatrix,
+    inc_BF                     = edgeMatrix,
+    structure                  = edgeMatrix,
+    parameters                 = NULL,
+    convergence_parameter      = stats::setNames(1 + (1:6) / 10, as.character(1:6)),
+    group_estimates            = groupEstimates,
+    pairwise_group_differences = differences
+  )
+  spec    <- list(type = rep("ordinal", 4L), baselineCategory = rep(1L, 4L))
+  options <- list(edgePrior = "Bernoulli", groupingVariable = "group")
+
+  result <- jaspNetwork:::.bayesianNetworkAnalysisExtractEasybgmResult(compareFit, spec, options, isDifferenceFit = TRUE)
+
+  testthat::expect_identical(dim(result$estimates), c(4L, 4L))
+  testthat::expect_true(all(is.na(result$estimates)))
+  testthat::expect_identical(rownames(result$groupEstimates), c("A-B", "A-C", "A-D", "B-C", "B-D", "C-D"))
+  testthat::expect_equal(unname(result$groupEstimates[, "group1"]), c(2, 1, 3, 4, 5, 6))
+  testthat::expect_equal(unname(result$pairwiseGroupDifferences[, "group3 - group2"]), rep(10, 6L))
+  # the comparison reports R-hat unnamed, in the order of its group estimates
+  testthat::expect_equal(result$convergence, 1 + c(2, 1, 3, 4, 5, 6) / 10)
+})
+
+testthat::test_that("Evidence categories are exclusive at the boundaries", {
+  category <- jaspNetwork:::.bayesianNetworkAnalysisEvidenceCategory
+
+  testthat::expect_identical(category(c(10, 0.1, 1, NA, 0.05, 20), 10),
+                             c("included", "excluded", "inconclusive", "inconclusive", "excluded", "included"))
+  # A threshold of 1 would otherwise count BF = 1 as both included and excluded
+  testthat::expect_identical(category(c(1, 0.5, 2), 1), c("included", "excluded", "included"))
+  testthat::expect_identical(dim(category(matrix(c(0, 12, 12, 0), 2L), 10)), c(2L, 2L))
+})
+
+testthat::test_that("The parameter HDI table keeps the posterior mean", {
+  # 99 zero draws and one draw of 10: the 95% HDI is [0, 0] but the mean is 0.1
+  variables <- c("alpha", "beta", "gamma")
+  samples   <- cbind(c(rep(0, 99L), 10), rep(0.2, 100L), rep(0.3, 100L))
+  colnames(samples) <- c("alpha-beta", "alpha-gamma", "beta-gamma")
+  graph   <- matrix(0, 3L, 3L, dimnames = list(variables, variables))
+  network <- list(estimates = graph, graph = graph, samplesPosterior = samples)
+
+  posterior <- jaspNetwork:::.bayesianNetworkAnalysisComputeParameterHdi(network, list(labelAbbreviation = FALSE), 0.95)
+  edge      <- posterior[posterior$edge == "beta-alpha", ]
+
+  testthat::expect_equal(edge$mean, 0.1)
+  testthat::expect_equal(c(edge$lower, edge$upper), c(0, 0))
+  testthat::expect_equal(edge$medianProbabilityEstimate, 0)
+})
+
+testthat::test_that("Group labels cannot take the place of the difference or pooled network", {
+  allNetworks <- list(
+    differences = list(role = "differences", label = "Differences"),
+    pooled      = list(role = "pooled",      label = "Pooled"),
+    group1      = list(role = "group",       label = "Differences"),
+    group2      = list(role = "group",       label = "Pooled")
+  )
+
+  testthat::expect_identical(jaspNetwork:::.bayesianNetworkAnalysisDifferencesKey(allNetworks), "differences")
+  testthat::expect_identical(unname(jaspNetwork:::.bayesianNetworkAnalysisNetworkLabels(allNetworks)),
+                             c("Differences", "Pooled", "Differences", "Pooled"))
+  # a split analysis with a group called "Differences" is not a comparison
+  testthat::expect_false(jaspNetwork:::.bayesianNetworkAnalysisHasDifferences(allNetworks[c("group1", "group2")]))
+
+  # networks stored by an earlier version carry no role and are keyed by label
+  testthat::expect_true(jaspNetwork:::.bayesianNetworkAnalysisHasDifferences(list(Differences = list(), `Group 1` = list())))
+})
+
+testthat::test_that("Prior settings bgms rejects are reported as validation errors", {
+  assertPriors <- jaspNetwork:::.bayesianNetworkAnalysisAssertSupportedPriors
+  testthat::expect_error(assertPriors(list(edgePrior = "Bernoulli", gPrior = 1, groupingVariable = "")))
+  testthat::expect_error(assertPriors(list(edgePrior = "Bernoulli", gPrior = 0, groupingVariable = "")))
+  testthat::expect_silent(assertPriors(list(edgePrior = "Bernoulli", gPrior = 0.5, groupingVariable = "")))
+
+  assertInteraction <- jaspNetwork:::.bayesianNetworkAnalysisAssertInteractionPriorSupported
+  testthat::expect_error(assertInteraction(list(interactionPriorFamily = "beta-prime"), list(type = c("ordinal", "continuous"))))
+  testthat::expect_silent(assertInteraction(list(interactionPriorFamily = "beta-prime"), list(type = c("ordinal", "blume-capel"))))
+  testthat::expect_silent(assertInteraction(list(interactionPriorFamily = "normal"), list(type = c("continuous", "continuous"))))
+})
+
+testthat::test_that("Separate group networks use the partial association scale", {
+  baselineScale <- jaspNetwork:::.bayesianNetworkAnalysisBaselineScale
+  testthat::expect_equal(baselineScale(list(interactionScaleBaseline = 2.5, interactionScale = 1)), 2.5)
+  testthat::expect_equal(baselineScale(list(interactionScaleBaseline = NULL, interactionScale = 1)), 1)
+})
+
+testthat::test_that("SBM extraction keeps clusters attached to their variables", {
+  variables <- c("A", "B", "C", "D")
+  nativeOrder <- c("A", "C", "B", "D")
+  edgeMatrix <- matrix(0, 4L, 4L, dimnames = list(variables, variables))
+  coclustering <- matrix(c(1, .1, .8, .2,
+                          .1, 1, .3, .4,
+                          .8, .3, 1, .5,
+                          .2, .4, .5, 1), 4L, byrow = TRUE,
+                        dimnames = list(nativeOrder, nativeOrder))
+  fit <- list(inc_probs = edgeMatrix, inc_BF = edgeMatrix, structure = edgeMatrix,
+              parameters = edgeMatrix, sbm = list(
+                posterior_mean_allocations = c(2L, 1L, 2L, 3L),
+                posterior_mode_allocations = c(1L, 2L, 2L, 3L),
+                posterior_num_blocks = data.frame(probability = c(0, .2, .8, 0)),
+                posterior_mean_coclustering_matrix = coclustering
+              ))
+  spec <- list(type = c("ordinal", "continuous", "ordinal", "continuous"), baselineCategory = rep(1L, 4L))
+  options <- list(edgePrior = "Stochastic-Block", groupingVariable = "")
+  result <- jaspNetwork:::.bayesianNetworkAnalysisExtractEasybgmResult(fit, spec, options, keepRawFit = TRUE)
+
+  testthat::expect_identical(result$sbm$posterior_mean_coclustering_matrix, coclustering[variables, variables])
+  testthat::expect_identical(result$sbm$posterior_mean_allocations, c(A = 2L, B = 2L, C = 1L, D = 3L))
+  testthat::expect_identical(result$sbm$posterior_mode_allocations, c(A = 1L, B = 2L, C = 2L, D = 3L))
+  testthat::expect_identical(result$sbm$posterior_num_blocks, fit$sbm$posterior_num_blocks)
+  testthat::expect_identical(result$easybgmFit, fit)
+
+  # Named allocations may have their own order, independent of either matrix axis.
+  sbm <- fit$sbm
+  sbm$posterior_mean_allocations <- c(D = 3L, B = 2L, A = 2L, C = 1L)
+  sbm$posterior_mode_allocations <- c(C = 2L, D = 3L, B = 2L, A = 1L)
+  sbm$posterior_mean_coclustering_matrix <- coclustering[, rev(nativeOrder)]
+  testthat::expect_identical(jaspNetwork:::.bayesianNetworkAnalysisCanonicalSbm(sbm, variables), result$sbm)
+
+  # Already aligned summaries retain the same variable identities.
+  testthat::expect_identical(jaspNetwork:::.bayesianNetworkAnalysisCanonicalSbm(result$sbm, variables), result$sbm)
+})
+
+testthat::test_that("SBM summaries reject missing or ambiguous variable identities", {
+  variables <- c("A", "B", "C")
+  sbm <- list(posterior_mean_allocations = c(1L, 1L, 2L),
+              posterior_mode_allocations = c(1L, 2L, 2L),
+              posterior_mean_coclustering_matrix = matrix(1, 3L, 3L, dimnames = list(variables, variables)))
+  normalize <- jaspNetwork:::.bayesianNetworkAnalysisCanonicalSbm
+
+  for (badNames in list(NULL, c("A", "B", "X"), c("A", "B", "B"))) {
+    bad <- sbm
+    rownames(bad$posterior_mean_coclustering_matrix) <- badNames
+    testthat::expect_error(normalize(bad, variables), "could not be matched")
+    bad <- sbm
+    colnames(bad$posterior_mean_coclustering_matrix) <- badNames
+    testthat::expect_error(normalize(bad, variables), "could not be matched")
+  }
+
+  for (field in c("posterior_mean_allocations", "posterior_mode_allocations")) {
+    bad <- sbm
+    bad[[field]] <- c(A = 1L, B = 1L, B = 2L)
+    testthat::expect_error(normalize(bad, variables), "could not be matched")
+    bad[[field]] <- c(1L, 2L)
+    testthat::expect_error(normalize(bad, variables), "could not be matched")
+  }
+})
+
+testthat::test_that("Mixed SBM tables and plot agree with the named bgms output", {
+  set.seed(33)
+  dataset <- data.frame(A = ordered(sample(1:3, 120, TRUE)), B = rnorm(120),
+                        C = ordered(sample(1:3, 120, TRUE)), D = rnorm(120))
+  options <- jaspTools::analysisOptions("BayesianNetworkAnalysis")
+  options$variables <- names(dataset)
+  options$variables.types <- c("ordinal", "scale", "ordinal", "scale")
+  options$edgePrior <- "Stochastic-Block"
+  options$betaAlpha <- 9
+  options$betaBeta <- 1
+  options$betaAlpha_between <- 1
+  options$betaBeta_between <- 9
+  options$iter <- 80
+  options$burnin <- 40
+  options$chains <- "1"
+  options$omrfUpdateMethod <- "adaptive-metropolis"
+  options$setSeed <- TRUE
+  options$seed <- 5
+  options$clusterAllocationsTable <- TRUE
+  options$clusterAllocationsType <- "mean"
+  options$posteriorCoclusteringMatrixTable <- TRUE
+  options$coclusteringPlot <- TRUE
+
+  results <- jaspTools::runAnalysis("BayesianNetworkAnalysis", dataset, options, view = FALSE)
+  testthat::expect_identical(results$status, "complete")
+
+  networks <- Filter(function(state) is.list(state) && !is.null(state$group1$sbm), results$state$other)
+  testthat::expect_length(networks, 1L)
+  network <- networks[[1L]]$group1
+  # The raw fit retains bgms's native order, so the reference does not reuse
+  # JASP's normalization. No particular sampled partition is assumed.
+  native <- bgms::extract_sbm(network$easybgmFit$packagefit)
+  expectedMatrix <- native$posterior_mean_coclustering_matrix[names(dataset), names(dataset)]
+  allocationOrder <- match(names(dataset), rownames(native$posterior_mean_coclustering_matrix))
+
+  tables <- results$results$mainContainer$collection
+  coclustering <- do.call(rbind, lapply(tables$mainContainer_sbmCoclusteringTable$data, as.data.frame))
+  testthat::expect_identical(coclustering$Variable, names(dataset))
+  testthat::expect_equal(unname(as.matrix(coclustering[, names(dataset)])), unname(expectedMatrix))
+
+  allocations <- do.call(rbind, lapply(tables$mainContainer_sbmAllocationsTable$data, as.data.frame))
+  testthat::expect_identical(allocations$variable, names(dataset))
+  testthat::expect_equal(allocations$allocation, unname(native$posterior_mean_allocations[allocationOrder]))
+  testthat::expect_equal(unname(network$sbm$posterior_mode_allocations), unname(native$posterior_mode_allocations[allocationOrder]))
+
+  plots <- Filter(function(figure) inherits(figure$obj, "ggplot") &&
+                    all(c("Var1", "Var2", "value") %in% names(figure$obj$data)), results$state$figures)
+  testthat::expect_length(plots, 1L)
+  plotData <- plots[[1L]]$obj$data
+  pairs <- cbind(as.character(plotData$Var1), as.character(plotData$Var2))
+  testthat::expect_equal(plotData$value, unname(expectedMatrix[pairs]))
 })

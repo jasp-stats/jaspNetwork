@@ -112,25 +112,25 @@ VariablesForm
 		{
 			name: "evidencePlot";
 			label: qsTr("Edge evidence plot")
-			info: qsTr("Displays the network with edges colored by the evidence category they belong to. Blue edges have BF\u2081\u2080 at or above the threshold (evidence for inclusion); yellow edges have BF\u2081\u2080 below the reciprocal threshold (evidence for exclusion); gray edges fall in between (absence of evidence).")
+			info: qsTr("Displays the network with edges colored by the evidence category they belong to. Blue edges have BF\u2081\u2080 at or above the threshold (evidence for inclusion); yellow edges have BF\u2081\u2080 at or below the reciprocal threshold (evidence for exclusion); gray edges fall in between (absence of evidence).")
 			IntegerField
 			{
 				name:			"edgeInclusionCriteria";
 				label:			qsTr("Inclusion criteria: BF\u2081\u2080 > ");
-				info: qsTr("BF threshold for categorizing evidence. An edge is evidence for inclusion if BF\u2081\u2080 \u2265 threshold, evidence for exclusion if BF\u2081\u2080 is below 1/threshold, and absence of evidence otherwise.")
+				info: qsTr("BF threshold for categorizing evidence. An edge is evidence for inclusion if BF\u2081\u2080 \u2265 threshold, evidence for exclusion if BF\u2081\u2080 \u2264 1/threshold, and absence of evidence otherwise.")
 				min:			1;
 				defaultValue:	10;
 				max:			2e2
 			}
 			CheckBox { name: "edgeInclusion";	label: qsTr("Evidence for inclusion");	checked: true; info: qsTr("Show edges with BF\u2081\u2080 \u2265 threshold, colored blue.") }
-			CheckBox { name: "edgeExclusion";	label: qsTr("Evidence for exclusion");	checked: true; info: qsTr("Show edges with BF\u2081\u2080 below 1/threshold, colored yellow.") }
+			CheckBox { name: "edgeExclusion";	label: qsTr("Evidence for exclusion");	checked: true; info: qsTr("Show edges with BF\u2081\u2080 \u2264 1/threshold, colored yellow.") }
 			CheckBox { name: "edgeAbsence";		label: qsTr("Absence of evidence"); 	checked: true; info: qsTr("Show edges where BF\u2081\u2080 falls between the two thresholds, colored gray.") }
 	}
 	CheckBox
 	{
 		name: "centralityPlot"; id: centralityPlot; label: qsTr("Centrality plot")
 		visible: groupingVariableSelector.count === 0
-		info: qsTr("Displays posterior mean centrality for the selected measures (betweenness, closeness, strength, expected influence). Measures are plotted side by side per node. Only available when no grouping variable is selected.")
+		info: qsTr("Displays centrality for the selected measures (betweenness, closeness, strength, expected influence), standardized to z-scores across nodes. Centrality is computed on the posterior mean network, or averaged over the networks sampled from the posterior when the credibility interval is requested. Measures are plotted side by side per node. Only available when no grouping variable is selected.")
 		CheckBox
 		{
 			name: "credibilityInterval";
@@ -225,14 +225,14 @@ VariablesForm
 					RadioButton { 	value: "log(BF)"; 				label: qsTr("Log(BF\u2081\u2080)"); info: qsTr("Natural logarithm of BF\u2081\u2080.")						}
 				}
 		}
-		CheckBox { name: "centralityTable"; label: qsTr("Centrality table"); visible: groupingVariableSelector.count === 0; info: qsTr("Shows the posterior mean betweenness, closeness, strength, and expected influence for each node. Centrality is computed on the posterior mean network. Only available when no grouping variable is selected.") }
+		CheckBox { name: "centralityTable"; label: qsTr("Centrality table"); visible: groupingVariableSelector.count === 0; info: qsTr("Shows the betweenness, closeness, strength, and expected influence of each node, standardized to z-scores across nodes. Centrality is computed on the posterior mean network, or averaged over the networks sampled from the posterior when the credibility interval of the centrality plot is requested. Only available when no grouping variable is selected.") }
 
 		CheckBox
 		{
 			name: "parameterHdiTable"
 			label: qsTr("Parameter HDI table")
 			visible: groupingVariableSelector.count === 0
-			info: qsTr("Shows the posterior mean and highest density interval (HDI) for every pairwise partial association, ordered from largest to smallest posterior mean so that it reads like the parameter HDI plot. Edges excluded under the median probability model, whose HDI collapses onto zero, are reported as exactly zero. Only available when no grouping variable is selected.")
+			info: qsTr("Shows the posterior mean and highest density interval (HDI) for every pairwise partial association, ordered from largest to smallest posterior mean so that it reads like the parameter HDI plot. The posterior mean averages over all posterior samples, so an edge that is mostly excluded can have a nonzero mean while its HDI collapses onto zero. The estimate of the median probability model, which sets edges with a posterior inclusion probability of at most 0.5 to zero, is shown in a separate column. Only available when no grouping variable is selected.")
 			DoubleField
 			{
 				name:         "parameterHdiTableCoverage"
@@ -254,12 +254,12 @@ VariablesForm
 			{
 				name: "clusterAllocationsTable"
 				label: qsTr("Cluster allocations")
-				info: qsTr("Shows the estimated cluster membership for each node. The allocation is summarized as either the posterior mean or posterior mode of the cluster indicator across MCMC samples.")
+				info: qsTr("Shows the estimated cluster membership for each node. The allocation is summarized by either the posterior mean or the posterior mode allocation.")
 				DropDown
 				{
 					name: "clusterAllocationsType"
 					label: qsTr("Summary statistic")
-					info: qsTr("Posterior mean uses the average cluster index across samples. Posterior mode uses the most frequently sampled cluster assignment.")
+					info: qsTr("Posterior mean is the sampled allocation that best represents the posterior co-clustering matrix (Dahl, 2009), a representative partition rather than an average of cluster indices. Posterior mode uses the most frequently sampled cluster assignment.")
 					values: [
 						{ value: "mean", label: qsTr("Posterior mean") },
 						{ value: "mode", label: qsTr("Posterior mode") }
@@ -339,11 +339,11 @@ VariablesForm
 				{
 					name: "gPrior"
 					label: qsTr("Prior edge inclusion probability:")
-					info: qsTr("Prior probability that any given edge is present under the Bernoulli prior. The default of 0.5 assigns equal prior probability to inclusion and exclusion. Values closer to 0 impose a sparser prior.")
+					info: qsTr("Prior probability that any given edge is present under the Bernoulli prior. The default of 0.5 assigns equal prior probability to inclusion and exclusion. Values closer to 0 impose a sparser prior. The probability must lie strictly between 0 and 1.")
 					value: 0.5
 					min: 0
 					max: 1
-					inclusive: JASP.MaxOnly
+					inclusive: JASP.None
 					preferredWidth: 300
 					visible: edgePrior.currentValue === "Bernoulli"
 			   }
@@ -376,7 +376,7 @@ VariablesForm
 				{
 					name: "betaAlpha_between"
 					label: qsTr("Between cluster shape parameter 1:")
-					info: qsTr("First shape parameter (\u03b11) of the Beta prior on the between-cluster edge inclusion probability. To encourage sparsity between clusters (block structure), set both between-cluster parameters to values less than 1.")
+					info: qsTr("First shape parameter (\u03b11) of the Beta prior on the between-cluster edge inclusion probability. The prior mean of that probability is \u03b11 / (\u03b11 + \u03b12), so to encourage sparsity between clusters (block structure), choose shape parameter 2 larger than shape parameter 1.")
 					defaultValue: 1
 					min: 0
 					inclusive: JASP.None
@@ -437,7 +437,7 @@ VariablesForm
 					id: interactionPriorFamily
 					name: "interactionPriorFamily"
 					label: qsTr("Prior family for the partial association parameters:")
-					info: qsTr("Family of the prior on the partial association parameters. Normal is the default and applies lighter-tailed shrinkage. Cauchy is a heavy-tailed shrinkage prior. Beta-prime is parameterized via two shape parameters on the logistic scale. When a grouping variable is selected this family applies to the baseline partial associations; the prior on the group differences is set separately below.")
+					info: qsTr("Family of the prior on the partial association parameters. Normal is the default and applies lighter-tailed shrinkage. Cauchy is a heavy-tailed shrinkage prior. Beta-prime is parameterized via two shape parameters on the logistic scale and is only available when all selected variables are ordinal or Blume-Capel. When a grouping variable is selected this family applies to the baseline partial associations; the prior on the group differences is set separately below.")
 					preferredWidth: 300
 					values: [
 						{ value: "normal",     label: qsTr("Normal")      },
@@ -474,9 +474,9 @@ VariablesForm
 				{
 					name: "interactionScaleBaseline"
 					label: interactionPriorFamily.currentValue === "cauchy" ?
-						qsTr("Baseline Cauchy scale for the partial association parameters:") :
-						qsTr("Baseline Normal scale for the partial association parameters:")
-					info: qsTr("Scale of the prior on the *baseline* partial association parameters when comparing groups. This is separate from the scale of the prior on the group differences.")
+						qsTr("Scale of the Cauchy distribution for the partial association parameters:") :
+						qsTr("Scale of the Normal distribution for the partial association parameters:")
+					info: qsTr("Scale of the Normal or Cauchy prior on the partial association parameters when a grouping variable is selected. It applies to the separate group and pooled networks, and to the baseline partial associations of the difference network. The scale of the prior on the group differences is set separately below.")
 					defaultValue: 1
 					min: 0
 					inclusive: JASP.None
@@ -490,7 +490,7 @@ VariablesForm
 					id: differencePriorFamily
 					name: "differencePriorFamily"
 					label: qsTr("Prior family for the partial association differences:")
-					info: qsTr("Family of the prior on the differences in partial association between the groups. Normal is the default and bounds a difference more tightly; Cauchy is heavy-tailed and leaves more room for large differences. Only used when a grouping variable is selected.")
+					info: qsTr("Family of the prior on the differences in partial association between the groups. Normal is the default and bounds a difference more tightly; Cauchy is heavy-tailed and leaves more room for large differences. Only used when a difference network is estimated, which requires a grouping variable and all selected variables to be ordinal or Blume-Capel.")
 					preferredWidth: 300
 					visible: groupingVariableSelector.count > 0
 					values: [
@@ -509,7 +509,7 @@ VariablesForm
 						(interactionPriorFamily.currentValue === "cauchy" ?
 							qsTr("Scale of the Cauchy distribution for the partial association parameters:") :
 							qsTr("Scale of the Normal distribution for the partial association parameters:"))
-					info: qsTr("Scale parameter of the Normal or Cauchy prior on the partial association parameters. When a grouping variable is selected, this scale applies to the differences between groups.")
+					info: qsTr("Scale parameter of the Normal or Cauchy prior on the partial association parameters. When a grouping variable is selected, this is instead the scale of the prior on the differences between groups, which is only used when a difference network is estimated (all selected variables ordinal or Blume-Capel).")
 					defaultValue: 1
 					min: 0
 					inclusive: JASP.None
