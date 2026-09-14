@@ -50,6 +50,30 @@ Form
 			// adalasso no longer available due to removal of parcor from CRAN
 			{ value: "mgm",				   label: "mgm"				               }
 		]
+
+// Reset the tuning parameter to the selected estimator's bootnet default.
+// Keep these values synchronized with the estimator wrapper defaults in bootnet/R/defaultFunctions.R.
+		onCurrentValueChanged:
+		{
+			switch (currentValue)
+			{
+			case "ebicGlasso":
+				tuningParameter.value = 0.5
+				break
+			case "ggmModSelect":
+				tuningParameter.value = 0.0
+				break
+			case "isingFit":
+				tuningParameter.value = 0.25
+				break
+			case "huge":
+				tuningParameter.value = 0.5
+				break
+			case "mgm":
+				tuningParameter.value = 0.25
+				break
+			}
+		}
 	}
 
 	Group
@@ -170,10 +194,14 @@ Form
 		{
 			title: qsTr("Tuning Parameter")
 			visible: ["ebicGlasso", "isingFit", "huge", "mgm", "ggmModSelect"].includes(estimator.currentValue) // ! NOTE: in previous version when referring by index, it included index 7 which does not exist
-			DoubleField { name: "tuningParameter"; label: qsTr("Value"); defaultValue: 0.5; max: 1 }
-			// NADYA double check against ?bootnet::estimateNetwork check tuning argument
-			// default ebicGlasso 0.5, isingFit 0.25, huge 0.5, mgm 0.25, ggmModSelect 0
-			// NADYA need to find out how to set diff defaults for diff stimator.currentValue
+			DoubleField
+			{
+				id: tuningParameter
+				name: "tuningParameter"
+				label: qsTr("Value")
+				defaultValue: 0.5
+				max: 1
+			}
 		}
 
 		RadioButtonGroup
