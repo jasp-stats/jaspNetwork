@@ -966,7 +966,7 @@ msgstr "Resumo de conglomeración"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Cluster allocations"
-msgstr "Localizacións dos conglomerados"
+msgstr "Asignacións dos conglomerados"
 
 msgctxt "BayesianNetworkAnalysis|"
 msgid "Summary statistic"
@@ -1413,7 +1413,7 @@ msgid ""
 "summarized as either the posterior mean or posterior mode of the cluster "
 "indicator across MCMC samples."
 msgstr ""
-"Amosa a pertenza estimada a conglomerados para cada nodo. A posición "
+"Amosa a pertenza estimada a conglomerados para cada nodo. A asignación "
 "resúmese coa media posterior ou coa moda posterior do indicador de "
 "conglomerados entre as mostras MCMC."
 
