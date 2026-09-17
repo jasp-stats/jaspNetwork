@@ -375,37 +375,105 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   if (!is.null(mainContainer[["centralityTable"]]) || !options[["centralityTable"]])
     return()
 
+  measures <- c(
+    betweenness       = "betweenness",
+    closeness         = "closeness",
+    strength          = "Strength",
+    expectedInfluence = "Expected Influence"
+  )
+  selectedMeasures <- measures[unlist(options[names(measures)], use.names = FALSE)]
+
   nGraphs <- max(1L, length(network[["network"]]))
-  table <- createJaspTable(gettext("Centrality measures per variable"), position = 2,
-                           dependencies = c("centralityTable", "centralityNormalization", "maxEdgeStrength", "minEdgeStrength"))
+  table <- createJaspTable(
+    gettext("Centrality measures per variable"),
+    position = 2,
+    dependencies = c(
+      "centralityTable",
+      "centralityNormalization",
+      "betweenness",
+      "closeness",
+      "strength",
+      "expectedInfluence",
+      "maxEdgeStrength",
+      "minEdgeStrength"
+    )
+  )
   table$addColumnInfo(name = "Variable", title = gettext("Variable"), type = "string")
 
   # shared titles
   overTitles <- names(network[["network"]])
   if (is.null(overTitles))
-    overTitles <- gettext("Network") # paste0("Network", 1:nGraphs)
+    overTitles <- gettext("Network")
 
-  for (i in seq_len(nGraphs)) { # three centrality columns per network
-    table$addColumnInfo(name = paste0("betweenness", i),        title = gettext("Betweenness"),        type = "number", overtitle = overTitles[i])
-    table$addColumnInfo(name = paste0("closeness", i),          title = gettext("Closeness"),          type = "number", overtitle = overTitles[i])
-    table$addColumnInfo(name = paste0("Strength", i),           title = gettext("Strength"),           type = "number", overtitle = overTitles[i])
-    table$addColumnInfo(name = paste0("Expected influence", i), title = gettext("Expected influence"), type = "number", overtitle = overTitles[i])
+  for (i in seq_len(nGraphs)) {
+    if (options[["betweenness"]])
+      table$addColumnInfo(
+        name = paste0("betweenness", i),
+        title = gettext("Betweenness"),
+        type = "number",
+        overtitle = overTitles[i]
+      )
+
+    if (options[["closeness"]])
+      table$addColumnInfo(
+        name = paste0("closeness", i),
+        title = gettext("Closeness"),
+        type = "number",
+        overtitle = overTitles[i]
+      )
+
+    if (options[["strength"]])
+      table$addColumnInfo(
+        name = paste0("Strength", i),
+        title = gettext("Strength"),
+        type = "number",
+        overtitle = overTitles[i]
+      )
+
+    if (options[["expectedInfluence"]])
+      table$addColumnInfo(
+        name = paste0("Expected influence", i),
+        title = gettext("Expected influence"),
+        type = "number",
+        overtitle = overTitles[i]
+      )
   }
 
-  mainContainer[["centralityTable"]] <- table
-  if (is.null(network[["centrality"]]) || mainContainer$getError())
-    return()
+    mainContainer[["centralityTable"]] <- table
+
+    # Leave the table empty when no centrality measures are selected.
+    if (length(selectedMeasures) == 0L)
+      return()
+
+    if (is.null(network[["centrality"]]) || mainContainer$getError())
+      return()
 
   # fill with results
   TBcolumns <- NULL
   for (i in seq_len(nGraphs)) {
 
-    toAdd <- network[["centrality"]][[i]]
-    names(toAdd) <- c("Variable", paste0(c("betweenness", "closeness", "Strength", "Expected influence"), i))
-    if (i == 1L) {# if more than 1 network drop the first column which indicates the variable
+    toAdd <- network[["centrality"]][[i]][
+      , c("node", unname(selectedMeasures)),
+      drop = FALSE
+    ]
+
+    names(toAdd) <- c(
+      "Variable",
+      paste0(
+        c(
+          betweenness       = "betweenness",
+          closeness         = "closeness",
+          strength          = "Strength",
+          expectedInfluence = "Expected influence"
+        )[names(selectedMeasures)],
+        i
+      )
+    )
+
+    if (i == 1L) {
       TBcolumns <- toAdd
     } else {
-      toAdd <- toAdd[, -1L]
+      toAdd <- toAdd[, -1L, drop = FALSE]
       TBcolumns <- cbind(TBcolumns, toAdd)
     }
   }

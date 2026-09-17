@@ -88,7 +88,7 @@ Form
 	{
 		title: qsTr("Tables")
 		CheckBox { name: "weightsMatrixTable"; label: qsTr("Weights matrix")   }
-		CheckBox { name: "centralityTable";		 label: qsTr("Centrality table") }
+		CheckBox { name: "centralityTable"; label: qsTr("Centrality table"); id: centralityTable }
 		CheckBox { name: "clusteringTable";		 label: qsTr("Clustering table") }
 	}
 
@@ -106,16 +106,6 @@ Form
 			RadioButton { value: "spearman"; label: qsTr("Spearman")			     } // preferred for ordinal data
 			RadioButton { value: "cov";		   label: qsTr("Cov")					       }
 			RadioButton { value: "npn";		   label: qsTr("Npn")				       	 }
-		}
-
-		RadioButtonGroup
-		{
-			name: "centralityNormalization"
-			title: qsTr("Centrality Measures")
-			RadioButton { value: "raw0"; label: qsTr("Raw including zero"); checked: true }
-			RadioButton { value: "raw";			label: qsTr("Raw")					   	  }
-			RadioButton { value: "normalized";	label: qsTr("Normalized");                }
-			RadioButton { value: "relative" ;	label: qsTr("Relative")					  }
 		}
 
 		Group
@@ -298,7 +288,7 @@ Form
 
 	Section
 	{
-		title: qsTr("Graphical Options - Network Plot")
+		title: qsTr("Network Plot Options")
 		enabled: networkPlot.checked
 
 // TODO add fallback in case the color widget does not load (only tested on mac)
@@ -600,17 +590,27 @@ Form
 
 	Section
 	{
-	  title: qsTr("Graphical Options - Centrality Plot")
+	  title: qsTr("Centrality Options")
 
-		enabled: centralityPlot.checked
+		enabled: centralityPlot.checked || centralityTable.checked
 
 		Group
 		{
-			title: qsTr("Measures shown")
+			title: qsTr("Measures")
+			CheckBox { name: "strength"; label: qsTr("Strength"); checked: true	}
 			CheckBox	{	name: "betweenness";	  	 label: qsTr("Betweenness")             }
 			CheckBox	{	name: "closeness";			   label: qsTr("Closeness")               }
-			CheckBox	{	name: "strength";		   	   label: qsTr("Strength"); checked: true	} // DEFAULT @ 2025
 			CheckBox	{	name: "expectedInfluence"; label: qsTr("Expected Influence")      }
+		}
+		
+		RadioButtonGroup
+		{
+			name: "centralityNormalization"
+			title: qsTr("Normalization")
+			RadioButton { value: "raw0"; label: qsTr("Raw including zero"); checked: true }
+			RadioButton { value: "raw";			label: qsTr("Raw")					   	  }
+			RadioButton { value: "normalized";	label: qsTr("Normalized");                }
+			RadioButton { value: "relative" ;	label: qsTr("Relative")					  }
 		}
 	}
 }
