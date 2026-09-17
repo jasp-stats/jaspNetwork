@@ -803,6 +803,8 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
       # user has defined groups and there are variables in the groups
       groupNames       <- vapply(options[["manualColorGroups"]], `[[`, character(1L), "name")
       groupColors      <- vapply(options[["manualColorGroups"]], `[[`, character(1L), "color")
+
+      # backwards compatibility: analyses saved before label colors were introduced do not contain a labelColor value
       groupLabelColors <- vapply(
         options[["manualColorGroups"]],
         function(x) {

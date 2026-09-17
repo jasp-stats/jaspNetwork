@@ -19,6 +19,7 @@
 import QtQuick
 import QtQuick.Layouts
 import JASP.Controls
+import QtQuick.Dialogs // used for color widget (name: manualColorGroups)
 
 Form
 {
@@ -593,25 +594,115 @@ VariablesForm
 			id					: networkFactors
 			name				: "manualColorGroups"
 			title				: qsTr("Group name")
-			info				: qsTr("Define named groups for manual node coloring. Each group can be assigned a color that will appear in the network plot when Manual colors is enabled.")
+			info: qsTr("Define named groups for manual node and label coloring. Each group can be assigned a node color and a label color that are used when Manual colors is enabled.")
 			optionKey			: "name"
 			defaultValues		: [qsTr("Group 1"), qsTr("Group 2")]
 			placeHolder			: qsTr("New Group")
 			minRows				: 2
 			preferredWidth		: (2 * form.width) / 5
-			rowComponentTitle				: manualColor.checked ? qsTr("Group color") : ""
-			rowComponent: DropDown
+			
+			rowComponentTitle: manualColor.checked ? qsTr("Node / label color") : ""
+			rowComponent: Row
 			{
-				name: "color"
-				visible: manualColor.checked
-				values: [
-					{ label: qsTr("red")	, value: "red"		},
-					{ label: qsTr("blue")	, value: "blue"		},
-					{ label: qsTr("yellow")	, value: "yellow"	},
-					{ label: qsTr("green")	, value: "green"	},
-					{ label: qsTr("purple")	, value: "purple"	},
-					{ label: qsTr("orange") , value: "orange"	}
-				]
+				spacing: 6
+
+				TextField
+				{
+					id: colorValue
+					name: "color"
+					visible: false
+					defaultValue: "#FFFFFF"
+				}
+
+				TextField
+				{
+					id: labelColorValue
+					name: "labelColor"
+					visible: false
+					defaultValue: "#000000"
+				}
+
+				Rectangle
+				{
+					id: colorSwatch
+
+					visible: manualColor.checked
+
+					width: 28
+					height: 18
+					radius: 6
+
+					color: colorValue.value !== "" ? colorValue.value : "#FFFFFF"
+
+					border.width: 1
+					border.color: "#808080"
+
+					MouseArea
+					{
+						anchors.fill: parent
+						cursorShape: Qt.PointingHandCursor
+
+						onClicked:
+						{
+							colorDialog.open()
+						}
+					}
+				}
+
+				ColorDialog
+				{
+					id: colorDialog
+					title: qsTr("Select color")
+
+					selectedColor: colorValue.value !== "" ? colorValue.value : "#FFFFFF"
+
+					onAccepted:
+					{
+						colorValue.value =
+							selectedColor.toString().toUpperCase()
+					}
+				}
+
+				Rectangle
+				{
+					id: labelColorSwatch
+
+					visible: manualColor.checked
+
+					width: 28
+					height: 18
+					radius: 6
+
+					color: labelColorValue.value !== "" ? labelColorValue.value : "#000000"
+
+					border.width: 1
+					border.color: "#808080"
+
+					MouseArea
+					{
+						anchors.fill: parent
+						cursorShape: Qt.PointingHandCursor
+
+						onClicked:
+						{
+							labelColorDialog.open()
+						}
+					}
+				}
+
+				ColorDialog
+				{
+					id: labelColorDialog
+					title: qsTr("Select label color")
+
+					selectedColor: labelColorValue.value !== "" ? labelColorValue.value : "#000000"
+
+					onAccepted:
+					{
+						labelColorValue.value =
+							selectedColor.toString().toUpperCase()
+					}
+				}
 			}
 		}
 

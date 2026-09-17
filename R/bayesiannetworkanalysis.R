@@ -1195,16 +1195,36 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
   groups <- NULL
   nodeColor <- NULL
+  labelColor <- NULL
   allLegends <- rep(FALSE, nGraphs) # no legends
 
   if (length(options[["colorGroupVariables"]]) > 1L) {
 
+    # match group assignments to the variable order used in the fitted network
+    assignedVariablesOrder <- vapply(options[["colorGroupVariables"]], `[[`, character(1L), "variable")
     assignedGroup <- vapply(options[["colorGroupVariables"]], `[[`, character(1L), "group")
+
+    if (nGraphs == 1L)
+      fittedVariablesOrder <- colnames(allNetworks$Network$graph)
+    else
+      fittedVariablesOrder <- colnames(allNetworks[[1L]]$graph)
+
+    newOrder <- match(fittedVariablesOrder, assignedVariablesOrder)
+    assignedGroup <- assignedGroup[newOrder]
 
     if (length(unique(assignedGroup)) > 1L) {
       # user has defined groups and there are variables in the groups
       groupNames  <- vapply(options[["manualColorGroups"]], `[[`, character(1L), "name")
       groupColors <- vapply(options[["manualColorGroups"]], `[[`, character(1L), "color")
+     
+      # backwards compatibility: analyses saved before label colors were introduced do not contain a labelColor value
+      groupLabelColors <- vapply(options[["manualColorGroups"]], function(x) {
+        color <- x[["labelColor"]]
+        if (is.null(color) || !nzchar(color))
+          "black"
+        else
+          color
+      }, character(1L))
 
       nGroups <- length(groupNames)
 
@@ -1218,8 +1238,10 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       nonEmpty <- lengths(groups) > 0L
       groups <- groups[nonEmpty]
 
-      if (options[["manualColor"]])
-        nodeColor <- groupColors[nonEmpty]
+      if (options[["manualColor"]]) {
+        nodeColor  <- groupColors[nonEmpty]
+        labelColor <- groupLabelColors[idx]
+      }
     }
   }
 
@@ -1302,6 +1324,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
         legend     = legend,
         shape      = shape,
         nodeColor  = nodeColor,
+        labelColor = labelColor,
         nodeNames  = nodeNames
       )
     }
@@ -1344,17 +1367,36 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
   groups <- NULL
   nodeColor <- NULL
+  labelColor <- NULL
   allLegends <- rep(FALSE, nGraphs) # no legends
 
   if (length(options[["colorGroupVariables"]]) > 1L) {
 
+    assignedVariablesOrder <- vapply(options[["colorGroupVariables"]], `[[`, character(1L), "variable")
     assignedGroup <- vapply(options[["colorGroupVariables"]], `[[`, character(1L), "group")
+
+    if (nGraphs == 1L)
+      fittedVariablesOrder <- colnames(allNetworks[[1L]]$graph)
+    else
+      fittedVariablesOrder <- colnames(allNetworks$`1`$graph)
+
+    newOrder <- match(fittedVariablesOrder, assignedVariablesOrder)
+    assignedGroup <- assignedGroup[newOrder]
 
     if (length(unique(assignedGroup)) > 1L) {
 
       # user has defined groups and there are variables in the groups
       groupNames  <- vapply(options[["manualColorGroups"]], `[[`, character(1L), "name")
       groupColors <- vapply(options[["manualColorGroups"]], `[[`, character(1L), "color")
+
+      # backwards compatibility: analyses saved before label colors were introduced do not contain a labelColor value
+      groupLabelColors <- vapply(options[["manualColorGroups"]], function(x) {
+        color <- x[["labelColor"]]
+        if (is.null(color) || !nzchar(color))
+          "black"
+        else
+          color
+      }, character(1L))
 
       nGroups <- length(groupNames)
 
@@ -1369,9 +1411,10 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       nonEmpty <- lengths(groups) > 0L
       groups <- groups[nonEmpty]
 
-      if (options[["manualColor"]])
-        nodeColor <- groupColors[nonEmpty]
-
+      if (options[["manualColor"]]) {
+        nodeColor  <- groupColors[nonEmpty]
+        labelColor <- groupLabelColors[idx]
+      }
     }
   }
 
@@ -1454,6 +1497,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
         legend     = legend,
         shape      = shape,
         nodeColor  = nodeColor,
+        labelColor = labelColor,
         nodeNames  = nodeNames
       )
     }
@@ -1461,8 +1505,9 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
 }
 
-.bayesianNetworkAnalysisOneEvidencePlot <- function(network, options, layout, groups, labels, legend, shape,
-                                                    nodeColor, nodeNames) {
+.bayesianNetworkAnalysisOneEvidencePlot <- function(network, options, layout, 
+                                                    groups, labels, legend, shape,
+                                                    nodeColor, labelColor, nodeNames) {
 
   # Select options for edges (inclusion, exclusion, absence):
   graphColor <- matrix(NA, ncol = nrow(network[["graph"]]), nrow = nrow(network[["graph"]]))
@@ -1489,6 +1534,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       legend              = legend,
       shape               = shape,
       color               = nodeColor,
+      label.color         = labelColor,
       edge.color          = graphColor,
       nodeNames           = nodeNames,
       label.scale         = options[["labelScale"]],
@@ -1963,7 +2009,8 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 }
 
 .bayesianNetworkAnalysisOneStructurePlot <- function(network, options, layout,
-                                                     groups, labels, legend, shape, nodeColor, nodeNames) {
+                                                     groups, labels, legend, shape, 
+                                                     nodeColor, labelColor, nodeNames) {
 
   return(
     qgraph::qgraph(
@@ -1980,6 +2027,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       legend              = legend,
       shape               = shape,
       color               = nodeColor,
+      label.color         = labelColor,
       nodeNames           = nodeNames,
       label.scale         = options[["labelScale"]],
       label.cex           = options[["labelSize"]],
