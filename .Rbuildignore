@@ -8,6 +8,5 @@
 ^\.mcp\.json$
 ^\.vscode$
 ^\.github$
-^[^/]*\.jasp$
 ^[^/]*\.png$
 ^Rplots\.pdf$

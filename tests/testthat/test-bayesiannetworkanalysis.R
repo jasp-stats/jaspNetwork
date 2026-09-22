@@ -1,5 +1,43 @@
 context("Bayesian Network Analysis")
 
+# jaspTools cannot read a default from a DropDown whose values are conditional, so
+# omrfUpdateMethod (like edgePrior) arrives as NA and every analysis test sets it.
+
+# The QML variables list carries a row component, so JASP sends one row per assigned
+# variable. jaspTools does not build those rows from a plain character vector, so the
+# tests assemble them here; it picks up the column type from a variable.types entry
+# next to the name within the row, which the analysis itself ignores.
+setNetworkVariables <- function(options, types, blumeCapel = character(0)) {
+
+  options$variables <- lapply(names(types), function(variable) {
+    isBlumeCapel <- variable %in% names(blumeCapel)
+    list(
+      variable       = variable,
+      variable.types = unname(types[[variable]]),
+      blumeCapel     = isBlumeCapel,
+      levels         = if (isBlumeCapel) unname(blumeCapel[[variable]]) else ""
+    )
+  })
+
+  options
+}
+
+testthat::test_that("Variable rows are split into names and Blume-Capel entries", {
+  options <- list(variables = list(
+    list(variable = "a", blumeCapel = FALSE, levels = ""),
+    list(variable = "b", blumeCapel = TRUE,  levels = "2")
+  ))
+
+  normalized <- jaspNetwork:::.bayesianNetworkAnalysisNormalizeVariableOptions(options)
+
+  testthat::expect_identical(normalized$variables, c("a", "b"))
+  testthat::expect_identical(normalized$variablesBlumeCapel, list(list(variable = "b", levels = "2")))
+
+  empty <- jaspNetwork:::.bayesianNetworkAnalysisNormalizeVariableOptions(list(variables = list()))
+  testthat::expect_identical(empty$variables, character(0))
+  testthat::expect_identical(empty$variablesBlumeCapel, list())
+})
+
 testthat::test_that("Variable type specification supports Blume-Capel baselines", {
   dataset <- data.frame(
     ordinalOne = factor(c("low", "mid", "high"), ordered = TRUE),
@@ -150,8 +188,8 @@ testthat::test_that("Compare mode is disabled when continuous variables are incl
 testthat::test_that("Analysis handles too many missing values errors", {
   options <- jaspTools::analysisOptions("BayesianNetworkAnalysis")
   options$estimator <- "gcgm"
-  options$variables <- c("contNormal", "contGamma", "debMiss99")
-  options$variables.types <- rep("scale", length(options$variables))
+  options$omrfUpdateMethod <- "nuts"
+  options <- setNetworkVariables(options, c(contNormal = "scale", contGamma = "scale", debMiss99 = "scale"))
   results <- jaspTools::runAnalysis("BayesianNetworkAnalysis", "test.csv", options)
 
   errorMessage <- results[["results"]][["errorMessage"]]
@@ -163,8 +201,8 @@ testthat::test_that("Analysis handles too many missing values errors", {
 testthat::test_that("Analysis handles too many missing values errors with grouping variable", {
   options <- jaspTools::analysisOptions("BayesianNetworkAnalysis")
   options$estimator <- "gcgm"
-  options$variables <- c("contNormal", "contGamma", "debMiss80")
-  options$variables.types <- rep("scale", length(options$variables))
+  options$omrfUpdateMethod <- "nuts"
+  options <- setNetworkVariables(options, c(contNormal = "scale", contGamma = "scale", debMiss80 = "scale"))
   options$groupingVariable <- "facFifty"
   options$groupingVariable.types <- "nominal"
   options$dfprior <- 3
@@ -217,8 +255,7 @@ testthat::test_that("Centrality summaries use the posterior samples only", {
 
 testthat::test_that("Parameter HDI plot works", {
   options <- jaspTools::analysisOptions("BayesianNetworkAnalysis")
-  options$variables <- c("contNormal", "contcor1", "contcor2")
-  options$variables.types <- rep("scale", length(options$variables))
+  options <- setNetworkVariables(options, c(contNormal = "scale", contcor1 = "scale", contcor2 = "scale"))
   options$burnin <- 100
   options$iter   <- 500
   options$chains <- "1"
@@ -255,36 +292,6 @@ testthat::test_that("Default interaction prior is Normal and thresholds Beta-pri
   testthat::expect_equal(threshold, bgms::beta_prime_prior(alpha = 0.5, beta = 0.5))
 })
 
-testthat::test_that("Gibbs is rejected for non-continuous variables and group comparisons", {
-  options <- list(omrfUpdateMethod = "gibbs")
-
-  # Accepted: all-continuous, no comparison
-  testthat::expect_silent(
-    jaspNetwork:::.bayesianNetworkAnalysisAssertUpdateMethodSupported(
-      options, list(type = c("continuous", "continuous")), useCompare = FALSE
-    )
-  )
-
-  testthat::expect_error(
-    jaspNetwork:::.bayesianNetworkAnalysisAssertUpdateMethodSupported(
-      options, list(type = c("continuous", "ordinal")), useCompare = FALSE
-    )
-  )
-
-  testthat::expect_error(
-    jaspNetwork:::.bayesianNetworkAnalysisAssertUpdateMethodSupported(
-      options, list(type = c("ordinal", "ordinal")), useCompare = TRUE
-    )
-  )
-
-  # NUTS is unaffected by either restriction
-  testthat::expect_silent(
-    jaspNetwork:::.bayesianNetworkAnalysisAssertUpdateMethodSupported(
-      list(omrfUpdateMethod = "nuts"), list(type = c("ordinal", "ordinal")), useCompare = TRUE
-    )
-  )
-})
-
 testthat::test_that("Parameter HDI relations match the edge specific overview convention", {
   variables <- c("alpha", "beta", "gamma")
   estimates <- matrix(0, 3L, 3L, dimnames = list(variables, variables))
@@ -319,9 +326,10 @@ testthat::test_that("Parameter HDI relations match the edge specific overview co
 
 testthat::test_that("Blume-Capel main effects are extracted into a table", {
   options <- jaspTools::analysisOptions("BayesianNetworkAnalysis")
-  options$variables       <- c("facFive", "contBinom", "facGender")
-  options$variables.types <- rep("ordinal", 3L)
-  options$variablesBlumeCapel <- list(list(variable = "facFive", levels = "2"))
+  options <- setNetworkVariables(options,
+                                 c(facFive = "ordinal", contBinom = "ordinal", facGender = "ordinal"),
+                                 blumeCapel = c(facFive = "2"))
+  options$omrfUpdateMethod <- "nuts"
   options$burnin <- 100
   options$iter   <- 200
   options$chains <- "1"
@@ -351,8 +359,8 @@ testthat::test_that("Blume-Capel main effects are extracted into a table", {
 
 testthat::test_that("Parameter HDI table reports one row per edge", {
   options <- jaspTools::analysisOptions("BayesianNetworkAnalysis")
-  options$variables       <- c("contNormal", "contcor1", "contcor2")
-  options$variables.types <- rep("scale", 3L)
+  options <- setNetworkVariables(options, c(contNormal = "scale", contcor1 = "scale", contcor2 = "scale"))
+  options$omrfUpdateMethod <- "nuts"
   options$burnin <- 100
   options$iter   <- 200
   options$chains <- "1"
@@ -496,20 +504,13 @@ testthat::test_that("Group labels cannot take the place of the difference or poo
 
 testthat::test_that("Prior settings bgms rejects are reported as validation errors", {
   assertPriors <- jaspNetwork:::.bayesianNetworkAnalysisAssertSupportedPriors
-  testthat::expect_error(assertPriors(list(edgePrior = "Bernoulli", gPrior = 1, groupingVariable = "")))
-  testthat::expect_error(assertPriors(list(edgePrior = "Bernoulli", gPrior = 0, groupingVariable = "")))
-  testthat::expect_silent(assertPriors(list(edgePrior = "Bernoulli", gPrior = 0.5, groupingVariable = "")))
+  testthat::expect_error(assertPriors(list(edgePrior = "Stochastic-Block", groupingVariable = "group")))
+  testthat::expect_silent(assertPriors(list(edgePrior = "Stochastic-Block", groupingVariable = "")))
 
   assertInteraction <- jaspNetwork:::.bayesianNetworkAnalysisAssertInteractionPriorSupported
   testthat::expect_error(assertInteraction(list(interactionPriorFamily = "beta-prime"), list(type = c("ordinal", "continuous"))))
   testthat::expect_silent(assertInteraction(list(interactionPriorFamily = "beta-prime"), list(type = c("ordinal", "blume-capel"))))
   testthat::expect_silent(assertInteraction(list(interactionPriorFamily = "normal"), list(type = c("continuous", "continuous"))))
-})
-
-testthat::test_that("Separate group networks use the partial association scale", {
-  baselineScale <- jaspNetwork:::.bayesianNetworkAnalysisBaselineScale
-  testthat::expect_equal(baselineScale(list(interactionScaleBaseline = 2.5, interactionScale = 1)), 2.5)
-  testthat::expect_equal(baselineScale(list(interactionScaleBaseline = NULL, interactionScale = 1)), 1)
 })
 
 testthat::test_that("SBM extraction keeps clusters attached to their variables", {
@@ -579,8 +580,7 @@ testthat::test_that("Mixed SBM tables and plot agree with the named bgms output"
   dataset <- data.frame(A = ordered(sample(1:3, 120, TRUE)), B = rnorm(120),
                         C = ordered(sample(1:3, 120, TRUE)), D = rnorm(120))
   options <- jaspTools::analysisOptions("BayesianNetworkAnalysis")
-  options$variables <- names(dataset)
-  options$variables.types <- c("ordinal", "scale", "ordinal", "scale")
+  options <- setNetworkVariables(options, stats::setNames(c("ordinal", "scale", "ordinal", "scale"), names(dataset)))
   options$edgePrior <- "Stochastic-Block"
   options$betaAlpha <- 9
   options$betaBeta <- 1

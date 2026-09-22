@@ -439,11 +439,18 @@ VariablesForm
 					label: qsTr("Prior family for the partial association parameters:")
 					info: qsTr("Family of the prior on the partial association parameters. Normal is the default and applies lighter-tailed shrinkage. Cauchy is a heavy-tailed shrinkage prior. Beta-prime is parameterized via two shape parameters on the logistic scale and is only available when all selected variables are ordinal or Blume-Capel. When a grouping variable is selected this family applies to the baseline partial associations; the prior on the group differences is set separately below.")
 					preferredWidth: 300
-					values: [
-						{ value: "normal",     label: qsTr("Normal")      },
-						{ value: "cauchy",     label: qsTr("Cauchy")      },
-						{ value: "beta-prime", label: qsTr("Beta-prime")  }
-					]
+					// bgms places a hierarchical prior on the precision graph of continuous
+					// variables, which supports only a Normal or Cauchy slab.
+					values: networkVariables.columnsTypes.includes("scale") ?
+						[
+							{ value: "normal",     label: qsTr("Normal")      },
+							{ value: "cauchy",     label: qsTr("Cauchy")      }
+						] :
+						[
+							{ value: "normal",     label: qsTr("Normal")      },
+							{ value: "cauchy",     label: qsTr("Cauchy")      },
+							{ value: "beta-prime", label: qsTr("Beta-prime")  }
+						]
 				}
 
 				DoubleField
@@ -604,12 +611,20 @@ VariablesForm
 				name: "omrfUpdateMethod"
 				label: qsTr("Update method")
 				info: qsTr("MCMC algorithm used to sample from the posterior. NUTS is the gradient-based No-U-Turn sampler and is available for every variable type. Adaptive Metropolis is a componentwise random-walk sampler. Gibbs draws the precision matrix in conjugate row blocks and is only available for the Gaussian graphical model, that is, when all variables are continuous. With a grouping variable it can still be used for the separate group networks, but not for the estimation of a difference network.")
-				indexDefaultValue: 1
-				values: [
-					{ value: "adaptive-metropolis",	label: qsTr("Adaptive Metropolis")	},
-					{ value: "nuts",				label: qsTr("NUTS")				},
-					{ value: "gibbs",				label: qsTr("Gibbs")			}
-				]
+				// bgms restricts its Gibbs sampler to the Gaussian graphical model, so it is
+				// offered only while every assigned variable is continuous. An all-continuous
+				// set is never a difference network, which bgmCompare would refuse it for.
+				// NUTS leads both lists so that it stays the default without an index.
+				values: networkVariables.columnsTypes.includes("ordinal") ?
+					[
+						{ value: "nuts",				label: qsTr("NUTS")				},
+						{ value: "adaptive-metropolis",	label: qsTr("Adaptive Metropolis")	}
+					] :
+					[
+						{ value: "nuts",				label: qsTr("NUTS")				},
+						{ value: "adaptive-metropolis",	label: qsTr("Adaptive Metropolis")	},
+						{ value: "gibbs",				label: qsTr("Gibbs")			}
+					]
 			}
 		}
 

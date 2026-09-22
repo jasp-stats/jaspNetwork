@@ -992,8 +992,8 @@
       "RemoteHost": "api.github.com",
       "RemoteUsername": "Bayesian-Graphical-Modelling-Lab",
       "RemoteRepo": "easybgm",
-      "RemoteRef": "f17e8f98a2d5ee91e3b1989d99ad44c15e27c842",
-      "RemoteSha": "f17e8f98a2d5ee91e3b1989d99ad44c15e27c842"
+      "RemoteRef": "fd17449a5f08f27c208c6c1b4a639e945da78fc4",
+      "RemoteSha": "fd17449a5f08f27c208c6c1b4a639e945da78fc4"
     },
     "eigenmodel": {
       "Package": "eigenmodel",

@@ -54,7 +54,6 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   mainContainer <- jaspResults[["mainContainer"]]
   if (is.null(mainContainer)) {
     mainContainer <- createJaspContainer(dependencies = c("variables", "groupingVariable",
-                                         "variablesBlumeCapel",
                                                           "burnin", "iter", "seed", "gPrior",
                                                           "edgePrior",
                                                           "interactionPriorFamily", "interactionScale",
@@ -196,7 +195,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       # posterior mean network come first, followed by one column per posterior sample.
       draws <- as.matrix(centralitySamples[, -(1:3), drop = FALSE])
 
-      posteriorMeans <- apply(draws, MARGIN = 1, mean)
+      posteriorMeans <- rowMeans(draws)
 
       centralityHDIintervals <- apply(draws, MARGIN = 1,
                                       FUN = HDInterval::hdi, allowSplit = FALSE)
@@ -226,56 +225,21 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   return(layout)
 }
 
-.bayesianNetworkAnalysisAssignedVariableRows <- function(assignedVariables) {
-
-  if (is.null(assignedVariables) || length(assignedVariables) == 0L || identical(assignedVariables, ""))
-    return(list())
-
-  if (!is.list(assignedVariables)) {
-    assignedVariables <- as.list(as.character(assignedVariables))
-    names(assignedVariables) <- NULL
-  }
-
-  lapply(assignedVariables, function(entry) {
-    if (is.list(entry))
-      return(entry)
-
-    list(variable = as.character(entry))
-  })
-}
-
+# The QML variables list carries a row component, so JASP delivers one entry per
+# assigned variable: list(variable = "x", blumeCapel = TRUE, levels = "2"). The rest of
+# the analysis works with a plain vector of names plus the Blume-Capel rows.
 .bayesianNetworkAnalysisNormalizeVariableOptions <- function(options) {
 
-  options[["groupingVariable"]] <- .networkAnalysisScalarVariableName(options[["groupingVariable"]])
+  variableRows <- options[["variables"]]
 
-  variableRows <- .bayesianNetworkAnalysisAssignedVariableRows(options[["variables"]])
+  options[["variables"]] <- vapply(variableRows, `[[`, character(1L), "variable")
 
-  if (length(variableRows) == 0L) {
-    options[["variables"]] <- character(0)
-    if (is.null(options[["variablesBlumeCapel"]]))
-      options[["variablesBlumeCapel"]] <- list()
+  blumeCapelRows <- Filter(function(row) isTRUE(row[["blumeCapel"]]), variableRows)
 
-    return(options)
-  }
-
-  variables <- vapply(variableRows, `[[`, character(1L), "variable")
-  options[["variables"]] <- unname(variables)
-
-  hasBlumeCapelColumn <- any(vapply(variableRows, function(entry) !is.null(entry[["blumeCapel"]]), logical(1L)))
-
-  if (!hasBlumeCapelColumn) {
-    if (is.null(options[["variablesBlumeCapel"]]))
-      options[["variablesBlumeCapel"]] <- list()
-
-    return(options)
-  }
-
-  blumeCapelRows <- variableRows[vapply(variableRows, function(entry) isTRUE(entry[["blumeCapel"]]), logical(1L))]
-
-  options[["variablesBlumeCapel"]] <- lapply(blumeCapelRows, function(entry) {
+  options[["variablesBlumeCapel"]] <- lapply(blumeCapelRows, function(row) {
     list(
-      variable = entry[["variable"]],
-      levels   = entry[["levels"]]
+      variable = row[["variable"]],
+      levels   = row[["levels"]]
     )
   })
 
@@ -320,7 +284,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
   baselineCategory <- stats::setNames(rep(1L, length(variables)), variables)
 
-  variablesBlumeCapel <- .bayesianNetworkAnalysisAssignedVariableRows(options[["variablesBlumeCapel"]])
+  variablesBlumeCapel <- options[["variablesBlumeCapel"]]
 
   explicitTypes <- stats::setNames(rep("blume-capel", length(variablesBlumeCapel)),
                                    vapply(variablesBlumeCapel, `[[`, character(1L), "variable"))
@@ -374,12 +338,6 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       "The Stochastic block model edge prior is not available when Split is selected. Please use Bernoulli or Beta-binomial."
     ))
   }
-
-  if (options[["edgePrior"]] == "Bernoulli") {
-    gPrior <- options[["gPrior"]]
-    if (!is.numeric(gPrior) || length(gPrior) != 1L || !isTRUE(gPrior > 0 && gPrior < 1))
-      .quitAnalysis(gettext("The prior edge inclusion probability must lie strictly between 0 and 1."))
-  }
 }
 
 .bayesianNetworkAnalysisAssertInteractionPriorSupported <- function(options, variableSpec) {
@@ -390,35 +348,6 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   if (family == "beta-prime" && any(variableSpec[["type"]] == "continuous")) {
     .quitAnalysis(gettext(
       "The Beta-prime prior on the partial association parameters is not available when continuous variables are included. Please select Normal or Cauchy."
-    ))
-  }
-}
-
-.bayesianNetworkAnalysisBaselineScale <- function(options) {
-
-  baselineScale <- options[["interactionScaleBaseline"]]
-  if (is.null(baselineScale) || !is.finite(baselineScale) || baselineScale <= 0)
-    baselineScale <- options[["interactionScale"]]
-
-  baselineScale
-}
-
-.bayesianNetworkAnalysisAssertUpdateMethodSupported <- function(options, variableSpec, useCompare) {
-
-  if (.bayesianNetworkAnalysisNormalizeUpdateMethod(options[["omrfUpdateMethod"]]) != "gibbs")
-    return()
-
-  # bgms restricts its Gibbs sampler to the Gaussian graphical model, and
-  # bgmCompare does not accept it at all.
-  if (useCompare) {
-    .quitAnalysis(gettext(
-      "The Gibbs sampler is not available for the comparison of groups. Please select NUTS or Adaptive Metropolis."
-    ))
-  }
-
-  if (!all(variableSpec[["type"]] == "continuous")) {
-    .quitAnalysis(gettext(
-      "The Gibbs sampler is only available when all variables are continuous. Please select NUTS or Adaptive Metropolis."
     ))
   }
 }
@@ -446,8 +375,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   switch(family,
     "normal"     = bgms::normal_prior(scale = scale),
     "cauchy"     = bgms::cauchy_prior(scale = scale),
-    "beta-prime" = bgms::beta_prime_prior(alpha = alpha, beta = beta),
-    .quitAnalysis(gettextf("Unsupported prior family '%s'.", family))
+    "beta-prime" = bgms::beta_prime_prior(alpha = alpha, beta = beta)
   )
 }
 
@@ -480,8 +408,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       beta_between    = options[["betaBeta_between"]],
       dirichlet_alpha = options[["dirichletAlpha"]],
       lambda          = options[["lambda"]]
-    ),
-    .quitAnalysis(gettextf("Unsupported edge prior '%s'.", options[["edgePrior"]]))
+    )
   )
 }
 
@@ -494,8 +421,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     "Beta-Bernoulli" = bgms::beta_bernoulli_prior(
       alpha = options[["betaAlpha"]],
       beta  = options[["betaBeta"]]
-    ),
-    .quitAnalysis(gettextf("Unsupported difference prior '%s'.", options[["edgePrior"]]))
+    )
   )
 }
 
@@ -507,8 +433,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   # than as a prior object, and expects it capitalized.
   switch(family,
     "normal" = "Normal",
-    "cauchy" = "Cauchy",
-    .quitAnalysis(gettextf("Unsupported prior family '%s' for the group differences.", family))
+    "cauchy" = "Cauchy"
   )
 }
 
@@ -660,11 +585,9 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     if (length(allocations) != length(variables))
       stop(gettext("The cluster allocations could not be matched to the variables."))
 
-    allocationNames <- names(allocations)
     # bgms leaves allocations unnamed; their order is the native row order of
     # its co-clustering matrix. Preserve that order until both are mapped.
-    if (is.null(allocationNames))
-      allocationNames <- rownames(coclustering)
+    allocationNames <- names(allocations) %||% rownames(coclustering)
 
     sbm[[field]] <- stats::setNames(allocations[matchVariables(allocationNames)], variables)
   }
@@ -898,7 +821,6 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   pooledVariableSpec <- .bayesianNetworkAnalysisBuildVariableTypeSpec(options, pooledData)
   useCompare <- .bayesianNetworkAnalysisCompareSupported(options, pooledVariableSpec, nGroups)
 
-  .bayesianNetworkAnalysisAssertUpdateMethodSupported(options, pooledVariableSpec, useCompare)
   .bayesianNetworkAnalysisAssertInteractionPriorSupported(options, pooledVariableSpec)
 
   # With a grouping variable, interactionScale is the prior scale on the group
@@ -908,7 +830,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   # network is estimated.
   networkOptions <- options
   if (options[["groupingVariable"]] != "")
-    networkOptions[["interactionScale"]] <- .bayesianNetworkAnalysisBaselineScale(options)
+    networkOptions[["interactionScale"]] <- options[["interactionScaleBaseline"]]
 
   keepRawFit <- options[["edgePrior"]] == "Stochastic-Block" && .bayesianNetworkAnalysisStochasticBlockAllowed(options)
 
@@ -922,14 +844,9 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     differenceFamily         <- .bayesianNetworkAnalysisBuildDifferenceFamily(options)
 
     jaspBase::.setSeedJASP(options)
-    # 'package' is deliberately left unset. easybgm_compare overrides an
-    # explicit package = "bgms" to BGGM whenever 'type' is a per-variable
-    # vector, and then refuses the fit because BGGM takes only a single
-    # continuous/mixed type. With no package given it resolves a vector type to
-    # bgms directly, which is what the ordinal/Blume-Capel types reaching here
-    # need.
     compareFit <- try(easybgm::easybgm_compare(
       data    = pooledData,
+      package = "bgms",
       group_indicator             = groupIndicator,
       type    = pooledVariableSpec[["type"]],
       baseline_category           = pooledVariableSpec[["baselineCategory"]],
@@ -953,16 +870,15 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       .quitAnalysis(gettextf("The group comparison failed with the following error message:\n%s", message))
     }
 
-    networks[["differences"]] <- .bayesianNetworkAnalysisLabelNetwork(
-      .bayesianNetworkAnalysisExtractEasybgmResult(
-        easybgmFit      = compareFit,
-        variableSpec    = pooledVariableSpec,
-        options         = options,
-        keepRawFit      = FALSE,
-        isDifferenceFit = TRUE
-      ),
-      label = gettext("Differences"), role = "differences"
+    differences <- .bayesianNetworkAnalysisExtractEasybgmResult(
+      easybgmFit      = compareFit,
+      variableSpec    = pooledVariableSpec,
+      options         = options,
+      keepRawFit      = FALSE,
+      isDifferenceFit = TRUE
     )
+    differences[c("label", "role")] <- c(gettext("Differences"), "differences")
+    networks[["differences"]] <- differences
 
     pooledFit <- .bayesianNetworkAnalysisFitSingleNetwork(
       data          = pooledData,
@@ -971,15 +887,14 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       progressLabel = gettext("Estimating pooled network")
     )
 
-    networks[["pooled"]] <- .bayesianNetworkAnalysisLabelNetwork(
-      .bayesianNetworkAnalysisExtractEasybgmResult(
-        easybgmFit   = pooledFit,
-        variableSpec = pooledVariableSpec,
-        options      = options,
-        keepRawFit   = keepRawFit
-      ),
-      label = gettext("Pooled"), role = "pooled"
+    pooled <- .bayesianNetworkAnalysisExtractEasybgmResult(
+      easybgmFit   = pooledFit,
+      variableSpec = pooledVariableSpec,
+      options      = options,
+      keepRawFit   = keepRawFit
     )
+    pooled[c("label", "role")] <- c(gettext("Pooled"), "pooled")
+    networks[["pooled"]] <- pooled
   }
 
   for (nw in seq_along(groupData)) {
@@ -989,15 +904,14 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
                                                             progressLabel = progressLabel)
 
     # Group networks are numbered in the order of the group indicator of the comparison.
-    networks[[paste0("group", nw)]] <- .bayesianNetworkAnalysisLabelNetwork(
-      .bayesianNetworkAnalysisExtractEasybgmResult(
-        easybgmFit   = easybgmFit,
-        variableSpec = variableSpec,
-        options      = options,
-        keepRawFit   = keepRawFit
-      ),
-      label = groupNames[[nw]], role = "group"
+    groupNetwork <- .bayesianNetworkAnalysisExtractEasybgmResult(
+      easybgmFit   = easybgmFit,
+      variableSpec = variableSpec,
+      options      = options,
+      keepRawFit   = keepRawFit
     )
+    groupNetwork[c("label", "role")] <- c(groupNames[[nw]], "group")
+    networks[[paste0("group", nw)]] <- groupNetwork
   }
 
   if (!useCompare && options[["groupingVariable"]] != "" && nGroups >= 2L) {
@@ -1009,23 +923,11 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   return(networks)
 }
 
-.bayesianNetworkAnalysisLabelNetwork <- function(nw, label, role) {
-
-  nw[["label"]] <- label
-  nw[["role"]]  <- role
-  nw
-}
-
-.bayesianNetworkAnalysisNetworkLabel <- function(nw, key) {
-
-  if (is.null(nw[["label"]])) key else nw[["label"]]
-}
-
 .bayesianNetworkAnalysisNetworkLabels <- function(allNetworks) {
 
   keys <- names(allNetworks)
   stats::setNames(
-    vapply(seq_along(allNetworks), function(i) .bayesianNetworkAnalysisNetworkLabel(allNetworks[[i]], keys[i]), character(1L)),
+    vapply(seq_along(allNetworks), function(i) allNetworks[[i]][["label"]] %||% keys[i], character(1L)),
     keys
   )
 }
@@ -1183,7 +1085,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   }
 
   for (v in names(allNetworks))
-    posteriorStructurePlotContainer[[v]] <- createJaspPlot(title = .bayesianNetworkAnalysisNetworkLabel(allNetworks[[v]], v))
+    posteriorStructurePlotContainer[[v]] <- createJaspPlot(title = allNetworks[[v]][["label"]] %||% v)
 
   jaspBase::.suppressGrDevice({
 
@@ -1394,7 +1296,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   width  <- 500L
 
   for (v in names(allNetworks))
-    parameterHdiContainer[[v]] <- createJaspPlot(title = if (nGraphs == 1L) "" else .bayesianNetworkAnalysisNetworkLabel(allNetworks[[v]], v), width = width, height = height)
+    parameterHdiContainer[[v]] <- createJaspPlot(title = if (nGraphs == 1L) "" else (allNetworks[[v]][["label"]] %||% v), width = width, height = height)
 
   coverage <- options[["parameterHdiPlotCoverage"]]
 
@@ -1448,7 +1350,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
   # Compute HDI and posterior means for each partial association
   hdiIntervals   <- apply(samplesPosterior, MARGIN = 2L, FUN = HDInterval::hdi, credMass = coverage)
-  posteriorMeans <- apply(samplesPosterior, MARGIN = 2L, FUN = mean)
+  posteriorMeans <- colMeans(samplesPosterior)
 
   # A spike-and-slab posterior can have an HDI of [0, 0] and a nonzero mean, and a
   # posterior mean need not lie inside the HDI, so the mean is reported as is. The
@@ -1507,7 +1409,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   }
 
   for (v in names(allNetworks))
-    complexityPlotContainer[[v]] <- createJaspPlot(title = .bayesianNetworkAnalysisNetworkLabel(allNetworks[[v]], v))
+    complexityPlotContainer[[v]] <- createJaspPlot(title = allNetworks[[v]][["label"]] %||% v)
 
   jaspBase::.suppressGrDevice({
 
@@ -1650,7 +1552,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   height <- setNames(rep(basePlotSize, nGraphs), names(allLegends))
   width  <- basePlotSize + allLegends * legendMultiplier
   for (v in names(allNetworks))
-    structurePlotContainer[[v]] <- createJaspPlot(title = .bayesianNetworkAnalysisNetworkLabel(allNetworks[[v]], v), width = width[v], height = height[v])
+    structurePlotContainer[[v]] <- createJaspPlot(title = allNetworks[[v]][["label"]] %||% v, width = width[v], height = height[v])
 
   jaspBase::.suppressGrDevice({
 
@@ -1793,7 +1695,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   width  <- basePlotSize + allLegends * legendMultiplier
 
   for (v in names(allNetworks))
-    evidencePlotContainer[[v]] <- createJaspPlot(title = if (nGraphs == 1L) "" else .bayesianNetworkAnalysisNetworkLabel(allNetworks[[v]], v), width = width[v], height = height[v])
+    evidencePlotContainer[[v]] <- createJaspPlot(title = if (nGraphs == 1L) "" else (allNetworks[[v]][["label"]] %||% v), width = width[v], height = height[v])
 
   jaspBase::.suppressGrDevice({
 
@@ -1967,7 +1869,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       return()
 
     for (nwName in names(allNetworks)) {
-      table         <- createJaspTable(.bayesianNetworkAnalysisNetworkLabel(allNetworks[[nwName]], nwName))
+      table         <- createJaspTable(allNetworks[[nwName]][["label"]] %||% nwName)
       isDifferences <- .bayesianNetworkAnalysisIsDifferences(allNetworks[[nwName]], nwName)
       .bayesianNetworkAnalysisFillEdgeOverviewTable(table, allNetworks[[nwName]], threshold, options, isDifferences)
       container[[nwName]] <- table
@@ -2167,7 +2069,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       length(options[["variablesBlumeCapel"]]) == 0L)
     return()
 
-  # variablesBlumeCapel is already a dependency of mainContainer.
+  # The Blume-Capel assignments travel in the variables option, a dependency of mainContainer.
   dependencies <- "edgeSpecificOverviewTable"
   allNetworks  <- network[["network"]]
 
@@ -2184,7 +2086,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     mainContainer[["blumeCapelTable"]] <- container
 
     for (nwName in names(bcNetworks)) {
-      table <- createJaspTable(.bayesianNetworkAnalysisNetworkLabel(bcNetworks[[nwName]], nwName))
+      table <- createJaspTable(bcNetworks[[nwName]][["label"]] %||% nwName)
       .bayesianNetworkAnalysisFillBlumeCapelTable(table, bcNetworks[[nwName]], options)
       container[[nwName]] <- table
     }
@@ -2285,7 +2187,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       return()
 
     for (nwName in names(allNetworks)) {
-      table <- createJaspTable(.bayesianNetworkAnalysisNetworkLabel(allNetworks[[nwName]], nwName))
+      table <- createJaspTable(allNetworks[[nwName]][["label"]] %||% nwName)
       .bayesianNetworkAnalysisFillParameterHdiTable(table, allNetworks[[nwName]], options, coverage)
       container[[nwName]] <- table
     }
@@ -2364,7 +2266,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
   if (nGraphs > 1L) {
     for (nwName in names(allNetworks)) {
-      nwContainer <- createJaspContainer(.bayesianNetworkAnalysisNetworkLabel(allNetworks[[nwName]], nwName))
+      nwContainer <- createJaspContainer(allNetworks[[nwName]][["label"]] %||% nwName)
       container[[nwName]] <- nwContainer
       .bayesianNetworkAnalysisAddInterpretativeScaleTables(nwContainer, allNetworks[[nwName]])
     }
@@ -2749,7 +2651,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   }
 
   for (v in names(allNetworks))
-    coclusteringPlotContainer[[v]] <- createJaspPlot(title = .bayesianNetworkAnalysisNetworkLabel(allNetworks[[v]], v), width = 480, height = 400)
+    coclusteringPlotContainer[[v]] <- createJaspPlot(title = allNetworks[[v]][["label"]] %||% v, width = 480, height = 400)
 
   for (v in names(allNetworks)) {
     nw <- allNetworks[[v]]

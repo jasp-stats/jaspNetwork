@@ -27,8 +27,6 @@ gettextf <- function(fmt, ..., domain = NULL)  {
 #' @export
 NetworkAnalysis <- function(jaspResults, dataset, options) {
 
-  options[["groupingVariable"]] <- .networkAnalysisScalarVariableName(options[["groupingVariable"]])
-
   dataset <- .networkAnalysisReadData(dataset, options)
 
   mainContainer <- .networkAnalysisSetupMainContainerAndTable(jaspResults, dataset, options)
@@ -46,21 +44,6 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   .networkAnalysisBootstrap(mainContainer, network, options)
 
   return()
-}
-
-# A variable-slot option arrives from QML either as a plain string or, when the control
-# carries type information, as a list of the form list(types = ..., value = "name").
-# Everything downstream compares it against "" and indexes the dataset with it, so it
-# must be reduced to a single name ("" when nothing is assigned).
-.networkAnalysisScalarVariableName <- function(variableOption) {
-
-  if (is.list(variableOption))
-    variableOption <- variableOption[["value"]]
-
-  if (is.null(variableOption) || length(variableOption) == 0L)
-    return("")
-
-  as.character(variableOption)[1L]
 }
 
 .networkAnalysisReadData <- function(dataset, options) {
@@ -830,7 +813,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   height <- setNames(rep(basePlotSize, nGraphs), names(allLegends))
   width  <- basePlotSize + allLegends * legendMultiplier
   for (v in names(allNetworks))
-    networkPlotContainer[[v]] <- createJaspPlot(title = if (nGraphs == 1L) "" else if (method == "Bayesian") .bayesianNetworkAnalysisNetworkLabel(allNetworks[[v]], v) else v,
+    networkPlotContainer[[v]] <- createJaspPlot(title = if (nGraphs == 1L) "" else if (method == "Bayesian") (allNetworks[[v]][["label"]] %||% v) else v,
                                                 width = width[v], height = height[v])
 
   jaspBase::.suppressGrDevice({
