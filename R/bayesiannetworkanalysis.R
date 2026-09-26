@@ -33,7 +33,9 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
   .bayesianNetworkAnalysisMainTable          (mainContainer, dataset, options, network)
   .bayesianNetworkAnalysisEdgeOverviewTable  (mainContainer, network, options)
+  .bayesianNetworkAnalysisBlumeCapelTable    (mainContainer, network, options)
   .bayesianNetworkAnalysisInterpretativeScale(mainContainer, network, options)
+  .bayesianNetworkAnalysisParameterHdiTable  (mainContainer, network, options)
   .bayesianNetworkAnalysisEdgeEvidenceTable(mainContainer, network, options)
   .bayesianNetworkAnalysisPlotContainer    (mainContainer, network, options)
   .bayesianNetworkAnalysisCentralityTable  (mainContainer, network, options)
@@ -52,12 +54,12 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   mainContainer <- jaspResults[["mainContainer"]]
   if (is.null(mainContainer)) {
     mainContainer <- createJaspContainer(dependencies = c("variables", "groupingVariable",
-                                         "variablesBlumeCapel",
                                                           "burnin", "iter", "seed", "gPrior",
                                                           "edgePrior",
                                                           "interactionPriorFamily", "interactionScale",
                                                           "interactionAlpha", "interactionBeta",
                                                           "interactionScaleBaseline",
+                                                          "differencePriorFamily",
                                                           "betaAlpha", "betaBeta",
                                                           "betaAlpha_between", "betaBeta_between",
                                                           "lambda", "dirichletAlpha",
@@ -189,13 +191,13 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
       centralitySamples <- centrality(network = network, options = options)
 
-      # Compute centrality measures for each posterior sample:
-      nSamples <- nrow(network$samplesPosterior)
+      # centralitySamples is in wide format: node, measure and the centrality of the
+      # posterior mean network come first, followed by one column per posterior sample.
+      draws <- as.matrix(centralitySamples[, -(1:3), drop = FALSE])
 
-      # centralitySamples is in wide format, so to select all samples (without cols representing the variables) we need 3:(nSamples+2)
-      posteriorMeans <- apply(centralitySamples[, 3:(nSamples+2)], MARGIN = 1, mean)
+      posteriorMeans <- rowMeans(draws)
 
-      centralityHDIintervals <- apply(centralitySamples[, 3:(nSamples+2)], MARGIN = 1,
+      centralityHDIintervals <- apply(draws, MARGIN = 1,
                                       FUN = HDInterval::hdi, allowSplit = FALSE)
 
       centralitySummary <- cbind(centralitySamples[, 1:2], posteriorMeans, t(centralityHDIintervals))
@@ -214,64 +216,30 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 .bayesianNetworkAnalysisComputeLayout <- function(networks, dataset, options) {
 
   # Reformat networks to fit averageLayout:
-  weightMatrices <- list()
-  for (i in seq_along(networks)) {
-    weightMatrices[[i]] <- networks[[i]]$graph
-  }
+  # A comparison of more than two groups has no single difference per edge, so
+  # its network does not contribute to the layout.
+  weightMatrices <- unname(Filter(function(graph) !is.null(graph) && !anyNA(graph), lapply(networks, `[[`, "graph")))
   jaspBase::.suppressGrDevice(layout <- qgraph::averageLayout(weightMatrices, layout = options[["layout"]], repulsion = options[["layoutSpringRepulsion"]]))
   rownames(layout) <- colnames(networks[[1L]])
 
   return(layout)
 }
 
-.bayesianNetworkAnalysisAssignedVariableRows <- function(assignedVariables) {
-
-  if (is.null(assignedVariables) || length(assignedVariables) == 0L || identical(assignedVariables, ""))
-    return(list())
-
-  if (!is.list(assignedVariables)) {
-    assignedVariables <- as.list(as.character(assignedVariables))
-    names(assignedVariables) <- NULL
-  }
-
-  lapply(assignedVariables, function(entry) {
-    if (is.list(entry))
-      return(entry)
-
-    list(variable = as.character(entry))
-  })
-}
-
+# The QML variables list carries a row component, so JASP delivers one entry per
+# assigned variable: list(variable = "x", blumeCapel = TRUE, levels = "2"). The rest of
+# the analysis works with a plain vector of names plus the Blume-Capel rows.
 .bayesianNetworkAnalysisNormalizeVariableOptions <- function(options) {
 
-  variableRows <- .bayesianNetworkAnalysisAssignedVariableRows(options[["variables"]])
+  variableRows <- options[["variables"]]
 
-  if (length(variableRows) == 0L) {
-    options[["variables"]] <- character(0)
-    if (is.null(options[["variablesBlumeCapel"]]))
-      options[["variablesBlumeCapel"]] <- list()
+  options[["variables"]] <- vapply(variableRows, `[[`, character(1L), "variable")
 
-    return(options)
-  }
+  blumeCapelRows <- Filter(function(row) isTRUE(row[["blumeCapel"]]), variableRows)
 
-  variables <- vapply(variableRows, `[[`, character(1L), "variable")
-  options[["variables"]] <- unname(variables)
-
-  hasBlumeCapelColumn <- any(vapply(variableRows, function(entry) !is.null(entry[["blumeCapel"]]), logical(1L)))
-
-  if (!hasBlumeCapelColumn) {
-    if (is.null(options[["variablesBlumeCapel"]]))
-      options[["variablesBlumeCapel"]] <- list()
-
-    return(options)
-  }
-
-  blumeCapelRows <- variableRows[vapply(variableRows, function(entry) isTRUE(entry[["blumeCapel"]]), logical(1L))]
-
-  options[["variablesBlumeCapel"]] <- lapply(blumeCapelRows, function(entry) {
+  options[["variablesBlumeCapel"]] <- lapply(blumeCapelRows, function(row) {
     list(
-      variable = entry[["variable"]],
-      levels   = entry[["levels"]]
+      variable = row[["variable"]],
+      levels   = row[["levels"]]
     )
   })
 
@@ -283,15 +251,22 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   if (is.null(baselineValue) || length(baselineValue) == 0L || identical(baselineValue, ""))
     return(1L)
 
-  baselineCategory <- suppressWarnings(as.integer(baselineValue))
-  if (!is.na(baselineCategory))
-    return(max(1L, baselineCategory))
-
+  # The QML supplies the level label, while bgms expects the category index on the
+  # 1..k scale it derives from the factor. Match the label first: for a variable
+  # with levels "2", "4", "6" the label "4" is category 2, not category 4, and
+  # passing 4 makes bgms reject the baseline as outside the observed scores.
   if (is.factor(variableData)) {
     baselineCategory <- match(as.character(baselineValue), levels(variableData))
     if (!is.na(baselineCategory))
       return(baselineCategory)
   }
+
+  baselineCategory <- suppressWarnings(as.integer(baselineValue))
+  nCategories      <- if (is.factor(variableData)) nlevels(variableData) else NA_integer_
+
+  if (!is.na(baselineCategory) && baselineCategory >= 1L &&
+      (is.na(nCategories) || baselineCategory <= nCategories))
+    return(baselineCategory)
 
   .quitAnalysis(gettextf("Could not determine the baseline category for variable %s.", variableName))
 }
@@ -309,7 +284,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
   baselineCategory <- stats::setNames(rep(1L, length(variables)), variables)
 
-  variablesBlumeCapel <- .bayesianNetworkAnalysisAssignedVariableRows(options[["variablesBlumeCapel"]])
+  variablesBlumeCapel <- options[["variablesBlumeCapel"]]
 
   explicitTypes <- stats::setNames(rep("blume-capel", length(variablesBlumeCapel)),
                                    vapply(variablesBlumeCapel, `[[`, character(1L), "variable"))
@@ -365,6 +340,18 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   }
 }
 
+.bayesianNetworkAnalysisAssertInteractionPriorSupported <- function(options, variableSpec) {
+
+  # bgms places a hierarchical prior on the precision graph of continuous
+  # variables, which supports only a Normal or Cauchy slab.
+  family <- .bayesianNetworkAnalysisNormalizePriorFamily(options[["interactionPriorFamily"]], default = "normal")
+  if (family == "beta-prime" && any(variableSpec[["type"]] == "continuous")) {
+    .quitAnalysis(gettext(
+      "The Beta-prime prior on the partial association parameters is not available when continuous variables are included. Please select Normal or Cauchy."
+    ))
+  }
+}
+
 .bayesianNetworkAnalysisMakeProgressCallback <- function(label = "") {
   lastDone <- 0L
   initialized <- FALSE
@@ -383,13 +370,12 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
 .bayesianNetworkAnalysisBuildParameterPrior <- function(family, scale, alpha, beta, priorRole) {
 
-  family <- .bayesianNetworkAnalysisNormalizePriorFamily(family, default = if (priorRole == "interaction") "cauchy" else "beta-prime")
+  family <- .bayesianNetworkAnalysisNormalizePriorFamily(family, default = if (priorRole == "interaction") "normal" else "beta-prime")
 
   switch(family,
-    "cauchy"     = bgms::cauchy_prior(scale = scale),
     "normal"     = bgms::normal_prior(scale = scale),
-    "beta-prime" = bgms::beta_prime_prior(alpha = alpha, beta = beta),
-    .quitAnalysis(gettextf("Unsupported prior family '%s'.", family))
+    "cauchy"     = bgms::cauchy_prior(scale = scale),
+    "beta-prime" = bgms::beta_prime_prior(alpha = alpha, beta = beta)
   )
 }
 
@@ -422,8 +408,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       beta_between    = options[["betaBeta_between"]],
       dirichlet_alpha = options[["dirichletAlpha"]],
       lambda          = options[["lambda"]]
-    ),
-    .quitAnalysis(gettextf("Unsupported edge prior '%s'.", options[["edgePrior"]]))
+    )
   )
 }
 
@@ -436,8 +421,19 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     "Beta-Bernoulli" = bgms::beta_bernoulli_prior(
       alpha = options[["betaAlpha"]],
       beta  = options[["betaBeta"]]
-    ),
-    .quitAnalysis(gettextf("Unsupported difference prior '%s'.", options[["edgePrior"]]))
+    )
+  )
+}
+
+.bayesianNetworkAnalysisBuildDifferenceFamily <- function(options) {
+
+  family <- .bayesianNetworkAnalysisNormalizePriorFamily(options[["differencePriorFamily"]], default = "normal")
+
+  # bgmCompare takes the slab on the group differences as a family name rather
+  # than as a prior object, and expects it capitalized.
+  switch(family,
+    "normal" = "Normal",
+    "cauchy" = "Cauchy"
   )
 }
 
@@ -499,38 +495,239 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   easybgmFit
 }
 
-.bayesianNetworkAnalysisExtractEasybgmResult <- function(easybgmFit, variableSpec, options, keepRawFit = FALSE) {
+.bayesianNetworkAnalysisExtractEasybgmResult <- function(easybgmFit, variableSpec, options, keepRawFit = FALSE,
+                                                         isDifferenceFit = FALSE) {
 
   easybgmResult <- list()
 
-  easybgmResult$graphWeights           <- easybgmFit$graph_weights
+  variables <- colnames(easybgmFit$inc_probs)
+  if (is.null(variables))
+    variables <- colnames(easybgmFit$parameters)
+
+  estimates <- easybgmFit$parameters
+  if (is.null(estimates)) {
+    # A comparison of more than two groups has no single difference per edge;
+    # its pairwise group differences are stored below instead.
+    estimates <- matrix(NA_real_, length(variables), length(variables), dimnames = list(variables, variables))
+  }
+
   easybgmResult$inclusionProbabilities <- easybgmFit$inc_probs
   easybgmResult$BF                     <- easybgmFit$inc_BF
   easybgmResult$structure              <- easybgmFit$structure
-  easybgmResult$estimates              <- as.matrix(easybgmFit$parameters)
+  easybgmResult$estimates              <- as.matrix(estimates)
   easybgmResult$graph                  <- easybgmResult$estimates * easybgmResult$structure
-  easybgmResult$sampleGraphs           <- easybgmFit$sample_graph
-  easybgmResult$samplesPosterior       <- easybgmFit$samples_posterior
   easybgmResult$variableType           <- variableSpec[["type"]]
   easybgmResult$baselineCategory       <- variableSpec[["baselineCategory"]]
   easybgmResult$logOdds                <- easybgmFit$log_odds
   easybgmResult$precisionMatrix        <- easybgmFit$precision_matrix
   easybgmResult$partialCorrelations    <- easybgmFit$partial_correlations
+  # Only returned by easybgm when at least one variable is of type blume-capel.
+  easybgmResult$blumeCapelParameters   <- easybgmFit$blume_capel_parameters
+  # R-hat as bgms computes it across chains, put in row-major upper-triangle order.
+  easybgmResult$convergence            <- .bayesianNetworkAnalysisCanonicalConvergence(easybgmFit, variables)
+
+  # bgmCompare pads its indicator draws with one main effect indicator per
+  # variable, so the sampled structures of a difference fit are wider than the
+  # number of edges. Reduce them to the pairwise part before anything counts them.
+  reduced <- .bayesianNetworkAnalysisReducePairwiseIndicators(
+    sampleGraphs = easybgmFit$sample_graph,
+    graphWeights = easybgmFit$graph_weights,
+    nVar         = ncol(easybgmResult$estimates)
+  )
+  easybgmResult$sampleGraphs <- reduced$sampleGraphs
+  easybgmResult$graphWeights <- reduced$graphWeights
+
+  samplesPosterior <- .bayesianNetworkAnalysisCanonicalEdgeColumns(easybgmFit$samples_posterior, variables)
+
+  if (isDifferenceFit) {
+    # easybgm returns the *baseline* pairwise draws for a group comparison, not
+    # the differences. Keeping them under a distinct name stops anything that
+    # summarizes the differences from silently reading the baseline instead.
+    easybgmResult$baselineSamplesPosterior <- samplesPosterior
+    easybgmResult$convergenceIsBaseline    <- TRUE
+    # Posterior means of the joint comparison model: one column per group, and
+    # one per pair of groups (e.g. "group2 - group1").
+    easybgmResult$groupEstimates           <- .bayesianNetworkAnalysisCanonicalEdgeRows(easybgmFit$group_estimates, variables)
+    easybgmResult$pairwiseGroupDifferences <- .bayesianNetworkAnalysisCanonicalEdgeRows(easybgmFit$pairwise_group_differences, variables)
+  } else {
+    easybgmResult$samplesPosterior <- samplesPosterior
+  }
 
   # Store SBM-specific results if Stochastic-Block edge prior was used.
   if (options[["edgePrior"]] == "Stochastic-Block" && .bayesianNetworkAnalysisStochasticBlockAllowed(options)) {
-    easybgmResult$sbm <- list(
-      posterior_mean_allocations         = easybgmFit$sbm$posterior_mean_allocations,
-      posterior_mode_allocations         = easybgmFit$sbm$posterior_mode_allocations,
-      posterior_num_blocks               = easybgmFit$sbm$posterior_num_blocks,
-      posterior_mean_coclustering_matrix = easybgmFit$sbm$posterior_mean_coclustering_matrix
-    )
+    easybgmResult$sbm <- .bayesianNetworkAnalysisCanonicalSbm(easybgmFit$sbm, variables)
   }
 
   if (keepRawFit)
     easybgmResult$easybgmFit <- easybgmFit
 
   easybgmResult
+}
+
+# Mixed models return SBM summaries in discrete-then-continuous order. Keep
+# every variable-indexed summary in the same order as the network estimates.
+.bayesianNetworkAnalysisCanonicalSbm <- function(sbm, variables) {
+
+  matchVariables <- function(variableNames) {
+    position <- match(variables, variableNames)
+    if (is.null(variableNames) || length(variableNames) != length(variables) ||
+        anyNA(position) || anyDuplicated(position))
+      stop(gettext("The cluster summaries could not be matched to the variables."))
+    position
+  }
+
+  coclustering <- sbm$posterior_mean_coclustering_matrix
+  rowOrder     <- matchVariables(rownames(coclustering))
+  columnOrder  <- matchVariables(colnames(coclustering))
+
+  for (field in c("posterior_mean_allocations", "posterior_mode_allocations")) {
+    allocations <- sbm[[field]]
+    if (length(allocations) != length(variables))
+      stop(gettext("The cluster allocations could not be matched to the variables."))
+
+    # bgms leaves allocations unnamed; their order is the native row order of
+    # its co-clustering matrix. Preserve that order until both are mapped.
+    allocationNames <- names(allocations) %||% rownames(coclustering)
+
+    sbm[[field]] <- stats::setNames(allocations[matchVariables(allocationNames)], variables)
+  }
+
+  sbm$posterior_mean_coclustering_matrix <- coclustering[rowOrder, columnOrder, drop = FALSE]
+  sbm
+}
+
+# Row-major upper-triangle index (V1-V2, V1-V3, ..., V2-V3, ...), the order in
+# which every pairwise quantity is stored after extraction.
+.bayesianNetworkAnalysisUpperTriangleIndex <- function(nVar) {
+
+  upperIdx <- which(upper.tri(matrix(0L, nVar, nVar)), arr.ind = TRUE)
+  upperIdx[order(upperIdx[, 1L], upperIdx[, 2L]), , drop = FALSE]
+}
+
+.bayesianNetworkAnalysisEdgeNames <- function(variables) {
+
+  upperIdx <- .bayesianNetworkAnalysisUpperTriangleIndex(length(variables))
+  paste0(variables[upperIdx[, 1L]], "-", variables[upperIdx[, 2L]])
+}
+
+# Positions, within edgeNames, of the edges in row-major upper-triangle order.
+# bgms orders the pairwise quantities of mixed models by variable type rather
+# than by position, and names each after its pair in either orientation (e.g.
+# "C-B"), so the order is recovered from the names. NULL when the names do not
+# identify every edge exactly once.
+.bayesianNetworkAnalysisCanonicalEdgeOrder <- function(edgeNames, variables) {
+
+  nVar <- length(variables)
+  if (is.null(edgeNames) || length(edgeNames) != nVar * (nVar - 1L) / 2L)
+    return(NULL)
+
+  upperIdx <- .bayesianNetworkAnalysisUpperTriangleIndex(nVar)
+  forward  <- paste0(variables[upperIdx[, 1L]], "-", variables[upperIdx[, 2L]])
+  reversed <- paste0(variables[upperIdx[, 2L]], "-", variables[upperIdx[, 1L]])
+
+  position <- match(forward, edgeNames)
+  position[is.na(position)] <- match(reversed[is.na(position)], edgeNames)
+
+  if (anyNA(position) || anyDuplicated(position))
+    return(NULL)
+
+  position
+}
+
+.bayesianNetworkAnalysisCanonicalEdgeColumns <- function(samples, variables) {
+
+  if (is.null(samples) || is.null(colnames(samples)))
+    return(samples)
+
+  position <- .bayesianNetworkAnalysisCanonicalEdgeOrder(colnames(samples), variables)
+  if (is.null(position))
+    stop(gettext("The posterior samples could not be matched to the variable pairs."))
+
+  samples <- samples[, position, drop = FALSE]
+  colnames(samples) <- .bayesianNetworkAnalysisEdgeNames(variables)
+  samples
+}
+
+.bayesianNetworkAnalysisCanonicalEdgeRows <- function(x, variables) {
+
+  if (is.null(x))
+    return(NULL)
+
+  x <- as.matrix(x)
+  position <- .bayesianNetworkAnalysisCanonicalEdgeOrder(rownames(x), variables)
+  if (is.null(position))
+    stop(gettext("The group estimates could not be matched to the variable pairs."))
+
+  x <- x[position, , drop = FALSE]
+  rownames(x) <- .bayesianNetworkAnalysisEdgeNames(variables)
+  x
+}
+
+.bayesianNetworkAnalysisCanonicalConvergence <- function(easybgmFit, variables) {
+
+  convergence <- easybgmFit$convergence_parameter
+  if (is.null(convergence))
+    return(NULL)
+
+  # A single network names its R-hat after the pairs; a comparison reports it
+  # unnamed, in the edge order of its group estimates.
+  edgeNames      <- names(convergence)
+  groupEstimates <- easybgmFit$group_estimates
+  if (!is.null(groupEstimates) && length(convergence) == nrow(groupEstimates))
+    edgeNames <- rownames(groupEstimates)
+
+  # Without identifiable edges the R-hat is dropped rather than attached by
+  # position; the edge tables then fall back to a split-chain R-hat.
+  position <- .bayesianNetworkAnalysisCanonicalEdgeOrder(edgeNames, variables)
+  if (is.null(position))
+    return(NULL)
+
+  unname(convergence[position])
+}
+
+.bayesianNetworkAnalysisPairwiseIndicatorPositions <- function(nVar) {
+
+  # bgmCompare interleaves one main effect indicator per variable with the
+  # pairwise indicators: V1 (main), V1-V2, V1-V3, ..., V2 (main), V2-V3, ...
+  # Return the positions of the pairwise entries in that layout.
+  positions <- integer(0)
+  cursor    <- 0L
+
+  for (i in seq_len(nVar)) {
+    cursor <- cursor + 1L                       # main effect of variable i
+    nPairs <- nVar - i
+    if (nPairs > 0L)
+      positions <- c(positions, cursor + seq_len(nPairs))
+    cursor <- cursor + nPairs
+  }
+
+  positions
+}
+
+.bayesianNetworkAnalysisReducePairwiseIndicators <- function(sampleGraphs, graphWeights, nVar) {
+
+  unchanged <- list(sampleGraphs = sampleGraphs, graphWeights = graphWeights)
+
+  if (is.null(sampleGraphs) || length(sampleGraphs) == 0L || is.null(graphWeights))
+    return(unchanged)
+
+  nEdges <- (nVar * (nVar - 1L)) %/% 2L
+
+  # Only the group comparison pads the indicators. Anything already at the edge
+  # width - every fit of a single network - is left untouched.
+  if (!all(nchar(sampleGraphs) == nEdges + nVar))
+    return(unchanged)
+
+  keep    <- .bayesianNetworkAnalysisPairwiseIndicatorPositions(nVar)
+  reduced <- vapply(strsplit(sampleGraphs, "", fixed = TRUE),
+                    function(indicators) paste0(indicators[keep], collapse = ""),
+                    character(1L))
+
+  # Dropping the main effect indicators can collapse distinct sampled structures
+  # into one, so re-aggregate rather than assuming the strings stay unique.
+  weights <- tapply(graphWeights, reduced, sum)
+
+  list(sampleGraphs = names(weights), graphWeights = as.integer(weights))
 }
 
 .bayesianNetworkAnalysisNormalizeUpdateMethod <- function(updateMethodRaw) {
@@ -546,7 +743,8 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   aliases <- c(
     "adaptive-metropolis" = "adaptive-metropolis",
     "adaptivemetropolis"  = "adaptive-metropolis",
-    "nuts"                = "nuts"
+    "nuts"                = "nuts",
+    "gibbs"               = "gibbs"
   )
 
   mapped <- unname(aliases[updateMethod])
@@ -554,7 +752,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     return(mapped)
 
   .quitAnalysis(gettextf(
-    "Unsupported update method '%s'. Please select one of: adaptive-metropolis, nuts.",
+    "Unsupported update method '%s'. Please select one of: adaptive-metropolis, nuts, gibbs.",
     updateMethodRaw
   ))
 }
@@ -615,34 +813,43 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   if (is.null(groupNames) || any(groupNames == ""))
     groupNames <- paste0(gettext("Group "), seq_len(nGroups))
 
+  # Networks are keyed by role and position rather than by label, so a group
+  # called "Differences" or "Pooled" cannot overwrite another network. The label
+  # shown in the output is stored with each network.
   networks <- list()
 
   pooledVariableSpec <- .bayesianNetworkAnalysisBuildVariableTypeSpec(options, pooledData)
   useCompare <- .bayesianNetworkAnalysisCompareSupported(options, pooledVariableSpec, nGroups)
 
+  .bayesianNetworkAnalysisAssertInteractionPriorSupported(options, pooledVariableSpec)
+
+  # With a grouping variable, interactionScale is the prior scale on the group
+  # differences and interactionScaleBaseline the scale on the partial
+  # associations themselves. The group and pooled networks are fits of partial
+  # associations, so they take the baseline scale whether or not a difference
+  # network is estimated.
+  networkOptions <- options
+  if (options[["groupingVariable"]] != "")
+    networkOptions[["interactionScale"]] <- options[["interactionScaleBaseline"]]
+
+  keepRawFit <- options[["edgePrior"]] == "Stochastic-Block" && .bayesianNetworkAnalysisStochasticBlockAllowed(options)
+
   if (useCompare) {
     updateMethod <- .bayesianNetworkAnalysisNormalizeUpdateMethod(options[["omrfUpdateMethod"]])
     groupIndicator <- rep(seq_len(nGroups), times = vapply(groupData, nrow, integer(1L)))
 
-    # In compare mode, interactionScale is the Cauchy scale on the *differences*;
-    # interactionScaleBaseline (when supplied) drives the *baseline* pairwise prior.
-    baselineOptions <- options
-    baselineScale <- options[["interactionScaleBaseline"]]
-    if (is.null(baselineScale) || !is.finite(baselineScale) || baselineScale <= 0)
-      baselineScale <- options[["interactionScale"]]
-    baselineOptions[["interactionScale"]] <- baselineScale
-
-    interactionPriorBaseline <- .bayesianNetworkAnalysisBuildInteractionPrior(baselineOptions)
+    interactionPriorBaseline <- .bayesianNetworkAnalysisBuildInteractionPrior(networkOptions)
     thresholdPrior           <- .bayesianNetworkAnalysisBuildThresholdPrior(options)
     differencePrior          <- .bayesianNetworkAnalysisBuildDifferencePrior(options)
+    differenceFamily         <- .bayesianNetworkAnalysisBuildDifferenceFamily(options)
 
     jaspBase::.setSeedJASP(options)
     compareFit <- try(easybgm::easybgm_compare(
       data    = pooledData,
+      package = "bgms",
       group_indicator             = groupIndicator,
       type    = pooledVariableSpec[["type"]],
       baseline_category           = pooledVariableSpec[["baselineCategory"]],
-      package = "bgms",
       iter                        = options[["iter"]],
       seed                        = options[["seed"]],
       save                        = TRUE,
@@ -653,6 +860,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       interaction_prior           = interactionPriorBaseline,
       threshold_prior             = thresholdPrior,
       difference_prior            = differencePrior,
+      difference_family           = differenceFamily,
       difference_scale            = options[["interactionScale"]],
       progress_callback           = .bayesianNetworkAnalysisMakeProgressCallback(gettext("Estimating group comparison"))
     ))
@@ -662,40 +870,48 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       .quitAnalysis(gettextf("The group comparison failed with the following error message:\n%s", message))
     }
 
-    networks[[gettext("Differences")]] <- .bayesianNetworkAnalysisExtractEasybgmResult(
-      easybgmFit   = compareFit,
-      variableSpec = pooledVariableSpec,
-      options      = options,
-      keepRawFit   = FALSE
+    differences <- .bayesianNetworkAnalysisExtractEasybgmResult(
+      easybgmFit      = compareFit,
+      variableSpec    = pooledVariableSpec,
+      options         = options,
+      keepRawFit      = FALSE,
+      isDifferenceFit = TRUE
     )
+    differences[c("label", "role")] <- c(gettext("Differences"), "differences")
+    networks[["differences"]] <- differences
 
     pooledFit <- .bayesianNetworkAnalysisFitSingleNetwork(
       data          = pooledData,
       variableSpec  = pooledVariableSpec,
-      options       = options,
+      options       = networkOptions,
       progressLabel = gettext("Estimating pooled network")
     )
 
-    networks[[gettext("Pooled")]] <- .bayesianNetworkAnalysisExtractEasybgmResult(
+    pooled <- .bayesianNetworkAnalysisExtractEasybgmResult(
       easybgmFit   = pooledFit,
       variableSpec = pooledVariableSpec,
       options      = options,
-      keepRawFit   = options[["edgePrior"]] == "Stochastic-Block" && .bayesianNetworkAnalysisStochasticBlockAllowed(options)
+      keepRawFit   = keepRawFit
     )
+    pooled[c("label", "role")] <- c(gettext("Pooled"), "pooled")
+    networks[["pooled"]] <- pooled
   }
 
   for (nw in seq_along(groupData)) {
     variableSpec <- .bayesianNetworkAnalysisBuildVariableTypeSpec(options, groupData[[nw]])
     progressLabel <- if (nGroups > 1L) gettextf("Estimating %s", groupNames[[nw]]) else gettext("Estimating network")
-    easybgmFit <- .bayesianNetworkAnalysisFitSingleNetwork(groupData[[nw]], variableSpec, options,
+    easybgmFit <- .bayesianNetworkAnalysisFitSingleNetwork(groupData[[nw]], variableSpec, networkOptions,
                                                             progressLabel = progressLabel)
 
-    networks[[groupNames[[nw]]]] <- .bayesianNetworkAnalysisExtractEasybgmResult(
+    # Group networks are numbered in the order of the group indicator of the comparison.
+    groupNetwork <- .bayesianNetworkAnalysisExtractEasybgmResult(
       easybgmFit   = easybgmFit,
       variableSpec = variableSpec,
       options      = options,
-      keepRawFit   = options[["edgePrior"]] == "Stochastic-Block" && .bayesianNetworkAnalysisStochasticBlockAllowed(options)
+      keepRawFit   = keepRawFit
     )
+    groupNetwork[c("label", "role")] <- c(groupNames[[nw]], "group")
+    networks[[paste0("group", nw)]] <- groupNetwork
   }
 
   if (!useCompare && options[["groupingVariable"]] != "" && nGroups >= 2L) {
@@ -707,6 +923,38 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   return(networks)
 }
 
+.bayesianNetworkAnalysisNetworkLabels <- function(allNetworks) {
+
+  keys <- names(allNetworks)
+  stats::setNames(
+    vapply(seq_along(allNetworks), function(i) allNetworks[[i]][["label"]] %||% keys[i], character(1L)),
+    keys
+  )
+}
+
+.bayesianNetworkAnalysisIsDifferences <- function(nw, key) {
+
+  if (!is.null(nw[["role"]]))
+    return(identical(nw[["role"]], "differences"))
+
+  # networks stored by an earlier version carry no role and are keyed by label
+  identical(key, gettext("Differences"))
+}
+
+.bayesianNetworkAnalysisDifferencesKey <- function(allNetworks) {
+
+  keys <- names(allNetworks)
+  isDifferences <- vapply(seq_along(allNetworks), function(i)
+    .bayesianNetworkAnalysisIsDifferences(allNetworks[[i]], keys[i]), logical(1L))
+
+  keys[isDifferences][1L]
+}
+
+.bayesianNetworkAnalysisHasDifferences <- function(allNetworks) {
+
+  !is.null(allNetworks) && !is.na(.bayesianNetworkAnalysisDifferencesKey(allNetworks))
+}
+
 .bayesianNetworkAnalysisMainTable <- function(mainContainer, dataset, options, network) {
 
   if (is.null(network[["network"]]) || mainContainer$getError())
@@ -716,12 +964,13 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   nGraphs <- length(network[["network"]])
 
   # Check if group comparison is active and 'Differences' network is present
-  groupComparison <- options[["groupingVariable"]] != "" && gettext("Differences") %in% names(network[["network"]])
+  groupComparison <- options[["groupingVariable"]] != "" && .bayesianNetworkAnalysisHasDifferences(network[["network"]])
 
   if (options[["minEdgeStrength"]] != 0) {
     ignored <- logical(nGraphs)
     for (i in seq_along(network[["network"]])) {
-      ignored[i] <- all(abs(network[["network"]][[i]][["graph"]]) <= options[["minEdgeStrength"]])
+      graph      <- network[["network"]][[i]][["graph"]]
+      ignored[i] <- !anyNA(graph) && all(abs(graph) <= options[["minEdgeStrength"]])
     }
     if (any(ignored)) {
       if (nGraphs == 1L) {
@@ -729,7 +978,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       } else {
         text <- gettextf("Minimum edge strength ignored in the network plot of group%1$s %2$s because it was larger than the absolute value of the strongest edge.",
                          ifelse(sum(ignored) == 2L, "s", ""),
-                         paste0(names(network[["network"]])[ignored], collapse = ", ")
+                         paste0(.bayesianNetworkAnalysisNetworkLabels(network[["network"]])[ignored], collapse = ", ")
         )
       }
       tb$addFootnote(text, symbol = gettext("<em>Warning: </em>"))
@@ -738,13 +987,14 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
   if (groupComparison) {
     # Only show Differences row, rename columns, drop sparsity
-    nw <- network[["network"]][[gettext("Differences")]]
+    nw <- network[["network"]][[.bayesianNetworkAnalysisDifferencesKey(network[["network"]])]]
     nVar <- ncol(nw[["graph"]])
     nEdges <- (nVar * (nVar - 1L)) %/% 2
-    bfUpper <- nw[["BF"]][upper.tri(nw[["BF"]], diag = FALSE)]
-    nDifferent <- sum(bfUpper >= options[["edgeSpecificOverviewInclusionCriteria"]])
-    nEqual <- sum(bfUpper <= 1 / options[["edgeSpecificOverviewInclusionCriteria"]])
-    nInconclusive <- nEdges - nDifferent - nEqual
+    evidence <- .bayesianNetworkAnalysisEvidenceCategory(nw[["BF"]][upper.tri(nw[["BF"]], diag = FALSE)],
+                                                         options[["edgeSpecificOverviewInclusionCriteria"]])
+    nDifferent    <- sum(evidence == "included")
+    nEqual        <- sum(evidence == "excluded")
+    nInconclusive <- sum(evidence == "inconclusive")
     df <- data.frame(
       nodes = nrow(nw[["graph"]]),
       different = paste(nDifferent, "/", nEdges),
@@ -767,17 +1017,17 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     df <- data.frame(nodes = integer(nGraphs), included = character(nGraphs), excluded = integer(nGraphs),
                      inconclusive = integer(nGraphs), Sparsity = numeric(nGraphs), stringsAsFactors = FALSE)
     if (nGraphs > 1L)
-      df[["info"]] <- names(network[["network"]])
+      df[["info"]] <- unname(.bayesianNetworkAnalysisNetworkLabels(network[["network"]]))
 
     threshold <- options[["edgeSpecificOverviewInclusionCriteria"]]
     nVar <- ncol(network[["network"]][[1L]][["graph"]])
     for (i in seq_len(nGraphs)) {
       nw <- network[["network"]][[i]]
       nEdges <- (nVar * (nVar - 1L)) %/% 2
-      bfUpper <- nw[["BF"]][upper.tri(nw[["BF"]], diag = FALSE)]
-      nIncluded    <- sum(bfUpper >= threshold)
-      nExcluded    <- sum(bfUpper <= 1 / threshold)
-      nInconclusive <- nEdges - nIncluded - nExcluded
+      evidence      <- .bayesianNetworkAnalysisEvidenceCategory(nw[["BF"]][upper.tri(nw[["BF"]], diag = FALSE)], threshold)
+      nIncluded     <- sum(evidence == "included")
+      nExcluded     <- sum(evidence == "excluded")
+      nInconclusive <- sum(evidence == "inconclusive")
       df[["nodes"]][i]        <- nrow(nw[["graph"]])
       df[["included"]][i]     <- paste(nIncluded, "/", nEdges)
       df[["excluded"]][i]     <- nExcluded
@@ -803,7 +1053,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
   # Only show network plot if NOT comparing networks (i.e., no differences network)
   allNetworks <- network[["network"]]
-  hasDifferences <- !is.null(allNetworks) && gettext("Differences") %in% names(allNetworks)
+  hasDifferences <- .bayesianNetworkAnalysisHasDifferences(allNetworks)
   if (!hasDifferences)
     .networkAnalysisNetworkPlot                    (plotContainer, network, options, method = "Bayesian")
 
@@ -835,7 +1085,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   }
 
   for (v in names(allNetworks))
-    posteriorStructurePlotContainer[[v]] <- createJaspPlot(title = v)
+    posteriorStructurePlotContainer[[v]] <- createJaspPlot(title = allNetworks[[v]][["label"]] %||% v)
 
   jaspBase::.suppressGrDevice({
 
@@ -868,13 +1118,16 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
   table <- createJaspTable(gettext("Centrality measures per variable"), #position = 2,
 
-                           dependencies = c("centralityTable", "maxEdgeStrength", "minEdgeStrength"))
+                           dependencies = c("centralityTable", "maxEdgeStrength", "minEdgeStrength", "credibilityInterval"))
   table$addColumnInfo(name = "Variable", title = gettext("Variable"), type = "string")
 
+  if (options[["credibilityInterval"]])
+    table$addFootnote(gettext("Centrality measures are standardized to z-scores across nodes and averaged over the networks sampled from the posterior."))
+  else
+    table$addFootnote(gettext("Centrality measures are standardized to z-scores across nodes and computed on the posterior mean network."))
+
   # shared titles
-  overTitles <- names(network[["network"]])
-  if (is.null(overTitles))
-    overTitles <- gettext("Network")
+  overTitles <- if (is.null(network[["network"]])) gettext("Network") else unname(.bayesianNetworkAnalysisNetworkLabels(network[["network"]]))
 
   for (i in seq_len(nGraphs)) {
     table$addColumnInfo(name = paste0("Betweenness", i),        title = gettext("Betweenness"),        type = "number", overtitle = overTitles[i])
@@ -1018,10 +1271,9 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     return()
 
   allNetworks     <- network[["network"]]
-  differencesName <- gettext("Differences")
-  hasDifferences  <- differencesName %in% names(allNetworks)
+  hasDifferences  <- .bayesianNetworkAnalysisHasDifferences(allNetworks)
   if (hasDifferences)
-    allNetworks <- allNetworks[differencesName]
+    allNetworks <- allNetworks[.bayesianNetworkAnalysisDifferencesKey(allNetworks)]
   nGraphs <- length(allNetworks)
 
   title <- if (nGraphs == 1L) gettext("Parameter HDI Plot") else gettext("Parameter HDI Plots")
@@ -1044,7 +1296,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   width  <- 500L
 
   for (v in names(allNetworks))
-    parameterHdiContainer[[v]] <- createJaspPlot(title = if (nGraphs == 1L) "" else v, width = width, height = height)
+    parameterHdiContainer[[v]] <- createJaspPlot(title = if (nGraphs == 1L) "" else (allNetworks[[v]][["label"]] %||% v), width = width, height = height)
 
   coverage <- options[["parameterHdiPlotCoverage"]]
 
@@ -1060,17 +1312,17 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
   if (hasDifferences) {
     noteHtml <- createJaspHtml()
-    noteHtml$text <- paste0("<p>", gettext("The difference parameter HDI plot shows the posterior mean and highest density interval (HDI) for each pairwise difference in partial association between groups. Positive values indicate a stronger association in the first group; negative values indicate a stronger association in the second group."), "</p>")
+    noteHtml$text <- paste0("<p>", gettext("The difference parameter HDI plot shows the posterior mean and highest density interval (HDI) for each pairwise difference in partial association between groups. Differences are the second group minus the first: positive values indicate a stronger association in the second group; negative values indicate a stronger association in the first group."), "</p>")
     noteHtml$position <- 99
     parameterHdiContainer[["differenceHdiNote"]] <- noteHtml
   }
 }
 
-.bayesianNetworkAnalysisMakeParameterHdiPlot <- function(network, options, coverage) {
+.bayesianNetworkAnalysisComputeParameterHdi <- function(network, options, coverage) {
 
   samplesPosterior <- network[["samplesPosterior"]]
   if (is.null(samplesPosterior))
-    stop(gettext("Posterior samples are required for the parameter HDI plot. Please ensure the model was fitted with 'save = TRUE'."))
+    stop(gettext("Posterior samples are required for the parameter HDI. Please ensure the model was fitted with 'save = TRUE'."))
 
   # Construct readable edge labels from decoded variable names.
   # Sort indices in row-major order to match the column order of samplesPosterior (as produced by bgms).
@@ -1078,32 +1330,56 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   decodedVars <- decodeColNames(variables)
   nVar        <- length(variables)
   upperIdx    <- which(upper.tri(matrix(0L, nVar, nVar)), arr.ind = TRUE)
-  upperIdx    <- upperIdx[order(upperIdx[, 1L], upperIdx[, 2L]), ]
-  edgeLabels  <- paste0(decodedVars[upperIdx[, 1L]], "-", decodedVars[upperIdx[, 2L]])
+  upperIdx    <- upperIdx[order(upperIdx[, 1L], upperIdx[, 2L]), , drop = FALSE]
+
+  # The extraction puts the draws in row-major upper-triangle order and names them
+  # accordingly. Verify that rather than trust it: a wrong order would attach
+  # every interval to the wrong edge.
+  sampleNames <- colnames(samplesPosterior)
+  if (!is.null(sampleNames)) {
+    expectedNames <- paste0(variables[upperIdx[, 1L]], "-", variables[upperIdx[, 2L]])
+    if (!identical(sampleNames, expectedNames))
+      stop(gettext("The posterior samples are not in the expected edge order. Please report this, as the parameter HDI output cannot be labelled reliably."))
+  }
+
+  # Column-then-row, matching the Relation labels of the edge specific overview.
+  edgeLabels  <- paste0(decodedVars[upperIdx[, 2L]], "-", decodedVars[upperIdx[, 1L]])
 
   if (options[["labelAbbreviation"]])
     edgeLabels <- base::abbreviate(edgeLabels, minlength = options[["labelAbbreviationLength"]])
 
   # Compute HDI and posterior means for each partial association
-  hdiIntervals     <- apply(samplesPosterior, MARGIN = 2L, FUN = HDInterval::hdi, credMass = coverage)
-  posteriorMedians <- apply(samplesPosterior, MARGIN = 2L, FUN = mean)
+  hdiIntervals   <- apply(samplesPosterior, MARGIN = 2L, FUN = HDInterval::hdi, credMass = coverage)
+  posteriorMeans <- colMeans(samplesPosterior)
+
+  # A spike-and-slab posterior can have an HDI of [0, 0] and a nonzero mean, and a
+  # posterior mean need not lie inside the HDI, so the mean is reported as is. The
+  # estimate of the median probability model, shown in the edge specific overview,
+  # is reported alongside it.
+  medianProbabilityEstimates <- network[["graph"]]
 
   posterior <- data.frame(
-    median = posteriorMedians,
-    lower  = hdiIntervals["lower", ],
-    upper  = hdiIntervals["upper", ],
-    edge   = edgeLabels,
+    mean  = posteriorMeans,
+    lower = hdiIntervals["lower", ],
+    upper = hdiIntervals["upper", ],
+    medianProbabilityEstimate = if (is.null(medianProbabilityEstimates)) NA_real_ else medianProbabilityEstimates[upperIdx],
+    edge  = unname(edgeLabels),
     stringsAsFactors = FALSE
   )
 
-  # Order by posterior median
-  posterior <- posterior[order(posterior$median), ]
+  # Order by posterior mean
+  posterior[order(posterior$mean), ]
+}
+
+.bayesianNetworkAnalysisMakeParameterHdiPlot <- function(network, options, coverage) {
+
+  posterior      <- .bayesianNetworkAnalysisComputeParameterHdi(network, options, coverage)
   posterior$edge <- factor(posterior$edge, levels = posterior$edge)
 
   coveragePct <- round(coverage * 100)
   yLabel      <- gettextf("%d%% HDI of Partial Association", coveragePct)
 
-  g <- ggplot2::ggplot(posterior, ggplot2::aes(x = edge, y = median, ymin = lower, ymax = upper)) +
+  g <- ggplot2::ggplot(posterior, ggplot2::aes(x = edge, y = mean, ymin = lower, ymax = upper)) +
     ggplot2::geom_hline(yintercept = 0, linetype = "dashed", colour = "grey60") +
     ggplot2::geom_pointrange() +
     ggplot2::coord_flip() +
@@ -1133,7 +1409,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   }
 
   for (v in names(allNetworks))
-    complexityPlotContainer[[v]] <- createJaspPlot(title = v)
+    complexityPlotContainer[[v]] <- createJaspPlot(title = allNetworks[[v]][["label"]] %||% v)
 
   jaspBase::.suppressGrDevice({
 
@@ -1231,19 +1507,11 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   if (options[["variableNamesShown"]] == "inNodes") {
     nodeNames <- NULL
 
-    if (nGraphs == 1) {
-      labels <- colnames(allNetworks$Network$graph)
-    } else {
-      labels <- colnames(allNetworks$`1`$graph)
-    }
+    labels <- colnames(allNetworks[[1L]]$graph)
 
   } else {
 
-    if (nGraphs == 1) {
-      nodeNames <- colnames(allNetworks$Network$graph)
-    } else {
-      nodeNames <- colnames(allNetworks$`1`$graph)
-    }
+    nodeNames <- colnames(allNetworks[[1L]]$graph)
     labels <- seq_along(nodeNames)
 
   }
@@ -1284,7 +1552,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   height <- setNames(rep(basePlotSize, nGraphs), names(allLegends))
   width  <- basePlotSize + allLegends * legendMultiplier
   for (v in names(allNetworks))
-    structurePlotContainer[[v]] <- createJaspPlot(title = v, width = width[v], height = height[v])
+    structurePlotContainer[[v]] <- createJaspPlot(title = allNetworks[[v]][["label"]] %||% v, width = width[v], height = height[v])
 
   jaspBase::.suppressGrDevice({
 
@@ -1315,10 +1583,9 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     return()
 
   allNetworks <- network[["network"]]
-  differencesName <- gettext("Differences")
-  hasDifferences <- differencesName %in% names(allNetworks)
+  hasDifferences <- .bayesianNetworkAnalysisHasDifferences(allNetworks)
   if (hasDifferences)
-    allNetworks <- allNetworks[differencesName]
+    allNetworks <- allNetworks[.bayesianNetworkAnalysisDifferencesKey(allNetworks)]
   nGraphs <- length(allNetworks)
 
   # we use an empty container without a name if there is only 1 graph. This container is hidden from the output but it
@@ -1331,7 +1598,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
                                                                                              "labelScale", "labelSize", "labelAbbreviation", "labelAbbreviationLength",
                                                                                              "layoutNotUpdated", "layoutX", "layoutY", "edgeInclusionCriteria",
                                                                                              "manualColorGroups", "colorGroupVariables", "manualColor",
-                                                                                             "legendToPlotRatio"
+                                                                                             "legendToPlotRatio", "edgeLabels", "edgeLabelSize", "edgeLabelPosition"
   ))
   plotContainer[["evidencePlotContainer"]] <- evidencePlotContainer
 
@@ -1382,19 +1649,11 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   if (options[["variableNamesShown"]] == "inNodes") {
     nodeNames <- NULL
 
-    if (nGraphs == 1) {
-      labels <- colnames(allNetworks[[1L]]$graph)
-    } else {
-      labels <- colnames(allNetworks$`1`$graph)
-    }
+    labels <- colnames(allNetworks[[1L]]$graph)
 
   } else {
 
-    if (nGraphs == 1) {
-      nodeNames <- colnames(allNetworks[[1L]]$graph)
-    } else {
-      nodeNames <- colnames(allNetworks$`1`$graph)
-    }
+    nodeNames <- colnames(allNetworks[[1L]]$graph)
     labels <- seq_along(nodeNames)
 
   }
@@ -1436,7 +1695,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   width  <- basePlotSize + allLegends * legendMultiplier
 
   for (v in names(allNetworks))
-    evidencePlotContainer[[v]] <- createJaspPlot(title = if (nGraphs == 1L) "" else v, width = width[v], height = height[v])
+    evidencePlotContainer[[v]] <- createJaspPlot(title = if (nGraphs == 1L) "" else (allNetworks[[v]][["label"]] %||% v), width = width[v], height = height[v])
 
   jaspBase::.suppressGrDevice({
 
@@ -1465,10 +1724,12 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
                                                     nodeColor, nodeNames) {
 
   # Select options for edges (inclusion, exclusion, absence):
+  evidence   <- .bayesianNetworkAnalysisEvidenceCategory(network[["BF"]], options[["edgeInclusionCriteria"]])
   graphColor <- matrix(NA, ncol = nrow(network[["graph"]]), nrow = nrow(network[["graph"]]))
-  if (options$edgeInclusion) graphColor[network[["BF"]] >= options[["edgeInclusionCriteria"]]] <- "#36648b"
-  if (options$edgeExclusion) graphColor[network[["BF"]] < (1 / options[["edgeInclusionCriteria"]])] <- "#eeb004"
-  if (options$edgeAbsence) graphColor[network[["BF"]] < options[["edgeInclusionCriteria"]] & network[["BF"]] > (1 / options[["edgeInclusionCriteria"]])] <- "#bfbfbf"
+  if (options$edgeInclusion) graphColor[evidence == "included"]     <- "#36648b"
+  if (options$edgeExclusion) graphColor[evidence == "excluded"]     <- "#eeb004"
+  if (options$edgeAbsence)   graphColor[evidence == "inconclusive"] <- "#bfbfbf"
+  diag(graphColor) <- NA
 
 
   # Determine the edges:
@@ -1500,6 +1761,24 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     ))
 }
 
+# One classification shared by the summary table, the edge specific overview and
+# the edge evidence plot, so they agree at the boundaries. The categories are
+# exclusive by construction: a Bayes factor at or above the threshold is evidence
+# for inclusion, one at or below its reciprocal is evidence for exclusion, and
+# anything in between is inconclusive. With a threshold of 1, BF = 1 counts as
+# evidence for inclusion. A missing Bayes factor is inconclusive.
+.bayesianNetworkAnalysisEvidenceCategory <- function(bf, threshold) {
+
+  category <- rep("inconclusive", length(bf))
+  category[which(bf <= 1 / threshold)] <- "excluded"
+  category[which(bf >= threshold)]     <- "included"
+
+  if (!is.null(dim(bf)))
+    dim(category) <- dim(bf)
+
+  category
+}
+
 .bayesianNetworkAnalysisEdgeEvidenceTable <- function(mainContainer, network, options) {
 
   if (!is.null(mainContainer[["edgeEvidenceTable"]]) || !options[["edgeEvidenceTable"]])
@@ -1512,9 +1791,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   table <- createJaspTable(gettext("Edge evidence probability table"), dependencies = c("edgeEvidenceTable", "evidenceType")) # , position = 4
   table$addColumnInfo(name = "Variable", title = gettext("Variable"), type = "string")
 
-  overTitles <- names(network[["network"]])
-  if (is.null(overTitles))
-    overTitles <- gettext("Network")
+  overTitles <- if (is.null(network[["network"]])) gettext("Network") else unname(.bayesianNetworkAnalysisNetworkLabels(network[["network"]]))
 
   for (i in seq_len(nGraphs))
     for (v in seq_len(nVar))
@@ -1568,7 +1845,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   threshold   <- options[["edgeSpecificOverviewInclusionCriteria"]]
   allNetworks <- network[["network"]]
   nGraphs     <- max(1L, length(allNetworks))
-  hasDifferencesNetwork <- !is.null(allNetworks) && gettext("Differences") %in% names(allNetworks)
+  hasDifferencesNetwork <- .bayesianNetworkAnalysisHasDifferences(allNetworks)
 
   if (nGraphs > 1L && hasDifferencesNetwork) {
     table <- createJaspTable(gettext("Edge Specific Overview"),
@@ -1592,8 +1869,8 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
       return()
 
     for (nwName in names(allNetworks)) {
-      table         <- createJaspTable(nwName)
-      isDifferences <- nwName == gettext("Differences")
+      table         <- createJaspTable(allNetworks[[nwName]][["label"]] %||% nwName)
+      isDifferences <- .bayesianNetworkAnalysisIsDifferences(allNetworks[[nwName]], nwName)
       .bayesianNetworkAnalysisFillEdgeOverviewTable(table, allNetworks[[nwName]], threshold, options, isDifferences)
       container[[nwName]] <- table
     }
@@ -1613,84 +1890,106 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
 .bayesianNetworkAnalysisFillCombinedEdgeOverviewTable <- function(table, allNetworks, threshold, options) {
 
-  differencesName <- gettext("Differences")
-  nwDiff <- allNetworks[[differencesName]]
+  differencesKey <- .bayesianNetworkAnalysisDifferencesKey(allNetworks)
+  nwDiff         <- allNetworks[[differencesKey]]
 
   variables   <- colnames(nwDiff$estimates)
   nVar        <- length(variables)
   nEdges      <- nVar * (nVar - 1L) / 2L
   decodedVars <- decodeColNames(variables)
 
-  # Upper triangle indices in row-major order
-  upperTriIdx <- which(upper.tri(nwDiff$estimates), arr.ind = TRUE)
-  upperTriIdx <- upperTriIdx[order(upperTriIdx[, 1], upperTriIdx[, 2]), ]
+  upperTriIdx <- .bayesianNetworkAnalysisUpperTriangleIndex(nVar)
 
-  relation      <- character(nEdges)
-  diffEstimate  <- numeric(nEdges)
-  inclusionProb <- numeric(nEdges)
-  inclusionBF   <- numeric(nEdges)
-  category      <- character(nEdges)
+  relation      <- paste0(decodedVars[upperTriIdx[, 2L]], "-", decodedVars[upperTriIdx[, 1L]])
+  inclusionProb <- nwDiff$inclusionProbabilities[upperTriIdx]
+  inclusionBF   <- nwDiff$BF[upperTriIdx]
 
-  for (k in seq_len(nEdges)) {
-    i <- upperTriIdx[k, 1]
-    j <- upperTriIdx[k, 2]
+  categoryLabels <- c(included = gettext("difference"), excluded = gettext("equal"), inconclusive = gettext("inconclusive"))
+  category       <- unname(categoryLabels[.bayesianNetworkAnalysisEvidenceCategory(inclusionBF, threshold)])
 
-    relation[k]      <- paste0(decodedVars[j], "-", decodedVars[i])
-    diffEstimate[k]  <- nwDiff$graph[i, j]
-    inclusionProb[k] <- nwDiff$inclusionProbabilities[i, j]
-    inclusionBF[k]   <- nwDiff$BF[i, j]
+  networkLabels <- .bayesianNetworkAnalysisNetworkLabels(allNetworks)
+  roles         <- vapply(allNetworks, function(nw) if (is.null(nw[["role"]])) "" else nw[["role"]], character(1L))
+  groupLabels   <- unname(networkLabels[roles == "group"])
 
-    if (inclusionBF[k] >= threshold)
-      category[k] <- gettext("difference")
-    else if (inclusionBF[k] <= 1 / threshold)
-      category[k] <- gettext("equal")
-    else
-      category[k] <- gettext("inconclusive")
+  # Median probability model: no difference where the posterior difference probability is at most 0.5.
+  inModel <- inclusionProb > 0.5
+
+  table$addColumnInfo(name = "relation", title = gettext("Relation"), type = "string")
+  df <- data.frame(relation = relation, stringsAsFactors = FALSE)
+
+  groupDifferences <- nwDiff$pairwiseGroupDifferences
+  if (is.null(groupDifferences)) {
+    # networks stored by an earlier version only carry a difference matrix
+    table$addColumnInfo(name = "difference1", title = gettext("Difference Estimate"), type = "number")
+    df$difference1 <- ifelse(inModel, nwDiff$estimates[upperTriIdx], 0)
+  } else {
+    # With more than two groups there is no single difference per edge, so every
+    # pair of groups gets its own column. easybgm numbers the groups in the order
+    # of the group networks and labels each pair "groupJ - groupI".
+    groupPairs <- utils::combn(length(groupLabels), 2L)
+    if (!identical(colnames(groupDifferences), paste0("group", groupPairs[2L, ], " - group", groupPairs[1L, ]))) {
+      table$setError(gettext("The pairwise group differences could not be matched to the groups."))
+      return()
+    }
+
+    for (k in seq_len(ncol(groupPairs))) {
+      columnName <- paste0("difference", k)
+      table$addColumnInfo(name      = columnName,
+                          title     = gettextf("%1$s \u2212 %2$s", groupLabels[groupPairs[2L, k]], groupLabels[groupPairs[1L, k]]),
+                          type      = "number",
+                          overtitle = gettext("Difference"))
+      df[[columnName]] <- ifelse(inModel, groupDifferences[, k], 0)
+    }
   }
 
-  table$addColumnInfo(name = "relation",         title = gettext("Relation"),              type = "string")
-  table$addColumnInfo(name = "differenceEstimate", title = gettext("Difference Estimate"),   type = "number")
-  table$addColumnInfo(name = "inclusionProb",    title = gettext("Posterior Diff. Prob."), type = "number")
-  table$addColumnInfo(name = "inclusionBF",      title = gettext("Difference BF"),          type = "number")
-  table$addColumnInfo(name = "category",         title = gettext("Category"),              type = "string")
+  table$addColumnInfo(name = "inclusionProb", title = gettext("Posterior Diff. Prob."), type = "number")
+  table$addColumnInfo(name = "inclusionBF",   title = gettext("Difference BF"),         type = "number")
+  table$addColumnInfo(name = "category",      title = gettext("Category"),              type = "string")
+  df$inclusionProb <- inclusionProb
+  df$inclusionBF   <- inclusionBF
+  df$category      <- category
 
-  df <- data.frame(
-    relation           = relation,
-    differenceEstimate = diffEstimate,
-    inclusionProb      = inclusionProb,
-    inclusionBF        = inclusionBF,
-    category           = category,
-    stringsAsFactors   = FALSE
-  )
-
-  # Try to add convergence from posterior samples in the difference network
-  convergence <- .bayesianNetworkAnalysisComputeEdgeConvergence(nwDiff, upperTriIdx, nEdges, as.integer(options[["chains"]]))
+  # The group comparison reports R-hat for the baseline pairwise interactions
+  # rather than for the differences, so say so instead of labelling it as the
+  # convergence of the difference estimates next to it.
+  convergence    <- .bayesianNetworkAnalysisComputeEdgeConvergence(nwDiff, upperTriIdx, nEdges, as.integer(options[["chains"]]))
+  isBaselineRhat <- isTRUE(nwDiff[["convergenceIsBaseline"]])
   if (!is.null(convergence)) {
-    table$addColumnInfo(name = "convergence", title = gettext("Convergence"), type = "number")
+    table$addColumnInfo(name  = "convergence",
+                        title = if (isBaselineRhat) gettext("Convergence (baseline)") else gettext("Convergence"),
+                        type  = "number")
     df$convergence <- convergence
   }
 
-  estimateNetworkNames <- setdiff(names(allNetworks), differencesName)
-  estimateNetworkNames <- estimateNetworkNames[estimateNetworkNames != ""]
-
-  for (nwName in estimateNetworkNames) {
-    columnName <- paste0("estimate_", make.names(nwName))
-    table$addColumnInfo(name = columnName, title = gettext("Estimate"), type = "number", overtitle = nwName)
-
-    nw <- allNetworks[[nwName]]
-    edgeEstimates <- numeric(nEdges)
-    for (k in seq_len(nEdges)) {
-      i <- upperTriIdx[k, 1]
-      j <- upperTriIdx[k, 2]
-      edgeEstimates[k] <- nw$graph[i, j]
+  # Group estimates come from the joint model, so they agree with the differences.
+  groupEstimates <- nwDiff$groupEstimates
+  if (!is.null(groupEstimates)) {
+    for (g in seq_len(ncol(groupEstimates))) {
+      columnName <- paste0("groupEstimate", g)
+      table$addColumnInfo(name = columnName, title = gettext("Estimate"), type = "number", overtitle = groupLabels[g])
+      df[[columnName]] <- groupEstimates[, g]
     }
-    df[[columnName]] <- edgeEstimates
+  }
+
+  # Networks fitted separately: the pooled data, or every group for a network
+  # stored by an earlier version.
+  separateKeys <- if (is.null(groupEstimates)) setdiff(names(allNetworks), differencesKey) else names(allNetworks)[roles == "pooled"]
+  for (k in seq_along(separateKeys)) {
+    columnName <- paste0("separateEstimate", k)
+    table$addColumnInfo(name = columnName, title = gettext("Estimate"), type = "number", overtitle = networkLabels[[separateKeys[k]]])
+    df[[columnName]] <- allNetworks[[separateKeys[k]]]$graph[upperTriIdx]
   }
 
   table$addFootnote(gettext("Difference estimates are based on the median probability model: edges with a posterior difference probability \u2264 0.5 are set to zero."))
+  if (!is.null(groupEstimates))
+    table$addFootnote(gettext("Group estimates are posterior means of the joint model used for the group comparison; a difference that is not set to zero equals the difference between the corresponding group estimates."))
+  if (any(roles == "pooled"))
+    table$addFootnote(gettext("Pooled estimates come from a separate fit to the pooled data and are based on its median probability model."))
   table$addFootnote(gettext("Bayes factors with values of infinity indicate that the estimated posterior difference probability is either 1 or 0. Please see the help file for more information."))
   if (!is.null(convergence)) {
-    if (as.integer(options[["chains"]]) >= 2L)
+    if (isBaselineRhat)
+      table$addFootnote(gettext("Convergence is the R-hat (Gelman-Rubin) statistic of the baseline pairwise interactions of the joint model; the group comparison does not report a separate R-hat for the differences themselves. Values greater than about 1.01-1.05 are considered concerning. Consider increasing the number of iterations and/or chains to improve convergence."))
+    else if (as.integer(options[["chains"]]) >= 2L)
       table$addFootnote(gettext("Convergence is the R-hat (Gelman-Rubin) statistic, values greater than about 1.01-1.05 are considered concerning, indicating potential lack of convergence for the estimates of the pairwise interactions. Consider increasing the number of iterations and/or chains to improve convergence."))
     else
       table$addFootnote(gettext("Convergence is the split-chain R-hat (Gelman-Rubin) statistic, computed post hoc by splitting the posterior samples into two halves."))
@@ -1714,7 +2013,6 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   estimate      <- numeric(nEdges)
   inclusionProb <- numeric(nEdges)
   inclusionBF   <- numeric(nEdges)
-  category      <- character(nEdges)
 
   for (k in seq_len(nEdges)) {
     i <- upperTriIdx[k, 1]
@@ -1724,14 +2022,13 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     estimate[k]      <- nw$graph[i, j]
     inclusionProb[k] <- nw$inclusionProbabilities[i, j]
     inclusionBF[k]   <- nw$BF[i, j]
-
-    if (inclusionBF[k] >= threshold)
-      category[k] <- if (isDifferences) gettext("difference") else gettext("included")
-    else if (inclusionBF[k] <= 1 / threshold)
-      category[k] <- if (isDifferences) gettext("equal")      else gettext("excluded")
-    else
-      category[k] <- gettext("inconclusive")
   }
+
+  categoryLabels <- if (isDifferences)
+    c(included = gettext("difference"), excluded = gettext("equal"),    inconclusive = gettext("inconclusive"))
+  else
+    c(included = gettext("included"),   excluded = gettext("excluded"), inconclusive = gettext("inconclusive"))
+  category <- unname(categoryLabels[.bayesianNetworkAnalysisEvidenceCategory(inclusionBF, threshold)])
 
   table$addColumnInfo(name = "relation",      title = gettext("Relation"),              type = "string")
   table$addColumnInfo(name = "estimate",      title = gettext("Estimate"),              type = "number")
@@ -1766,6 +2063,188 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   table$setData(df)
 }
 
+.bayesianNetworkAnalysisBlumeCapelTable <- function(mainContainer, network, options) {
+
+  if (!is.null(mainContainer[["blumeCapelTable"]]) || !options[["edgeSpecificOverviewTable"]] ||
+      length(options[["variablesBlumeCapel"]]) == 0L)
+    return()
+
+  # The Blume-Capel assignments travel in the variables option, a dependency of mainContainer.
+  dependencies <- "edgeSpecificOverviewTable"
+  allNetworks  <- network[["network"]]
+
+  # easybgm only reports these for fits of individual networks; the differences
+  # network of a group comparison does not carry them.
+  bcNetworks <- Filter(.bayesianNetworkAnalysisHasBlumeCapelParameters, allNetworks)
+
+  if (!is.null(allNetworks) && length(bcNetworks) == 0L)
+    return()
+
+  if (length(bcNetworks) > 1L) {
+    container <- createJaspContainer(gettext("Blume-Capel Main Effects"), dependencies = dependencies)
+    container$position <- 3
+    mainContainer[["blumeCapelTable"]] <- container
+
+    for (nwName in names(bcNetworks)) {
+      table <- createJaspTable(bcNetworks[[nwName]][["label"]] %||% nwName)
+      .bayesianNetworkAnalysisFillBlumeCapelTable(table, bcNetworks[[nwName]], options)
+      container[[nwName]] <- table
+    }
+
+    return()
+  }
+
+  table <- createJaspTable(gettext("Blume-Capel Main Effects"), dependencies = dependencies)
+  table$position <- 3
+  mainContainer[["blumeCapelTable"]] <- table
+
+  if (is.null(allNetworks) || mainContainer$getError()) {
+    .bayesianNetworkAnalysisFillBlumeCapelTable(table, NULL, options)
+    return()
+  }
+
+  .bayesianNetworkAnalysisFillBlumeCapelTable(table, bcNetworks[[1L]], options)
+}
+
+.bayesianNetworkAnalysisHasBlumeCapelParameters <- function(nw) {
+
+  bc <- nw[["blumeCapelParameters"]]
+
+  !is.null(bc) && is.data.frame(bc) && nrow(bc) > 0L
+}
+
+.bayesianNetworkAnalysisFillBlumeCapelTable <- function(table, nw, options) {
+
+  ciTitle <- gettextf("%s%% Credible Interval", 95)
+
+  table$addColumnInfo(name = "variable",    title = gettext("Variable"),          type = "string")
+  table$addColumnInfo(name = "effect",      title = gettext("Effect"),            type = "string")
+  table$addColumnInfo(name = "baseline",    title = gettext("Baseline Category"), type = "integer")
+  table$addColumnInfo(name = "estimate",    title = gettext("Estimate"),          type = "number")
+  table$addColumnInfo(name = "sd",          title = gettext("Posterior SD"),      type = "number")
+  table$addColumnInfo(name = "lower",       title = gettext("Lower"),             type = "number", overtitle = ciTitle)
+  table$addColumnInfo(name = "upper",       title = gettext("Upper"),             type = "number", overtitle = ciTitle)
+  table$addColumnInfo(name = "convergence", title = gettext("Convergence"),       type = "number")
+
+  table$addFootnote(gettext("The linear (\u03b1) and quadratic (\u03b2) contributions of the Blume-Capel model for the category thresholds, reported relative to the baseline category the variable was fitted with."))
+
+  if (is.null(nw) || !.bayesianNetworkAnalysisHasBlumeCapelParameters(nw))
+    return()
+
+  bc <- nw[["blumeCapelParameters"]]
+
+  # Guard against easybgm renaming a column: a missing one becomes all-missing
+  # rather than dropping the whole table.
+  bcColumn <- function(columnName, default = NA_real_) {
+    values <- bc[[columnName]]
+    if (is.null(values)) rep(default, nrow(bc)) else values
+  }
+
+  effectLabels <- c(linear = gettext("Linear"), quadratic = gettext("Quadratic"))
+  effect       <- as.character(bcColumn("Effect", NA_character_))
+  labelled     <- unname(effectLabels[effect])
+  effect       <- ifelse(is.na(labelled), effect, labelled)
+
+  df <- data.frame(
+    variable    = decodeColNames(as.character(bcColumn("Variable", NA_character_))),
+    effect      = effect,
+    baseline    = as.integer(bcColumn("Baseline Category")),
+    estimate    = bcColumn("Estimate"),
+    sd          = bcColumn("Posterior SD"),
+    lower       = bcColumn("Lower 2.5%"),
+    upper       = bcColumn("Upper 97.5%"),
+    convergence = bcColumn("Convergence"),
+    stringsAsFactors = FALSE
+  )
+
+  if (as.integer(options[["chains"]]) >= 2L)
+    table$addFootnote(gettext("Convergence is the R-hat (Gelman-Rubin) statistic, values greater than about 1.01-1.05 are considered concerning, indicating potential lack of convergence for the estimates of the main effects. Consider increasing the number of iterations and/or chains to improve convergence."))
+  else
+    table$addFootnote(gettext("Convergence is the split-chain R-hat (Gelman-Rubin) statistic, computed post hoc by splitting the posterior samples into two halves."))
+
+  table$setData(df)
+}
+
+.bayesianNetworkAnalysisParameterHdiTable <- function(mainContainer, network, options) {
+
+  if (!is.null(mainContainer[["parameterHdiTable"]]) || !options[["parameterHdiTable"]] ||
+      options[["groupingVariable"]] != "")
+    return()
+
+  dependencies <- c("parameterHdiTable", "parameterHdiTableCoverage",
+                    "labelAbbreviation", "labelAbbreviationLength")
+
+  coverage    <- options[["parameterHdiTableCoverage"]]
+  allNetworks <- network[["network"]]
+  nGraphs     <- max(1L, length(allNetworks))
+
+  if (nGraphs > 1L) {
+    container <- createJaspContainer(gettext("Parameter HDI Table"), dependencies = dependencies)
+    container$position <- 5
+    mainContainer[["parameterHdiTable"]] <- container
+
+    if (is.null(allNetworks) || mainContainer$getError())
+      return()
+
+    for (nwName in names(allNetworks)) {
+      table <- createJaspTable(allNetworks[[nwName]][["label"]] %||% nwName)
+      .bayesianNetworkAnalysisFillParameterHdiTable(table, allNetworks[[nwName]], options, coverage)
+      container[[nwName]] <- table
+    }
+
+    return()
+  }
+
+  table <- createJaspTable(gettext("Parameter HDI Table"), dependencies = dependencies)
+  table$position <- 5
+  mainContainer[["parameterHdiTable"]] <- table
+
+  if (is.null(allNetworks) || mainContainer$getError()) {
+    .bayesianNetworkAnalysisFillParameterHdiTable(table, NULL, options, coverage)
+    return()
+  }
+
+  .bayesianNetworkAnalysisFillParameterHdiTable(table, allNetworks[[1L]], options, coverage)
+}
+
+.bayesianNetworkAnalysisFillParameterHdiTable <- function(table, nw, options, coverage) {
+
+  coveragePct <- round(coverage * 100)
+  hdiTitle    <- gettextf("%d%% HDI", coveragePct)
+
+  table$addColumnInfo(name = "relation", title = gettext("Relation"),       type = "string")
+  table$addColumnInfo(name = "mean",     title = gettext("Posterior Mean"), type = "number")
+  table$addColumnInfo(name = "lower",    title = gettext("Lower"),          type = "number", overtitle = hdiTitle)
+  table$addColumnInfo(name = "upper",    title = gettext("Upper"),          type = "number", overtitle = hdiTitle)
+  table$addColumnInfo(name = "medianProbabilityEstimate", title = gettext("Median Probability Model Estimate"), type = "number")
+
+  if (is.null(nw))
+    return()
+
+  posterior <- try(.bayesianNetworkAnalysisComputeParameterHdi(nw, options, coverage))
+  if (isTryError(posterior)) {
+    table$setError(.extractErrorMessage(posterior))
+    return()
+  }
+
+  # .bayesianNetworkAnalysisComputeParameterHdi orders ascending for the plot, whose flipped
+  # axis puts the smallest at the bottom. Reverse it so the table reads top-to-bottom like the plot.
+  posterior <- posterior[order(posterior$mean, decreasing = TRUE), ]
+
+  df <- data.frame(
+    relation = posterior$edge,
+    mean     = posterior$mean,
+    lower    = posterior$lower,
+    upper    = posterior$upper,
+    medianProbabilityEstimate = posterior$medianProbabilityEstimate,
+    stringsAsFactors = FALSE
+  )
+
+  table$addFootnote(gettext("The posterior mean averages over all posterior samples, including those in which the edge is excluded, so it can be nonzero when the HDI collapses onto zero. The median probability model estimate sets edges with a posterior inclusion probability \u2264 0.5 to zero, matching the edge specific overview table."))
+
+  table$setData(df)
+}
+
 .bayesianNetworkAnalysisInterpretativeScale <- function(mainContainer, network, options) {
 
   if (!is.null(mainContainer[["interpretativeScaleContainer"]]) ||
@@ -1776,7 +2255,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   container <- createJaspContainer(
     dependencies = c("edgeSpecificOverviewTable", "showInterpretativeScaleEstimates")
   )
-  container$position <- 3
+  container$position <- 4
   mainContainer[["interpretativeScaleContainer"]] <- container
 
   allNetworks <- network[["network"]]
@@ -1787,7 +2266,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
   if (nGraphs > 1L) {
     for (nwName in names(allNetworks)) {
-      nwContainer <- createJaspContainer(nwName)
+      nwContainer <- createJaspContainer(allNetworks[[nwName]][["label"]] %||% nwName)
       container[[nwName]] <- nwContainer
       .bayesianNetworkAnalysisAddInterpretativeScaleTables(nwContainer, allNetworks[[nwName]])
     }
@@ -1809,17 +2288,9 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   .bayesianNetworkAnalysisAddInterpretativeScaleMatrix(
     container   = container,
     nw          = nw,
-    matrixName  = gettext("Precision Matrix"),
-    matrixKey   = "precisionMatrix",
-    position    = 2
-  )
-
-  .bayesianNetworkAnalysisAddInterpretativeScaleMatrix(
-    container   = container,
-    nw          = nw,
     matrixName  = gettext("Partial Correlations"),
     matrixKey   = "partialCorrelations",
-    position    = 3
+    position    = 2
   )
 }
 
@@ -1911,28 +2382,37 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
 .bayesianNetworkAnalysisComputeEdgeConvergence <- function(nw, upperTriIdx, nEdges, nChains = 1L) {
 
+  # The extraction stores every pairwise quantity in row-major upper-triangle
+  # order (V1-V2, V1-V3, ..., V2-V3, ...). Reading it as column-major attaches
+  # each statistic to the wrong edge from four variables onwards.
+  nVar     <- nrow(nw$estimates)
+  rowIdx   <- which(upper.tri(matrix(NA, nVar, nVar)), arr.ind = TRUE)
+  rowIdx   <- rowIdx[order(rowIdx[, 1L], rowIdx[, 2L]), , drop = FALSE]
+  rowMajor <- matrix(NA_integer_, nVar, nVar)
+  rowMajor[rowIdx] <- seq_len(nrow(rowIdx))
+
+  # Prefer the R-hat bgms itself computed across chains over the post hoc
+  # split-chain statistic below.
+  reported    <- nw$convergence
+  useReported <- is.numeric(reported) && length(reported) >= nrow(rowIdx)
+
   posteriorSamples <- nw$samplesPosterior
-  if (is.null(posteriorSamples) || ncol(posteriorSamples) < nEdges || nrow(posteriorSamples) < 4L)
+  if (!useReported &&
+      (is.null(posteriorSamples) || ncol(posteriorSamples) < nEdges || nrow(posteriorSamples) < 4L))
     return(NULL)
-
-  # Build column-major upper triangle mapping to find the right column in samplesPosterior
-  nVar <- nrow(nw$estimates)
-  cmIdx <- which(upper.tri(matrix(NA, nVar, nVar)), arr.ind = TRUE)
-
-  cmLookup <- matrix(NA_integer_, nVar, nVar)
-  for (pos in seq_len(nrow(cmIdx)))
-    cmLookup[cmIdx[pos, 1], cmIdx[pos, 2]] <- pos
 
   convergence <- numeric(nEdges)
   for (k in seq_len(nEdges)) {
-    i <- upperTriIdx[k, 1]
-    j <- upperTriIdx[k, 2]
-    col <- cmLookup[i, j]
+    col <- rowMajor[upperTriIdx[k, 1], upperTriIdx[k, 2]]
 
-    if (!is.na(col) && col <= ncol(posteriorSamples))
-      convergence[k] <- .bayesianNetworkAnalysisRhat(posteriorSamples[, col], nChains)
+    convergence[k] <- if (is.na(col))
+      NA_real_
+    else if (useReported)
+      reported[[col]]
+    else if (col <= ncol(posteriorSamples))
+      .bayesianNetworkAnalysisRhat(posteriorSamples[, col], nChains)
     else
-      convergence[k] <- NA_real_
+      NA_real_
   }
 
   convergence
@@ -2171,7 +2651,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   }
 
   for (v in names(allNetworks))
-    coclusteringPlotContainer[[v]] <- createJaspPlot(title = v, width = 480, height = 400)
+    coclusteringPlotContainer[[v]] <- createJaspPlot(title = allNetworks[[v]][["label"]] %||% v, width = 480, height = 400)
 
   for (v in names(allNetworks)) {
     nw <- allNetworks[[v]]
@@ -2296,46 +2776,45 @@ firstup <- function(x) {
 centrality <- function(network, measures = c("closeness", "betweenness", "strength", "expectedInfluence"), options) {
 
   measures <- firstup(measures)
+  labels   <- colnames(network$estimates)
 
-  graph <- qgraph::centralityPlot(unname(as.matrix(network$estimates)),
-                                  include = measures,
-                                  verbose = FALSE,
-                                  print = FALSE,
-                                  scale = "z-scores",
-                                  labels = colnames(network$estimates))
-
-  centralityOutput <- graph$data[, c("node", "measure", "value")]
+  centralityOutput <- .bayesianNetworkAnalysisCentralityGrid(network$estimates, measures, labels)
   colnames(centralityOutput) <- c("node", "measure", "posteriorMeans")
 
   if (options[["credibilityInterval"]]) {
 
-    # Compute centrality for each posterior sample:
-    for (i in seq_len(nrow(network$samplesPosterior))) {
+    nVar <- as.numeric(nrow(network$estimates))
 
-      graph <- qgraph::centralityPlot(vectorToMatrix(network$samplesPosterior[i, ], as.numeric(nrow(network$estimates)), bycolumn = TRUE),
-                                      include = measures,
-                                      verbose = FALSE,
-                                      print = FALSE,
-                                      scale = "z-scores",
-                                      labels = colnames(network$estimates))
+    # Compute centrality for each posterior sample. The samples are stored in
+    # row-major upper-triangle order, which is what bycolumn = FALSE reconstructs.
+    draws <- vapply(seq_len(nrow(network$samplesPosterior)), function(i) {
+      graph <- vectorToMatrix(network$samplesPosterior[i, ], nVar, bycolumn = FALSE)
+      .bayesianNetworkAnalysisCentralityGrid(graph, measures, labels)[["value"]]
+    }, numeric(nrow(centralityOutput)))
 
-      # Strength is removed if all values are 0. Here we fix this by setting the value to 0 manually
-      # see https://github.com/jasp-stats/jasp-test-release/issues/2298
-      if (nrow(graph$data) != nrow(centralityOutput) &&
-          "Strength" %in% measures &&
-          all(abs(network$samplesPosterior[i, ]) <= .Machine$double.eps)) {
-
-        idx <- centralityOutput$measure %in% graph$data$measure
-        value <- numeric(nrow(centralityOutput))
-        value[idx] <- graph$data$value
-      } else {
-        value <- graph$data[["value"]]
-      }
-      centralityOutput <- cbind(centralityOutput, value)
-    }
+    centralityOutput <- cbind(centralityOutput, matrix(draws, nrow = nrow(centralityOutput)))
   }
 
-  centralityOutput$posteriorMeans <- ifelse(is.na(centralityOutput$posteriorMeans), 0, centralityOutput$posteriorMeans)
-
   return(centralityOutput)
+}
+
+# qgraph drops a measure it cannot compute, e.g. Strength of an empty network
+# (see https://github.com/jasp-stats/jasp-test-release/issues/2298). Return every
+# node-measure combination so the point estimate and each posterior sample have
+# the same rows; a measure that could not be standardized is reported as zero.
+.bayesianNetworkAnalysisCentralityGrid <- function(graph, measures, labels) {
+
+  centralityData <- qgraph::centralityPlot(unname(as.matrix(graph)),
+                                           include = measures,
+                                           verbose = FALSE,
+                                           print   = FALSE,
+                                           scale   = "z-scores",
+                                           labels  = labels)$data
+
+  grid <- expand.grid(node = labels, measure = measures, stringsAsFactors = FALSE)
+  grid$value <- centralityData$value[match(paste(grid$node, grid$measure, sep = "\r"),
+                                           paste(centralityData$node, centralityData$measure, sep = "\r"))]
+  grid$value[!is.finite(grid$value)] <- 0
+
+  grid
 }

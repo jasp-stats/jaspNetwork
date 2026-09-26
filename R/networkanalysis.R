@@ -642,10 +642,9 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     return()
 
   allNetworks <- network[["network"]]
-  differencesName <- gettext("Differences")
-  hasDifferences <- differencesName %in% names(allNetworks)
+  hasDifferences <- method == "Bayesian" && .bayesianNetworkAnalysisHasDifferences(allNetworks)
   if (hasDifferences)
-    allNetworks <- allNetworks[differencesName]
+    allNetworks <- allNetworks[.bayesianNetworkAnalysisDifferencesKey(allNetworks)]
   nGraphs <- length(allNetworks)
 
   # we use an empty container without a name if there is only 1 graph. This container is hidden from the output but it
@@ -761,11 +760,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
     nodeNames <- NULL
 
     if (method == "Bayesian") {
-      if (nGraphs == 1) {
-        labels <- colnames(allNetworks[[1L]]$graph)
-      } else {
-        labels <- colnames(allNetworks$`1`$graph)
-      }
+      labels <- colnames(allNetworks[[1L]]$graph)
     } else {
       labels <- allNetworks[[1]][["labels"]]
     }
@@ -773,11 +768,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   } else {
 
     if (method == "Bayesian") {
-      if (nGraphs == 1) {
-        nodeNames <- colnames(allNetworks[[1L]]$graph)
-      } else {
-        nodeNames <- colnames(allNetworks$`1`$graph)
-      }
+      nodeNames <- colnames(allNetworks[[1L]]$graph)
     } else {
       nodeNames <- allNetworks[[1]][["labels"]]
     }
@@ -822,7 +813,8 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   height <- setNames(rep(basePlotSize, nGraphs), names(allLegends))
   width  <- basePlotSize + allLegends * legendMultiplier
   for (v in names(allNetworks))
-    networkPlotContainer[[v]] <- createJaspPlot(title = if (nGraphs == 1L) "" else v, width = width[v], height = height[v])
+    networkPlotContainer[[v]] <- createJaspPlot(title = if (nGraphs == 1L) "" else if (method == "Bayesian") (allNetworks[[v]][["label"]] %||% v) else v,
+                                                width = width[v], height = height[v])
 
   jaspBase::.suppressGrDevice({
 
