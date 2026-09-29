@@ -601,7 +601,7 @@ VariablesForm
 			placeHolder			: qsTr("New Group")
 			minRows				: 2
 			preferredWidth		: (2 * form.width) / 5
-			
+
 			rowComponentTitle: manualColor.checked ? qsTr("Node / label color") : ""
 			rowComponent: Row
 			{

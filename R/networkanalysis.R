@@ -1306,7 +1306,7 @@ NetworkAnalysis <- function(jaspResults, dataset, options) {
   networks <- vector("list", length(dataset))
   # for every dataset do the analysis
   for (nw in seq_along(dataset)) {
-  
+
     data <- dataset[[nw]]
 
     # JASP supplies ordinal variables as ordered factors, convert to integer category scores for bootnet

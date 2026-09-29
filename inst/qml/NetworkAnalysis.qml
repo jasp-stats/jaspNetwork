@@ -602,7 +602,7 @@ Form
 			CheckBox { name: "strength";          label: qsTr("Strength");           checked: true;  info: qsTr("Sum of absolute edge weights connected to this node. Reflects how strongly a node is associated with its neighbors.") }
 			CheckBox { name: "expectedInfluence"; label: qsTr("Expected influence"); checked: false; info: qsTr("Sum of signed edge weights connected to this node. Unlike strength, negative edges reduce the value, so nodes with mixed positive and negative connections may have low expected influence.") }
 		}
-		
+
 		RadioButtonGroup
 		{
 			name: "centralityNormalization"
