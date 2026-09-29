@@ -32,7 +32,7 @@ msgid "Number of excluded edges"
 msgstr "Aantal knooppunten"
 
 msgid "Number of edges with inconclusive evidence"
-msgstr ""
+msgstr "Aantal randen met niet-conclusief bewijs"
 
 msgid "Sparsity"
 msgstr "Spaarzaamheid"
@@ -40,32 +40,32 @@ msgstr "Spaarzaamheid"
 msgid ""
 "Edge categorization is based on the inclusion criteria BF: included (BF₁₀ ≥ "
 "threshold), excluded (BF₁₀ ≤ 1/threshold), inconclusive (otherwise)."
-msgstr ""
+msgstr "Randcategorisering is gebaseerd op de inclusiecriteria-BF: opgenomen (BF₁₀ ≥ drempelwaarde), uitgesloten (BF₁₀ ≤ 1/drempelwaarde), niet-conclusief (anders)."
 
 msgid "Could not determine the baseline category for variable %s."
-msgstr ""
+msgstr "Kon de basiscategorie voor variabele %s niet bepalen."
 
 msgid ""
 "Some model type assignments refer to variables that are not part of the "
 "analysis: %s."
-msgstr ""
+msgstr "Sommige modeltype-toewijzingen verwijzen naar variabelen die geen deel uitmaken van de analyse: %s."
 
 msgid "Variable %s cannot be treated as Blume-Capel because it is not ordinal."
-msgstr ""
+msgstr "Variabele %s kan niet als Blume-Capel worden behandeld omdat deze niet ordinaal is."
 
 msgid ""
 "The Stochastic block model edge prior is not available when Split is "
 "selected. Please use Bernoulli or Beta-binomial."
-msgstr ""
+msgstr "De stochastic block model rand-prior is niet beschikbaar wanneer Splits is geselecteerd. Gebruik alstublieft Bernoulli of Beta-binomiaal."
 
 msgid "Unsupported prior family '%s'."
-msgstr ""
+msgstr "Niet-ondersteunde prior-familie '%s'."
 
 msgid "Unsupported edge prior '%s'."
-msgstr ""
+msgstr "Niet-ondersteunde rand-prior '%s'."
 
 msgid "Unsupported difference prior '%s'."
-msgstr ""
+msgstr "Niet-ondersteunde verschil-prior '%s'."
 
 #, fuzzy
 msgid ""
@@ -78,18 +78,18 @@ msgstr ""
 msgid ""
 "Unsupported update method '%s'. Please select one of: adaptive-metropolis, "
 "nuts."
-msgstr ""
+msgstr "Niet-ondersteunde update-methode '%s'. Selecteer een van: adaptive-metropolis, nuts."
 
 msgid ""
 "Unsupported edge prior '%s'. Please select one of: Bernoulli, Beta-binomial, "
 "Stochastic block model."
-msgstr ""
+msgstr "Niet-ondersteunde rand-prior '%s'. Selecteer een van: Bernoulli, Beta-binomiaal, Stochastic block model."
 
 msgid "Group"
-msgstr ""
+msgstr "Groep"
 
 msgid "Estimating group comparison"
-msgstr ""
+msgstr "Groepsvergelijking schatten"
 
 #, fuzzy
 msgid ""
@@ -100,17 +100,17 @@ msgstr ""
 "%s"
 
 msgid "Differences"
-msgstr ""
+msgstr "Verschillen"
 
 #, fuzzy
 msgid "Estimating pooled network"
 msgstr "Steekproefnetwerk wordt geschat..."
 
 msgid "Pooled"
-msgstr ""
+msgstr "Gepoold"
 
 msgid "Estimating %s"
-msgstr ""
+msgstr "%s schatten"
 
 #, fuzzy
 msgid "Estimating network"
@@ -119,7 +119,7 @@ msgstr "Steekproefnetwerk wordt geschat..."
 msgid ""
 "Difference network not estimated: all selected variables must be ordinal or "
 "Blume-Capel. Showing separate group estimates instead."
-msgstr ""
+msgstr "Verschilnetwerk niet geschat: alle geselecteerde variabelen moeten ordinaal of Blume-Capel zijn. In plaats daarvan worden afzonderlijke groepsberekeningen getoond."
 
 msgid ""
 "Minimum edge strength ignored in the network plot because it was larger than "
@@ -174,25 +174,25 @@ msgid "Centrality Plot"
 msgstr "Centraliteitsgrafiek"
 
 msgid "Parameter HDI Plot"
-msgstr ""
+msgstr "Parameter-HDI-plot"
 
 msgid "Parameter HDI Plots"
-msgstr ""
+msgstr "Parameter-HDI-plots"
 
 msgid ""
 "The difference parameter HDI plot shows the posterior mean and highest "
 "density interval (HDI) for each pairwise difference in partial association "
 "between groups. Positive values indicate a stronger association in the first "
 "group; negative values indicate a stronger association in the second group."
-msgstr ""
+msgstr "De parameter-HDI-plot voor het verschil toont het posterieure gemiddelde en het hoogste dichtheidsinterval (HDI) voor elk paarsgewijs verschil in partiële associatie tussen groepen. Positieve waarden duiden op een sterkere associatie in de eerste groep; negatieve waarden duiden op een sterkere associatie in de tweede groep."
 
 msgid ""
 "Posterior samples are required for the parameter HDI plot. Please ensure the "
 "model was fitted with 'save = TRUE'."
-msgstr ""
+msgstr "Posterieure steekproeven zijn vereist voor de parameter-HDI-plot. Zorg ervoor dat het model is geschat met 'save = TRUE'."
 
 msgid "%d%% HDI of Partial Association"
-msgstr ""
+msgstr "%d%% HDI van Partiële Associatie"
 
 msgid "Complexity plot"
 msgstr "Complexiteitsgrafiek"
@@ -230,89 +230,89 @@ msgid ""
 "Bayes factors with values of infinity indicate that the estimated posterior "
 "inclusion probability is either 1 or 0. Please see the help file for more "
 "information."
-msgstr ""
+msgstr "Bayesfactoren met waarden van oneindig geven aan dat de geschatte posterieure inclusiekans ofwel 1 ofwel 0 is. Zie het helpbestand voor meer informatie."
 
 msgid "Edge Specific Overview"
-msgstr ""
+msgstr "Randspecifiek Overzicht"
 
 msgid "difference"
-msgstr ""
+msgstr "verschil"
 
 msgid "equal"
-msgstr ""
+msgstr "gelijk"
 
 msgid "inconclusive"
-msgstr ""
+msgstr "niet-conclusief"
 
 msgid "Relation"
-msgstr ""
+msgstr "Relatie"
 
 msgid "Difference Estimate"
-msgstr ""
+msgstr "Verschilschatting"
 
 #, fuzzy
 msgid "Posterior Diff. Prob."
 msgstr "Posterior Waarschijnlijkheid Structuur Grafiek"
 
 msgid "Difference BF"
-msgstr ""
+msgstr "Verschil-BF"
 
 msgid "Category"
-msgstr ""
+msgstr "Categorie"
 
 msgid "Convergence"
-msgstr ""
+msgstr "Convergentie"
 
 msgid "Estimate"
-msgstr ""
+msgstr "Schatting"
 
 msgid ""
 "Difference estimates are based on the median probability model: edges with a "
 "posterior difference probability ≤ 0.5 are set to zero."
-msgstr ""
+msgstr "Verschilschattingen zijn gebaseerd op het mediaan-kansmodel: randen met een posterieure verschilkans ≤ 0,5 worden op nul gezet."
 
 msgid ""
 "Bayes factors with values of infinity indicate that the estimated posterior "
 "difference probability is either 1 or 0. Please see the help file for more "
 "information."
-msgstr ""
+msgstr "Bayesfactoren met waarden van oneindig geven aan dat de geschatte posterieure verschilkans ofwel 1 ofwel 0 is. Zie het helpbestand voor meer informatie."
 
 msgid ""
 "Convergence is the R-hat (Gelman-Rubin) statistic, values greater than about "
 "1.01-1.05 are considered concerning, indicating potential lack of "
 "convergence for the estimates of the pairwise interactions. Consider "
 "increasing the number of iterations and/or chains to improve convergence."
-msgstr ""
+msgstr "Convergentie is de R-hat (Gelman-Rubin) statistiek; waarden groter dan ongeveer 1,01-1,05 worden als zorgwekkend beschouwd en duiden op een mogelijk gebrek aan convergentie van de schattingen van de paarsgewijze interacties. Overweeg het aantal iteraties en/of ketens te verhogen om de convergentie te verbeteren."
 
 msgid ""
 "Convergence is the split-chain R-hat (Gelman-Rubin) statistic, computed post "
 "hoc by splitting the posterior samples into two halves."
-msgstr ""
+msgstr "Convergentie is de gesplitste-keten R-hat (Gelman-Rubin) statistiek, achteraf berekend door de posterieure steekproeven in twee helften te splitsen."
 
 msgid "included"
-msgstr ""
+msgstr "opgenomen"
 
 msgid "excluded"
-msgstr ""
+msgstr "uitgesloten"
 
 #, fuzzy
 msgid "Posterior Incl. Prob."
 msgstr "Posterior Waarschijnlijkheid Structuur Grafiek"
 
 msgid "Inclusion BF"
-msgstr ""
+msgstr "Inclusie-BF"
 
 msgid ""
 "Estimates are based on the median probability model: edges with a posterior "
 "inclusion probability ≤ 0.5 are set to zero."
-msgstr ""
+msgstr "Schattingen zijn gebaseerd op het mediaan-kansmodel: randen met een posterieure inclusiekans ≤ 0,5 worden op nul gezet."
 
 msgid ""
 "Convergence is the R-hat (Gelman-Rubin) statistic, with values greater than "
 "about 1.01-1.05 are considered concerning, indicating potential lack of "
 "convergence for the estimates of the pairwise interactions. Consider "
 "increasing the number of iterations to improve convergence."
-msgstr ""
+msgstr "Convergentie is de R-hat (Gelman-Rubin) statistiek; waarden groter dan ongeveer 1,01-1,05 worden als zorgwekkend beschouwd en duiden op een mogelijk gebrek aan convergentie van de schattingen van de paarsgewijze interacties. Overweeg het aantal iteraties te verhogen om de convergentie te verbeteren."
 
 msgid ""
 "Convergence is the split-chain R-hat (Gelman-Rubin) statistic, computed post "
@@ -320,23 +320,23 @@ msgid ""
 "about 1.01-1.05 are considered concerning, indicating potential lack of "
 "convergence for the estimates of the pairwise interactions. Consider "
 "increasing the number of iterations to improve convergence."
-msgstr ""
+msgstr "Convergentie is de gesplitste-keten R-hat (Gelman-Rubin) statistiek, achteraf berekend door de posterieure steekproeven in twee helften te splitsen. Waarden groter dan ongeveer 1,01-1,05 worden als zorgwekkend beschouwd en duiden op een mogelijk gebrek aan convergentie van de schattingen van de paarsgewijze interacties. Overweeg het aantal iteraties te verhogen om de convergentie te verbeteren."
 
 msgid "Log-odds"
-msgstr ""
+msgstr "Log-kansen"
 
 #, fuzzy
 msgid "Precision Matrix"
 msgstr "Gewichten matrix"
 
 msgid "Partial Correlations"
-msgstr ""
+msgstr "Partiële Correlaties"
 
 msgid "Cluster Allocations (Posterior Mean)"
-msgstr ""
+msgstr "Clustertoewijzingen (Posterieur Gemiddelde)"
 
 msgid "Cluster Allocations (Posterior Mode)"
-msgstr ""
+msgstr "Clustertoewijzingen (Posterieure Modus)"
 
 #, fuzzy
 msgid "Cluster"
@@ -355,19 +355,19 @@ msgid "Posterior probability"
 msgstr "Posterior Waarschijnlijkheid Structuur Grafiek"
 
 msgid "Posterior Co-clustering Matrix"
-msgstr ""
+msgstr "Posterieure Co-clustermatrix"
 
 msgid "Cluster Bayes Factor"
-msgstr ""
+msgstr "Cluster-Bayesfactor"
 
 msgid "Hypothesis"
-msgstr ""
+msgstr "Hypothese"
 
 msgid "Bayes factor"
-msgstr ""
+msgstr "Bayesfactor"
 
 msgid "Could not compute the cluster Bayes factor: %s"
-msgstr ""
+msgstr "Kon de cluster-Bayesfactor niet berekenen: %s"
 
 #, fuzzy
 msgid "Clustering vs. no clustering"
