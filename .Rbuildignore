@@ -3,4 +3,3 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^tests/upgrades$
-^CLAUDE\.md$
