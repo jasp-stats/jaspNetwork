@@ -169,7 +169,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
     }
 
     mainContainer[["networkState"]]    <- createJaspState(networkList[["network"]])
-    mainContainer[["centralityState"]] <- createJaspState(networkList[["centrality"]], dependencies = c("maxEdgeStrength", "minEdgeStrength", "credibilityInterval"))
+    mainContainer[["centralityState"]] <- createJaspState(networkList[["centrality"]], dependencies = c("centralityNormalization", "credibilityInterval"))
     mainContainer[["layoutState"]]     <- createJaspState(networkList[["layout"]],
                                                           dependencies = c("layout", "layoutSpringRepulsion", "layoutX", "layoutY"))
 
@@ -185,7 +185,8 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
     network <- networks[[nw]]
 
-    if (options[["credibilityInterval"]]) {
+    if (options[["credibilityInterval"]] &&
+      options[["centralityNormalization"]] == "normalized") {
 
       centralitySamples <- centrality(network = network, options = options)
 
@@ -866,9 +867,18 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
   nGraphs <- max(1L, length(network[["network"]]))
 
-  table <- createJaspTable(gettext("Centrality measures per variable"), #position = 2,
-
-                           dependencies = c("centralityTable", "maxEdgeStrength", "minEdgeStrength"))
+  table <- createJaspTable(
+    gettext("Centrality measures per variable"),
+    dependencies = c(
+      "centralityTable",
+      "centralityNormalization",
+      "betweenness",
+      "closeness",
+      "strength",
+      "expectedInfluence",
+      "credibilityInterval"
+    )
+  )
   table$addColumnInfo(name = "Variable", title = gettext("Variable"), type = "string")
 
   # shared titles
@@ -924,7 +934,7 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
 
   width <- 200 + 120 * sum(measuresToShow)
   plot <- createJaspPlot(title = gettext("Centrality Plot"), width = width,
-                         dependencies = c("centralityPlot", "betweenness", "closeness", "strength", "expectedInfluence", "credibilityInterval"))
+                         dependencies = c("centralityPlot", "centralityNormalization", "betweenness", "closeness", "strength", "expectedInfluence", "credibilityInterval"))
 
   plotContainer[["centralityPlot"]] <- plot
 
@@ -986,6 +996,11 @@ BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
   g <- g + ggplot2::geom_path() +
     ggplot2::geom_point() +
     ggplot2::labs(x = NULL, y = NULL, fill = NULL)
+
+  # "Raw including zero" uses raw centrality values but ensures that zero
+  # is included in each measure-specific plot range.
+  if (options[["centralityNormalization"]] == "raw0")
+    g <- g + ggplot2::geom_blank(ggplot2::aes(x = 0))
 
   if (options[["credibilityInterval"]]) {
 
@@ -2345,27 +2360,53 @@ centrality <- function(network, measures = c("closeness", "betweenness", "streng
 
   measures <- firstup(measures)
 
-  graph <- qgraph::centralityPlot(unname(as.matrix(network$estimates)),
-                                  include = measures,
-                                  verbose = FALSE,
-                                  print = FALSE,
-                                  scale = "z-scores",
-                                  labels = colnames(network$estimates))
+  normalization <- options[["centralityNormalization"]]
+
+  # Map JASP's centrality normalization options to qgraph's scale options.
+  # "raw0" and "raw" use the same centrality values; "raw0" differs only
+  # by forcing zero into the range of the resulting centrality plot.
+  scale <- switch(
+    normalization,
+    "raw0"       = "raw",
+    "raw"        = "raw",
+    "normalized" = "z-scores",
+    "relative"   = "relative",
+    "raw"
+  )
+
+  graph <- qgraph::centralityPlot(
+    unname(as.matrix(network$estimates)),
+    include = measures,
+    verbose = FALSE,
+    print = FALSE,
+    scale = scale,
+    labels = colnames(network$estimates)
+  )
 
   centralityOutput <- graph$data[, c("node", "measure", "value")]
   colnames(centralityOutput) <- c("node", "measure", "posteriorMeans")
 
-  if (options[["credibilityInterval"]]) {
+  # Credibility intervals are currently only supported for normalized
+  # centrality. The QML enforces this restriction as well, but retain the
+  # check here so saved analyses cannot request unsupported combinations.
+  if (options[["credibilityInterval"]] &&
+      normalization == "normalized") {
 
     # Compute centrality for each posterior sample:
     for (i in seq_len(nrow(network$samplesPosterior))) {
 
-      graph <- qgraph::centralityPlot(vectorToMatrix(network$samplesPosterior[i, ], as.numeric(nrow(network$estimates)), bycolumn = TRUE),
-                                      include = measures,
-                                      verbose = FALSE,
-                                      print = FALSE,
-                                      scale = "z-scores",
-                                      labels = colnames(network$estimates))
+      graph <- qgraph::centralityPlot(
+        vectorToMatrix(
+          network$samplesPosterior[i, ],
+          as.numeric(nrow(network$estimates)),
+          bycolumn = TRUE
+        ),
+        include = measures,
+        verbose = FALSE,
+        print = FALSE,
+        scale = "z-scores",
+        labels = colnames(network$estimates)
+      )
 
       # Strength is removed if all values are 0. Here we fix this by setting the value to 0 manually
       # see https://github.com/jasp-stats/jasp-test-release/issues/2298
@@ -2383,7 +2424,11 @@ centrality <- function(network, measures = c("closeness", "betweenness", "streng
     }
   }
 
-  centralityOutput$posteriorMeans <- ifelse(is.na(centralityOutput$posteriorMeans), 0, centralityOutput$posteriorMeans)
+  centralityOutput$posteriorMeans <- ifelse(
+    is.na(centralityOutput$posteriorMeans),
+    0,
+    centralityOutput$posteriorMeans
+  )
 
   return(centralityOutput)
 }

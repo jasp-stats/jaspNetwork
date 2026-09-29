@@ -130,16 +130,11 @@ VariablesForm
 	}
 	CheckBox
 	{
-		name: "centralityPlot"; id: centralityPlot; label: qsTr("Centrality plot")
+		name: "centralityPlot"
+		id: centralityPlot
+		label: qsTr("Centrality plot")
 		visible: groupingVariableSelector.count === 0
-		info: qsTr("Displays posterior mean centrality for the selected measures (betweenness, closeness, strength, expected influence). Measures are plotted side by side per node. Only available when no grouping variable is selected.")
-		CheckBox
-		{
-			name: "credibilityInterval";
-			label: qsTr("Credibility interval 95%");
-			info: qsTr("Adds 95% highest density intervals (HDI) to centrality summaries.")
-			checked: false;
-		}
+		info: qsTr("Displays posterior centrality estimates for the selected measures. Only available when no grouping variable is selected.")
 	}
 	CheckBox
 	{
@@ -227,8 +222,14 @@ VariablesForm
 					RadioButton { 	value: "log(BF)"; 				label: qsTr("Log(BF\u2081\u2080)"); info: qsTr("Natural logarithm of BF\u2081\u2080.")						}
 				}
 		}
-		CheckBox { name: "centralityTable"; label: qsTr("Centrality table"); visible: groupingVariableSelector.count === 0; info: qsTr("Shows the posterior mean betweenness, closeness, strength, and expected influence for each node. Centrality is computed on the posterior mean network. Only available when no grouping variable is selected.") }
-
+		CheckBox
+		{
+			name: "centralityTable"
+			id: centralityTable
+			label: qsTr("Centrality table")
+			visible: groupingVariableSelector.count === 0
+			info: qsTr("Shows posterior centrality estimates for the selected measures. Only available when no grouping variable is selected.")
+		}
 		Group
 		{
 			title: qsTr("Clustering Overview")
@@ -846,15 +847,70 @@ VariablesForm
 			}
 			RadioButton { value: "circle";	label: qsTr("Circle"); info: qsTr("Nodes are evenly spaced on a circle. Useful for comparing relative edge patterns without the layout reflecting association strength.")							}
 		}
+	}
+	Section
+	{
+		title: qsTr("Centrality Options")
+		enabled: centralityPlot.checked || centralityTable.checked
 
 		Group
 		{
-			title: qsTr("Measures shown in centrality plot")
-			enabled: centralityPlot.checked
-			CheckBox	{	name: "betweenness";		label: qsTr("Betweenness");			checked: false; info: qsTr("Number of shortest paths between other node pairs that pass through this node. Nodes with high betweenness act as bridges in the network.")	}
-			CheckBox	{	name: "closeness";			label: qsTr("Closeness");			checked: false; info: qsTr("Inverse of the average shortest path length from this node to all other nodes. Nodes with high closeness can efficiently reach all other nodes.")	}
-			CheckBox	{	name: "strength";			label: qsTr("Strength");			checked: true; info: qsTr("Sum of absolute edge weights connected to this node. Reflects how strongly a node is associated with its neighbors.")	}
-			CheckBox	{	name: "expectedInfluence";	label: qsTr("Expected influence");	checked: false; info: qsTr("Sum of signed edge weights connected to this node. Unlike strength, negative edges reduce the value, so nodes with mixed positive and negative connections may have low expected influence.")	}
+			title: qsTr("Measures")
+
+			CheckBox { name: "betweenness";       label: qsTr("Betweenness");        checked: false; info: qsTr("Number of shortest paths between other node pairs that pass through this node. Nodes with high betweenness act as bridges in the network.") }
+			CheckBox { name: "closeness";         label: qsTr("Closeness");          checked: false; info: qsTr("Inverse of the average shortest path length from this node to all other nodes. Nodes with high closeness can efficiently reach all other nodes.") }
+			CheckBox { name: "strength";          label: qsTr("Strength");           checked: true;  info: qsTr("Sum of absolute edge weights connected to this node. Reflects how strongly a node is associated with its neighbors.") }
+			CheckBox { name: "expectedInfluence"; label: qsTr("Expected influence"); checked: false; info: qsTr("Sum of signed edge weights connected to this node. Unlike strength, negative edges reduce the value, so nodes with mixed positive and negative connections may have low expected influence.") }
+		}
+
+		RadioButtonGroup
+		{
+			id: centralityNormalization
+			name: "centralityNormalization"
+			title: qsTr("Normalization")
+
+			RadioButton
+			{
+				value: "raw0"
+				label: qsTr("Raw including zero")
+				checked: true
+			}
+
+			RadioButton
+			{
+				value: "raw"
+				label: qsTr("Raw")
+			}
+
+			RadioButton
+			{
+				id: normalizedCentrality
+				value: "normalized"
+				label: qsTr("Normalized")
+			}
+
+			RadioButton
+			{
+				value: "relative"
+				label: qsTr("Relative")
+			}
+		}
+
+		CheckBox
+		{
+			name: "credibilityInterval"
+			id: credibilityInterval
+			label: qsTr("Credibility interval 95%")
+			checked: false
+			enabled: normalizedCentrality.checked
+			info: qsTr("Adds 95% highest density intervals (HDI) to centrality summaries.")
+		}
+
+		Label
+		{
+			visible: !normalizedCentrality.checked
+			text: qsTr("Credibility intervals are currently only supported for normalized centrality.")
+			wrapMode: Text.WordWrap
 		}
 	}
 }
