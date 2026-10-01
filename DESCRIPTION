@@ -31,7 +31,6 @@ Imports:
   stringr
 Remotes:
   jasp-stats/jaspBase,
-  jasp-stats/jaspGraphs,
-  Bayesian-Graphical-Modelling-Lab/easybgm@fd17449a5f08f27c208c6c1b4a639e945da78fc4
+  jasp-stats/jaspGraphs
 Roxygen: list(markdown = TRUE)
 Config/roxygen2/version: 8.0.0

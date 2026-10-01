@@ -975,7 +975,7 @@
     "easybgm": {
       "Package": "easybgm",
       "Version": "0.5.1",
-      "Source": "GitHub",
+      "Source": "Repository",
       "Requirements": [
         "R",
         "BDgraph",
@@ -985,15 +985,8 @@
         "ggplot2",
         "HDInterval",
         "qgraph",
-        "coda",
-        "testthat"
-      ],
-      "RemoteType": "github",
-      "RemoteHost": "api.github.com",
-      "RemoteUsername": "Bayesian-Graphical-Modelling-Lab",
-      "RemoteRepo": "easybgm",
-      "RemoteRef": "fd17449a5f08f27c208c6c1b4a639e945da78fc4",
-      "RemoteSha": "fd17449a5f08f27c208c6c1b4a639e945da78fc4"
+        "coda"
+      ]
     },
     "eigenmodel": {
       "Package": "eigenmodel",
