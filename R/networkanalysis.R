@@ -73,6 +73,15 @@ NetworkAnalysisInternal <- function(jaspResults, dataset, options) {
     attr(dataset, "groupingVariableData") <- groupingVariableData
   }
 
+  # Defensive: keep only the columns named in options[["variables"]] in each
+  # split. JASP may include duplicate columns (different encodings of the same
+  # name) when a nominal variable is auto-coerced to ordinal in Dependent
+  # Variables; the byte-exact column selection here picks the matching encoding
+  # and drops the redundant duplicate so downstream type/level alignment works.
+  keepCols <- unlist(options[["variables"]])
+  for (i in seq_along(dataset))
+    dataset[[i]] <- dataset[[i]][, keepCols, drop = FALSE]
+
   if (hasLayoutData)
     attr(dataset, "layoutData") <- layoutData
 
@@ -82,8 +91,6 @@ NetworkAnalysisInternal <- function(jaspResults, dataset, options) {
 
 .networkAnalysisErrorCheck <- function(mainContainer, dataset, options) {
 
-  # some analyses, such as Sacha's EBIGglasso with cor_auto, completely ignore the missing argument
-  # and always use pairwise information even though their documentation says they can do listwise
   if (length(options[["variables"]]) < 3)
     return()
 
@@ -92,13 +99,58 @@ NetworkAnalysisInternal <- function(jaspResults, dataset, options) {
 
     customChecks <- NULL
 
+    # Ising models require two-category variables. When no split is requested (by default),
+    # stop here rather than letting bootnet silently apply its default median split.
+    if (options[["estimator"]] %in% c("isingFit", "isingSampler") &&
+        identical(options[["split"]], "none")) {
+
+      nonBinary <- vapply(dataset, function(data) {
+        any(vapply(data, function(x) {
+          length(unique(x[!is.na(x)])) > 2L
+        }, logical(1)))
+      }, logical(1))
+
+      if (any(nonBinary)) {
+        mainContainer$setError(
+          gettext(
+            "IsingFit and IsingSampler require binary data. One or more selected variables contain more than two observed values. Select Median or Mean under Binarization to binarize the data."
+          )
+        )
+        return()
+      }
+    }
+
     # check if data must be binarized
-    if (options[["estimator"]] %in% c("isingFit", "isingSampler")) {
+    if (options[["estimator"]] %in% c("isingFit", "isingSampler") &&
+        !identical(options[["split"]], "none")) {
 
       splitFun <- .networkAnalysisGetSplitFunction(options[["split"]])
+
       for (i in seq_along(dataset)) {
         idx <- colnames(dataset[[i]]) != options[["groupingVariable"]]
-        dataset[[i]][idx] <- bootnet::binarize(dataset[[i]][idx], split = splitFun, verbose = FALSE, removeNArows = FALSE)
+
+        dataToBinarize <- dataset[[i]][idx]
+
+        # bootnet::binarize() requires numeric data. JASP ordinal variables are
+        # represented as factors, so use their ordered category codes.
+        dataToBinarize[] <- lapply(dataToBinarize, function(x) {
+          if (is.factor(x))
+            as.numeric(x)
+          else
+            x
+        })
+
+# TODO: Add tests to verify Ising binarization end-to-end. In particular,
+# confirm that ordinal variables are converted to the correct numeric category
+# codes, that mean/median splitting produces the expected binary values without
+# introducing NAs, and that the same correctly processed data are ultimately
+# passed to bootnet for estimation.
+        dataset[[i]][idx] <- bootnet::binarize(
+          dataToBinarize,
+          split = splitFun,
+          verbose = FALSE,
+          removeNArows = FALSE
+        )
       }
 
       if (options[["estimator"]] == "isingFit") {
@@ -228,8 +280,11 @@ NetworkAnalysisInternal <- function(jaspResults, dataset, options) {
   nGraphs <- length(dataset)
 
   # footnotes
-  if (options[["estimator"]] %in% c("isingFit", "isingSampler") && !all(unlist(dataset[!is.na(dataset)]) %in% 0:1))
-    tb$addFootnote(gettextf("Data was binarized using %s. ",	options[["split"]]))
+  if (options[["estimator"]] %in% c("isingFit", "isingSampler") &&
+      options[["split"]] %in% c("median", "mean"))
+    tb$addFootnote(
+      gettextf("Data was binarized using %s.", options[["split"]])
+    )
 
   if (!is.null(options[["colorNodesByData"]]) && length(options[["colorNodesByData"]]) != length(options[["variables"]])) {
     tb$addFootnote(
@@ -245,6 +300,29 @@ NetworkAnalysisInternal <- function(jaspResults, dataset, options) {
 
   if (!is.null(options[["colorNodesByDataMessage"]]))
     tb$addFootnote(options[["colorNodesByDataMessage"]], symbol = gettext("<em>Warning: </em>"))
+
+  # Warn when Pearson correlations are used on ordinal data (Spearman is preferred there).
+  # Ordinal variables in the "Dependent Variables" list are read as factors; scale variables are numeric.
+  if (options[["estimator"]] %in% c("ebicGlasso", "ggmModSelect", "cor", "pcor") &&
+      options[["correlationMethod"]] == "cor" &&
+      any(vapply(dataset[[1L]], is.factor, logical(1L)))) {
+    tb$addFootnote(
+      gettext("Ordinal variables were entered while Pearson correlations ('Cor') are selected. Spearman correlations are generally preferred for ordinal data."),
+      symbol = gettext("<em>Warning: </em>")
+    )
+  }
+
+  # FIML / multiple imputation are computed with bootnet's mantar-based maximum-likelihood engine
+  # (cor_mantar), which overrides the selected correlation method for the correlation computation.
+  if (options[["estimator"]] %in% c("ebicGlasso", "ggmModSelect", "cor", "pcor") &&
+      options[["missingValues"]] %in% c("fiml", "stackedMI") &&
+      options[["correlationMethod"]] != "cor_mantar") {
+    text <- if (options[["missingValues"]] == "fiml")
+      gettext("FIML missing-data handling is computed with maximum-likelihood correlations (the 'mantar' package); the selected correlation method is not used to estimate the correlations.")
+    else
+      gettext("Multiple imputation is computed with the 'mantar' package; the selected correlation method is not used to estimate the correlations.")
+    tb$addFootnote(text, symbol = gettext("<em>Warning: </em>"))
+  }
 
   if (options[["minEdgeStrength"]] != 0) {
 
@@ -297,37 +375,105 @@ NetworkAnalysisInternal <- function(jaspResults, dataset, options) {
   if (!is.null(mainContainer[["centralityTable"]]) || !options[["centralityTable"]])
     return()
 
+  measures <- c(
+    betweenness       = "betweenness",
+    closeness         = "closeness",
+    strength          = "Strength",
+    expectedInfluence = "Expected Influence"
+  )
+  selectedMeasures <- measures[unlist(options[names(measures)], use.names = FALSE)]
+
   nGraphs <- max(1L, length(network[["network"]]))
-  table <- createJaspTable(gettext("Centrality measures per variable"), position = 2,
-                           dependencies = c("centralityTable", "centralityNormalization", "maxEdgeStrength", "minEdgeStrength"))
+  table <- createJaspTable(
+    gettext("Centrality measures per variable"),
+    position = 2,
+    dependencies = c(
+      "centralityTable",
+      "centralityNormalization",
+      "betweenness",
+      "closeness",
+      "strength",
+      "expectedInfluence",
+      "maxEdgeStrength",
+      "minEdgeStrength"
+    )
+  )
   table$addColumnInfo(name = "Variable", title = gettext("Variable"), type = "string")
 
   # shared titles
   overTitles <- names(network[["network"]])
   if (is.null(overTitles))
-    overTitles <- gettext("Network") # paste0("Network", 1:nGraphs)
+    overTitles <- gettext("Network")
 
-  for (i in seq_len(nGraphs)) { # three centrality columns per network
-    table$addColumnInfo(name = paste0("betweenness", i),        title = gettext("Betweenness"),        type = "number", overtitle = overTitles[i])
-    table$addColumnInfo(name = paste0("closeness", i),          title = gettext("Closeness"),          type = "number", overtitle = overTitles[i])
-    table$addColumnInfo(name = paste0("Strength", i),           title = gettext("Strength"),           type = "number", overtitle = overTitles[i])
-    table$addColumnInfo(name = paste0("Expected influence", i), title = gettext("Expected influence"), type = "number", overtitle = overTitles[i])
+  for (i in seq_len(nGraphs)) {
+    if (options[["betweenness"]])
+      table$addColumnInfo(
+        name = paste0("betweenness", i),
+        title = gettext("Betweenness"),
+        type = "number",
+        overtitle = overTitles[i]
+      )
+
+    if (options[["closeness"]])
+      table$addColumnInfo(
+        name = paste0("closeness", i),
+        title = gettext("Closeness"),
+        type = "number",
+        overtitle = overTitles[i]
+      )
+
+    if (options[["strength"]])
+      table$addColumnInfo(
+        name = paste0("Strength", i),
+        title = gettext("Strength"),
+        type = "number",
+        overtitle = overTitles[i]
+      )
+
+    if (options[["expectedInfluence"]])
+      table$addColumnInfo(
+        name = paste0("Expected influence", i),
+        title = gettext("Expected influence"),
+        type = "number",
+        overtitle = overTitles[i]
+      )
   }
 
-  mainContainer[["centralityTable"]] <- table
-  if (is.null(network[["centrality"]]) || mainContainer$getError())
-    return()
+    mainContainer[["centralityTable"]] <- table
+
+    # Leave the table empty when no centrality measures are selected.
+    if (length(selectedMeasures) == 0L)
+      return()
+
+    if (is.null(network[["centrality"]]) || mainContainer$getError())
+      return()
 
   # fill with results
   TBcolumns <- NULL
   for (i in seq_len(nGraphs)) {
 
-    toAdd <- network[["centrality"]][[i]]
-    names(toAdd) <- c("Variable", paste0(c("betweenness", "closeness", "Strength", "Expected influence"), i))
-    if (i == 1L) {# if more than 1 network drop the first column which indicates the variable
+    toAdd <- network[["centrality"]][[i]][
+      , c("node", unname(selectedMeasures)),
+      drop = FALSE
+    ]
+
+    names(toAdd) <- c(
+      "Variable",
+      paste0(
+        c(
+          betweenness       = "betweenness",
+          closeness         = "closeness",
+          strength          = "Strength",
+          expectedInfluence = "Expected influence"
+        )[names(selectedMeasures)],
+        i
+      )
+    )
+
+    if (i == 1L) {
       TBcolumns <- toAdd
     } else {
-      toAdd <- toAdd[, -1L]
+      toAdd <- toAdd[, -1L, drop = FALSE]
       TBcolumns <- cbind(TBcolumns, toAdd)
     }
   }
@@ -443,7 +589,7 @@ NetworkAnalysisInternal <- function(jaspResults, dataset, options) {
 
   width <- 200 + 120 * sum(measuresToShow)
   plot <- createJaspPlot(title = gettext("Centrality Plot"), position = 52, width = width,
-                         dependencies = c("centralityPlot", "betweenness", "closeness", "strength", "expectedInfluence"))
+                         dependencies = c("centralityPlot", "centralityNormalization", "betweenness", "closeness", "strength", "expectedInfluence"))
   plotContainer[["centralityPlot"]] <- plot
   if (is.null(network[["centrality"]]) || plotContainer$getError() || !hasMeasures)
     return()
@@ -460,8 +606,12 @@ NetworkAnalysisInternal <- function(jaspResults, dataset, options) {
   # ensure that the first character is capitalized in the text above the subplots so it matches the centrality table
   levels(long[["measure"]]) <- stringr::str_to_title(levels(long[["measure"]]))
 
-  .networkAnalysisMakePlotFromLong(plot, long, options)
-
+  .networkAnalysisMakePlotFromLong(
+    plot,
+    long,
+    options,
+    includeZero = options[["centralityNormalization"]] == "raw0"
+  )
 }
 
 .networkAnalysisClusteringPlot <- function(plotContainer, network, options) {
@@ -517,7 +667,11 @@ NetworkAnalysisInternal <- function(jaspResults, dataset, options) {
 
 }
 
-.networkAnalysisMakePlotFromLong <- function(jaspPlot, Long, options) {
+# TODO: Centrality and clustering currently share this plotting function.
+# These should eventually be separated so that plot-specific behavior and
+# options can be handled independently without affecting the other plot type.
+# For now, I added optional arg "includeZero" to isolate behavior when relevant.
+.networkAnalysisMakePlotFromLong <- function(jaspPlot, Long, options, includeZero = FALSE) {
 
   # "Long" is how qgraph refers to this object. This function transforms the
   # long object for centrality or clustering into a ggplot.
@@ -562,6 +716,11 @@ NetworkAnalysisInternal <- function(jaspResults, dataset, options) {
   } else {
     g <- g + ggplot2::facet_grid(~measure, scales = "free")
   }
+
+  # ensure that the x-axis includes zero for raw0 setting (centrality-specific)
+  if (includeZero)
+    g <- g + ggplot2::expand_limits(x = 0)
+
   g <- g + ggplot2::theme_bw()
 
   if (options[["legend"]] == "hide")
@@ -580,7 +739,7 @@ NetworkAnalysisInternal <- function(jaspResults, dataset, options) {
 
 
 .networkAnalysisOneNetworkPlot <- function(network, options, minE, layout, groups, maxE, labels, legend, shape,
-                                           nodeColor, edgeColor, nodeNames, method = "frequentist") {
+                                           nodeColor, labelColor, edgeColor, nodeNames, method = "frequentist") {
 
 
   wMat <- network[["graph"]]
@@ -617,6 +776,7 @@ NetworkAnalysisInternal <- function(jaspResults, dataset, options) {
       legend              = legend,
       shape               = shape,
       color               = nodeColor,
+      label.color         = labelColor,
       edge.color          = edgeColor,
       nodeNames           = nodeNames,
       label.scale         = options[["labelScale"]],
@@ -658,7 +818,7 @@ NetworkAnalysisInternal <- function(jaspResults, dataset, options) {
     "legendSpecificPlotNumber", "mgmVariableTypeShown",
     "labelScale", "labelSize", "labelAbbreviation", "labelAbbreviationLength",
     "layoutNotUpdated", "layoutX", "layoutY", "networkPlot",
-    "manualColorGroups", "color", "colorGroupVariables", "group", "manualColor",
+    "manualColorGroups", "color", "labelColor", "colorGroupVariables", "group", "manualColor",
     "legendToPlotRatio", "edgeLabels", "edgeLabelSize", "edgeLabelPosition",
     "networkPlotInclusionCriteria"
   ))
@@ -687,6 +847,8 @@ NetworkAnalysisInternal <- function(jaspResults, dataset, options) {
 
   groups <- NULL
   nodeColor <- NULL
+  labelColor <- NULL
+
   allLegends <- rep(FALSE, nGraphs) # no legends
 
   if (length(options[["colorGroupVariables"]]) > 1L) {
@@ -707,8 +869,22 @@ NetworkAnalysisInternal <- function(jaspResults, dataset, options) {
     if (length(unique(assignedGroup)) > 1L) {
 
       # user has defined groups and there are variables in the groups
-      groupNames  <- vapply(options[["manualColorGroups"]], `[[`, character(1L), "name")
-      groupColors <- vapply(options[["manualColorGroups"]], `[[`, character(1L), "color")
+      groupNames       <- vapply(options[["manualColorGroups"]], `[[`, character(1L), "name")
+      groupColors      <- vapply(options[["manualColorGroups"]], `[[`, character(1L), "color")
+
+      # backwards compatibility: analyses saved before label colors were introduced do not contain a labelColor value
+      groupLabelColors <- vapply(
+        options[["manualColorGroups"]],
+        function(x) {
+          if (is.null(x[["labelColor"]]) || x[["labelColor"]] == "")
+            "black"  # backwards compatibility for older manual saves without label colors
+          else
+            x[["labelColor"]]
+        },
+        character(1L)
+      )
+
+      groupColors[groupColors == ""] <- "white"
 
       nGroups <- length(groupNames)
 
@@ -722,8 +898,10 @@ NetworkAnalysisInternal <- function(jaspResults, dataset, options) {
       nonEmpty <- lengths(groups) > 0L
       groups <- groups[nonEmpty]
 
-      if (options[["manualColor"]])
-        nodeColor <- groupColors[nonEmpty]
+      if (options[["manualColor"]]) {
+        nodeColor  <- groupColors[nonEmpty]
+        labelColor <- groupLabelColors[idx]
+      }
     }
   }
 
@@ -732,14 +910,18 @@ NetworkAnalysisInternal <- function(jaspResults, dataset, options) {
   edgeColor <- NULL
   if (method == "frequentist" && estimator == "mgm") {
 
-    idx <- integer(length(options[["variables"]]))
+    # Compare on decoded names so JASP's type-specific encodings of the same
+    # column (ordinal in "Dependent Variables" vs. categorical in "Categorical
+    # Variables") still match. Same rationale as in .networkAnalysisMakeBootnetArgs.
+    variablesDec <- jaspBase::decodeColNames(options[["variables"]])
+    idx <- integer(length(variablesDec))
     nms <- c("mgmContinuousVariables", "mgmCategoricalVariables", "mgmCountVariables")
     for (i in seq_along(nms))
-      idx[options[["variables"]] %in% options[[nms[[i]]]]] <- i
+      idx[variablesDec %in% jaspBase::decodeColNames(options[[nms[[i]]]])] <- i
     # idx[i] is 1 if variable[i] %in% mgmContinuousVariables, 2 if in mgmCategoricalVariables, etc.
 
     # order of variables need not match dataset, and thus the order of types may be wrong
-    newOrder <- match(colnames(dataset[[1L]]), options[["variables"]])
+    newOrder <- match(jaspBase::decodeColNames(colnames(dataset[[1L]])), variablesDec)
     # now we have variables[newOrder] == colnames(dataset[[1L]])
     idx <- idx[newOrder]
 
@@ -847,6 +1029,7 @@ NetworkAnalysisInternal <- function(jaspResults, dataset, options) {
         legend     = legend,
         shape      = shape,
         nodeColor  = nodeColor,
+        labelColor = labelColor,
         edgeColor  = edgeColor,
         nodeNames  = nodeNames,
         method     = method
@@ -956,8 +1139,17 @@ NetworkAnalysisInternal <- function(jaspResults, dataset, options) {
   errorMessage <- NULL
   variables <- unlist(options[["variables"]])
   options[["rule"]] <- toupper(options[["rule"]])
-  if (options[["correlationMethod"]] == "auto")
-    options[["correlationMethod"]] <- "cor_auto"
+
+  # Legacy compatibility: "auto" previously mapped to bootnet's cor_auto.
+  # cor_auto is no longer used; old saved analyses fall back to Pearson correlations.
+  if (options[["correlationMethod"]] %in% c("auto", "cor_auto"))
+      options[["correlationMethod"]] <- "cor"
+
+  # bootnet 1.9: FIML and multiple imputation use the mantar-based
+  # maximum-likelihood/imputation engine, which overrides the selected
+  # correlation method.
+  if (options[["missingValues"]] %in% c("fiml", "stackedMI"))
+      options[["correlationMethod"]] <- "cor_mantar"
 
   options[["isingEstimator"]] <- switch(options[["isingEstimator"]],
                                         "pseudoLikelihood" = "pl",
@@ -975,6 +1167,14 @@ NetworkAnalysisInternal <- function(jaspResults, dataset, options) {
     level <- rep(1, nvar)
     type <- character(nvar)
 
+    # Decode names so that all comparisons happen on the user-visible string.
+    # JASP attaches type-specific metadata to encoded column names: a column
+    # placed in "Dependent Variables" (ordinal-typed) and the same column placed
+    # in "Categorical Variables" (categorical-typed) end up with different
+    # encoded strings even though both decode to the same name. match() on the
+    # raw encoded forms therefore fails; matching on decoded forms works.
+    variablesDec <- jaspBase::decodeColNames(variables)
+
     tempMat <- matrix(ncol = 2, byrow = TRUE, c(
       "mgmContinuousVariables",  "g",
       "mgmCategoricalVariables", "c",
@@ -983,13 +1183,13 @@ NetworkAnalysisInternal <- function(jaspResults, dataset, options) {
     for (i in seq_len(nrow(tempMat))) {
       lookup <- options[[tempMat[i, 1L]]]
       if (length(lookup) > 0L) {
-        idx <- match(lookup, variables)
+        idx <- match(jaspBase::decodeColNames(lookup), variablesDec)
         type[idx] <- tempMat[i, 2L]
       }
     }
 
     # order of variables need not match dataset, and thus the order of types may be wrong
-    newOrder <- match(colnames(dataset[[1L]]), variables)
+    newOrder <- match(jaspBase::decodeColNames(colnames(dataset[[1L]])), variablesDec)
     # now we have variables[newOrder] == colnames(dataset[[1L]])
     type <- type[newOrder]
 
@@ -1030,21 +1230,25 @@ NetworkAnalysisInternal <- function(jaspResults, dataset, options) {
   }
 
   # names of .dots must match argument names of bootnet_{estimator name}
+  # Entries default to bootnet's own defaults when the QML hasn't yet wired up the control;
+  # the filter at `nms2keep` below drops any entry whose estimator doesn't accept it.
   .dots <- list(
-    corMethod   = options[["correlationMethod"]],
-    tuning      = options[["tuningParameter"]],
-    missing     = options[["missingValues"]],
-    method      = options[["isingEstimator"]],
-    rule        = options[["rule"]],
-    nFolds      = options[["nFolds"]],
-    weighted    = options[["weightedNetwork"]],
-    signed      = options[["signedNetwork"]],
-    split       = .networkAnalysisGetSplitFunction(options[["split"]]),
-    criterion   = options[["criterion"]],
-    sampleSize  = options[["sampleSize"]],
-    type        = type,
-    lev         = level,
-    threshold   = threshold
+    corMethod           = options[["correlationMethod"]],
+    tuning              = options[["tuningParameter"]],
+    missing             = options[["missingValues"]],
+    method              = options[["isingEstimator"]],
+    rule                = options[["rule"]],
+    nFolds              = options[["nFolds"]],
+    split               = options[["split"]],
+    criterion           = options[["criterion"]],
+    sampleSize          = options[["sampleSize"]],
+    type                = type,
+    level               = level,
+    threshold           = threshold,
+    transform           = if (is.null(options[["transform"]]))           "none" else options[["transform"]],           # bootnet >= 1.4
+    principalDirection  = if (is.null(options[["principalDirection"]]))  FALSE  else options[["principalDirection"]],  # bootnet >= 1.1
+    nonPositiveDefinite = if (is.null(options[["nonPositiveDefinite"]])) "stop" else options[["nonPositiveDefinite"]], # bootnet >= 1.3
+    min_sum             = if (is.null(options[["minSum"]]))              -Inf   else options[["minSum"]]               # bootnet >= 1.5.6 (IsingFit/IsingSampler)
   )
 
   # get available arguments for specific network estimation function. Removes unused ones.
@@ -1057,8 +1261,16 @@ NetworkAnalysisInternal <- function(jaspResults, dataset, options) {
   nms2keep <- names(funArgs)
   .dots <- .dots[names(.dots) %in% nms2keep]
 
-  # for safety, when estimator is changed but missing was pairwise (the default).
-  if (!isTRUE("pairwise" %in% eval(funArgs[["missing"]])))
+  # JASP's "none" means that no binarization was requested. Non-binary data are
+  # rejected during error checking above. Drop the JASP-only value here because
+  # bootnet does not support split = "none"; for two-category data bootnet only
+  # normalizes the binary encoding and does not perform a median split.
+  if (identical(.dots[["split"]], "none"))
+    .dots[["split"]] <- NULL
+
+  # for safety, when estimator is changed and the chosen 'missing' value is not
+  # in the new estimator's allowed set (e.g. user picked 'fiml' then switched to IsingFit).
+  if (!isTRUE(.dots[["missing"]] %in% eval(funArgs[["missing"]])))
     .dots[["missing"]] <- "listwise"
 
   # some manual adjustments for these estimators
@@ -1097,7 +1309,12 @@ NetworkAnalysisInternal <- function(jaspResults, dataset, options) {
 
     data <- dataset[[nw]]
 
-    # mgm requires integer instead of factor
+    # JASP supplies ordinal variables as ordered factors, convert to integer category scores for bootnet
+    for (i in seq_along(data))
+      if (is.factor(data[[i]]))
+        data[[i]] <- as.integer(data[[i]])
+
+    # mgm additionally requires all nonnumeric variables to be integer encoded
     if (options[["estimator"]] == "mgm") {
       for (i in seq_along(data))
         if (!is.numeric(data[[i]]))
@@ -1107,9 +1324,11 @@ NetworkAnalysisInternal <- function(jaspResults, dataset, options) {
     jaspBase::.suppressGrDevice(
       msg <- capture.output(
         network <- bootnet::estimateNetwork(
-          data    = data,
-          default = .networkAnalysisJaspToBootnetEstimator(options[["estimator"]]),
-          .dots   = .dots
+          data     = data,
+          default  = .networkAnalysisJaspToBootnetEstimator(options[["estimator"]]),
+          weighted = options[["weightedNetwork"]],
+          signed   = options[["signedNetwork"]],
+          .dots    = .dots
         )
         , type = "message"
       )
@@ -1212,7 +1431,7 @@ NetworkAnalysisInternal <- function(jaspResults, dataset, options) {
 
       }
 
-    } # else raw centrality measures -> do nothing
+    } # else "raw" or "raw0": retain raw centrality measures
 
     TBcent[["node"]] <- network[["labels"]]
     nc <- ncol(TBcent)
@@ -1332,23 +1551,16 @@ NetworkAnalysisInternal <- function(jaspResults, dataset, options) {
 
 .networkAnalysisGetSplitFunction <- function(split = c("mean", "median")) {
   split <- match.arg(split)
+
   if (split == "median") {
     return(function(x, na.rm) {
-      if (is.numeric(x)) {
-        stats::median(x, na.rm = na.rm)
-      } else {
-        quantile(x, probs = .5, type = 3, na.rm = na.rm)
-      }
-    })
-  }  else {
-    return(function(x, na.rm) {
-      if (is.numeric(x)) {
-        mean(x, na.rm = na.rm)
-      } else {
-        mean(as.numeric(x), na.rm = na.rm)
-      }
+      stats::median(x, na.rm = na.rm)
     })
   }
+
+  return(function(x, na.rm) {
+    mean(x, na.rm = na.rm)
+  })
 }
 
 # bootstrap network functions ----
@@ -1385,7 +1597,7 @@ NetworkAnalysisInternal <- function(jaspResults, dataset, options) {
   allNetworks <- network[["network"]]
   nGraphs <- length(allNetworks)
   nCores <- .networkAnalysisGetNumberOfCores(options)
-  noTicks <- if (options[["bootstrapType"]] == "jacknife") network[["network"]][[1L]][["nPerson"]] * nGraphs else options[["bootstrapSamples"]] * nGraphs
+  noTicks <- if (options[["bootstrapType"]] == "jackknife") network[["network"]][[1L]][["nPerson"]] * nGraphs else options[["bootstrapSamples"]] * nGraphs
 
   startProgressbar(noTicks * 2L, "Bootstrapping network")
 
@@ -1408,7 +1620,9 @@ NetworkAnalysisInternal <- function(jaspResults, dataset, options) {
           type       = options[["bootstrapType"]],
           nCores     = nCores,
           statistics = c("edge", "strength", "closeness", "betweenness"),
-          labels     = options[["variables"]]
+          weighted   = options[["weightedNetwork"]],
+          signed     = options[["signedNetwork"]],
+          labels     = allNetworks[[nm]][["labels"]]
         )
       }
     })

@@ -19,6 +19,7 @@
 import QtQuick
 import QtQuick.Layouts
 import JASP.Controls
+import QtQuick.Dialogs // used for color widget (name: manualColorGroups)
 
 Form
 {
@@ -129,16 +130,11 @@ VariablesForm
 	}
 	CheckBox
 	{
-		name: "centralityPlot"; id: centralityPlot; label: qsTr("Centrality plot")
+		name: "centralityPlot"
+		id: centralityPlot
+		label: qsTr("Centrality plot")
 		visible: groupingVariableSelector.count === 0
-		info: qsTr("Displays posterior mean centrality for the selected measures (betweenness, closeness, strength, expected influence). Measures are plotted side by side per node. Only available when no grouping variable is selected.")
-		CheckBox
-		{
-			name: "credibilityInterval";
-			label: qsTr("Credibility interval 95%");
-			info: qsTr("Adds 95% highest density intervals (HDI) to centrality summaries.")
-			checked: false;
-		}
+		info: qsTr("Displays posterior centrality estimates for the selected measures. Only available when no grouping variable is selected.")
 	}
 	CheckBox
 	{
@@ -226,8 +222,14 @@ VariablesForm
 					RadioButton { 	value: "log(BF)"; 				label: qsTr("Log(BF\u2081\u2080)"); info: qsTr("Natural logarithm of BF\u2081\u2080.")						}
 				}
 		}
-		CheckBox { name: "centralityTable"; label: qsTr("Centrality table"); visible: groupingVariableSelector.count === 0; info: qsTr("Shows the posterior mean betweenness, closeness, strength, and expected influence for each node. Centrality is computed on the posterior mean network. Only available when no grouping variable is selected.") }
-
+		CheckBox
+		{
+			name: "centralityTable"
+			id: centralityTable
+			label: qsTr("Centrality table")
+			visible: groupingVariableSelector.count === 0
+			info: qsTr("Shows posterior centrality estimates for the selected measures. Only available when no grouping variable is selected.")
+		}
 		Group
 		{
 			title: qsTr("Clustering Overview")
@@ -593,25 +595,115 @@ VariablesForm
 			id					: networkFactors
 			name				: "manualColorGroups"
 			title				: qsTr("Group name")
-			info				: qsTr("Define named groups for manual node coloring. Each group can be assigned a color that will appear in the network plot when Manual colors is enabled.")
+			info: qsTr("Define named groups for manual node and label coloring. Each group can be assigned a node color and a label color that are used when Manual colors is enabled.")
 			optionKey			: "name"
 			defaultValues		: [qsTr("Group 1"), qsTr("Group 2")]
 			placeHolder			: qsTr("New Group")
 			minRows				: 2
 			preferredWidth		: (2 * form.width) / 5
-			rowComponentTitle				: manualColor.checked ? qsTr("Group color") : ""
-			rowComponent: DropDown
+
+			rowComponentTitle: manualColor.checked ? qsTr("Node / label color") : ""
+			rowComponent: Row
 			{
-				name: "color"
-				visible: manualColor.checked
-				values: [
-					{ label: qsTr("red")	, value: "red"		},
-					{ label: qsTr("blue")	, value: "blue"		},
-					{ label: qsTr("yellow")	, value: "yellow"	},
-					{ label: qsTr("green")	, value: "green"	},
-					{ label: qsTr("purple")	, value: "purple"	},
-					{ label: qsTr("orange") , value: "orange"	}
-				]
+				spacing: 6
+
+				TextField
+				{
+					id: colorValue
+					name: "color"
+					visible: false
+					defaultValue: "#FFFFFF"
+				}
+
+				TextField
+				{
+					id: labelColorValue
+					name: "labelColor"
+					visible: false
+					defaultValue: "#000000"
+				}
+
+				Rectangle
+				{
+					id: colorSwatch
+
+					visible: manualColor.checked
+
+					width: 28
+					height: 18
+					radius: 6
+
+					color: colorValue.value !== "" ? colorValue.value : "#FFFFFF"
+
+					border.width: 1
+					border.color: "#808080"
+
+					MouseArea
+					{
+						anchors.fill: parent
+						cursorShape: Qt.PointingHandCursor
+
+						onClicked:
+						{
+							colorDialog.open()
+						}
+					}
+				}
+
+				ColorDialog
+				{
+					id: colorDialog
+					title: qsTr("Select color")
+
+					selectedColor: colorValue.value !== "" ? colorValue.value : "#FFFFFF"
+
+					onAccepted:
+					{
+						colorValue.value =
+							selectedColor.toString().toUpperCase()
+					}
+				}
+
+				Rectangle
+				{
+					id: labelColorSwatch
+
+					visible: manualColor.checked
+
+					width: 28
+					height: 18
+					radius: 6
+
+					color: labelColorValue.value !== "" ? labelColorValue.value : "#000000"
+
+					border.width: 1
+					border.color: "#808080"
+
+					MouseArea
+					{
+						anchors.fill: parent
+						cursorShape: Qt.PointingHandCursor
+
+						onClicked:
+						{
+							labelColorDialog.open()
+						}
+					}
+				}
+
+				ColorDialog
+				{
+					id: labelColorDialog
+					title: qsTr("Select label color")
+
+					selectedColor: labelColorValue.value !== "" ? labelColorValue.value : "#000000"
+
+					onAccepted:
+					{
+						labelColorValue.value =
+							selectedColor.toString().toUpperCase()
+					}
+				}
 			}
 		}
 
@@ -755,15 +847,70 @@ VariablesForm
 			}
 			RadioButton { value: "circle";	label: qsTr("Circle"); info: qsTr("Nodes are evenly spaced on a circle. Useful for comparing relative edge patterns without the layout reflecting association strength.")							}
 		}
+	}
+	Section
+	{
+		title: qsTr("Centrality Options")
+		enabled: centralityPlot.checked || centralityTable.checked
 
 		Group
 		{
-			title: qsTr("Measures shown in centrality plot")
-			enabled: centralityPlot.checked
-			CheckBox	{	name: "betweenness";		label: qsTr("Betweenness");			checked: false; info: qsTr("Number of shortest paths between other node pairs that pass through this node. Nodes with high betweenness act as bridges in the network.")	}
-			CheckBox	{	name: "closeness";			label: qsTr("Closeness");			checked: false; info: qsTr("Inverse of the average shortest path length from this node to all other nodes. Nodes with high closeness can efficiently reach all other nodes.")	}
-			CheckBox	{	name: "strength";			label: qsTr("Strength");			checked: true; info: qsTr("Sum of absolute edge weights connected to this node. Reflects how strongly a node is associated with its neighbors.")	}
-			CheckBox	{	name: "expectedInfluence";	label: qsTr("Expected influence");	checked: false; info: qsTr("Sum of signed edge weights connected to this node. Unlike strength, negative edges reduce the value, so nodes with mixed positive and negative connections may have low expected influence.")	}
+			title: qsTr("Measures")
+
+			CheckBox { name: "betweenness";       label: qsTr("Betweenness");        checked: false; info: qsTr("Number of shortest paths between other node pairs that pass through this node. Nodes with high betweenness act as bridges in the network.") }
+			CheckBox { name: "closeness";         label: qsTr("Closeness");          checked: false; info: qsTr("Inverse of the average shortest path length from this node to all other nodes. Nodes with high closeness can efficiently reach all other nodes.") }
+			CheckBox { name: "strength";          label: qsTr("Strength");           checked: true;  info: qsTr("Sum of absolute edge weights connected to this node. Reflects how strongly a node is associated with its neighbors.") }
+			CheckBox { name: "expectedInfluence"; label: qsTr("Expected influence"); checked: false; info: qsTr("Sum of signed edge weights connected to this node. Unlike strength, negative edges reduce the value, so nodes with mixed positive and negative connections may have low expected influence.") }
+		}
+
+		RadioButtonGroup
+		{
+			id: centralityNormalization
+			name: "centralityNormalization"
+			title: qsTr("Normalization")
+
+			RadioButton
+			{
+				value: "raw0"
+				label: qsTr("Raw including zero")
+				checked: true
+			}
+
+			RadioButton
+			{
+				value: "raw"
+				label: qsTr("Raw")
+			}
+
+			RadioButton
+			{
+				id: normalizedCentrality
+				value: "normalized"
+				label: qsTr("Normalized")
+			}
+
+			RadioButton
+			{
+				value: "relative"
+				label: qsTr("Relative")
+			}
+		}
+
+		CheckBox
+		{
+			name: "credibilityInterval"
+			id: credibilityInterval
+			label: qsTr("Credibility interval 95%")
+			checked: false
+			enabled: normalizedCentrality.checked
+			info: qsTr("Adds 95% highest density intervals (HDI) to centrality summaries.")
+		}
+
+		Label
+		{
+			visible: !normalizedCentrality.checked
+			text: qsTr("Credibility intervals are currently only supported for normalized centrality.")
+			wrapMode: Text.WordWrap
 		}
 	}
 }

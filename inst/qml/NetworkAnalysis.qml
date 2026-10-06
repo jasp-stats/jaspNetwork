@@ -19,6 +19,7 @@
 import QtQuick
 import QtQuick.Layouts
 import JASP.Controls
+import QtQuick.Dialogs  // used for color widget (name: manualColorGroups)
 
 Form
 {
@@ -26,20 +27,10 @@ Form
 	VariablesForm
 	{
 		AvailableVariablesList { name: "allVariablesList" }
-		AssignedVariablesList {
-			name: "variables";			title: qsTr("Dependent Variables"); allowTypeChange: true; id: networkVariables
-			allowedColumns: {
-				// EBICglasso only allows non-continuous variables with the "automatic" correlation method
-				if ([0, 1, 2].includes(estimator.currentIndex))
-					if (automaticCorrelationMethod.checked)
-						return ["scale", "ordinal"];
-					else
-						return ["scale"];
-				else
-					return ["scale", "ordinal"];
-			}
-		}
-		AssignedVariablesList { name: "groupingVariable";	title: qsTr("Split"); singleVariable: true; allowedColumns: [ "nominal"] }
+		// Ordinal variables are usable with every correlation method; a warning is shown in the
+		// results when Pearson is used on ordinal data (Spearman is preferred there).
+		AssignedVariablesList  { name: "variables"; title: qsTr("Dependent Variables"); allowedColumns: ["scale", "ordinal"]; allowTypeChange: true; id: networkVariables }
+		AssignedVariablesList  { name: "groupingVariable"; title: qsTr("Split"); singleVariable: true; allowedColumns: [ "nominal"] }
 	}
 
 	DropDown
@@ -49,30 +40,56 @@ Form
 		label: qsTr("Estimator")
 		Layout.columnSpan: 2
 		values: [
-			{ value: "ebicGlasso",		label: "EBICglasso"			},
-			{ value: "cor",				label: qsTr("Correlation")		},
-			{ value: "pcor",			label: qsTr("Partial Correlation")},
-			{ value: "isingFit",		label: "IsingFit"			},
-			{ value: "isingSampler",	label: "IsingSampler"		},
-			{ value: "huge",			label: qsTr("huge")			},
-//			{ value: "adalasso",		label: "adalasso"			},	// no longer available due to removal of parcor from CRAN
-			{ value: "mgm",				label: "mgm"				}
+			{ value: "ebicGlasso",	 label: "EBICglasso"			         },
+			{ value: "ggmModSelect", label: "ggmModSelect"			       }, // NEW @ 2025
+			{ value: "cor",				   label: qsTr("Correlation")		     },
+			{ value: "pcor",			   label: qsTr("Partial Correlation")},
+			{ value: "isingFit",		 label: "IsingFit"			           },
+			{ value: "isingSampler", label: "IsingSampler"             },
+			{ value: "huge",			   label: qsTr("huge")			         },
+			// adalasso no longer available due to removal of parcor from CRAN
+			{ value: "mgm",				   label: "mgm"				               }
 		]
+
+// Reset the tuning parameter to the selected estimator's bootnet default.
+// Keep these values synchronized with the estimator wrapper defaults in bootnet/R/defaultFunctions.R.
+		onCurrentValueChanged:
+		{
+			switch (currentValue)
+			{
+			case "ebicGlasso":
+				tuningParameter.value = 0.5
+				break
+			case "ggmModSelect":
+				tuningParameter.value = 0.0
+				break
+			case "isingFit":
+				tuningParameter.value = 0.25
+				break
+			case "huge":
+				tuningParameter.value = 0.5
+				break
+			case "mgm":
+				tuningParameter.value = 0.25
+				break
+			}
+		}
 	}
 
 	Group
 	{
 		title: qsTr("Plots")
-		CheckBox { name: "networkPlot";		label: qsTr("Network plot")								}
-		CheckBox { name: "centralityPlot";	label: qsTr("Centrality plot");		id: centralityPlot	}
-		CheckBox { name: "clusteringPlot";	label: qsTr("Clustering plot")							}
+		CheckBox { name: "networkPlot";		 label: qsTr("Network plot");    id: networkPlot    }
+		CheckBox { name: "centralityPlot"; label: qsTr("Centrality plot"); id: centralityPlot	}
+		CheckBox { name: "clusteringPlot"; label: qsTr("Clustering plot")							        }
 	}
 
 	Group
 	{
 		title: qsTr("Tables")
-		CheckBox { name: "centralityTable";		label: qsTr("Centrality table")	}
-		CheckBox { name: "clusteringTable";		label: qsTr("Clustering table")	}
+		CheckBox { name: "weightsMatrixTable"; label: qsTr("Weights matrix")   }
+		CheckBox { name: "centralityTable"; label: qsTr("Centrality table"); id: centralityTable }
+		CheckBox { name: "clusteringTable";		 label: qsTr("Clustering table") }
 	}
 
 	Section
@@ -83,76 +100,72 @@ Form
 		{
 			name: "correlationMethod"
 			title: qsTr("Correlation Method")
-			visible: [0, 1, 2].includes(estimator.currentIndex)
-			RadioButton { value: "auto";	label: qsTr("Auto"); checked: true; id: automaticCorrelationMethod	}
-			RadioButton { value: "cor";		label: qsTr("Cor")					}
-			RadioButton { value: "cov";		label: qsTr("Cov")					}
-			RadioButton { value: "npn";		label: qsTr("Npn")					}
-		}
-
-		RadioButtonGroup
-		{
-			name: "centralityNormalization"
-			title: qsTr("Centrality Measures")
-			visible: estimator.currentIndex === 0
-			RadioButton { value: "normalized";	label: qsTr("Normalized"); checked: true }
-			RadioButton { value: "relative" ;	label: qsTr("Relative")					}
-			RadioButton { value: "raw";			label: qsTr("Raw")						}
+			visible: ["ebicGlasso", "cor", "pcor", "ggmModSelect"].includes(estimator.currentValue)
+			// "auto" (bootnet's cor_auto / polychoric) removed: it does not work well. Cor is default; Spearman is preferred for ordinal data.
+			RadioButton { value: "cor";		   label: qsTr("Cor"); checked: true } // DEFAULT @ 2025 (Pearson)
+			RadioButton { value: "spearman"; label: qsTr("Spearman")			     } // preferred for ordinal data
+			RadioButton { value: "cov";		   label: qsTr("Cov")					       }
+			RadioButton { value: "npn";		   label: qsTr("Npn")				       	 }
 		}
 
 		Group
 		{
 			title: qsTr("Network")
-			visible: estimator.currentIndex === 0
-			CheckBox { name: "weightedNetwork"; label: qsTr("Weighted"); checked: true	}
-			CheckBox { name: "signedNetwork";	label: qsTr("Signed");	checked: true	}
+			// VISIBLE FOR ALL ESTIMATORS @ 2025
+			CheckBox { name: "weightedNetwork"; label: qsTr("Weighted"); checked: true }
+			CheckBox { name: "signedNetwork";	  label: qsTr("Signed");	 checked: true } // NADYA <- in R code if signed is not checked, lines should be grey (now is blue)
 		}
 
 		RadioButtonGroup
 		{
 			name: "missingValues"
 			title: qsTr("Missing Values")
-			visible: [0, 1, 2].includes(estimator.currentIndex)
-			RadioButton { value: "pairwise";	label: qsTr("Exclude pairwise"); checked: true	}
-			RadioButton { value: "listwise";	label: qsTr("Exclude listwise")					}
+			visible: ["ebicGlasso", "cor", "pcor", "ggmModSelect"].includes(estimator.currentValue)
+			RadioButton { value: "pairwise";  label: qsTr("Exclude pairwise"); checked: true }
+			RadioButton { value: "listwise";  label: qsTr("Exclude listwise")				  	    }
+			RadioButton { value: "fiml";	    label: qsTr("FIML")					                  } // NEW @ 2025 (bootnet cor_mantar / two-step-em)
+			RadioButton { value: "stackedMI"; label: qsTr("Multiple imputation")                } // NEW @ 2026 (bootnet cor_mantar / stacked-mi)
 		}
 
 		RadioButtonGroup
 		{
 			name: "sampleSize"
 			title: qsTr("Sample Size")
-			visible: estimator.currentIndex === 0
-			RadioButton { value: "maximum";	label: qsTr("Maximum"); checked: true	}
-			RadioButton { value: "minimim";	label: qsTr("Minimum")					}
+			visible: ["ebicGlasso", "cor", "pcor", "ggmModSelect"].includes(estimator.currentValue)
+			RadioButton { value: "pairwise_average"; label: qsTr("Pairwise average"); checked: true	} // NEW & DEFAULT @ 2025
+			RadioButton { value: "maximum";	         label: qsTr("Maximum") }
+			RadioButton { value: "minimum";	         label: qsTr("Minimum") }
+			RadioButton { value: "pairwise_maximum"; label: qsTr("Pairwise maximum") } // NEW @ 2025
+			RadioButton { value: "pairwise_minimum"; label: qsTr("Pairwise minimum") } // NEW @ 2025
 		}
 
 		RadioButtonGroup
 		{
 			name: "isingEstimator"
 			title: qsTr("Ising Estimator")
-			visible: estimator.currentIndex === 4
-			RadioButton { value: "pseudoLikelihood";		label: qsTr("Pseudo-likelihood"); checked: true	}
-			RadioButton { value: "univariateRegressions";	label: qsTr("Univariate regressions")			}
-			RadioButton { value: "bivariateRegressions";	label: qsTr("Bivariate regressions")			}
-			RadioButton { value: "logLinear";				label: qsTr("Loglinear")						}
+			visible: estimator.currentValue === "isingSampler"
+			RadioButton { value: "pseudoLikelihood";		  label: qsTr("Pseudo-likelihood"); checked: true	}
+			RadioButton { value: "univariateRegressions";	label: qsTr("Univariate regressions")	}
+			RadioButton { value: "bivariateRegressions";	label: qsTr("Bivariate regressions") }
+			RadioButton { value: "logLinear";				      label: qsTr("Loglinear") }
 		}
 
 		RadioButtonGroup
 		{
 			name: "criterion"
 			title: qsTr("Criterion")
-			visible: [5, 6].includes(estimator.currentIndex)
-			RadioButton { value: "ebic";	label: qsTr("EBIC"); checked: true	}
-			RadioButton { value: "ric";		label: qsTr("RIC")					}
-			RadioButton { value: "stars";	label: qsTr("STARS")				}
-			RadioButton { value: "cv";		label: qsTr("CV")					}
+			visible: ["huge", "mgm"].includes(estimator.currentValue)
+			RadioButton { value: "ebic";	label: qsTr("EBIC"); checked: true }
+			RadioButton { value: "ric";		label: qsTr("RIC")					       }
+			RadioButton { value: "stars";	label: qsTr("STARS")				       }
+			RadioButton { value: "cv";		label: qsTr("CV")					         }
 		}
 
 		RadioButtonGroup
 		{
 			name: "rule"
 			title: qsTr("Rule")
-			visible: [3, 6].includes(estimator.currentIndex)
+			visible: ["isingFit", "mgm"].includes(estimator.currentValue)
 			RadioButton { value: "and";	label: qsTr("AND"); checked: true	}
 			RadioButton { value: "or";	label: qsTr("OR")					}
 		}
@@ -160,47 +173,56 @@ Form
 		RadioButtonGroup
 		{
 			name: "split"
-			title: qsTr("Split")
-			visible: [3, 4].includes(estimator.currentIndex)
-			RadioButton { value: "median";	label: qsTr("Median"); checked: true	}
-			RadioButton { value: "mean";	label: qsTr("Mean")						}
+			title: qsTr("Binarization")
+			visible: ["isingFit", "isingSampler"].includes(estimator.currentValue)
+			RadioButton { value: "none";	 label: qsTr("None"); checked: true	} // NEW @ 2025 // NADYA if data is not alr binary it should give warning that data is not binary
+			RadioButton { value: "median"; label: qsTr("Median")              }
+			RadioButton { value: "mean";	 label: qsTr("Mean")						    }
 		}
 
 		Group
 		{
 			title: qsTr("Tuning Parameter")
-			visible: [0, 3, 5, 7].includes(estimator.currentIndex)
-			DoubleField { name: "tuningParameter"; label: qsTr("Value"); defaultValue: 0.5; max: 1 }
+			visible: ["ebicGlasso", "isingFit", "huge", "mgm", "ggmModSelect"].includes(estimator.currentValue) // ! NOTE: in previous version when referring by index, it included index 7 which does not exist
+			DoubleField
+			{
+				id: tuningParameter
+				name: "tuningParameter"
+				label: qsTr("Value")
+				defaultValue: 0.5
+				max: 1
+			}
 		}
 
 		RadioButtonGroup
 		{
 			name: "thresholdBox"
 			title: qsTr("Threshold")
-			visible: [1, 2].includes(estimator.currentIndex)
 			RadioButton
 			{
+			// VISIBLE FOR ALL ESTIMATORS @ 2025
 				value: "value";	label: qsTr("Value"); checked: true
 				childrenOnSameRow: true
 				DoubleField { name: "thresholdValue"; defaultValue: 0; max: 1000000000 }
 			}
 			RadioButton
 			{
+			visible: ["cor", "pcor"].includes(estimator.currentValue)
 				value: "method"; label: qsTr("Method")
 				childrenOnSameRow: true
 				DropDown
 				{
 					name: "thresholdMethod"
 					values: [
-						{ label: qsTr("Significant"),	value: "sig"		},
-						{ label: "Bonferroni",	value: "bonferroni"	},
-						{ label: "Locfdr",		value: "locfdr"		},
-						{ label: "Holm",		value: "holm"		},
-						{ label: "Hochberg",	value: "hochberg"	},
-						{ label: "Hommel",		value: "hommel"		},
-						{ label: "BH",			value: "BH"			},
-						{ label: "BY",			value: "BY"			},
-						{ label: "fdr",			value: "fdr"		}
+						{ label: qsTr("Significant"),	value: "sig"	      },
+						{ label: "Bonferroni",	      value: "bonferroni"	},
+						{ label: "Locfdr",		        value: "locfdr"		  },
+						{ label: "Holm",		          value: "holm"		    },
+						{ label: "Hochberg",	        value: "hochberg"	  },
+						{ label: "Hommel",		        value: "hommel"		  },
+						{ label: "BH",			          value: "BH"			    },
+						{ label: "BY",			          value: "BY"			    },
+						{ label: "FDR",			          value: "fdr"		    }
 					]
 				}
 			}
@@ -209,13 +231,15 @@ Form
 		Group
 		{
 			title: qsTr("Cross-validation")
-			visible: [6].includes(estimator.currentIndex)
-			IntegerField { name: "nFolds"; label: qsTr("nFolds"); min: 3; max: 100000; fieldWidth: 60; defaultValue: 3 }
+			visible: ["mgm"].includes(estimator.currentValue)
+			IntegerField { name: "nFolds"; label: qsTr("nFolds"); min: 2; max: 100000; fieldWidth: 60; defaultValue: 10 }
+			// DEFAULT CHANGED FROM 3 TO 10 @ 2025
+			// MIN CHANGED FROM 3 TO 2 @ 2025
 		}
 
 		VariablesForm
 		{
-			visible: [6].includes(estimator.currentIndex)
+			visible: ["mgm"].includes(estimator.currentValue)
 			AvailableVariablesList
 			{
 				title: qsTr("Variables in network")
@@ -223,9 +247,9 @@ Form
 				source: ["variables"]
 			}
 
-			AssignedVariablesList { name: "mgmContinuousVariables";		title: qsTr("Continuous Variables");	}
-			AssignedVariablesList { name: "mgmCategoricalVariables";	title: qsTr("Categorical Variables");	}
-			AssignedVariablesList { name: "mgmCountVariables";			title: qsTr("Count Variables");			}
+			AssignedVariablesList { name: "mgmContinuousVariables";	 title: qsTr("Continuous Variables")  }
+			AssignedVariablesList { name: "mgmCategoricalVariables"; title: qsTr("Categorical Variables") }
+			AssignedVariablesList { name: "mgmCountVariables";			 title: qsTr("Count Variables")       }
 		}
 	}
 
@@ -236,10 +260,9 @@ Form
 		Group
 		{
 			title: qsTr("Settings")
-			CheckBox	 { name: "bootstrap";		label: qsTr("Bootstrap network")	}
+			CheckBox	   { name: "bootstrap";		      label: qsTr("Bootstrap network") }
 			IntegerField { name: "bootstrapSamples";	label: qsTr("Number of bootstraps"); defaultValue: 0; max: 100000 }
-
-			CheckBox	 { name: "bootstrapParallel";	label: qsTr("Parallel Bootstrap");	checked: false;	visible: false }
+			CheckBox	   { name: "bootstrapParallel";	label: qsTr("Parallel Bootstrap"); checked: false; visible: false }
 		}
 
 		RadioButtonGroup
@@ -248,63 +271,158 @@ Form
 			title: qsTr("Bootstrap Type")
 			Layout.rowSpan: 2
 			RadioButton { value: "nonparametric";	label: qsTr("Nonparametric"); checked: true	}
-			RadioButton { value: "case";			label: qsTr("Case")							}
-			RadioButton { value: "node";			label: qsTr("Node")							}
-			RadioButton { value: "parametric";		label: qsTr("Parametric")					}
-			RadioButton { value: "person";			label: qsTr("Person")						}
-			RadioButton { value: "jackknife";		label: qsTr("Jackknife")					}
+			RadioButton { value: "case";			    label: qsTr("Case")							            }
+			RadioButton { value: "node";			    label: qsTr("Node")							            }
+			RadioButton { value: "parametric";		label: qsTr("Parametric")					          }
+			// "person" REMOVED @ 2025 (same as "case")
+			RadioButton { value: "jackknife";		  label: qsTr("Jackknife")					          }
 		}
 
 		Group
 		{
 			title: qsTr("Statistics")
-			CheckBox { name: "statisticsEdges";			label: qsTr("Edges");		checked: true }
-			CheckBox { name: "statisticsCentrality";	label: qsTr("Centrality");	checked: true }
+			CheckBox { name: "statisticsEdges";			 label: qsTr("Edges");		  checked: true }
+			CheckBox { name: "statisticsCentrality"; label: qsTr("Centrality");	checked: true }
 		}
 	}
 
 	Section
 	{
-		title: qsTr("Graphical Options")
+		title: qsTr("Network Plot Options")
+		enabled: networkPlot.checked
+
+// TODO add fallback in case the color widget does not load (only tested on mac)
 
 		InputListView
 		{
-			id					: networkFactors
-			name				: "manualColorGroups"
-			title				: qsTr("Group name")
-			optionKey			: "name"
-			defaultValues		: [qsTr("Group 1"), qsTr("Group 2")]
+			id: networkFactors
+			name: "manualColorGroups"
+			title: qsTr("Group name")
+			optionKey: "name"
+			defaultValues: [qsTr("Group 1"), qsTr("Group 2")]
+
+			// check if necessary:
 			placeHolder			: qsTr("New Group")
 			minRows				: 2
-			preferredWidth		: (2 * form.width) / 5
-			rowComponentTitle	: manualColor.checked ? qsTr("Group color") : ""
-			rowComponent: DropDown
+			preferredWidth	 	: (2 * form.width) / 5
+			rowComponentTitle	: manualColor.checked ? qsTr("Node / label color") : ""
+
+			rowComponent: Row
 			{
-				name: "color"
-				visible: manualColor.checked
-				values: [
-					{ label: qsTr("red")	, value: "red"		},
-					{ label: qsTr("blue")	, value: "blue"		},
-					{ label: qsTr("yellow")	, value: "yellow"	},
-					{ label: qsTr("green")	, value: "green"	},
-					{ label: qsTr("purple")	, value: "purple"	},
-					{ label: qsTr("orange") , value: "orange"	}
-				]
+				spacing: 6
+
+				TextField
+				{
+					id: colorValue
+					name: "color"
+					visible: false
+					defaultValue: "#FFFFFF"
+				}
+
+				TextField
+				{
+					id: labelColorValue
+					name: "labelColor"
+					visible: false
+					defaultValue: "#000000"
+				}
+
+				Rectangle
+				{
+					id: colorSwatch
+
+					visible: manualColor.checked
+
+					width: 28
+					height: 18
+					radius: 6
+
+					color: colorValue.value !== ""? colorValue.value: "#FFFFFF"
+
+					border.width: 1
+					border.color: "#808080"
+
+					MouseArea
+					{
+						anchors.fill: parent
+						cursorShape: Qt.PointingHandCursor
+
+						onClicked:
+						{
+							colorDialog.open()
+						}
+					}
+				}
+
+				ColorDialog
+				{
+					id: colorDialog
+					title: qsTr("Select color")
+
+					selectedColor: colorValue.value !== ""? colorValue.value: "#FFFFFF"
+
+					onAccepted:
+					{
+						colorValue.value =
+							selectedColor.toString().toUpperCase()
+					}
+				}
+
+				Rectangle
+				{
+					id: labelColorSwatch
+
+					visible: manualColor.checked
+
+					width: 28
+					height: 18
+					radius: 6
+
+					color: labelColorValue.value !== "" ? labelColorValue.value : "#000000"
+
+					border.width: 1
+					border.color: "#808080"
+
+					MouseArea
+					{
+						anchors.fill: parent
+						cursorShape: Qt.PointingHandCursor
+
+						onClicked:
+						{
+							labelColorDialog.open()
+						}
+					}
+				}
+
+				ColorDialog
+				{
+					id: labelColorDialog
+					title: qsTr("Select label color")
+
+					selectedColor: labelColorValue.value !== "" ? labelColorValue.value : "#000000"
+
+					onAccepted:
+					{
+						labelColorValue.value =
+							selectedColor.toString().toUpperCase()
+					}
+				}
 			}
 		}
 
 		AssignedVariablesList
 		{
-			preferredWidth					: (2 * form.width) / 5
-			Layout.fillWidth				: true
-			Layout.leftMargin				: 40
-			title							: qsTr("Variables in network")
-			name							: "colorGroupVariables"
-			source							: ["variables"]
+			preferredWidth					        : (2 * form.width) / 5
+			Layout.fillWidth				        : true
+			Layout.leftMargin				        : 40
+			title							              : qsTr("Variables in network")
+			name							              : "colorGroupVariables"
+			source							            : ["variables"]
 			addAvailableVariablesToAssigned	: true
-			draggable						: false
-			rowComponentTitle				: qsTr("Group")
-			rowComponent: DropDown
+			draggable						            : false
+			rowComponentTitle				        : qsTr("Group")
+			rowComponent                    : DropDown
 			{
 				name: "group"
 				source: ["manualColorGroups"]
@@ -323,12 +441,12 @@ Form
 				label: qsTr("Node palette")
 				indexDefaultValue: 1
 				values: [
-					{ label: qsTr("Rainbow"),		value: "rainbow"	},
-					{ label: qsTr("Colorblind"),	value: "colorblind"	},
-					{ label: qsTr("Pastel"),		value: "pastel"		},
-					{ label: qsTr("Gray"),			value: "gray"		},
-					{ label: qsTr("R"),				value: "R"			},
-					{ label: qsTr("ggplot2"),		value: "ggplot2"	}
+					{ label: qsTr("Rainbow"),		 value: "rainbow"	   },
+					{ label: qsTr("Colorblind"), value: "colorblind" },
+					{ label: qsTr("Pastel"),		 value: "pastel"     },
+					{ label: qsTr("Gray"),			 value: "gray"       },
+					{ label: qsTr("R"),				   value: "R"          },
+					{ label: qsTr("ggplot2"),		 value: "ggplot2"	   }
 				]
 			}
 			DoubleField	{ name: "nodeSize";		label: qsTr("Node size");		defaultValue: 1; max: 10	}
@@ -337,16 +455,17 @@ Form
 		Group
 		{
 			title: qsTr("Edges")
-			DoubleField { name: "edgeSize";			label: qsTr("Edge size");			defaultValue: 1 }
-			DoubleField { name: "maxEdgeStrength";	label: qsTr("Max edge strength");	defaultValue: 0; id: maxEdgeStrength; min: minEdgeStrength.value;	max: 100					}
-			DoubleField { name: "minEdgeStrength";	label: qsTr("Min edge strength");	defaultValue: 0; id: minEdgeStrength; min: -100;					max: maxEdgeStrength.value	}
-			DoubleField { name: "cut";				label: qsTr("Cut");					defaultValue: 0; max: 10 }
-			CheckBox	{ name: "details";			label: qsTr("Show details") }
+
+			DoubleField { name: "edgeSize";			   label: qsTr("Edge size");			   defaultValue: 1 }
+			DoubleField { name: "maxEdgeStrength"; label: qsTr("Max edge strength"); defaultValue: 0; id: maxEdgeStrength; min: minEdgeStrength.value;	max: 100 }
+			DoubleField { name: "minEdgeStrength"; label: qsTr("Min edge strength"); defaultValue: 0; id: minEdgeStrength; min: -100;					          max: maxEdgeStrength.value }
+			DoubleField { name: "cut";			  	   label: qsTr("Cut");					     defaultValue: 0; max: 10 }
+			CheckBox	{ name: "details"; label: qsTr("Show details") }
 			CheckBox
 			{
-								name: "edgeLabels";			label: qsTr("Edge labels");				checked: false
-				DoubleField {	name: "edgeLabelSize";		label: qsTr("Edge label size");			min: 0;			max: 10;	defaultValue: 1		}
-				DoubleField {	name: "edgeLabelPosition";	label: qsTr("Edge label position");		min: 0;			max: 1;		defaultValue: 0.5	}
+				name: "edgeLabels"; label: qsTr("Edge labels"); checked: false
+				DoubleField {	name: "edgeLabelSize";		 label: qsTr("Edge label size");		 min: 0; max: 10;	defaultValue: 1		}
+				DoubleField {	name: "edgeLabelPosition"; label: qsTr("Edge label position"); min: 0; max: 1;  defaultValue: 0.5	}
 			}
 
 			DropDown
@@ -356,14 +475,14 @@ Form
 				indexDefaultValue: 1
 				values:
 				[
-					{ label: qsTr("Classic"),		value: "classic"		},
-					{ label: qsTr("Colorblind"),	value: "colorblind"		},
-					{ label: qsTr("Gray"),			value: "gray"			},
-					{ label: qsTr("Hollywood"),		value: "hollywood"		},
-					{ label: qsTr("Borkulo"),		value: "borkulo"		},
-					{ label: qsTr("TeamFortress"),	value: "teamFortress"	},
-					{ label: qsTr("Reddit"),		value: "reddit"			},
-					{ label: qsTr("Fried"),			value: "fried"			}
+					{ label: qsTr("Classic"),		   value: "classic"      },
+					{ label: qsTr("Colorblind"),	 value: "colorblind"   },
+					{ label: qsTr("Gray"),			   value: "gray"         },
+					{ label: qsTr("Hollywood"),		 value: "hollywood"    },
+					{ label: qsTr("Borkulo"),		   value: "borkulo"      },
+					{ label: qsTr("TeamFortress"), value: "teamFortress" },
+					{ label: qsTr("Reddit"),		   value: "reddit"       },
+					{ label: qsTr("Fried"),			   value: "fried"        }
 				]
 			}
 		}
@@ -371,8 +490,8 @@ Form
 		Group
 		{
 			title: qsTr("Labels")
-			DoubleField { name: "labelSize";	label: qsTr("Label size");		defaultValue: 1; max: 10 }
-			CheckBox	{ name: "labelScale";	label: qsTr("Scale label size");	checked: true }
+			DoubleField { name: "labelSize"; label: qsTr("Label size");	 defaultValue: 1; max: 10 }
+			CheckBox	{ name: "labelScale";	label: qsTr("Scale label size"); checked: true }
 			CheckBox
 			{
 				name: "labelAbbreviation"; label: qsTr("Abbreviate labels to ")
@@ -385,26 +504,26 @@ Form
 		{
 			name: "variableNamesShown";
 			title: qsTr("Show Variable Names")
-			RadioButton { value: "inNodes";			label: qsTr("In plot");	 checked: true	}
-			RadioButton { value: "inLegend";		label: qsTr("In Legend")				}
+			RadioButton { value: "inNodes";	 label: qsTr("In plot"); checked: true }
+			RadioButton { value: "inLegend"; label: qsTr("In legend")				       }
 		}
 
 		RadioButtonGroup
 		{
 			name: "mgmVariableTypeShown";
 			title: qsTr("Show Variable Type")
-			visible: [6].includes(estimator.currentIndex)
-			RadioButton { value: "hide";		label: qsTr("Don't show")						}
-			RadioButton { value: "nodeColor";	label: qsTr("Using node color")					}
-			RadioButton { value: "nodeShape";	label: qsTr("Using node shape"); checked: true	}
+			visible: ["mgm"].includes(estimator.currentValue)
+			RadioButton { value: "hide";		  label: qsTr("Don't show")						           }
+			RadioButton { value: "nodeColor";	label: qsTr("Using node color")					       }
+			RadioButton { value: "nodeShape";	label: qsTr("Using node shape"); checked: true }
 		}
 
 		RadioButtonGroup
 		{
 			name: "legend"
 			title: qsTr("Legend")
-			RadioButton { value: "hide";			label: qsTr("No legend")					}
-			RadioButton { value: "allPlots";		label: qsTr("All plots"); checked: true	}
+			RadioButton { value: "hide";			label: qsTr("No legend")					      }
+			RadioButton { value: "allPlots"; 	label: qsTr("All plots"); checked: true	}
 			RadioButton
 			{
 				value: "specificPlot"; label: qsTr("In plot number: ")
@@ -434,16 +553,6 @@ Form
 			}
 			RadioButton { value: "circle";	label: qsTr("Circle")							}
 			RadioButton { value: "data";	label: qsTr("Data");	id: dataRatioButton		}
-		}
-
-		Group
-		{
-			title: qsTr("Measures shown in centrality plot")
-			enabled: centralityPlot.checked
-			CheckBox	{	name: "betweenness";		label: qsTr("Betweenness");			checked: true	}
-			CheckBox	{	name: "closeness";			label: qsTr("Closeness");			checked: true	}
-			CheckBox	{	name: "strength";			label: qsTr("Strength");			checked: true	}
-			CheckBox	{	name: "expectedInfluence";	label: qsTr("Expected Influence");	checked: true	}
 		}
 
 		VariablesForm
@@ -476,6 +585,32 @@ Form
 					layoutY.doEditingFinished()
 				}
 			}
+		}
+	}
+
+	Section
+	{
+	  title: qsTr("Centrality Options")
+
+		enabled: centralityPlot.checked || centralityTable.checked
+
+		Group
+		{
+			title: qsTr("Measures")
+			CheckBox { name: "betweenness";       label: qsTr("Betweenness");        checked: false; info: qsTr("Number of shortest paths between other node pairs that pass through this node. Nodes with high betweenness act as bridges in the network.") }
+			CheckBox { name: "closeness";         label: qsTr("Closeness");          checked: false; info: qsTr("Inverse of the average shortest path length from this node to all other nodes. Nodes with high closeness can efficiently reach all other nodes.") }
+			CheckBox { name: "strength";          label: qsTr("Strength");           checked: true;  info: qsTr("Sum of absolute edge weights connected to this node. Reflects how strongly a node is associated with its neighbors.") }
+			CheckBox { name: "expectedInfluence"; label: qsTr("Expected influence"); checked: false; info: qsTr("Sum of signed edge weights connected to this node. Unlike strength, negative edges reduce the value, so nodes with mixed positive and negative connections may have low expected influence.") }
+		}
+
+		RadioButtonGroup
+		{
+			name: "centralityNormalization"
+			title: qsTr("Normalization")
+			RadioButton { value: "raw0"; label: qsTr("Raw including zero"); checked: true }
+			RadioButton { value: "raw";			label: qsTr("Raw")					   	  }
+			RadioButton { value: "normalized";	label: qsTr("Normalized");                }
+			RadioButton { value: "relative" ;	label: qsTr("Relative")					  }
 		}
 	}
 }

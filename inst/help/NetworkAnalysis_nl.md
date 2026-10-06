@@ -46,7 +46,6 @@ Deze analyse laat u niet één, maar meerdere type netwerken schatten. De onders
 Voor elke netwerkmethode kunnen er opties worden bijgesteld om het resultaat te beïnvloeden. Alleen opties voor een specifieke schattingsmethode zijn tegelijk beschikbaar.
 
 #### Correlatiemethode
-- `Auto`: Detecteert automatisch het type variabele en gebruikt de meest geschikte type correlatie. Dit detecteert continue, binaire en ordinale variabelen en gebruikt Pearson, tetrachorische of polychorische correlaties.
 - `Cor`: Pearson correlatie. 
 - `Cov`: Covarianties. 
 - `Niet parametrisch`: Deze optie zal eerst een niet parametrische transformatie op de data toepassen om deze nomaal verdeeld te maken, en gebruikt daarna Pearson correlaties.
