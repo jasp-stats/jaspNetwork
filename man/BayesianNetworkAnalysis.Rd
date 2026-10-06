@@ -6,7 +6,7 @@
 \usage{
 BayesianNetworkAnalysis(
   data = NULL,
-  version = "0.97.1",
+  version = "1",
   betaAlpha = 1,
   betaAlpha_between = 1,
   betaBeta = 1,
@@ -190,10 +190,10 @@ Defaults to \code{FALSE}.}
 
 \item{evidenceType, }{Choose which evidence quantity to display for each edge.
 \itemize{
-\item \code{"log(BF)"}: Natural logarithm of BF₁₀.
 \item \code{"inclusionProbability"}: Posterior probability that an edge is present, ranging from 0 (no evidence for the edge) to 1 (certain inclusion).
-\item \code{"BF01"}: Reciprocal Bayes factor quantifying evidence for edge exclusion relative to inclusion. BF₀₁ = 1 / BF₁₀.
 \item \code{"BF10"}: Bayes factor quantifying evidence for edge inclusion relative to exclusion. BF₁₀ > 1 favors inclusion; BF₁₀ < 1 favors exclusion.
+\item \code{"BF01"}: Reciprocal Bayes factor quantifying evidence for edge exclusion relative to inclusion. BF₀₁ = 1 / BF₁₀.
+\item \code{"log(BF)"}: Natural logarithm of BF₁₀.
 }}
 
 \item{expectedInfluence, }{Sum of signed edge weights connected to this node. Unlike strength, negative edges reduce the value, so nodes with mixed positive and negative connections may have low expected influence.
@@ -229,8 +229,8 @@ Defaults to \code{TRUE}.}
 
 \item{layout, }{Determines how nodes are positioned in network plots. The same layout is applied to all networks in a multi-network analysis, computed from the average of estimated edge weights.
 \itemize{
-\item \code{"circle"}: Nodes are evenly spaced on a circle. Useful for comparing relative edge patterns without the layout reflecting association strength.
 \item \code{"spring"}: Nodes are positioned using the Fruchterman-Reingold force-directed algorithm. Strongly connected nodes are placed closer together.
+\item \code{"circle"}: Nodes are evenly spaced on a circle. Useful for comparing relative edge patterns without the layout reflecting association strength.
 }}
 
 \item{layoutSpringRepulsion, }{Controls how strongly nodes repel each other. Larger values spread nodes further apart.}
@@ -238,8 +238,8 @@ Defaults to \code{TRUE}.}
 \item{legend, }{Controls legend placement across network plots. When multiple networks are shown (e.g., with grouping), this setting applies globally.
 \itemize{
 \item \code{"hide"}: No legend is shown in any plot.
-\item \code{"specificPlot"}: A legend is added to only the plot with the specified number, and other plots are shown without a legend.
 \item \code{"allPlots"}: A legend is added to every network plot.
+\item \code{"specificPlot"}: A legend is added to only the plot with the specified number, and other plots are shown without a legend.
 }}
 
 \item{legendSpecificPlotNumber, }{1-based index of the plot in which the legend should appear.}
@@ -296,8 +296,8 @@ Defaults to \code{TRUE}.}
 
 \item{variableNamesShown, }{Choose where variable names are displayed in network plots.
 \itemize{
-\item \code{"inLegend"}: Nodes are labeled with numbers; a legend maps each number to the variable name. Useful when variable names are long.
 \item \code{"inNodes"}: Variable names are shown as labels directly on the nodes.
+\item \code{"inLegend"}: Nodes are labeled with numbers; a legend maps each number to the variable name. Useful when variable names are long.
 }}
 
 \item{variables, }{Select variables to include as nodes in the network. Continuous (scale) and ordinal variables are accepted. When a grouping variable is present, a difference network is estimated only if all selected variables are ordinal or Blume-Capel; otherwise separate group networks are estimated.}

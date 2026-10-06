@@ -6,7 +6,7 @@
 \usage{
 NetworkAnalysis(
   data = NULL,
-  version = "0.97.1",
+  version = "1",
   betweenness = TRUE,
   bootstrap = FALSE,
   bootstrapParallel = FALSE,

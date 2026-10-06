@@ -90,10 +90,10 @@
 #'    Defaults to \code{FALSE}.
 #' @param evidenceType, Choose which evidence quantity to display for each edge.
 #' \itemize{
-#'   \item \code{"log(BF)"}: Natural logarithm of BF₁₀.
 #'   \item \code{"inclusionProbability"}: Posterior probability that an edge is present, ranging from 0 (no evidence for the edge) to 1 (certain inclusion).
-#'   \item \code{"BF01"}: Reciprocal Bayes factor quantifying evidence for edge exclusion relative to inclusion. BF₀₁ = 1 / BF₁₀.
 #'   \item \code{"BF10"}: Bayes factor quantifying evidence for edge inclusion relative to exclusion. BF₁₀ > 1 favors inclusion; BF₁₀ < 1 favors exclusion.
+#'   \item \code{"BF01"}: Reciprocal Bayes factor quantifying evidence for edge exclusion relative to inclusion. BF₀₁ = 1 / BF₁₀.
+#'   \item \code{"log(BF)"}: Natural logarithm of BF₁₀.
 #' }
 #' @param expectedInfluence, Sum of signed edge weights connected to this node. Unlike strength, negative edges reduce the value, so nodes with mixed positive and negative connections may have low expected influence.
 #'    Defaults to \code{FALSE}.
@@ -114,15 +114,15 @@
 #' @param lambda, Rate parameter of the truncated Poisson prior on the number of clusters. Smaller values favor fewer clusters.
 #' @param layout, Determines how nodes are positioned in network plots. The same layout is applied to all networks in a multi-network analysis, computed from the average of estimated edge weights.
 #' \itemize{
-#'   \item \code{"circle"}: Nodes are evenly spaced on a circle. Useful for comparing relative edge patterns without the layout reflecting association strength.
 #'   \item \code{"spring"}: Nodes are positioned using the Fruchterman-Reingold force-directed algorithm. Strongly connected nodes are placed closer together.
+#'   \item \code{"circle"}: Nodes are evenly spaced on a circle. Useful for comparing relative edge patterns without the layout reflecting association strength.
 #' }
 #' @param layoutSpringRepulsion, Controls how strongly nodes repel each other. Larger values spread nodes further apart.
 #' @param legend, Controls legend placement across network plots. When multiple networks are shown (e.g., with grouping), this setting applies globally.
 #' \itemize{
 #'   \item \code{"hide"}: No legend is shown in any plot.
-#'   \item \code{"specificPlot"}: A legend is added to only the plot with the specified number, and other plots are shown without a legend.
 #'   \item \code{"allPlots"}: A legend is added to every network plot.
+#'   \item \code{"specificPlot"}: A legend is added to only the plot with the specified number, and other plots are shown without a legend.
 #' }
 #' @param legendSpecificPlotNumber, 1-based index of the plot in which the legend should appear.
 #' @param legendToPlotRatio, Width of the legend panel relative to the network plot. A value of 0.4 means the legend is 40% as wide as the plot.
@@ -156,13 +156,13 @@
 #' @param thresholdScale, Scale parameter of the Cauchy or Normal prior on the main effects.
 #' @param variableNamesShown, Choose where variable names are displayed in network plots.
 #' \itemize{
-#'   \item \code{"inLegend"}: Nodes are labeled with numbers; a legend maps each number to the variable name. Useful when variable names are long.
 #'   \item \code{"inNodes"}: Variable names are shown as labels directly on the nodes.
+#'   \item \code{"inLegend"}: Nodes are labeled with numbers; a legend maps each number to the variable name. Useful when variable names are long.
 #' }
 #' @param variables, Select variables to include as nodes in the network. Continuous (scale) and ordinal variables are accepted. When a grouping variable is present, a difference network is estimated only if all selected variables are ordinal or Blume-Capel; otherwise separate group networks are estimated.
 BayesianNetworkAnalysis <- function(
           data = NULL,
-          version = "0.97.1",
+          version = "1",
           betaAlpha = 1,
           betaAlpha_between = 1,
           betaBeta = 1,
