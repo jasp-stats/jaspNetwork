@@ -103,6 +103,12 @@ BayesianNetworkAnalysisInternal <- function(jaspResults, dataset, options) {
 
   # check for errors, but only if there was a change in the data (which implies state[["network"]] is NULL)
   if (is.null(mainContainer[["networkState"]])) {
+    blumeCapelError <- .bayesianNetworkAnalysisBlumeCapelCategoryError(dataset, options)
+    if (!is.null(blumeCapelError)) {
+      mainContainer$setError(blumeCapelError)
+      return()
+    }
+
     groupingVariable <- attr(dataset, "groupingVariable")
     dataset <- Reduce(rbind.data.frame, dataset)
 
@@ -130,6 +136,43 @@ BayesianNetworkAnalysisInternal <- function(jaspResults, dataset, options) {
   }
 }
 
+# bgms fits a Blume-Capel variable only when at least three of its categories are
+# observed, and every group network is fitted on the data of that group alone.
+.bayesianNetworkAnalysisBlumeCapelCategoryError <- function(dataset, options) {
+
+  blumeCapelVariables <- vapply(options[["variablesBlumeCapel"]], `[[`, character(1L), "variable")
+  if (length(blumeCapelVariables) == 0L)
+    return(NULL)
+
+  tooFewPerGroup <- lapply(dataset, function(groupData) {
+    nObserved <- vapply(blumeCapelVariables, function(variable) length(unique(stats::na.omit(groupData[[variable]]))), integer(1L))
+    blumeCapelVariables[nObserved < 3L]
+  })
+  tooFewPerGroup <- Filter(length, tooFewPerGroup)
+
+  offending <- intersect(blumeCapelVariables, unlist(tooFewPerGroup, use.names = FALSE))
+  if (length(offending) == 0L)
+    return(NULL)
+
+  if (options[["groupingVariable"]] == "") {
+    return(sprintf(ngettext(length(offending),
+                            "The Blume-Capel model requires at least three observed categories, but fewer were observed for %s. Please uncheck B-C to treat this variable as ordinal.",
+                            "The Blume-Capel model requires at least three observed categories, but fewer were observed for %s. Please uncheck B-C to treat these variables as ordinal."),
+                   paste(offending, collapse = ", ")))
+  }
+
+  # name the groups in which each variable falls short, e.g. "x (group1, group2)"
+  location <- vapply(offending, function(variable) {
+    groups <- names(Filter(function(variables) variable %in% variables, tooFewPerGroup))
+    sprintf("%1$s (%2$s)", variable, paste(groups, collapse = ", "))
+  }, character(1L))
+
+  sprintf(ngettext(length(offending),
+                   "The Blume-Capel model requires at least three observed categories in every group, but fewer were observed for %s. Please uncheck B-C to treat this variable as ordinal.",
+                   "The Blume-Capel model requires at least three observed categories in every group, but fewer were observed for %s. Please uncheck B-C to treat these variables as ordinal."),
+          paste(location, collapse = "; "))
+}
+
 .bayesianNetworkAnalysisRun <- function(mainContainer, dataset, options) {
 
   # List that contains state or is empty:
@@ -142,7 +185,7 @@ BayesianNetworkAnalysisInternal <- function(jaspResults, dataset, options) {
   if (length(options[["variables"]]) <= 2L) # returns an empty table if there are less than 3 variables
     return(networkList)
 
-  if (is.null(networkList[["network"]]))
+  if (is.null(networkList[["network"]]) && !mainContainer$getError())
     tryCatch(
       networkList[["network"]] <- .bayesianNetworkAnalysisComputeNetworks(options, dataset),
       error = function(e) {
