@@ -25,7 +25,7 @@ gettextf <- function(fmt, ..., domain = NULL)  {
 #' decodeColNames encodeColNames .extractErrorMessage .hasErrors isTryError progressbarTick .quitAnalysis .readDataSetToEnd startProgressbar
 
 #' @export
-NetworkAnalysis <- function(jaspResults, dataset, options) {
+NetworkAnalysisInternal <- function(jaspResults, dataset, options) {
 
   dataset <- .networkAnalysisReadData(dataset, options)
 

@@ -6,7 +6,7 @@ Description
 	title:			qsTr("Network")
 	description:	qsTr("Explore the connections between variables organized as a network")
 	icon:			"analysis-network.svg"
-	hasWrappers: 	false
+	hasWrappers: 	true
 	
 	GroupTitle
 	{

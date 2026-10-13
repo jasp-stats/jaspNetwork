@@ -16,7 +16,7 @@
 #
 
 #' @export
-BayesianNetworkAnalysis <- function(jaspResults, dataset, options) {
+BayesianNetworkAnalysisInternal <- function(jaspResults, dataset, options) {
 
   options <- .bayesianNetworkAnalysisNormalizeVariableOptions(options)
   options <- .bayesianNetworkAnalysisNormalizeModelOptions(options)
