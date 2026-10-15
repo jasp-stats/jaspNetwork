@@ -29,6 +29,7 @@ BayesianNetworkAnalysis(
   credibilityInterval = FALSE,
   cut = 0,
   details = FALSE,
+  differencePriorFamily = "normal",
   dirichletAlpha = 1,
   edgeAbsence = TRUE,
   edgeEvidenceTable = FALSE,
@@ -50,7 +51,7 @@ BayesianNetworkAnalysis(
   groupingVariable = list(types = list(), value = ""),
   interactionAlpha = 0.5,
   interactionBeta = 0.5,
-  interactionPriorFamily = "cauchy",
+  interactionPriorFamily = "normal",
   interactionScale = 1,
   interactionScaleBaseline = 1,
   iter = 2000,
@@ -75,6 +76,8 @@ BayesianNetworkAnalysis(
   omrfUpdateMethod = "nuts",
   parameterHdiPlot = FALSE,
   parameterHdiPlotCoverage = 0.95,
+  parameterHdiTable = FALSE,
+  parameterHdiTableCoverage = 0.95,
   plotHeight = 320,
   plotWidth = 480,
   posteriorCoclusteringMatrixTable = FALSE,
@@ -93,11 +96,11 @@ BayesianNetworkAnalysis(
 )
 }
 \arguments{
-\item{betaAlpha, }{First shape parameter (α1) of the Beta prior on the within-cluster edge inclusion probability. Together with shape parameter 2, controls the prior mean (α1 / (α1 + α2)) and concentration. Equal values of 1 correspond to a uniform prior within each cluster.}
+\item{betaAlpha, }{First shape parameter (α1) of the Beta prior on the edge inclusion probability; under the Stochastic block model it applies to the within-cluster inclusion probability. Together with shape parameter 2 it controls the prior mean (α1 / (α1 + α2)) and concentration. Both parameters equal to 1 give a uniform prior.}
 
-\item{betaAlpha_between, }{First shape parameter (α1) of the Beta prior on the between-cluster edge inclusion probability. To encourage sparsity between clusters (block structure), set both between-cluster parameters to values less than 1.}
+\item{betaAlpha_between, }{First shape parameter (α1) of the Beta prior on the between-cluster edge inclusion probability. The prior mean of that probability is α1 / (α1 + α2), so to encourage sparsity between clusters (block structure), choose shape parameter 2 larger than shape parameter 1.}
 
-\item{betaBeta, }{Second shape parameter (α2) of the Beta prior on the within-cluster edge inclusion probability. Equal values of 1 correspond to a uniform prior.}
+\item{betaBeta, }{Second shape parameter (α2) of the Beta prior on the edge inclusion probability; under the Stochastic block model it applies to the within-cluster inclusion probability. Both parameters equal to 1 give a uniform prior.}
 
 \item{betaBeta_between, }{Second shape parameter (α2) of the Beta prior on the between-cluster edge inclusion probability.}
 
@@ -106,10 +109,10 @@ Defaults to \code{FALSE}.}
 
 \item{burnin, }{Number of warmup iterations discarded from the start of each chain to allow the Markov chain to converge before collecting posterior samples.}
 
-\item{centralityPlot, }{Displays posterior mean centrality for the selected measures (betweenness, closeness, strength, expected influence). Measures are plotted side by side per node. Only available when no grouping variable is selected.
+\item{centralityPlot, }{Displays centrality for the selected measures (betweenness, closeness, strength, expected influence), standardized to z-scores across nodes. Centrality is computed on the posterior mean network, or averaged over the networks sampled from the posterior when the credibility interval is requested. Measures are plotted side by side per node. Only available when no grouping variable is selected.
 Defaults to \code{FALSE}.}
 
-\item{centralityTable, }{Shows the posterior mean betweenness, closeness, strength, and expected influence for each node. Centrality is computed on the posterior mean network. Only available when no grouping variable is selected.
+\item{centralityTable, }{Shows the betweenness, closeness, strength, and expected influence of each node, standardized to z-scores across nodes. Centrality is computed on the posterior mean network, or averaged over the networks sampled from the posterior when the credibility interval of the centrality plot is requested. Only available when no grouping variable is selected.
 Defaults to \code{FALSE}.}
 
 \item{chains, }{Number of independent MCMC chains. With 2 or more chains, the Gelman-Rubin R-hat convergence statistic is computed across all chains. With 1 chain, a split-chain version is used instead. R-hat values above approximately 1.05 suggest the chains have not converged.}
@@ -117,10 +120,10 @@ Defaults to \code{FALSE}.}
 \item{closeness, }{Inverse of the average shortest path length from this node to all other nodes. Nodes with high closeness can efficiently reach all other nodes.
 Defaults to \code{FALSE}.}
 
-\item{clusterAllocationsTable, }{Shows the estimated cluster membership for each node. The allocation is summarized as either the posterior mean or posterior mode of the cluster indicator across MCMC samples.
+\item{clusterAllocationsTable, }{Shows the estimated cluster membership for each node. The allocation is summarized by either the posterior mean or the posterior mode allocation.
 Defaults to \code{FALSE}.}
 
-\item{clusterAllocationsType, }{Posterior mean uses the average cluster index across samples (may be non-integer). Posterior mode uses the most frequently sampled cluster assignment.}
+\item{clusterAllocationsType, }{Posterior mean is the sampled allocation that best represents the posterior co-clustering matrix (Dahl, 2009), a representative partition rather than an average of cluster indices. Posterior mode uses the most frequently sampled cluster assignment.}
 
 \item{clusterBayesFactor, }{Computes a Bayes factor comparing hypotheses about the clustering structure.
 Defaults to \code{FALSE}.}
@@ -129,7 +132,7 @@ Defaults to \code{FALSE}.}
 
 \item{clusterBayesFactorB2, }{Number of clusters under hypothesis H₂.}
 
-\item{clusterBayesFactorType, }{Clustering vs. no clustering compares the hypothesis of multi-cluster solution against a the hypothesis of a single-cluster (no clustering) model. Point hypotheses compares two specific numbers of clusters.
+\item{clusterBayesFactorType, }{Clustering vs. no clustering compares the hypothesis of a multi-cluster solution against the hypothesis of a single-cluster (no clustering) model. Point hypotheses compare two specific numbers of clusters.
 \itemize{
 \item \code{"complement"}: The BF tests whether any clustered structure is more probable than a single-cluster network.
 \item \code{"point"}: The BF compares the posterior probability of exactly H₁ clusters versus exactly H₂ clusters.
@@ -150,6 +153,8 @@ Defaults to \code{FALSE}.}
 
 \item{details, }{Overlays the minimum edge strength, maximum edge strength, and cut values as text on the network plot.
 Defaults to \code{FALSE}.}
+
+\item{differencePriorFamily, }{Family of the prior on the differences in partial association between the groups. Normal is the default and bounds a difference more tightly; Cauchy is heavy-tailed and leaves more room for large differences. Only used when a difference network is estimated, which requires a grouping variable and all selected variables to be ordinal or Blume-Capel.}
 
 \item{dirichletAlpha, }{Symmetric Dirichlet concentration parameter for cluster membership probabilities. The default of 1 is roughly uninformative about cluster sizes. Values less than 1 favor unequal cluster sizes.}
 
@@ -180,9 +185,9 @@ Defaults to \code{FALSE}.}
 
 \item{edgeSize, }{Multiplier applied to all edge widths. A value of 2 doubles the edge width relative to the default.}
 
-\item{edgeSpecificOverviewInclusionCriteria, }{Only edges with BF₁₀ above this value are listed in the edge-specific overview table.}
+\item{edgeSpecificOverviewInclusionCriteria, }{BF threshold used to categorize the edges in the overview table: included if BF₁₀ ≥ threshold, excluded if BF₁₀ ≤ 1/threshold, and inconclusive otherwise. All edges remain listed. When comparing groups the categories are labelled difference, equal, and inconclusive. The same threshold drives the edge counts in the summary table.}
 
-\item{edgeSpecificOverviewTable, }{Shows one row per edge. Columns include posterior estimates, inclusion probability, inclusion Bayes factor, and convergence statistics (R-hat). Edges are listed in order of decreasing inclusion probability.
+\item{edgeSpecificOverviewTable, }{Shows one row per edge, listed by variable pair. Columns include the posterior estimate, inclusion probability, inclusion Bayes factor, an evidence category, and the R-hat convergence statistic. When Blume-Capel variables are selected, an additional table reports the posterior mean, standard deviation, credible interval and R-hat of their linear and quadratic main effects.
 Defaults to \code{FALSE}.}
 
 \item{evidencePlot, }{Displays the network with edges colored by the evidence category they belong to. Blue edges have BF₁₀ at or above the threshold (evidence for inclusion); yellow edges have BF₁₀ at or below the reciprocal threshold (evidence for exclusion); gray edges fall in between (absence of evidence).
@@ -199,7 +204,7 @@ Defaults to \code{FALSE}.}
 \item{expectedInfluence, }{Sum of signed edge weights connected to this node. Unlike strength, negative edges reduce the value, so nodes with mixed positive and negative connections may have low expected influence.
 Defaults to \code{FALSE}.}
 
-\item{gPrior, }{Prior probability that any given edge is present under the Bernoulli prior. The default of 0.5 assigns equal prior probability to inclusion and exclusion. Values closer to 0 impose a sparser prior.}
+\item{gPrior, }{Prior probability that any given edge is present under the Bernoulli prior. The default of 0.5 assigns equal prior probability to inclusion and exclusion. Values closer to 0 impose a sparser prior. The probability must lie strictly between 0 and 1.}
 
 \item{groupingVariable, }{Select a nominal variable to estimate one network per group. A difference network is estimated only when all selected variables are ordinal or Blume-Capel; if scale variables are included, only separate group networks are estimated. At least 2 groups and 3 observations per group are required.}
 
@@ -207,13 +212,13 @@ Defaults to \code{FALSE}.}
 
 \item{interactionBeta, }{Second shape parameter (α2) of the Beta-prime prior on the partial association parameters.}
 
-\item{interactionPriorFamily, }{Family of the prior on the partial association parameters. Cauchy is the default heavy-tailed shrinkage prior. Normal applies lighter-tailed shrinkage. Beta-prime is parameterized via two shape parameters on the logistic scale.}
+\item{interactionPriorFamily, }{Family of the prior on the partial association parameters. Normal is the default and applies lighter-tailed shrinkage. Cauchy is a heavy-tailed shrinkage prior. Beta-prime is parameterized via two shape parameters on the logistic scale and is only available when all selected variables are ordinal or Blume-Capel. When a grouping variable is selected this family applies to the baseline partial associations; the prior on the group differences is set separately below.}
 
-\item{interactionScale, }{Scale parameter of the Cauchy or Normal prior on the partial association parameters. When a grouping variable is selected, this scale applies to the differences between groups.}
+\item{interactionScale, }{Scale parameter of the Normal or Cauchy prior on the partial association parameters. When a grouping variable is selected, this is instead the scale of the prior on the differences between groups, which is only used when a difference network is estimated (all selected variables ordinal or Blume-Capel).}
 
-\item{interactionScaleBaseline, }{Scale of the Cauchy prior on the \emph{baseline} partial association parameters when comparing groups. Set to a positive value to override the default of 1; values ≤ 0 fall back to the differences scale.}
+\item{interactionScaleBaseline, }{Scale of the Normal or Cauchy prior on the partial association parameters when a grouping variable is selected. It applies to the separate group and pooled networks, and to the baseline partial associations of the difference network. The scale of the prior on the group differences is set separately below.}
 
-\item{iter, }{Total number of MCMC iterations per chain, including the burn-in. Posterior inference uses the iterations after burn-in. Increase for more stable estimates, especially for complex models.}
+\item{iter, }{Number of posterior samples retained per chain, drawn after the burn-in iterations. The total length of each chain is the burn-in plus this number. Increase for more stable estimates, especially for complex models.}
 
 \item{labelAbbreviation, }{Abbreviate variable names in plots to reduce label clutter.
 Defaults to \code{FALSE}.}
@@ -264,12 +269,17 @@ Defaults to \code{FALSE}.}
 
 \item{nodeSize, }{Multiplier applied to all node sizes. A value of 1 uses the default size; values above 1 create larger nodes.}
 
-\item{omrfUpdateMethod, }{MCMC algorithm used to sample from the posterior.}
+\item{omrfUpdateMethod, }{MCMC algorithm used to sample from the posterior. NUTS is the gradient-based No-U-Turn sampler and is available for every variable type. Adaptive Metropolis is a componentwise random-walk sampler. Gibbs draws the precision matrix in conjugate row blocks and is only available for the Gaussian graphical model, that is, when all variables are continuous. With a grouping variable it can still be used for the separate group networks, but not for the estimation of a difference network.}
 
-\item{parameterHdiPlot, }{Displays the posterior mean and highest density interval (HDI) for every pairwise partial association, ordered from smallest to largest posterior mean. One panel per network is shown when multiple networks are estimated. Only available when no grouping variable is selected.
+\item{parameterHdiPlot, }{Displays the posterior mean and highest density interval (HDI) for every pairwise partial association, ordered from smallest to largest posterior mean. Only available when no grouping variable is selected.
 Defaults to \code{FALSE}.}
 
 \item{parameterHdiPlotCoverage, }{Coverage of the highest density interval (e.g., 0.95 for a 95\% HDI).}
+
+\item{parameterHdiTable, }{Shows the posterior mean and highest density interval (HDI) for every pairwise partial association, ordered from largest to smallest posterior mean so that it reads like the parameter HDI plot. The posterior mean averages over all posterior samples, so an edge that is mostly excluded can have a nonzero mean while its HDI collapses onto zero. The estimate of the median probability model, which sets edges with a posterior inclusion probability of at most 0.5 to zero, is shown in a separate column. Only available when no grouping variable is selected.
+Defaults to \code{FALSE}.}
+
+\item{parameterHdiTableCoverage, }{Coverage of the highest density interval (e.g., 0.95 for a 95\% HDI).}
 
 \item{posteriorCoclusteringMatrixTable, }{Shows the posterior probability that each pair of nodes belongs to the same cluster.
 Defaults to \code{FALSE}.}
@@ -280,7 +290,7 @@ Defaults to \code{FALSE}.}
 \item{posteriorStructurePlot, }{Plots the posterior probability of each sampled graph structure (y-axis) against a structure index (x-axis), sorted in decreasing order of probability. Useful for assessing whether a single graph structure dominates the posterior.
 Defaults to \code{FALSE}.}
 
-\item{showInterpretativeScaleEstimates, }{Shows log-odds, precisions, and partial correlations when available.
+\item{showInterpretativeScaleEstimates, }{Shows log-odds and partial correlations when available.
 Defaults to \code{FALSE}.}
 
 \item{strength, }{Sum of absolute edge weights connected to this node. Reflects how strongly a node is associated with its neighbors.
@@ -304,9 +314,8 @@ Defaults to \code{TRUE}.}
 }
 \description{
 Bayesian Network Analysis estimates the structure and strength of conditional associations among variables in a graphical model.
-The module supports the Gaussian graphical model (for continuous variables), the ordinal Markov random field, for ordinal (and binary) variables including Blume-Capel parameterizations when the ordinal variables with more than two categories have a meaningful neutral category,
-as well as a mixed graphical model of continuous and ordinal (Blume-Capel) variables.
-When a grouping factor variable is supplied, one network is estimated per group. A a statistical comparison of network differences is available if all selected variables are ordinal or Blume-Capel; otherwise, only group-specific networks are estimated.
+The module supports the Gaussian graphical model (for continuous variables), the ordinal Markov random field, for ordinal (and binary) variables including Blume-Capel parameterizations when the ordinal variables with more than two categories have a meaningful neutral category, as well as a mixed graphical model of continuous and ordinal (Blume-Capel) variables.
+When a grouping factor variable is supplied, one network is estimated per group. A statistical comparison of network differences is available if all selected variables are ordinal or Blume-Capel; otherwise, only group-specific networks are estimated.
 Posterior summaries include the edge weight estimates, along with the edge inclusion probabilities and inclusion Bayes factors, that can be inspected using the different tables and plots.
 \subsection{Assumptions}{
 \itemize{
