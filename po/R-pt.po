@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: R 3.6.1\n"
 "Report-Msgid-Bugs-To: github.com/jasp-stats/jasp-issues/issues\n"
-"POT-Creation-Date: 2026-05-16 03:29\n"
+"POT-Creation-Date: 2026-10-17 02:36\n"
 "PO-Revision-Date: 2025-08-09 02:54+0000\n"
 "Last-Translator: Wendel Paulo Silvestre <wpsilvestre@ucs.br>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/jasp/"
@@ -61,13 +61,9 @@ msgid ""
 "selected. Please use Bernoulli or Beta-binomial."
 msgstr ""
 
-msgid "Unsupported prior family '%s'."
-msgstr ""
-
-msgid "Unsupported edge prior '%s'."
-msgstr ""
-
-msgid "Unsupported difference prior '%s'."
+msgid ""
+"The Beta-prime prior on the partial association parameters is not available "
+"when continuous variables are included. Please select Normal or Cauchy."
 msgstr ""
 
 msgid ""
@@ -77,9 +73,21 @@ msgstr ""
 "A análise falhou com a seguinte mensagem de erro:\n"
 "%s"
 
+msgid "The cluster summaries could not be matched to the variables."
+msgstr ""
+
+msgid "The cluster allocations could not be matched to the variables."
+msgstr ""
+
+msgid "The posterior samples could not be matched to the variable pairs."
+msgstr ""
+
+msgid "The group estimates could not be matched to the variable pairs."
+msgstr ""
+
 msgid ""
 "Unsupported update method '%s'. Please select one of: adaptive-metropolis, "
-"nuts."
+"nuts, gibbs."
 msgstr ""
 
 msgid ""
@@ -158,6 +166,16 @@ msgstr "Medidas de centralidade por variável"
 msgid "Variable"
 msgstr "Variável"
 
+msgid ""
+"Centrality measures are standardized to z-scores across nodes and averaged "
+"over the networks sampled from the posterior."
+msgstr ""
+
+msgid ""
+"Centrality measures are standardized to z-scores across nodes and computed "
+"on the posterior mean network."
+msgstr ""
+
 msgid "Betweenness"
 msgstr "Intermediação"
 
@@ -182,13 +200,19 @@ msgstr ""
 msgid ""
 "The difference parameter HDI plot shows the posterior mean and highest "
 "density interval (HDI) for each pairwise difference in partial association "
-"between groups. Positive values indicate a stronger association in the first "
-"group; negative values indicate a stronger association in the second group."
+"between groups. Differences are the second group minus the first: positive "
+"values indicate a stronger association in the second group; negative values "
+"indicate a stronger association in the first group."
 msgstr ""
 
 msgid ""
-"Posterior samples are required for the parameter HDI plot. Please ensure the "
+"Posterior samples are required for the parameter HDI. Please ensure the "
 "model was fitted with 'save = TRUE'."
+msgstr ""
+
+msgid ""
+"The posterior samples are not in the expected edge order. Please report "
+"this, as the parameter HDI output cannot be labelled reliably."
 msgstr ""
 
 msgid "%d%% HDI of Partial Association"
@@ -251,6 +275,15 @@ msgstr ""
 msgid "Difference Estimate"
 msgstr ""
 
+msgid "The pairwise group differences could not be matched to the groups."
+msgstr ""
+
+msgid "%1$s − %2$s"
+msgstr ""
+
+msgid "Difference"
+msgstr ""
+
 #, fuzzy
 msgid "Posterior Diff. Prob."
 msgstr "Probabilidade Posterior"
@@ -259,6 +292,9 @@ msgid "Difference BF"
 msgstr ""
 
 msgid "Category"
+msgstr ""
+
+msgid "Convergence (baseline)"
 msgstr ""
 
 msgid "Convergence"
@@ -272,6 +308,17 @@ msgid ""
 "posterior difference probability ≤ 0.5 are set to zero."
 msgstr ""
 
+msgid ""
+"Group estimates are posterior means of the joint model used for the group "
+"comparison; a difference that is not set to zero equals the difference "
+"between the corresponding group estimates."
+msgstr ""
+
+msgid ""
+"Pooled estimates come from a separate fit to the pooled data and are based "
+"on its median probability model."
+msgstr ""
+
 #, fuzzy
 msgid ""
 "Bayes factors with values of infinity indicate that the estimated posterior "
@@ -281,6 +328,14 @@ msgstr ""
 "Fatores de Bayes com valores infinitos indicam que a probabilidade de "
 "inclusão posterior estimada é 1 ou 0. Consulte o arquivo de ajuda para obter "
 "mais informações."
+
+msgid ""
+"Convergence is the R-hat (Gelman-Rubin) statistic of the baseline pairwise "
+"interactions of the joint model; the group comparison does not report a "
+"separate R-hat for the differences themselves. Values greater than about "
+"1.01-1.05 are considered concerning. Consider increasing the number of "
+"iterations and/or chains to improve convergence."
+msgstr ""
 
 msgid ""
 "Convergence is the R-hat (Gelman-Rubin) statistic, values greater than about "
@@ -327,12 +382,70 @@ msgid ""
 "increasing the number of iterations to improve convergence."
 msgstr ""
 
-msgid "Log-odds"
+msgid "Blume-Capel Main Effects"
+msgstr ""
+
+msgid "%s%% Credible Interval"
+msgstr ""
+
+msgid "Effect"
+msgstr ""
+
+msgid "Baseline Category"
 msgstr ""
 
 #, fuzzy
-msgid "Precision Matrix"
-msgstr "Matriz de ponderação"
+msgid "Posterior SD"
+msgstr "Probabilidade Posterior"
+
+msgid "Lower"
+msgstr ""
+
+msgid "Upper"
+msgstr ""
+
+msgid ""
+"The linear (α) and quadratic (β) contributions of the Blume-Capel model for "
+"the category thresholds, reported relative to the baseline category the "
+"variable was fitted with."
+msgstr ""
+
+msgid "Linear"
+msgstr ""
+
+msgid "Quadratic"
+msgstr ""
+
+msgid ""
+"Convergence is the R-hat (Gelman-Rubin) statistic, values greater than about "
+"1.01-1.05 are considered concerning, indicating potential lack of "
+"convergence for the estimates of the main effects. Consider increasing the "
+"number of iterations and/or chains to improve convergence."
+msgstr ""
+
+msgid "Parameter HDI Table"
+msgstr ""
+
+msgid "%d%% HDI"
+msgstr ""
+
+#, fuzzy
+msgid "Posterior Mean"
+msgstr "Probabilidade Posterior"
+
+msgid "Median Probability Model Estimate"
+msgstr ""
+
+msgid ""
+"The posterior mean averages over all posterior samples, including those in "
+"which the edge is excluded, so it can be nonzero when the HDI collapses onto "
+"zero. The median probability model estimate sets edges with a posterior "
+"inclusion probability ≤ 0.5 to zero, matching the edge specific overview "
+"table."
+msgstr ""
+
+msgid "Log-odds"
+msgstr ""
 
 msgid "Partial Correlations"
 msgstr ""
@@ -525,6 +638,26 @@ msgstr ""
 "%s. <ul><li>Por favor cheque se há variáveis na rede com pouca variância ou "
 "poucas observações distintas.</li></ul>"
 
+msgid ""
+"The Blume-Capel model requires at least three observed categories, but fewer "
+"were observed for %s. Please uncheck B-C to treat this variable as ordinal."
+msgid_plural ""
+"The Blume-Capel model requires at least three observed categories, but fewer "
+"were observed for %s. Please uncheck B-C to treat these variables as ordinal."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid ""
+"The Blume-Capel model requires at least three observed categories in every "
+"group, but fewer were observed for %s. Please uncheck B-C to treat this "
+"variable as ordinal."
+msgid_plural ""
+"The Blume-Capel model requires at least three observed categories in every "
+"group, but fewer were observed for %s. Please uncheck B-C to treat these "
+"variables as ordinal."
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "%1$s X-Coordinates for variable %2$s was not understood."
 msgid_plural "%1$s X-Coordinates for variables %2$s were not understood."
 msgstr[0] "Coordenadas X %1$s para a variável %2$s não foi compreendida."
@@ -534,6 +667,10 @@ msgid "%1$s Y-Coordinates for variable %2$s was not understood."
 msgid_plural "%1$s Y-Coordinates for variables %2$s were not understood."
 msgstr[0] "Coordenadas Y %1$s para a variável %2$s não foi compreendida."
 msgstr[1] "Coordenadas Y %1$s para as variáveis %2$s não foram compreendidas."
+
+#, fuzzy
+#~ msgid "Precision Matrix"
+#~ msgstr "Matriz de ponderação"
 
 #~ msgid ""
 #~ "The Ordinal Markov Random Field may require a substantial amount of time "

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: jaspNetwork 0.15\n"
-"POT-Creation-Date: 2026-05-16 03:29\n"
+"POT-Creation-Date: 2026-10-17 02:36\n"
 "PO-Revision-Date: 2026-07-10 05:01+0000\n"
 "Last-Translator: 陳正昌 <chencc99@gmail.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -39,7 +39,9 @@ msgstr "稀缺性"
 msgid ""
 "Edge categorization is based on the inclusion criteria BF: included (BF₁₀ ≥ "
 "threshold), excluded (BF₁₀ ≤ 1/threshold), inconclusive (otherwise)."
-msgstr "边的分类基于包含标准 BF：包含（BF₁₀ ≥ 阈值）、排除（BF₁₀ ≤ 1/阈值）、尚无定论（其他情况）。"
+msgstr ""
+"边的分类基于包含标准 BF：包含（BF₁₀ ≥ 阈值）、排除（BF₁₀ ≤ 1/阈值）、尚无定论"
+"（其他情况）。"
 
 msgid "Could not determine the baseline category for variable %s."
 msgstr "无法确定变量 %s 的基线类别。"
@@ -55,16 +57,13 @@ msgstr "变量 %s 不能按 Blume-Capel 处理，因为它不是定序变量。"
 msgid ""
 "The Stochastic block model edge prior is not available when Split is "
 "selected. Please use Bernoulli or Beta-binomial."
-msgstr "在选择“拆分”时不可使用随机块模型边先验。请使用 Bernoulli 或 Beta-二项分布。"
+msgstr ""
+"在选择“拆分”时不可使用随机块模型边先验。请使用 Bernoulli 或 Beta-二项分布。"
 
-msgid "Unsupported prior family '%s'."
-msgstr "不支持的先验族“%s”。"
-
-msgid "Unsupported edge prior '%s'."
-msgstr "不支持的边先验“%s”。"
-
-msgid "Unsupported difference prior '%s'."
-msgstr "不支持的差异先验“%s”。"
+msgid ""
+"The Beta-prime prior on the partial association parameters is not available "
+"when continuous variables are included. Please select Normal or Cauchy."
+msgstr ""
 
 #, fuzzy
 msgid ""
@@ -74,15 +73,29 @@ msgstr ""
 "bootnet 崩溃，错误信息如下：\n"
 "%s"
 
+msgid "The cluster summaries could not be matched to the variables."
+msgstr ""
+
+msgid "The cluster allocations could not be matched to the variables."
+msgstr ""
+
+msgid "The posterior samples could not be matched to the variable pairs."
+msgstr ""
+
+msgid "The group estimates could not be matched to the variable pairs."
+msgstr ""
+
+#, fuzzy
 msgid ""
 "Unsupported update method '%s'. Please select one of: adaptive-metropolis, "
-"nuts."
+"nuts, gibbs."
 msgstr "不支持的更新方法“%s”。请选择以下之一：adaptive-metropolis、nuts。"
 
 msgid ""
 "Unsupported edge prior '%s'. Please select one of: Bernoulli, Beta-binomial, "
 "Stochastic block model."
-msgstr "不支持的边先验“%s”。请选择以下之一：Bernoulli、Beta-二项分布、随机块模型。"
+msgstr ""
+"不支持的边先验“%s”。请选择以下之一：Bernoulli、Beta-二项分布、随机块模型。"
 
 msgid "Group"
 msgstr "组"
@@ -116,7 +129,9 @@ msgstr "正在估计网络"
 msgid ""
 "Difference network not estimated: all selected variables must be ordinal or "
 "Blume-Capel. Showing separate group estimates instead."
-msgstr "未估计差异网络：所有选定的变量必须为定序或 Blume-Capel。改为显示各组的单独估计。"
+msgstr ""
+"未估计差异网络：所有选定的变量必须为定序或 Blume-Capel。改为显示各组的单独估"
+"计。"
 
 msgid ""
 "Minimum edge strength ignored in the network plot because it was larger than "
@@ -151,6 +166,16 @@ msgstr "每个变量中心性度量"
 msgid "Variable"
 msgstr "变量"
 
+msgid ""
+"Centrality measures are standardized to z-scores across nodes and averaged "
+"over the networks sampled from the posterior."
+msgstr ""
+
+msgid ""
+"Centrality measures are standardized to z-scores across nodes and computed "
+"on the posterior mean network."
+msgstr ""
+
 msgid "Betweenness"
 msgstr "介数(Betweenness )"
 
@@ -172,17 +197,27 @@ msgstr "参数 HDI 图"
 msgid "Parameter HDI Plots"
 msgstr "参数 HDI 图"
 
+#, fuzzy
 msgid ""
 "The difference parameter HDI plot shows the posterior mean and highest "
 "density interval (HDI) for each pairwise difference in partial association "
-"between groups. Positive values indicate a stronger association in the first "
-"group; negative values indicate a stronger association in the second group."
-msgstr "差异参数 HDI 图显示各组之间每对偏关联差异的后验均值与最高密度区间（HDI）。正值表示第一组的关联更强；负值表示第二组的关联更强。"
+"between groups. Differences are the second group minus the first: positive "
+"values indicate a stronger association in the second group; negative values "
+"indicate a stronger association in the first group."
+msgstr ""
+"差异参数 HDI 图显示各组之间每对偏关联差异的后验均值与最高密度区间（HDI）。正"
+"值表示第一组的关联更强；负值表示第二组的关联更强。"
 
+#, fuzzy
 msgid ""
-"Posterior samples are required for the parameter HDI plot. Please ensure the "
+"Posterior samples are required for the parameter HDI. Please ensure the "
 "model was fitted with 'save = TRUE'."
 msgstr "参数 HDI 图需要后验样本。请确保模型在拟合时设置“save = TRUE”。"
+
+msgid ""
+"The posterior samples are not in the expected edge order. Please report "
+"this, as the parameter HDI output cannot be labelled reliably."
+msgstr ""
 
 msgid "%d%% HDI of Partial Association"
 msgstr "偏关联的 %d%% HDI"
@@ -223,7 +258,9 @@ msgid ""
 "Bayes factors with values of infinity indicate that the estimated posterior "
 "inclusion probability is either 1 or 0. Please see the help file for more "
 "information."
-msgstr "贝叶斯因子的值为无穷大，表示估计的后验包含概率为 1 或 0。更多信息请参阅帮助文件。"
+msgstr ""
+"贝叶斯因子的值为无穷大，表示估计的后验包含概率为 1 或 0。更多信息请参阅帮助文"
+"件。"
 
 msgid "Edge Specific Overview"
 msgstr "边特定概览"
@@ -243,6 +280,16 @@ msgstr "关系"
 msgid "Difference Estimate"
 msgstr "差异估计"
 
+msgid "The pairwise group differences could not be matched to the groups."
+msgstr ""
+
+msgid "%1$s − %2$s"
+msgstr ""
+
+#, fuzzy
+msgid "Difference"
+msgstr "差异"
+
 #, fuzzy
 msgid "Posterior Diff. Prob."
 msgstr "后验概率结构图"
@@ -252,6 +299,10 @@ msgstr "差异 BF"
 
 msgid "Category"
 msgstr "类别"
+
+#, fuzzy
+msgid "Convergence (baseline)"
+msgstr "收敛"
 
 msgid "Convergence"
 msgstr "收敛"
@@ -265,22 +316,50 @@ msgid ""
 msgstr "差异估计基于中位概率模型：后验差异概率 ≤ 0.5 的边设为零。"
 
 msgid ""
+"Group estimates are posterior means of the joint model used for the group "
+"comparison; a difference that is not set to zero equals the difference "
+"between the corresponding group estimates."
+msgstr ""
+
+msgid ""
+"Pooled estimates come from a separate fit to the pooled data and are based "
+"on its median probability model."
+msgstr ""
+
+msgid ""
 "Bayes factors with values of infinity indicate that the estimated posterior "
 "difference probability is either 1 or 0. Please see the help file for more "
 "information."
-msgstr "贝叶斯因子的值为无穷大，表示估计的后验差异概率为 1 或 0。更多信息请参阅帮助文件。"
+msgstr ""
+"贝叶斯因子的值为无穷大，表示估计的后验差异概率为 1 或 0。更多信息请参阅帮助文"
+"件。"
+
+#, fuzzy
+msgid ""
+"Convergence is the R-hat (Gelman-Rubin) statistic of the baseline pairwise "
+"interactions of the joint model; the group comparison does not report a "
+"separate R-hat for the differences themselves. Values greater than about "
+"1.01-1.05 are considered concerning. Consider increasing the number of "
+"iterations and/or chains to improve convergence."
+msgstr ""
+"收敛性为 R-hat（Gelman-Rubin）统计量，大于约 1.01-1.05 的值被认为值得关注，表"
+"明成对交互的估计可能缺乏收敛。可考虑增加迭代次数和/或链数以改善收敛。"
 
 msgid ""
 "Convergence is the R-hat (Gelman-Rubin) statistic, values greater than about "
 "1.01-1.05 are considered concerning, indicating potential lack of "
 "convergence for the estimates of the pairwise interactions. Consider "
 "increasing the number of iterations and/or chains to improve convergence."
-msgstr "收敛性为 R-hat（Gelman-Rubin）统计量，大于约 1.01-1.05 的值被认为值得关注，表明成对交互的估计可能缺乏收敛。可考虑增加迭代次数和/或链数以改善收敛。"
+msgstr ""
+"收敛性为 R-hat（Gelman-Rubin）统计量，大于约 1.01-1.05 的值被认为值得关注，表"
+"明成对交互的估计可能缺乏收敛。可考虑增加迭代次数和/或链数以改善收敛。"
 
 msgid ""
 "Convergence is the split-chain R-hat (Gelman-Rubin) statistic, computed post "
 "hoc by splitting the posterior samples into two halves."
-msgstr "收敛性为分裂链 R-hat（Gelman-Rubin）统计量，通过将后验样本一分为二事后计算得出。"
+msgstr ""
+"收敛性为分裂链 R-hat（Gelman-Rubin）统计量，通过将后验样本一分为二事后计算得"
+"出。"
 
 msgid "included"
 msgstr "包含"
@@ -305,7 +384,9 @@ msgid ""
 "about 1.01-1.05 are considered concerning, indicating potential lack of "
 "convergence for the estimates of the pairwise interactions. Consider "
 "increasing the number of iterations to improve convergence."
-msgstr "收敛性为 R-hat（Gelman-Rubin）统计量，大于约 1.01-1.05 的值被认为值得关注，表明成对交互的估计可能缺乏收敛。可考虑增加迭代次数以改善收敛。"
+msgstr ""
+"收敛性为 R-hat（Gelman-Rubin）统计量，大于约 1.01-1.05 的值被认为值得关注，表"
+"明成对交互的估计可能缺乏收敛。可考虑增加迭代次数以改善收敛。"
 
 msgid ""
 "Convergence is the split-chain R-hat (Gelman-Rubin) statistic, computed post "
@@ -313,14 +394,80 @@ msgid ""
 "about 1.01-1.05 are considered concerning, indicating potential lack of "
 "convergence for the estimates of the pairwise interactions. Consider "
 "increasing the number of iterations to improve convergence."
-msgstr "收敛性为分裂链 R-hat（Gelman-Rubin）统计量，通过将后验样本一分为二事后计算得出。大于约 1.01-1.05 的值被认为值得关注，表明成对交互的估计可能缺乏收敛。可考虑增加迭代次数以改善收敛。"
+msgstr ""
+"收敛性为分裂链 R-hat（Gelman-Rubin）统计量，通过将后验样本一分为二事后计算得"
+"出。大于约 1.01-1.05 的值被认为值得关注，表明成对交互的估计可能缺乏收敛。可考"
+"虑增加迭代次数以改善收敛。"
+
+msgid "Blume-Capel Main Effects"
+msgstr ""
+
+msgid "%s%% Credible Interval"
+msgstr ""
+
+msgid "Effect"
+msgstr ""
+
+#, fuzzy
+msgid "Baseline Category"
+msgstr "类别"
+
+#, fuzzy
+msgid "Posterior SD"
+msgstr "后验概率结构图"
+
+msgid "Lower"
+msgstr ""
+
+msgid "Upper"
+msgstr ""
+
+msgid ""
+"The linear (α) and quadratic (β) contributions of the Blume-Capel model for "
+"the category thresholds, reported relative to the baseline category the "
+"variable was fitted with."
+msgstr ""
+
+msgid "Linear"
+msgstr ""
+
+msgid "Quadratic"
+msgstr ""
+
+#, fuzzy
+msgid ""
+"Convergence is the R-hat (Gelman-Rubin) statistic, values greater than about "
+"1.01-1.05 are considered concerning, indicating potential lack of "
+"convergence for the estimates of the main effects. Consider increasing the "
+"number of iterations and/or chains to improve convergence."
+msgstr ""
+"收敛性为 R-hat（Gelman-Rubin）统计量，大于约 1.01-1.05 的值被认为值得关注，表"
+"明成对交互的估计可能缺乏收敛。可考虑增加迭代次数和/或链数以改善收敛。"
+
+#, fuzzy
+msgid "Parameter HDI Table"
+msgstr "参数 HDI 图"
+
+msgid "%d%% HDI"
+msgstr ""
+
+#, fuzzy
+msgid "Posterior Mean"
+msgstr "后验概率结构图"
+
+msgid "Median Probability Model Estimate"
+msgstr ""
+
+msgid ""
+"The posterior mean averages over all posterior samples, including those in "
+"which the edge is excluded, so it can be nonzero when the HDI collapses onto "
+"zero. The median probability model estimate sets edges with a posterior "
+"inclusion probability ≤ 0.5 to zero, matching the edge specific overview "
+"table."
+msgstr ""
 
 msgid "Log-odds"
 msgstr "对数几率（Log-odds）"
-
-#, fuzzy
-msgid "Precision Matrix"
-msgstr "权重矩阵"
 
 msgid "Partial Correlations"
 msgstr "偏相关"
@@ -495,6 +642,24 @@ msgstr ""
 "bootnet 崩溃，错误消息如下：\n"
 "%s。 <ul><li>请检查网络中的变量方差过小或非重复观测值过少。</li></ul>"
 
+msgid ""
+"The Blume-Capel model requires at least three observed categories, but fewer "
+"were observed for %s. Please uncheck B-C to treat this variable as ordinal."
+msgid_plural ""
+"The Blume-Capel model requires at least three observed categories, but fewer "
+"were observed for %s. Please uncheck B-C to treat these variables as ordinal."
+msgstr[0] ""
+
+msgid ""
+"The Blume-Capel model requires at least three observed categories in every "
+"group, but fewer were observed for %s. Please uncheck B-C to treat this "
+"variable as ordinal."
+msgid_plural ""
+"The Blume-Capel model requires at least three observed categories in every "
+"group, but fewer were observed for %s. Please uncheck B-C to treat these "
+"variables as ordinal."
+msgstr[0] ""
+
 msgid "%1$s X-Coordinates for variable %2$s was not understood."
 msgid_plural "%1$s X-Coordinates for variables %2$s were not understood."
 msgstr[0] "无法解析变量 %2$s 的 %1$s X 坐标。"
@@ -502,6 +667,19 @@ msgstr[0] "无法解析变量 %2$s 的 %1$s X 坐标。"
 msgid "%1$s Y-Coordinates for variable %2$s was not understood."
 msgid_plural "%1$s Y-Coordinates for variables %2$s were not understood."
 msgstr[0] "无法解析变量 %2$s 的 %1$s Y 坐标。"
+
+#~ msgid "Unsupported prior family '%s'."
+#~ msgstr "不支持的先验族“%s”。"
+
+#~ msgid "Unsupported edge prior '%s'."
+#~ msgstr "不支持的边先验“%s”。"
+
+#~ msgid "Unsupported difference prior '%s'."
+#~ msgstr "不支持的差异先验“%s”。"
+
+#, fuzzy
+#~ msgid "Precision Matrix"
+#~ msgstr "权重矩阵"
 
 #~ msgid ""
 #~ "Could not invert the posterior rate matrix. Check if the covariance "

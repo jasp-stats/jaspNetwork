@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: R 3.6.1\n"
 "Report-Msgid-Bugs-To: github.com/jasp-stats/jasp-issues/issues\n"
-"POT-Creation-Date: 2026-05-16 03:29\n"
+"POT-Creation-Date: 2026-10-17 02:36\n"
 "PO-Revision-Date: 2026-06-20 03:28+0000\n"
 "Last-Translator: Johannes Keyser <joke@fsfe.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/jasp/jaspnetwork-"
@@ -63,17 +63,12 @@ msgid ""
 "selected. Please use Bernoulli or Beta-binomial."
 msgstr ""
 "Der stochastische Blockmodell-Kantenprior ist nicht verfügbar, wenn "
-"Aufgeteilt ausgewählt ist. Bitte verwenden Sie Bernoulli oder "
-"Beta-Binomial."
+"Aufgeteilt ausgewählt ist. Bitte verwenden Sie Bernoulli oder Beta-Binomial."
 
-msgid "Unsupported prior family '%s'."
-msgstr "Nicht unterstützte Prior-Familie \"%s\"."
-
-msgid "Unsupported edge prior '%s'."
-msgstr "Nicht unterstützter Kanten-Prior \"%s\"."
-
-msgid "Unsupported difference prior '%s'."
-msgstr "Nicht unterstützter Differenz-Prior \"%s\"."
+msgid ""
+"The Beta-prime prior on the partial association parameters is not available "
+"when continuous variables are included. Please select Normal or Cauchy."
+msgstr ""
 
 msgid ""
 "The analysis failed with the following error message:\n"
@@ -82,9 +77,22 @@ msgstr ""
 "Die Analyse ist mit folgender Fehlermeldung fehlgeschlagen:\n"
 "%s"
 
+msgid "The cluster summaries could not be matched to the variables."
+msgstr ""
+
+msgid "The cluster allocations could not be matched to the variables."
+msgstr ""
+
+msgid "The posterior samples could not be matched to the variable pairs."
+msgstr ""
+
+msgid "The group estimates could not be matched to the variable pairs."
+msgstr ""
+
+#, fuzzy
 msgid ""
 "Unsupported update method '%s'. Please select one of: adaptive-metropolis, "
-"nuts."
+"nuts, gibbs."
 msgstr ""
 "Die Update-Methode \"%s\" wird nicht unterstützt. Bitte wählen Sie eine der "
 "folgenden Optionen aus: Adaptive-Metropolis, NUTS."
@@ -167,6 +175,16 @@ msgstr "Zentralitätsmaße pro Variable"
 msgid "Variable"
 msgstr "Variable"
 
+msgid ""
+"Centrality measures are standardized to z-scores across nodes and averaged "
+"over the networks sampled from the posterior."
+msgstr ""
+
+msgid ""
+"Centrality measures are standardized to z-scores across nodes and computed "
+"on the posterior mean network."
+msgstr ""
+
 msgid "Betweenness"
 msgstr "Verflechtung"
 
@@ -188,11 +206,13 @@ msgstr "Parameter HDI-Diagramm"
 msgid "Parameter HDI Plots"
 msgstr "Parameter HDI-Diagramme"
 
+#, fuzzy
 msgid ""
 "The difference parameter HDI plot shows the posterior mean and highest "
 "density interval (HDI) for each pairwise difference in partial association "
-"between groups. Positive values indicate a stronger association in the first "
-"group; negative values indicate a stronger association in the second group."
+"between groups. Differences are the second group minus the first: positive "
+"values indicate a stronger association in the second group; negative values "
+"indicate a stronger association in the first group."
 msgstr ""
 "Das HDI-Diagramm der Differenzparameter zeigt den Posterior-Mittelwert und "
 "das Intervall höchster Dichte (HDI) für jede paarweise Differenz von "
@@ -200,13 +220,19 @@ msgstr ""
 "stärkere Assoziation in der ersten Gruppe; negative Werte deuten auf eine "
 "stärkere Assoziation in der zweiten Gruppe."
 
+#, fuzzy
 msgid ""
-"Posterior samples are required for the parameter HDI plot. Please ensure the "
+"Posterior samples are required for the parameter HDI. Please ensure the "
 "model was fitted with 'save = TRUE'."
 msgstr ""
 "Für das Diagramm der HDI-Parameter sind Posterior-Stichproben erforderlich. "
 "Bitte stellen Sie sicher, dass das Modell mit \"save = TRUE\" angepasst "
 "wurde."
+
+msgid ""
+"The posterior samples are not in the expected edge order. Please report "
+"this, as the parameter HDI output cannot be labelled reliably."
+msgstr ""
 
 msgid "%d%% HDI of Partial Association"
 msgstr "%d%% HDI von partieller Assoziation"
@@ -269,6 +295,16 @@ msgstr "Beziehung"
 msgid "Difference Estimate"
 msgstr "Differenz-Schätzung"
 
+msgid "The pairwise group differences could not be matched to the groups."
+msgstr ""
+
+msgid "%1$s − %2$s"
+msgstr ""
+
+#, fuzzy
+msgid "Difference"
+msgstr "Differenzen"
+
 msgid "Posterior Diff. Prob."
 msgstr "Posterior Diff.-Wahrsch."
 
@@ -277,6 +313,10 @@ msgstr "BF Differenz"
 
 msgid "Category"
 msgstr "Kategorie"
+
+#, fuzzy
+msgid "Convergence (baseline)"
+msgstr "Konvergenz"
 
 msgid "Convergence"
 msgstr "Konvergenz"
@@ -292,6 +332,17 @@ msgstr ""
 "mit einer Posterior-Differenzwahrscheinlichkeit von ≤ 0,5 werden auf null "
 "gesetzt."
 
+msgid ""
+"Group estimates are posterior means of the joint model used for the group "
+"comparison; a difference that is not set to zero equals the difference "
+"between the corresponding group estimates."
+msgstr ""
+
+msgid ""
+"Pooled estimates come from a separate fit to the pooled data and are based "
+"on its median probability model."
+msgstr ""
+
 #, fuzzy
 msgid ""
 "Bayes factors with values of infinity indicate that the estimated posterior "
@@ -301,6 +352,20 @@ msgstr ""
 "Bayes-Faktoren mit unendlichen Werten zeigen, dass die geschätzte Posterior-"
 "Einschlusswahrscheinlichkeit entweder 1 oder 0 ist. Weitere Informationen "
 "finden Sie in der Hilfedatei."
+
+#, fuzzy
+msgid ""
+"Convergence is the R-hat (Gelman-Rubin) statistic of the baseline pairwise "
+"interactions of the joint model; the group comparison does not report a "
+"separate R-hat for the differences themselves. Values greater than about "
+"1.01-1.05 are considered concerning. Consider increasing the number of "
+"iterations and/or chains to improve convergence."
+msgstr ""
+"Konvergenz ist die R-hat-Statistik (Gelman-Rubin); Werte größer als etwa "
+"1,01–1,05 gelten als bedenklich und weisen auf eine mögliche fehlende "
+"Konvergenz der Schätzungen der paarweisen Interaktionen hin. Erwägen Sie, "
+"die Anzahl der Iterationen und/oder Ketten zu erhöhen, um die Konvergenz zu "
+"verbessern."
 
 msgid ""
 "Convergence is the R-hat (Gelman-Rubin) statistic, values greater than about "
@@ -364,15 +429,81 @@ msgstr ""
 "nachträglich (post hoc) berechnet wird, indem die Posterior-Stichproben in "
 "zwei Hälften geteilt werden. Werte größer als etwa 1,01–1,05 gelten als "
 "bedenklich und weisen auf eine mögliche fehlende Konvergenz der Schätzungen "
-"der paarweisen Interaktionen hin. Erwägen Sie, die Anzahl der Iterationen "
-"zu erhöhen, um die Konvergenz zu verbessern."
+"der paarweisen Interaktionen hin. Erwägen Sie, die Anzahl der Iterationen zu "
+"erhöhen, um die Konvergenz zu verbessern."
+
+msgid "Blume-Capel Main Effects"
+msgstr ""
+
+msgid "%s%% Credible Interval"
+msgstr ""
+
+msgid "Effect"
+msgstr ""
+
+#, fuzzy
+msgid "Baseline Category"
+msgstr "Kategorie"
+
+#, fuzzy
+msgid "Posterior SD"
+msgstr "Posterior Diff.-Wahrsch."
+
+msgid "Lower"
+msgstr ""
+
+msgid "Upper"
+msgstr ""
+
+msgid ""
+"The linear (α) and quadratic (β) contributions of the Blume-Capel model for "
+"the category thresholds, reported relative to the baseline category the "
+"variable was fitted with."
+msgstr ""
+
+msgid "Linear"
+msgstr ""
+
+msgid "Quadratic"
+msgstr ""
+
+#, fuzzy
+msgid ""
+"Convergence is the R-hat (Gelman-Rubin) statistic, values greater than about "
+"1.01-1.05 are considered concerning, indicating potential lack of "
+"convergence for the estimates of the main effects. Consider increasing the "
+"number of iterations and/or chains to improve convergence."
+msgstr ""
+"Konvergenz ist die R-hat-Statistik (Gelman-Rubin); Werte größer als etwa "
+"1,01–1,05 gelten als bedenklich und weisen auf eine mögliche fehlende "
+"Konvergenz der Schätzungen der paarweisen Interaktionen hin. Erwägen Sie, "
+"die Anzahl der Iterationen und/oder Ketten zu erhöhen, um die Konvergenz zu "
+"verbessern."
+
+#, fuzzy
+msgid "Parameter HDI Table"
+msgstr "Parameter HDI-Diagramm"
+
+msgid "%d%% HDI"
+msgstr ""
+
+#, fuzzy
+msgid "Posterior Mean"
+msgstr "Posterior-Wahrscheinlichkeit"
+
+msgid "Median Probability Model Estimate"
+msgstr ""
+
+msgid ""
+"The posterior mean averages over all posterior samples, including those in "
+"which the edge is excluded, so it can be nonzero when the HDI collapses onto "
+"zero. The median probability model estimate sets edges with a posterior "
+"inclusion probability ≤ 0.5 to zero, matching the edge specific overview "
+"table."
+msgstr ""
 
 msgid "Log-odds"
 msgstr "Log-Odds"
-
-#, fuzzy
-msgid "Precision Matrix"
-msgstr "Präzisions-Matrix"
 
 msgid "Partial Correlations"
 msgstr "Partielle Korrelationen"
@@ -558,6 +689,26 @@ msgstr ""
 "%s. <ul><li>Bitte prüfe, ob es Variablen im Netzwerk mit geringer Varianz "
 "oder wenigen unterschiedlichen Beobachtungen gibt.</li></ul>"
 
+msgid ""
+"The Blume-Capel model requires at least three observed categories, but fewer "
+"were observed for %s. Please uncheck B-C to treat this variable as ordinal."
+msgid_plural ""
+"The Blume-Capel model requires at least three observed categories, but fewer "
+"were observed for %s. Please uncheck B-C to treat these variables as ordinal."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid ""
+"The Blume-Capel model requires at least three observed categories in every "
+"group, but fewer were observed for %s. Please uncheck B-C to treat this "
+"variable as ordinal."
+msgid_plural ""
+"The Blume-Capel model requires at least three observed categories in every "
+"group, but fewer were observed for %s. Please uncheck B-C to treat these "
+"variables as ordinal."
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "%1$s X-Coordinates for variable %2$s was not understood."
 msgid_plural "%1$s X-Coordinates for variables %2$s were not understood."
 msgstr[0] "%1$s X-Koordinaten für Variable %2$s wurde nicht verstanden."
@@ -567,6 +718,19 @@ msgid "%1$s Y-Coordinates for variable %2$s was not understood."
 msgid_plural "%1$s Y-Coordinates for variables %2$s were not understood."
 msgstr[0] "%1$s Y-Koordinaten für Variable %2$s wurde nicht verstanden."
 msgstr[1] "%1$s Y-Koordinaten für Variablen %2$s wurden nicht verstanden."
+
+#~ msgid "Unsupported prior family '%s'."
+#~ msgstr "Nicht unterstützte Prior-Familie \"%s\"."
+
+#~ msgid "Unsupported edge prior '%s'."
+#~ msgstr "Nicht unterstützter Kanten-Prior \"%s\"."
+
+#~ msgid "Unsupported difference prior '%s'."
+#~ msgstr "Nicht unterstützter Differenz-Prior \"%s\"."
+
+#, fuzzy
+#~ msgid "Precision Matrix"
+#~ msgstr "Präzisions-Matrix"
 
 #, fuzzy
 #~ msgid ""

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: jaspNetwork 0.0.0\n"
-"POT-Creation-Date: 2026-05-16 03:29\n"
+"POT-Creation-Date: 2026-10-17 02:36\n"
 "PO-Revision-Date: 2026-08-20 01:29+0000\n"
 "Last-Translator: Koji Kosugi <kosugitti@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/jasp/"
@@ -47,7 +47,8 @@ msgstr "変数 %s の基準カテゴリを決められませんでした。"
 msgid ""
 "Some model type assignments refer to variables that are not part of the "
 "analysis: %s."
-msgstr "モデルの種類の割り当ての一部が、分析に含まれない変数を指しています: %s。"
+msgstr ""
+"モデルの種類の割り当ての一部が、分析に含まれない変数を指しています: %s。"
 
 msgid "Variable %s cannot be treated as Blume-Capel because it is not ordinal."
 msgstr "変数 %s は順序変数ではないため、Blume-Capelとして扱えません。"
@@ -56,17 +57,13 @@ msgid ""
 "The Stochastic block model edge prior is not available when Split is "
 "selected. Please use Bernoulli or Beta-binomial."
 msgstr ""
-"分割を選んでいる場合、確率的ブロックモデルのエッジの事前分布は利用できません"
-"。ベルヌーイまたはベータ二項を使ってください。"
+"分割を選んでいる場合、確率的ブロックモデルのエッジの事前分布は利用できませ"
+"ん。ベルヌーイまたはベータ二項を使ってください。"
 
-msgid "Unsupported prior family '%s'."
-msgstr "対応していない事前分布族 '%s' です。"
-
-msgid "Unsupported edge prior '%s'."
-msgstr "対応していないエッジの事前分布 '%s' です。"
-
-msgid "Unsupported difference prior '%s'."
-msgstr "対応していない差の事前分布 '%s' です。"
+msgid ""
+"The Beta-prime prior on the partial association parameters is not available "
+"when continuous variables are included. Please select Normal or Cauchy."
+msgstr ""
 
 msgid ""
 "The analysis failed with the following error message:\n"
@@ -75,9 +72,22 @@ msgstr ""
 "分析が次のエラーメッセージで失敗しました:\n"
 "%s"
 
+msgid "The cluster summaries could not be matched to the variables."
+msgstr ""
+
+msgid "The cluster allocations could not be matched to the variables."
+msgstr ""
+
+msgid "The posterior samples could not be matched to the variable pairs."
+msgstr ""
+
+msgid "The group estimates could not be matched to the variable pairs."
+msgstr ""
+
+#, fuzzy
 msgid ""
 "Unsupported update method '%s'. Please select one of: adaptive-metropolis, "
-"nuts."
+"nuts, gibbs."
 msgstr ""
 "対応していない更新の方法 '%s' です。adaptive-metropolis または nuts のいずれ"
 "かを選んでください。"
@@ -86,8 +96,8 @@ msgid ""
 "Unsupported edge prior '%s'. Please select one of: Bernoulli, Beta-binomial, "
 "Stochastic block model."
 msgstr ""
-"対応していないエッジの事前分布 '%s' です。ベルヌーイ、ベータ二項、確率的"
-"ブロックモデルのいずれかを選んでください。"
+"対応していないエッジの事前分布 '%s' です。ベルヌーイ、ベータ二項、確率的ブ"
+"ロックモデルのいずれかを選んでください。"
 
 msgid "Group"
 msgstr "群"
@@ -128,8 +138,8 @@ msgid ""
 "Minimum edge strength ignored in the network plot because it was larger than "
 "the absolute value of the strongest edge."
 msgstr ""
-"最小エッジ強度は、最強のエッジの絶対値よりも大きかったため、"
-"ネットワークプロットでは無視されました。"
+"最小エッジ強度は、最強のエッジの絶対値よりも大きかったため、ネットワークプ"
+"ロットでは無視されました。"
 
 msgid ""
 "Minimum edge strength ignored in the network plot of group%1$s %2$s because "
@@ -159,6 +169,16 @@ msgstr "変数ごとの中心性指標"
 msgid "Variable"
 msgstr "変数"
 
+msgid ""
+"Centrality measures are standardized to z-scores across nodes and averaged "
+"over the networks sampled from the posterior."
+msgstr ""
+
+msgid ""
+"Centrality measures are standardized to z-scores across nodes and computed "
+"on the posterior mean network."
+msgstr ""
+
 msgid "Betweenness"
 msgstr "間隔"
 
@@ -180,22 +200,30 @@ msgstr "パラメータのHDIプロット"
 msgid "Parameter HDI Plots"
 msgstr "パラメータのHDIプロット"
 
+#, fuzzy
 msgid ""
 "The difference parameter HDI plot shows the posterior mean and highest "
 "density interval (HDI) for each pairwise difference in partial association "
-"between groups. Positive values indicate a stronger association in the first "
-"group; negative values indicate a stronger association in the second group."
+"between groups. Differences are the second group minus the first: positive "
+"values indicate a stronger association in the second group; negative values "
+"indicate a stronger association in the first group."
 msgstr ""
 "差のパラメータのHDIプロットは、群間の偏関連の対ごとの差について、事後平均と最"
 "高密度区間(HDI)を示します。正の値は1つ目の群で関連が強いこと、負の値は2つ目の"
 "群で関連が強いことを表します。"
 
+#, fuzzy
 msgid ""
-"Posterior samples are required for the parameter HDI plot. Please ensure the "
+"Posterior samples are required for the parameter HDI. Please ensure the "
 "model was fitted with 'save = TRUE'."
 msgstr ""
 "パラメータのHDIプロットには事後サンプルが必要です。モデルが 'save = TRUE' で"
 "あてはめられているか確認してください。"
+
+msgid ""
+"The posterior samples are not in the expected edge order. Please report "
+"this, as the parameter HDI output cannot be labelled reliably."
+msgstr ""
 
 msgid "%d%% HDI of Partial Association"
 msgstr "偏関連の %d%% HDI"
@@ -256,6 +284,16 @@ msgstr "関係"
 msgid "Difference Estimate"
 msgstr "差の推定値"
 
+msgid "The pairwise group differences could not be matched to the groups."
+msgstr ""
+
+msgid "%1$s − %2$s"
+msgstr ""
+
+#, fuzzy
+msgid "Difference"
+msgstr "差"
+
 msgid "Posterior Diff. Prob."
 msgstr "事後差分確率"
 
@@ -264,6 +302,10 @@ msgstr "差のBF"
 
 msgid "Category"
 msgstr "区分"
+
+#, fuzzy
+msgid "Convergence (baseline)"
+msgstr "収束"
 
 msgid "Convergence"
 msgstr "収束"
@@ -279,12 +321,35 @@ msgstr ""
 "0とされます。"
 
 msgid ""
+"Group estimates are posterior means of the joint model used for the group "
+"comparison; a difference that is not set to zero equals the difference "
+"between the corresponding group estimates."
+msgstr ""
+
+msgid ""
+"Pooled estimates come from a separate fit to the pooled data and are based "
+"on its median probability model."
+msgstr ""
+
+msgid ""
 "Bayes factors with values of infinity indicate that the estimated posterior "
 "difference probability is either 1 or 0. Please see the help file for more "
 "information."
 msgstr ""
 "ベイズファクターが無限大の場合、推定された事後の差の確率が1か0であることを意"
 "味します。詳しくはヘルプファイルを参照してください。"
+
+#, fuzzy
+msgid ""
+"Convergence is the R-hat (Gelman-Rubin) statistic of the baseline pairwise "
+"interactions of the joint model; the group comparison does not report a "
+"separate R-hat for the differences themselves. Values greater than about "
+"1.01-1.05 are considered concerning. Consider increasing the number of "
+"iterations and/or chains to improve convergence."
+msgstr ""
+"収束はR-hat(Gelman-Rubin)統計量です。おおよそ1.01〜1.05を超える値は懸念され、"
+"対ごとの交互作用の推定値が収束していない可能性を示します。収束を改善するに"
+"は、反復回数やチェイン数を増やすことを検討してください。"
 
 msgid ""
 "Convergence is the R-hat (Gelman-Rubin) statistic, values greater than about "
@@ -293,15 +358,15 @@ msgid ""
 "increasing the number of iterations and/or chains to improve convergence."
 msgstr ""
 "収束はR-hat(Gelman-Rubin)統計量です。おおよそ1.01〜1.05を超える値は懸念され、"
-"対ごとの交互作用の推定値が収束していない可能性を示します。収束を改善するには"
-"、反復回数やチェイン数を増やすことを検討してください。"
+"対ごとの交互作用の推定値が収束していない可能性を示します。収束を改善するに"
+"は、反復回数やチェイン数を増やすことを検討してください。"
 
 msgid ""
 "Convergence is the split-chain R-hat (Gelman-Rubin) statistic, computed post "
 "hoc by splitting the posterior samples into two halves."
 msgstr ""
-"収束は、事後サンプルを2つに分けて事後的に計算した、チェイン分割版のR-hat"
-"(Gelman-Rubin)統計量です。"
+"収束は、事後サンプルを2つに分けて事後的に計算した、チェイン分割版のR-"
+"hat(Gelman-Rubin)統計量です。"
 
 msgid "included"
 msgstr "含まれる"
@@ -329,8 +394,8 @@ msgid ""
 "increasing the number of iterations to improve convergence."
 msgstr ""
 "収束はR-hat(Gelman-Rubin)統計量です。おおよそ1.01〜1.05を超える値は懸念され、"
-"対ごとの交互作用の推定値が収束していない可能性を示します。収束を改善するには"
-"、反復回数を増やすことを検討してください。"
+"対ごとの交互作用の推定値が収束していない可能性を示します。収束を改善するに"
+"は、反復回数を増やすことを検討してください。"
 
 msgid ""
 "Convergence is the split-chain R-hat (Gelman-Rubin) statistic, computed post "
@@ -339,16 +404,81 @@ msgid ""
 "convergence for the estimates of the pairwise interactions. Consider "
 "increasing the number of iterations to improve convergence."
 msgstr ""
-"収束は、事後サンプルを2つに分けて事後的に計算した、チェイン分割版のR-hat"
-"(Gelman-Rubin)統計量です。おおよそ1.01〜1.05を超える値は懸念され、対ごとの交"
-"互作用の推定値が収束していない可能性を示します。収束を改善するには、反復回数"
-"を増やすことを検討してください。"
+"収束は、事後サンプルを2つに分けて事後的に計算した、チェイン分割版のR-"
+"hat(Gelman-Rubin)統計量です。おおよそ1.01〜1.05を超える値は懸念され、対ごとの"
+"交互作用の推定値が収束していない可能性を示します。収束を改善するには、反復回"
+"数を増やすことを検討してください。"
+
+msgid "Blume-Capel Main Effects"
+msgstr ""
+
+msgid "%s%% Credible Interval"
+msgstr ""
+
+msgid "Effect"
+msgstr ""
+
+#, fuzzy
+msgid "Baseline Category"
+msgstr "区分"
+
+#, fuzzy
+msgid "Posterior SD"
+msgstr "事後差分確率"
+
+msgid "Lower"
+msgstr ""
+
+msgid "Upper"
+msgstr ""
+
+msgid ""
+"The linear (α) and quadratic (β) contributions of the Blume-Capel model for "
+"the category thresholds, reported relative to the baseline category the "
+"variable was fitted with."
+msgstr ""
+
+msgid "Linear"
+msgstr ""
+
+msgid "Quadratic"
+msgstr ""
+
+#, fuzzy
+msgid ""
+"Convergence is the R-hat (Gelman-Rubin) statistic, values greater than about "
+"1.01-1.05 are considered concerning, indicating potential lack of "
+"convergence for the estimates of the main effects. Consider increasing the "
+"number of iterations and/or chains to improve convergence."
+msgstr ""
+"収束はR-hat(Gelman-Rubin)統計量です。おおよそ1.01〜1.05を超える値は懸念され、"
+"対ごとの交互作用の推定値が収束していない可能性を示します。収束を改善するに"
+"は、反復回数やチェイン数を増やすことを検討してください。"
+
+#, fuzzy
+msgid "Parameter HDI Table"
+msgstr "パラメータのHDIプロット"
+
+msgid "%d%% HDI"
+msgstr ""
+
+#, fuzzy
+msgid "Posterior Mean"
+msgstr "事後確率"
+
+msgid "Median Probability Model Estimate"
+msgstr ""
+
+msgid ""
+"The posterior mean averages over all posterior samples, including those in "
+"which the edge is excluded, so it can be nonzero when the HDI collapses onto "
+"zero. The median probability model estimate sets edges with a posterior "
+"inclusion probability ≤ 0.5 to zero, matching the edge specific overview "
+"table."
+msgstr ""
 
 msgid "Log-odds"
 msgstr "対数オッズ"
-
-msgid "Precision Matrix"
-msgstr "精度行列"
 
 msgid "Partial Correlations"
 msgstr "偏相関"
@@ -523,6 +653,24 @@ msgstr ""
 "%s. <ul><li>ネットワーク内に分散が少ないか、またはいくつかの離散観測値を持つ"
 "変数があるかどうかを確認してください。</li></ul>"
 
+msgid ""
+"The Blume-Capel model requires at least three observed categories, but fewer "
+"were observed for %s. Please uncheck B-C to treat this variable as ordinal."
+msgid_plural ""
+"The Blume-Capel model requires at least three observed categories, but fewer "
+"were observed for %s. Please uncheck B-C to treat these variables as ordinal."
+msgstr[0] ""
+
+msgid ""
+"The Blume-Capel model requires at least three observed categories in every "
+"group, but fewer were observed for %s. Please uncheck B-C to treat this "
+"variable as ordinal."
+msgid_plural ""
+"The Blume-Capel model requires at least three observed categories in every "
+"group, but fewer were observed for %s. Please uncheck B-C to treat these "
+"variables as ordinal."
+msgstr[0] ""
+
 msgid "%1$s X-Coordinates for variable %2$s was not understood."
 msgid_plural "%1$s X-Coordinates for variables %2$s were not understood."
 msgstr[0] "変数 %2$s のX座標 %1$sは理解できませんでした。"
@@ -530,6 +678,18 @@ msgstr[0] "変数 %2$s のX座標 %1$sは理解できませんでした。"
 msgid "%1$s Y-Coordinates for variable %2$s was not understood."
 msgid_plural "%1$s Y-Coordinates for variables %2$s were not understood."
 msgstr[0] "変数 %2$s の Y 座標 %1$s は理解できませんでした。"
+
+#~ msgid "Unsupported prior family '%s'."
+#~ msgstr "対応していない事前分布族 '%s' です。"
+
+#~ msgid "Unsupported edge prior '%s'."
+#~ msgstr "対応していないエッジの事前分布 '%s' です。"
+
+#~ msgid "Unsupported difference prior '%s'."
+#~ msgstr "対応していない差の事前分布 '%s' です。"
+
+#~ msgid "Precision Matrix"
+#~ msgstr "精度行列"
 
 #~ msgid ""
 #~ "Could not invert the posterior rate matrix. Check if the covariance "

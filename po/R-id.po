@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: jaspNetwork 0.95.5\n"
-"POT-Creation-Date: 2026-05-16 03:29\n"
+"POT-Creation-Date: 2026-10-17 02:36\n"
 "PO-Revision-Date: 2026-07-03 23:01+0000\n"
 "Last-Translator: Zahid Rizky Fakhri <zahidrizkyfakhri@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/jasp/"
@@ -63,14 +63,10 @@ msgstr ""
 "Priori tepi model blok Stochastik tidak tersedia ketika Pemisahan dipilih. "
 "Silakan gunakan Bernoulli atau Binomial-beta."
 
-msgid "Unsupported prior family '%s'."
-msgstr "Keluarga priori tidak didukung '%s'."
-
-msgid "Unsupported edge prior '%s'."
-msgstr "Tepi priori tidak didukung '%s'."
-
-msgid "Unsupported difference prior '%s'."
-msgstr "Perbedaan priori tidak didukung '%s'."
+msgid ""
+"The Beta-prime prior on the partial association parameters is not available "
+"when continuous variables are included. Please select Normal or Cauchy."
+msgstr ""
 
 msgid ""
 "The analysis failed with the following error message:\n"
@@ -79,9 +75,22 @@ msgstr ""
 "Analisis gagal dengan pesan galat berikut:\n"
 "%s"
 
+msgid "The cluster summaries could not be matched to the variables."
+msgstr ""
+
+msgid "The cluster allocations could not be matched to the variables."
+msgstr ""
+
+msgid "The posterior samples could not be matched to the variable pairs."
+msgstr ""
+
+msgid "The group estimates could not be matched to the variable pairs."
+msgstr ""
+
+#, fuzzy
 msgid ""
 "Unsupported update method '%s'. Please select one of: adaptive-metropolis, "
-"nuts."
+"nuts, gibbs."
 msgstr ""
 "Metode pembaruan tidak didukung '%s'. Silakan pilih satu dari: metropolis-"
 "adaptif, nuts."
@@ -163,6 +172,16 @@ msgstr "Pengukuran kepusatan per variabel"
 msgid "Variable"
 msgstr "Variabel"
 
+msgid ""
+"Centrality measures are standardized to z-scores across nodes and averaged "
+"over the networks sampled from the posterior."
+msgstr ""
+
+msgid ""
+"Centrality measures are standardized to z-scores across nodes and computed "
+"on the posterior mean network."
+msgstr ""
+
 msgid "Betweenness"
 msgstr "Keantaraan"
 
@@ -184,11 +203,13 @@ msgstr "Diagram HDI Parameter"
 msgid "Parameter HDI Plots"
 msgstr "Diagram HDI Parameter"
 
+#, fuzzy
 msgid ""
 "The difference parameter HDI plot shows the posterior mean and highest "
 "density interval (HDI) for each pairwise difference in partial association "
-"between groups. Positive values indicate a stronger association in the first "
-"group; negative values indicate a stronger association in the second group."
+"between groups. Differences are the second group minus the first: positive "
+"values indicate a stronger association in the second group; negative values "
+"indicate a stronger association in the first group."
 msgstr ""
 "Diagram HDI parameter perbedaan menampilkan rerata posterior dan interval "
 "kepadatan tertinggi (HDI) untuk setiap perbedaan berpasangan di asosiasi "
@@ -196,12 +217,18 @@ msgstr ""
 "grup pertama; nilai negatif mengindikasikan asosiasi lebih kuat di grup "
 "kedua."
 
+#, fuzzy
 msgid ""
-"Posterior samples are required for the parameter HDI plot. Please ensure the "
+"Posterior samples are required for the parameter HDI. Please ensure the "
 "model was fitted with 'save = TRUE'."
 msgstr ""
 "Sampel posterior diperlukan untuk diagram HDI parameter. Silakan pastikan "
 "model telah disesuaikan dengan 'save = TRUE'."
+
+msgid ""
+"The posterior samples are not in the expected edge order. Please report "
+"this, as the parameter HDI output cannot be labelled reliably."
+msgstr ""
 
 msgid "%d%% HDI of Partial Association"
 msgstr "%d%% HDI dari Asosiasi Parsial"
@@ -263,6 +290,16 @@ msgstr "Relasi"
 msgid "Difference Estimate"
 msgstr "Estimasi Perbedaan"
 
+msgid "The pairwise group differences could not be matched to the groups."
+msgstr ""
+
+msgid "%1$s − %2$s"
+msgstr ""
+
+#, fuzzy
+msgid "Difference"
+msgstr "Perbedaan"
+
 msgid "Posterior Diff. Prob."
 msgstr "Prob. Perb. Posterior"
 
@@ -271,6 +308,10 @@ msgstr "BF Perbedaan"
 
 msgid "Category"
 msgstr "Kategori"
+
+#, fuzzy
+msgid "Convergence (baseline)"
+msgstr "Konvergensi"
 
 msgid "Convergence"
 msgstr "Konvergensi"
@@ -286,6 +327,17 @@ msgstr ""
 "probabilitas perbedaan posterior ≤ 0.5 diatur ke nol."
 
 msgid ""
+"Group estimates are posterior means of the joint model used for the group "
+"comparison; a difference that is not set to zero equals the difference "
+"between the corresponding group estimates."
+msgstr ""
+
+msgid ""
+"Pooled estimates come from a separate fit to the pooled data and are based "
+"on its median probability model."
+msgstr ""
+
+msgid ""
 "Bayes factors with values of infinity indicate that the estimated posterior "
 "difference probability is either 1 or 0. Please see the help file for more "
 "information."
@@ -293,6 +345,19 @@ msgstr ""
 "Faktor bayes dengan nilai infinit mengindikasikan bahwa probabilitas "
 "perbedaan posterior terestimasi adalah baik 1 atau 0. Silakan lihat berkas "
 "bantuan untuk informasi lebih lanjut."
+
+#, fuzzy
+msgid ""
+"Convergence is the R-hat (Gelman-Rubin) statistic of the baseline pairwise "
+"interactions of the joint model; the group comparison does not report a "
+"separate R-hat for the differences themselves. Values greater than about "
+"1.01-1.05 are considered concerning. Consider increasing the number of "
+"iterations and/or chains to improve convergence."
+msgstr ""
+"Konvergensi adalah statistik R-hat (Gelman-Rubin), nilai lebih dari sekitar "
+"1.01-1.05 dianggap mengkhawatirkan, mengindikasikan kurang dari konvergensi "
+"potensial untuk estimasi dari interaksi berpasangan. Pertimbangkan "
+"meningkatkan jumlah iterasi dan/atau rantai untuk meningkatkan konvergensi."
 
 msgid ""
 "Convergence is the R-hat (Gelman-Rubin) statistic, values greater than about "
@@ -355,11 +420,77 @@ msgstr ""
 "konvergensi potensial untuk estimasi dari interaksi berpasangan. "
 "Pertimbangkan meningkatkan jumlah iterasi untuk meningkatkan konvergensi."
 
+msgid "Blume-Capel Main Effects"
+msgstr ""
+
+msgid "%s%% Credible Interval"
+msgstr ""
+
+msgid "Effect"
+msgstr ""
+
+#, fuzzy
+msgid "Baseline Category"
+msgstr "Kategori"
+
+#, fuzzy
+msgid "Posterior SD"
+msgstr "Prob. Perb. Posterior"
+
+msgid "Lower"
+msgstr ""
+
+msgid "Upper"
+msgstr ""
+
+msgid ""
+"The linear (α) and quadratic (β) contributions of the Blume-Capel model for "
+"the category thresholds, reported relative to the baseline category the "
+"variable was fitted with."
+msgstr ""
+
+msgid "Linear"
+msgstr ""
+
+msgid "Quadratic"
+msgstr ""
+
+#, fuzzy
+msgid ""
+"Convergence is the R-hat (Gelman-Rubin) statistic, values greater than about "
+"1.01-1.05 are considered concerning, indicating potential lack of "
+"convergence for the estimates of the main effects. Consider increasing the "
+"number of iterations and/or chains to improve convergence."
+msgstr ""
+"Konvergensi adalah statistik R-hat (Gelman-Rubin), nilai lebih dari sekitar "
+"1.01-1.05 dianggap mengkhawatirkan, mengindikasikan kurang dari konvergensi "
+"potensial untuk estimasi dari interaksi berpasangan. Pertimbangkan "
+"meningkatkan jumlah iterasi dan/atau rantai untuk meningkatkan konvergensi."
+
+#, fuzzy
+msgid "Parameter HDI Table"
+msgstr "Diagram HDI Parameter"
+
+msgid "%d%% HDI"
+msgstr ""
+
+#, fuzzy
+msgid "Posterior Mean"
+msgstr "Probabilitas Posterior"
+
+msgid "Median Probability Model Estimate"
+msgstr ""
+
+msgid ""
+"The posterior mean averages over all posterior samples, including those in "
+"which the edge is excluded, so it can be nonzero when the HDI collapses onto "
+"zero. The median probability model estimate sets edges with a posterior "
+"inclusion probability ≤ 0.5 to zero, matching the edge specific overview "
+"table."
+msgstr ""
+
 msgid "Log-odds"
 msgstr "Ganjil-log"
-
-msgid "Precision Matrix"
-msgstr "Matriks Presisi"
 
 msgid "Partial Correlations"
 msgstr "Korelasi Parsial"
@@ -537,6 +668,24 @@ msgstr ""
 "%s. <ul><li>Silakan periksa jika ada variabel di jaringan dengan variabel "
 "kecil atau sedikit observasi berbeda.</li></ul>"
 
+msgid ""
+"The Blume-Capel model requires at least three observed categories, but fewer "
+"were observed for %s. Please uncheck B-C to treat this variable as ordinal."
+msgid_plural ""
+"The Blume-Capel model requires at least three observed categories, but fewer "
+"were observed for %s. Please uncheck B-C to treat these variables as ordinal."
+msgstr[0] ""
+
+msgid ""
+"The Blume-Capel model requires at least three observed categories in every "
+"group, but fewer were observed for %s. Please uncheck B-C to treat this "
+"variable as ordinal."
+msgid_plural ""
+"The Blume-Capel model requires at least three observed categories in every "
+"group, but fewer were observed for %s. Please uncheck B-C to treat these "
+"variables as ordinal."
+msgstr[0] ""
+
 msgid "%1$s X-Coordinates for variable %2$s was not understood."
 msgid_plural "%1$s X-Coordinates for variables %2$s were not understood."
 msgstr[0] "%1$s Koordinat-X untuk variabel %2$d tidak dipahami."
@@ -544,3 +693,15 @@ msgstr[0] "%1$s Koordinat-X untuk variabel %2$d tidak dipahami."
 msgid "%1$s Y-Coordinates for variable %2$s was not understood."
 msgid_plural "%1$s Y-Coordinates for variables %2$s were not understood."
 msgstr[0] "%1$s Koordinat-Y untuk variabel %2$d tidak dipahami."
+
+#~ msgid "Unsupported prior family '%s'."
+#~ msgstr "Keluarga priori tidak didukung '%s'."
+
+#~ msgid "Unsupported edge prior '%s'."
+#~ msgstr "Tepi priori tidak didukung '%s'."
+
+#~ msgid "Unsupported difference prior '%s'."
+#~ msgstr "Perbedaan priori tidak didukung '%s'."
+
+#~ msgid "Precision Matrix"
+#~ msgstr "Matriks Presisi"
