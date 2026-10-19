@@ -550,7 +550,7 @@ msgid "Clustering measures per variable"
 msgstr "各變數的集群指標"
 
 msgid "Clustering measures could not be computed for network%1$s: %2$s"
-msgstr "無法計算網路 %1s 的集群指標：%2$s"
+msgstr "無法計算網路 %1$s 的集群指標：%2$s"
 
 msgid "Bootstrap summary of Network"
 msgstr "網路自助法摘要"
@@ -607,7 +607,7 @@ msgstr "所提供的版面配置資料無法辨識，因此改採環形版面配
 
 msgid ""
 "Data supplied in %1$s AND %2$s could not be used to determine node locations."
-msgstr "在 %1s 與 %2$s 中提供的資料無法用於決定節點位置。"
+msgstr "在 %1$s 與 %2$s 中提供的資料無法用於決定節點位置。"
 
 msgid "Data supplied in %s could not be used to determine node locations."
 msgstr "在 %s 中提供的資料無法用於決定節點位置。"
