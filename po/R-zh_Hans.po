@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jaspNetwork 0.15\n"
 "POT-Creation-Date: 2026-10-17 02:36\n"
-"PO-Revision-Date: 2026-07-10 05:01+0000\n"
-"Last-Translator: 陳正昌 <chencc99@gmail.com>\n"
+"PO-Revision-Date: 2026-10-24 11:32+0000\n"
+"Last-Translator: Shun Wang <shuonwang@gmail.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/jasp/jaspnetwork-r/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.7.1.dev0\n"
+"X-Generator: Weblate 2026.11.dev0\n"
 
 msgid "Summary of Network"
 msgstr "网络摘要"
@@ -231,9 +231,8 @@ msgstr "复杂性图"
 msgid "Complexity Plot"
 msgstr "复杂性图"
 
-#, fuzzy
 msgid "Posterior Probability"
-msgstr "后验概率结构图"
+msgstr "后验概率"
 
 #, fuzzy
 msgid "Number of edges"
@@ -406,7 +405,7 @@ msgid "%s%% Credible Interval"
 msgstr ""
 
 msgid "Effect"
-msgstr ""
+msgstr "效应"
 
 #, fuzzy
 msgid "Baseline Category"
