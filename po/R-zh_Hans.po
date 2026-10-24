@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jaspNetwork 0.15\n"
 "POT-Creation-Date: 2026-10-17 02:36\n"
-"PO-Revision-Date: 2026-10-24 11:32+0000\n"
+"PO-Revision-Date: 2026-10-25 12:51+0000\n"
 "Last-Translator: Shun Wang <shuonwang@gmail.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/jasp/jaspnetwork-r/zh_Hans/>\n"
@@ -22,19 +22,17 @@ msgstr "网络"
 msgid "Number of nodes"
 msgstr "节点数"
 
-#, fuzzy
 msgid "Number of included edges"
-msgstr "节点数"
+msgstr "包含的边数"
 
-#, fuzzy
 msgid "Number of excluded edges"
-msgstr "节点数"
+msgstr "排除的边数"
 
 msgid "Number of edges with inconclusive evidence"
 msgstr "证据尚无定论的边数"
 
 msgid "Sparsity"
-msgstr "稀缺性"
+msgstr "稀疏性"
 
 msgid ""
 "Edge categorization is based on the inclusion criteria BF: included (BF₁₀ ≥ "
@@ -52,7 +50,7 @@ msgid ""
 msgstr "某些模型类型分配所引用的变量并不在分析范围内：%s。"
 
 msgid "Variable %s cannot be treated as Blume-Capel because it is not ordinal."
-msgstr "变量 %s 不能按 Blume-Capel 处理，因为它不是定序变量。"
+msgstr "变量 %s 不能按 Blume-Capel 处理，因为它不是有序变量。"
 
 msgid ""
 "The Stochastic block model edge prior is not available when Split is "
@@ -64,32 +62,32 @@ msgid ""
 "The Beta-prime prior on the partial association parameters is not available "
 "when continuous variables are included. Please select Normal or Cauchy."
 msgstr ""
+"当包含连续变量时，偏关联参数的 Beta-prime 先验不可用。请选择 Normal 或 Cauchy"
+"。"
 
-#, fuzzy
 msgid ""
 "The analysis failed with the following error message:\n"
 "%s"
 msgstr ""
-"bootnet 崩溃，错误信息如下：\n"
+"分析失败，错误信息如下：\n"
 "%s"
 
 msgid "The cluster summaries could not be matched to the variables."
-msgstr ""
+msgstr "聚类汇总无法与变量匹配。"
 
 msgid "The cluster allocations could not be matched to the variables."
-msgstr ""
+msgstr "聚类分配无法与变量匹配。"
 
 msgid "The posterior samples could not be matched to the variable pairs."
-msgstr ""
+msgstr "后验样本无法与变量对匹配。"
 
 msgid "The group estimates could not be matched to the variable pairs."
-msgstr ""
+msgstr "组估计无法与变量对匹配。"
 
-#, fuzzy
 msgid ""
 "Unsupported update method '%s'. Please select one of: adaptive-metropolis, "
 "nuts, gibbs."
-msgstr "不支持的更新方法“%s”。请选择以下之一：adaptive-metropolis、nuts。"
+msgstr "不支持的更新方法“%s”。请选择以下之一：adaptive-metropolis、nuts、gibbs。"
 
 msgid ""
 "Unsupported edge prior '%s'. Please select one of: Bernoulli, Beta-binomial, "
@@ -103,12 +101,11 @@ msgstr "组"
 msgid "Estimating group comparison"
 msgstr "正在估计组间比较"
 
-#, fuzzy
 msgid ""
 "The group comparison failed with the following error message:\n"
 "%s"
 msgstr ""
-"bootnet 崩溃，错误信息如下：\n"
+"组比较失败，错误信息如下：\n"
 "%s"
 
 msgid "Differences"
@@ -130,7 +127,7 @@ msgid ""
 "Difference network not estimated: all selected variables must be ordinal or "
 "Blume-Capel. Showing separate group estimates instead."
 msgstr ""
-"未估计差异网络：所有选定的变量必须为定序或 Blume-Capel。改为显示各组的单独估"
+"未估计差异网络：所有选定的变量必须为有序或 Blume-Capel。改为显示各组的单独估"
 "计。"
 
 msgid ""
@@ -146,13 +143,11 @@ msgstr "组%1$s %2$s 中的网络图中最小边强度被忽略，因为它大�
 msgid "<em>Warning: </em>"
 msgstr "<em>警告: </em>"
 
-#, fuzzy
 msgid "Number of different edges"
-msgstr "节点数"
+msgstr "不同的边数"
 
-#, fuzzy
 msgid "Number of equal edges"
-msgstr "节点数"
+msgstr "相等的边数"
 
 msgid "Posterior Probability Structure Plots"
 msgstr "后验概率结构图"
@@ -169,24 +164,24 @@ msgstr "变量"
 msgid ""
 "Centrality measures are standardized to z-scores across nodes and averaged "
 "over the networks sampled from the posterior."
-msgstr ""
+msgstr "中心性指标按节点标准化为 z 分数，并对从后验中采样的网络取平均。"
 
 msgid ""
 "Centrality measures are standardized to z-scores across nodes and computed "
 "on the posterior mean network."
-msgstr ""
+msgstr "中心性指标按节点标准化为 z 分数，并基于后验均值网络计算。"
 
 msgid "Betweenness"
-msgstr "介数(Betweenness )"
+msgstr "介数（Betweenness）"
 
 msgid "Closeness"
-msgstr "接近( Closeness)"
+msgstr "接近度（Closeness）"
 
 msgid "Strength"
 msgstr "强度"
 
 msgid "Expected influence"
-msgstr "预期影响"
+msgstr "期望影响"
 
 msgid "Centrality Plot"
 msgstr "中心性图"
@@ -197,7 +192,6 @@ msgstr "参数 HDI 图"
 msgid "Parameter HDI Plots"
 msgstr "参数 HDI 图"
 
-#, fuzzy
 msgid ""
 "The difference parameter HDI plot shows the posterior mean and highest "
 "density interval (HDI) for each pairwise difference in partial association "
@@ -205,19 +199,18 @@ msgid ""
 "values indicate a stronger association in the second group; negative values "
 "indicate a stronger association in the first group."
 msgstr ""
-"差异参数 HDI 图显示各组之间每对偏关联差异的后验均值与最高密度区间（HDI）。正"
-"值表示第一组的关联更强；负值表示第二组的关联更强。"
+"差异参数 HDI 图显示各组之间每对偏关联差异的后验均值与最高密度区间（HDI）。差"
+"异为第二组减第一组：正值表示第二组的关联更强；负值表示第一组的关联更强。"
 
-#, fuzzy
 msgid ""
 "Posterior samples are required for the parameter HDI. Please ensure the "
 "model was fitted with 'save = TRUE'."
-msgstr "参数 HDI 图需要后验样本。请确保模型在拟合时设置“save = TRUE”。"
+msgstr "参数 HDI 需要后验样本。请确保模型在拟合时设置“save = TRUE”。"
 
 msgid ""
 "The posterior samples are not in the expected edge order. Please report "
 "this, as the parameter HDI output cannot be labelled reliably."
-msgstr ""
+msgstr "后验样本的边顺序与预期不符。请报告此问题，因为参数 HDI 输出无法可靠地标注。"
 
 msgid "%d%% HDI of Partial Association"
 msgstr "偏关联的 %d%% HDI"
@@ -234,9 +227,8 @@ msgstr "复杂性图"
 msgid "Posterior Probability"
 msgstr "后验概率"
 
-#, fuzzy
 msgid "Number of edges"
-msgstr "节点数"
+msgstr "边数"
 
 msgid "Structure Plot"
 msgstr "结构图"
@@ -280,18 +272,16 @@ msgid "Difference Estimate"
 msgstr "差异估计"
 
 msgid "The pairwise group differences could not be matched to the groups."
-msgstr ""
+msgstr "成对组间差异无法与组匹配。"
 
 msgid "%1$s − %2$s"
-msgstr ""
+msgstr "%1$s − %2$s"
 
-#, fuzzy
 msgid "Difference"
-msgstr "差异"
+msgstr "差值"
 
-#, fuzzy
 msgid "Posterior Diff. Prob."
-msgstr "后验概率结构图"
+msgstr "后验差异概率"
 
 msgid "Difference BF"
 msgstr "差异 BF"
@@ -299,9 +289,8 @@ msgstr "差异 BF"
 msgid "Category"
 msgstr "类别"
 
-#, fuzzy
 msgid "Convergence (baseline)"
-msgstr "收敛"
+msgstr "收敛性（基线）"
 
 msgid "Convergence"
 msgstr "收敛"
@@ -319,11 +308,13 @@ msgid ""
 "comparison; a difference that is not set to zero equals the difference "
 "between the corresponding group estimates."
 msgstr ""
+"组估计是用于组比较的联合模型的后验均值；未设为零的差异等于相应组估计之间的差"
+"异。"
 
 msgid ""
 "Pooled estimates come from a separate fit to the pooled data and are based "
 "on its median probability model."
-msgstr ""
+msgstr "合并估计来自对合并数据的单独拟合，并基于其中位概率模型。"
 
 msgid ""
 "Bayes factors with values of infinity indicate that the estimated posterior "
@@ -333,7 +324,6 @@ msgstr ""
 "贝叶斯因子的值为无穷大，表示估计的后验差异概率为 1 或 0。更多信息请参阅帮助文"
 "件。"
 
-#, fuzzy
 msgid ""
 "Convergence is the R-hat (Gelman-Rubin) statistic of the baseline pairwise "
 "interactions of the joint model; the group comparison does not report a "
@@ -341,8 +331,9 @@ msgid ""
 "1.01-1.05 are considered concerning. Consider increasing the number of "
 "iterations and/or chains to improve convergence."
 msgstr ""
-"收敛性为 R-hat（Gelman-Rubin）统计量，大于约 1.01-1.05 的值被认为值得关注，表"
-"明成对交互的估计可能缺乏收敛。可考虑增加迭代次数和/或链数以改善收敛。"
+"收敛性为基线成对交互的 R-hat（Gelman-Rubin）统计量；组比较不单独报告差异本身"
+"的 R-hat。大于约 1.01–1.05 的值值得关注。可考虑增加迭代次数和/或链数以改善收"
+"敛。"
 
 msgid ""
 "Convergence is the R-hat (Gelman-Rubin) statistic, values greater than about "
@@ -366,9 +357,8 @@ msgstr "包含"
 msgid "excluded"
 msgstr "排除"
 
-#, fuzzy
 msgid "Posterior Incl. Prob."
-msgstr "后验概率结构图"
+msgstr "后验包含概率"
 
 msgid "Inclusion BF"
 msgstr "包含 BF"
@@ -399,63 +389,60 @@ msgstr ""
 "虑增加迭代次数以改善收敛。"
 
 msgid "Blume-Capel Main Effects"
-msgstr ""
+msgstr "Blume-Capel 主效应"
 
 msgid "%s%% Credible Interval"
-msgstr ""
+msgstr "%s%% 可信区间"
 
 msgid "Effect"
 msgstr "效应"
 
-#, fuzzy
 msgid "Baseline Category"
-msgstr "类别"
+msgstr "基线类别"
 
-#, fuzzy
 msgid "Posterior SD"
-msgstr "后验概率结构图"
+msgstr "后验标准差"
 
 msgid "Lower"
-msgstr ""
+msgstr "下限"
 
 msgid "Upper"
-msgstr ""
+msgstr "上限"
 
 msgid ""
 "The linear (α) and quadratic (β) contributions of the Blume-Capel model for "
 "the category thresholds, reported relative to the baseline category the "
 "variable was fitted with."
 msgstr ""
+"Blume-Capel 模型对类别阈值的线性（α）和二次（β）贡献，相对于变量拟合时使用的"
+"基线类别报告。"
 
 msgid "Linear"
-msgstr ""
+msgstr "线性"
 
 msgid "Quadratic"
-msgstr ""
+msgstr "二次项"
 
-#, fuzzy
 msgid ""
 "Convergence is the R-hat (Gelman-Rubin) statistic, values greater than about "
 "1.01-1.05 are considered concerning, indicating potential lack of "
 "convergence for the estimates of the main effects. Consider increasing the "
 "number of iterations and/or chains to improve convergence."
 msgstr ""
-"收敛性为 R-hat（Gelman-Rubin）统计量，大于约 1.01-1.05 的值被认为值得关注，表"
-"明成对交互的估计可能缺乏收敛。可考虑增加迭代次数和/或链数以改善收敛。"
+"收敛性为 R-hat（Gelman-Rubin）统计量，大于约 1.01–1.05 的值值得关注，表明主效"
+"应估计可能缺乏收敛。可考虑增加迭代次数和/或链数以改善收敛。"
 
-#, fuzzy
 msgid "Parameter HDI Table"
-msgstr "参数 HDI 图"
+msgstr "参数 HDI 表"
 
 msgid "%d%% HDI"
-msgstr ""
+msgstr "%d%% HDI"
 
-#, fuzzy
 msgid "Posterior Mean"
-msgstr "后验概率结构图"
+msgstr "后验均值"
 
 msgid "Median Probability Model Estimate"
-msgstr ""
+msgstr "中位概率模型估计"
 
 msgid ""
 "The posterior mean averages over all posterior samples, including those in "
@@ -464,6 +451,9 @@ msgid ""
 "inclusion probability ≤ 0.5 to zero, matching the edge specific overview "
 "table."
 msgstr ""
+"后验均值是对所有后验样本的平均，包括边被排除的样本，因此当 HDI 收缩到零时其后"
+"验均值仍可能非零。中位概率模型估计将后验包含概率 ≤ 0.5 的边设为零，与按边列出"
+"的概览表一致。"
 
 msgid "Log-odds"
 msgstr "对数几率（Log-odds）"
@@ -477,21 +467,17 @@ msgstr "聚类分配（后验均值）"
 msgid "Cluster Allocations (Posterior Mode)"
 msgstr "聚类分配（后验众数）"
 
-#, fuzzy
 msgid "Cluster"
-msgstr "聚类图（Clustering ）"
+msgstr "聚类"
 
-#, fuzzy
 msgid "Posterior Probabilities for the Number of Clusters"
-msgstr "后验概率结构图"
+msgstr "聚类数的后验概率"
 
-#, fuzzy
 msgid "Number of blocks"
-msgstr "节点数"
+msgstr "块数"
 
-#, fuzzy
 msgid "Posterior probability"
-msgstr "后验概率结构图"
+msgstr "后验概率"
 
 msgid "Posterior Co-clustering Matrix"
 msgstr "后验共聚类矩阵"
@@ -508,21 +494,17 @@ msgstr "贝叶斯因子"
 msgid "Could not compute the cluster Bayes factor: %s"
 msgstr "无法计算聚类贝叶斯因子：%s"
 
-#, fuzzy
 msgid "Clustering vs. no clustering"
-msgstr "聚类图（Clustering ）"
+msgstr "有聚类 vs. 无聚类"
 
-#, fuzzy
 msgid "Co-clustering Matrix Plot"
-msgstr "聚类图（Clustering ）"
+msgstr "共聚类矩阵图"
 
-#, fuzzy
 msgid "Co-clustering Matrix Plots"
-msgstr "聚类图（Clustering ）"
+msgstr "共聚类矩阵图"
 
-#, fuzzy
 msgid "Probability"
-msgstr "后验概率结构图"
+msgstr "概率"
 
 msgid ""
 "After binarizing the data too little variance remained in variable(s): %s."
@@ -541,9 +523,7 @@ msgstr "只有 %2$s 的前 %1$d 个值用于为节点着色（给定 %3$d ）。
 msgid ""
 "Bootstrapping is only done when 'Bootstrap network' is ticked and 'Number of "
 "Bootstraps' is larger than 0."
-msgstr ""
-"Bootstrapping 自助抽样仅在“Bootstrap 网络选项”被勾选且“Bootstraps 次数”大于 "
-"0 时才进行。"
+msgstr "仅当勾选“Bootstrap 网络”且“Bootstraps 次数”大于 0 时才进行 Bootstrap 抽样。"
 
 msgid "Barrat"
 msgstr "Barrat"
@@ -573,7 +553,7 @@ msgid "Number of bootstraps"
 msgstr "bootstrap 次数"
 
 msgid "Clustering Plot"
-msgstr "聚类图（Clustering ）"
+msgstr "聚类图"
 
 msgid "Network Plots"
 msgstr "网络图"
@@ -648,6 +628,8 @@ msgid_plural ""
 "The Blume-Capel model requires at least three observed categories, but fewer "
 "were observed for %s. Please uncheck B-C to treat these variables as ordinal."
 msgstr[0] ""
+"Blume-Capel 模型要求至少有三个观测类别，但 %s 观测到的类别更少。请取消勾选 B-"
+"C，将该变量按有序变量处理。"
 
 msgid ""
 "The Blume-Capel model requires at least three observed categories in every "
@@ -658,6 +640,8 @@ msgid_plural ""
 "group, but fewer were observed for %s. Please uncheck B-C to treat these "
 "variables as ordinal."
 msgstr[0] ""
+"Blume-Capel 模型要求每个组至少有三个观测类别，但 %s 观测到的类别更少。请取消"
+"勾选 B-C，将该变量按有序变量处理。"
 
 msgid "%1$s X-Coordinates for variable %2$s was not understood."
 msgid_plural "%1$s X-Coordinates for variables %2$s were not understood."
