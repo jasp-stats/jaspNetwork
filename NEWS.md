@@ -16,7 +16,8 @@
 
 # jaspNetwork (development version)
 
-
+## Fixed
+* Fixed the Threshold options of (Partial) Correlation being applied to EBICglasso and IsingSampler after switching the estimator, which made EBICglasso crash or give a sparser network ([INTERNAL-jasp#2519](https://github.com/jasp-stats/INTERNAL-jasp/issues/2519)).
 
 ---
 

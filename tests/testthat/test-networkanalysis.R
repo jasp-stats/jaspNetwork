@@ -223,3 +223,30 @@ for (thresholdMethod in thresholdMethods) {
 }
 
 
+# test that the threshold options of (partial) correlation networks do not change EBICglasso.
+# The form only shows them for cor and pcor, but they keep their values when the estimator changes.
+options <- jaspTools::analysisOptions("NetworkAnalysis")
+options$estimator <- "ebicGlasso"
+options$variables <- c(paste0("A", 1:5), paste0("C", 1:5), paste0("E", 1:5))
+options$variables.types <- rep("scale", length(options$variables))
+options$centralityTable <- TRUE
+results <- jaspTools::runAnalysis("NetworkAnalysis", "BFI Network.csv", options)
+refCentralityTable <- results[["results"]][["mainContainer"]][["collection"]][["mainContainer_centralityTable"]][["data"]]
+
+# bootnet::estimateNetwork(data, default = "EBICglasso", corMethod = "cor_auto", tuning = 0.5, sampleSize = "maximum")
+# on these 15 variables gives 80 nonzero edges out of 105 (sparsity 25 / 105); with threshold = TRUE it gives 49 out of 105
+for (thresholdBox in c("method", "value")) {
+
+  options$thresholdBox    <- thresholdBox
+  options$thresholdMethod <- "sig"
+  options$thresholdValue  <- 0.3
+  results <- jaspTools::runAnalysis("NetworkAnalysis", "BFI Network.csv", options)
+
+  test_that(paste0("EBICglasso ignores the threshold ", thresholdBox, " of (partial) correlation networks"), {
+    table <- results[["results"]][["mainContainer"]][["collection"]][["mainContainer_generalTable"]][["data"]]
+    jaspTools::expect_equal_tables(table, list(25 / 105, 15, "80 / 105"))
+
+    table <- results[["results"]][["mainContainer"]][["collection"]][["mainContainer_centralityTable"]][["data"]]
+    jaspTools::expect_equal_tables(table, jaspTools:::collapseTestTable(refCentralityTable))
+  })
+}
