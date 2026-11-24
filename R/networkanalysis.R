@@ -1015,7 +1015,10 @@ NetworkAnalysisInternal <- function(jaspResults, dataset, options) {
     # }
   }
 
-  if (options[["thresholdBox"]] == "value") {
+  # the threshold options are only shown for (partial) correlation networks, but keep their values when the estimator changes
+  if (!(options[["estimator"]] %in% c("cor", "pcor"))) {
+    threshold <- FALSE # bootnet's default for EBICglasso and IsingSampler; the other estimators have no threshold argument
+  } else if (options[["thresholdBox"]] == "value") {
     threshold <- options[["thresholdValue"]]
   } else { # options[["thresholdBox"]] == "method"
     threshold <- options[["thresholdMethod"]]
